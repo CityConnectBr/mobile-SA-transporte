@@ -23,10 +23,12 @@ class CustomFormInputField extends StatelessWidget {
           icon: icon!=null?Icon(icon):null,
           hintText: hint,
           labelText: label,
-          labelStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          labelStyle: TextStyle(fontWeight: FontWeight.bold),
           errorText: null,
-          enabledBorder: new UnderlineInputBorder(
-            borderSide: new BorderSide(color: Colors.grey[100])
+          border: new OutlineInputBorder(
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(10.0),
+            ),
           ),
         ),
         style: TextStyle(color: Colors.white),

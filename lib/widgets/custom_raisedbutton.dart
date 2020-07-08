@@ -51,10 +51,10 @@ class CustomRaisedButtonBlue extends StatelessWidget {
         ),
         child: Text(
           this.label,
-          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Util.hexToColor("#2d9cdb")),
+          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         textColor: Colors.white,
-        color: Colors.white,
+        color: Util.hexToColor("#2d9cdb"),
         onPressed: this.func,
       ),
     );
