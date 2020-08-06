@@ -46,7 +46,8 @@ class _LoadingScreenState extends State<LoadingStartScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(right: 10.0, left: 10.0, bottom: 20.0, top: 20.0),
+      padding: const EdgeInsets.only(
+          right: 10.0, left: 10.0, bottom: 20.0, top: 20.0),
       color: Colors.white,
       child: CustomScrollView(
         slivers: [
@@ -60,7 +61,7 @@ class _LoadingScreenState extends State<LoadingStartScreen>
                     CarouselSlider(
                       items: imageSliders,
                       options: CarouselOptions(
-                          height: 400.0,
+                          height: 480.0,
                           autoPlay: false,
                           enlargeCenterPage: true,
                           aspectRatio: 2.0,
@@ -91,11 +92,13 @@ class _LoadingScreenState extends State<LoadingStartScreen>
                   ]),
                 ),
                 Expanded(child: Container()),
-                CustomRaisedButtonWhite(label: "Começar", func: (){
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => LoginScreen())
-                  );
-                },),
+                CustomRaisedButtonWhite(
+                  label: "Começar",
+                  func: () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  },
+                ),
               ],
             ),
           ),

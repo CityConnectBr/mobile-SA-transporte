@@ -42,6 +42,7 @@ dependencies:
   qr_flutter: ^3.1.0
   tuple: ^1.0.3
   carousel_slider: ^2.2.1
+  font_awesome_flutter: ^8.8.1
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +66,21 @@ flutter:
     - images/slide_02.png
     - images/slide_03.png
     - images/slide_04.png
+    - images/cadastro.png
+    - images/cadastro_veiculo.png
+    - images/location.png
+    - images/perfil.png
+    - images/search.png
+    - images/logo_rodape.png
+    - images/logo_santo_andre.png
+    - images/icon_edit.png
+    - images/avatar.png
+    - images/icon_dados.png
+    - images/icon_edit_avatar.png
+    - images/icon_modo_noturno.png
+    - images/icon_car.png
+    - images/foto_motorista.png
+    - images/icon_search.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
