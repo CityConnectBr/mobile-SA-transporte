@@ -80,7 +80,17 @@ flutter:
     - images/icon_modo_noturno.png
     - images/icon_car.png
     - images/foto_motorista.png
-    - images/icon_search.png
+    - images/icon-search.png
+    - images/icon-eye.png
+    - images/icon-face.png
+    - images/icon-car.png
+    - images/mdi-menu.png
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: fonts/Inter-Bold.ttf
+          weight: 700
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

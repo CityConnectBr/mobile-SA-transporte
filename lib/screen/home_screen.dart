@@ -1,7 +1,8 @@
+import 'package:cityconnect/tiles/fiscal/home_fiscal.dart';
+import 'package:cityconnect/widgets/custom_input_field_shadow.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/widgets/snack_message.dart';
-import 'package:cityconnect/tiles/box_tile.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,51 +11,37 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             SizedBox(
               width: double.infinity,
-              height: 160.0,
               // height: double.infinity,
               child: Container(
-                padding: EdgeInsets.all(15.0),
+                padding: EdgeInsets.only(
+                  top: 20.0,
+                ),
                 color: Theme.of(context).primaryColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   children: <Widget>[
                     Image.asset(
                       "images/logo.png",
                       //width: 50,
                       height: 60,
                       fit: BoxFit.contain,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Image.asset(
-                          "images/perfil.png",
-                          //width: 50,
-                          height: 60,
-                          fit: BoxFit.contain,
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          "Perfil",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Util.hexToColor("#FFFFFF"),
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
@@ -64,10 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
               children: <Widget>[
                 SizedBox(
                   width: double.infinity,
-                  height: 160.0,
+                  height: 60.0,
                   // height: double.infinity,
                   child: Container(
-                    padding: EdgeInsets.all(45.0),
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
@@ -76,50 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        "Ações do Fiscal",
-                        style: TextStyle(
-                          fontSize: 28.0,
-                          fontWeight: FontWeight.bold,
-                          color: Util.hexToColor("#FFFFFF"),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          CustomBoxShadowWhite(
-                            label: "Buscar Veículo",
-                            icon: "images/search.png",
-                            heightValue: 1,
-                          ),
-                          Spacer(),
-                          CustomBoxShadowWhite(
-                            label: "Visualizar Motoristas",
-                            icon: "images/location.png",
-                            heightValue: 1,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          CustomBoxShadowBlue(
-                            label: "Cadastrar Permissionário",
-                            icon: "images/cadastro.png",
-                            heightValue: 1,
-                          ),
-                          Spacer(),
-                          CustomBoxShadowBlue(
-                            label: "Cadastrar Veículo",
-                            icon: "images/cadastro_veiculo.png",
-                            heightValue: 1,
-                          ),
-                        ],
-                      )
+                      HomeFiscalTile(),
                     ],
                   ),
                 )
@@ -129,27 +72,41 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.only(
                   top: 20.0, bottom: 20.0, left: 40.0, right: 40.0),
               decoration: BoxDecoration(
-                color: Util.hexToColor("#F2F2F2"),
+                color: Util.hexToColor("#FFFFFF"),
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20.0),
                   topLeft: Radius.circular(20.0),
                 ),
+                border: Border.all(
+                  width: 1.0,
+                  color: Color.fromRGBO(151, 173, 182, 0.2),
+                ),
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: Stack(
                 children: <Widget>[
-                  Image.asset(
-                    "images/logo_rodape.png",
-                    //width: 50,
-                    height: 40,
-                    fit: BoxFit.contain,
+                  Form(
+                    child: CustomFormInputField(
+                      controller: _searchController,
+                      label: "Buscar veículo",
+                      obscure: false,
+                    ),
                   ),
-                  Spacer(),
-                  Image.asset(
-                    "images/logo_santo_andre.png",
-                    //width: 50,
-                    height: 50,
-                    fit: BoxFit.contain,
+                  Container(
+                    padding: EdgeInsets.only(
+                      top: 16.0,
+                      right: 20.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Image.asset(
+                          "images/icon-search.png",
+                          //width: 50,
+                          width: 22.0,
+                          fit: BoxFit.contain,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

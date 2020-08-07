@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cityconnect/screen/home_screen.dart';
 import 'package:cityconnect/screen/permissionario/cadastro_permissionario_screen.dart';
 import 'package:cityconnect/screen/permissionario/cadastro_veiculo_screen.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       //home: LoadingStartScreen(),
-      home: CadastroVeiculoScreen(),
+      home: HomeScreen(),
     );
   }
 }
