@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       //home: LoadingStartScreen(),
-      home: HomeScreen(),
+      home: CadastroVeiculoScreen(),
     );
   }
 }

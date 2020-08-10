@@ -85,6 +85,7 @@ flutter:
     - images/icon-face.png
     - images/icon-car.png
     - images/mdi-menu.png
+    - images/arrow-down.png
 
   fonts:
     - family: Inter

@@ -69,8 +69,22 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             Container(
+              padding: EdgeInsets.only(top: 20.0, bottom: 40.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Image.asset(
+                    "images/arrow-down.png",
+                    //width: 50,
+                    width: 12.0,
+                    fit: BoxFit.contain,
+                  ),
+                ],
+              ),
+            ),
+            Container(
               padding: EdgeInsets.only(
-                  top: 20.0, bottom: 20.0, left: 40.0, right: 40.0),
+                  top: 14.0, bottom: 25.0, left: 40.0, right: 40.0),
               decoration: BoxDecoration(
                 color: Util.hexToColor("#FFFFFF"),
                 borderRadius: BorderRadius.only(
@@ -81,32 +95,68 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 1.0,
                   color: Color.fromRGBO(151, 173, 182, 0.2),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.8),
+                    blurRadius: 8.0, // soften the shadow
+                    spreadRadius: 0.0, //extend the shadow
+                    offset: Offset(
+                      0.0, // Move to right 10  horizontally
+                      5.0, // Move to bottom 5 Vertically
+                    ),
+                  )
+                ],
               ),
-              child: Stack(
-                children: <Widget>[
-                  Form(
-                    child: CustomFormInputField(
-                      controller: _searchController,
-                      label: "Buscar veículo",
-                      obscure: false,
+              child: Column(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 30.0,
+                      height: 4.0,
+                      margin: EdgeInsets.only(
+                        bottom: 20.0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Util.hexToColor("#D5DDE0"),
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20.0),
+                          topLeft: Radius.circular(20.0),
+                          bottomRight: Radius.circular(20.0),
+                          bottomLeft: Radius.circular(20.0),
+                        ),
+                      ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: 16.0,
-                      right: 20.0,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Image.asset(
-                          "images/icon-search.png",
-                          //width: 50,
-                          width: 22.0,
-                          fit: BoxFit.contain,
+                  Stack(
+                    children: <Widget>[
+                      Form(
+                        child: CustomFormInputField(
+                          controller: _searchController,
+                          label: "Buscar veículo",
+                          obscure: false,
                         ),
-                      ],
-                    ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: 16.0,
+                          right: 20.0,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            GestureDetector(
+                              child: Image.asset(
+                                "images/icon-search.png",
+                                //width: 50,
+                                width: 22.0,
+                                fit: BoxFit.contain,
+                              ),
+                              onTap: () {},
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

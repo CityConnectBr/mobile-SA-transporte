@@ -11,13 +11,13 @@ class _CadastroVeiculoScreenState extends State<CadastroVeiculoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Util.hexToColor("#E0E0E0"),
+      backgroundColor: Util.hexToColor("#2D9CDB"),
       appBar: AppBar(
         title: const Text(
           'Novo Veículo',
           style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.normal,
+            fontSize: 18.0,
+            fontFamily: 'Inter',
           ),
         ),
         centerTitle: true,
@@ -28,10 +28,16 @@ class _CadastroVeiculoScreenState extends State<CadastroVeiculoScreen> {
             size: 45.0,
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.all(10.0),
+          margin: EdgeInsets.only(top: 40.0),
           padding: EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -43,21 +49,22 @@ class _CadastroVeiculoScreenState extends State<CadastroVeiculoScreen> {
           ),
           child: Column(
             children: <Widget>[
-              Container(
-                width: 280.0,
-                margin: EdgeInsets.only(right: 70.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Cadastro',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.w500,
-                        color: Util.hexToColor("#828282"),
-                      ),
+              Center(
+                child: Container(
+                  width: 30.0,
+                  height: 4.0,
+                  margin: EdgeInsets.only(
+                    bottom: 20.0,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Util.hexToColor("#D5DDE0"),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20.0),
+                      topLeft: Radius.circular(20.0),
+                      bottomRight: Radius.circular(20.0),
+                      bottomLeft: Radius.circular(20.0),
                     ),
-                  ],
+                  ),
                 ),
               ),
               VeiculoTile(),

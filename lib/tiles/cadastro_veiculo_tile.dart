@@ -34,7 +34,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                 children: <Widget>[
                   CustomFormInputField(
                     controller: _veiculoController,
-                    label: "Veículo/Marca:",
+                    label: "Qual a marca do veículo?",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -43,7 +43,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   ),
                   CustomFormInputField(
                     controller: _especieController,
-                    label: "Espécie/Tipo:",
+                    label: "Digite o modelo do veículo",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -52,7 +52,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   ),
                   CustomFormInputField(
                     controller: _placaController,
-                    label: "Placa:",
+                    label: "Placa",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -61,7 +61,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   ),
                   CustomFormInputField(
                     controller: _anoController,
-                    label: "Ano:",
+                    label: "Ano",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -70,7 +70,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   ),
                   CustomFormInputField(
                     controller: _capacidadeController,
-                    label: "Capacidade:",
+                    label: "Capacidade",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -79,7 +79,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   ),
                   CustomFormInputField(
                     controller: _corController,
-                    label: "Cor:",
+                    label: "Cor",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -97,7 +97,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   ),
                   CustomFormInputField(
                     controller: _dataVencimentoController,
-                    label: "Data de Vencimento:",
+                    label: "Emissão",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -106,14 +106,14 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   ),
                   CustomFormInputField(
                     controller: _dataEmissaoController,
-                    label: "Data de Emissão:",
+                    label: "Vencimento",
                     obscure: false,
                     type: TextInputType.text,
                   ),
                   SizedBox(
                     height: 20.0,
                   ),
-                  CustomRaisedButtonYellow(
+                  CustomRaisedButtonBlue(
                       label: "Associar Motorista",
                       func: () {
                         //Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -123,7 +123,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                     height: 10.0,
                   ),
                   CustomRaisedButtonBlue(
-                      label: "Cadastrar Veículo",
+                      label: "Finalizar Cadastro",
                       func: () {
                         //Navigator.of(context).pushReplacement(MaterialPageRoute(
                         //    builder: (context) => HomeScreen()));
