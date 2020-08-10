@@ -1,5 +1,9 @@
 import 'package:cityconnect/tiles/card_veiculo_tile.dart';
 import 'package:cityconnect/tiles/card_motorista_tile.dart';
+import 'package:cityconnect/tiles/custom_hr_tile.dart';
+import 'package:cityconnect/tiles/fiscal/result_veiculos_tile.dart';
+import 'package:cityconnect/widgets/custom_raisedbutton.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 
@@ -16,10 +20,10 @@ class _ResultSearchVeiculoScreenState extends State<ResultSearchVeiculoScreen> {
       backgroundColor: Util.hexToColor("#FFFFFF"),
       appBar: AppBar(
         title: const Text(
-          'Buscar Veículo',
+          'Veículos',
           style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.normal,
+            fontSize: 18.0,
+            fontFamily: 'InterBold',
           ),
         ),
         centerTitle: true,
@@ -30,97 +34,190 @@ class _ResultSearchVeiculoScreenState extends State<ResultSearchVeiculoScreen> {
             size: 45.0,
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(top: 20.0, right: 10.0, left: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Veículo",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w500,
+        child: Column(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                SizedBox(
+                  width: double.infinity,
+                  height: 80.0,
+                  // height: double.infinity,
+                  child: Container(
+                    padding: EdgeInsets.all(45.0),
+                    color: Util.hexToColor("#2D9CDB"),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Container(
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                Container(
+                  margin: EdgeInsets.only(top: 40.0),
+                  padding: EdgeInsets.all(20.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
                       topRight: Radius.circular(10.0),
                       topLeft: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0),
-                      bottomLeft: Radius.circular(10.0)),
-                  color: Util.hexToColor("#2d9cdb"),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Image.asset(
-                      "images/icon_car.png",
-                      height: 70,
-                      fit: BoxFit.contain,
                     ),
-                    SizedBox(
-                      width: 15.0,
-                    ),
-                    CardVeiculoTile(),
-                  ],
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      CustomHr(
+                        customColor: "#D5DDE0",
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10.0),
+                              topLeft: Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0),
+                              bottomLeft: Radius.circular(10.0)),
+                          border: Border.all(
+                            width: 1.0,
+                            color: Util.hexToColor("#D5DDE0"),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(20.0),
+                              color: Color.fromRGBO(234, 234, 234, 0.25),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "LOC4030",
+                                          style: TextStyle(
+                                            fontSize: 22.0,
+                                            fontFamily: 'InterBold',
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Image.asset(
+                                          "images/icon_car.png",
+                                          height: 70,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          "Corolla - 2003",
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontFamily: 'InterBold',
+                                          ),
+                                        ),
+                                        Text(
+                                          "Corolla 2.0 XEI AUT. 4p - Prata",
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontFamily: 'InterRegular',
+                                          ),
+                                        ),
+                                        Text(
+                                          "Renavan: 32569875231",
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontFamily: 'InterRegular',
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 30.0,
+                                        ),
+                                        CustomRaisedButtonBlue(
+                                            label: "Aplicar Multa",
+                                            func: () {
+                                              //Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                              //    builder: (context) => HomeScreen()));
+                                            }),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Column(
+                                children: <Widget>[
+                                  ExpandablePanel(
+                                    header: ResultVeiculoFiscalTile(
+                                      customImage: "images/foto_motorista.png",
+                                      ocupation: "Motorista",
+                                      name: "Railan Rabelo",
+                                    ),
+                                    expanded: Container(
+                                      padding: EdgeInsets.only(
+                                        left: 20.0,
+                                        right: 20.0,
+                                        bottom: 20.0,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            "CNH: 32658798512",
+                                            style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontFamily: 'InterRegular',
+                                            ),
+                                          ),
+                                          Text(
+                                            "Vencimento: 20/20/2021",
+                                            style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontFamily: 'InterRegular',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    headerAlignment:
+                                        ExpandablePanelHeaderAlignment.center,
+                                    tapHeaderToExpand: true,
+                                    hasIcon: true,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: CustomHrBig(
+                                customColor: "#D5DDE0",
+                              ),
+                            ),
+                            ResultVeiculoFiscalTile(
+                              customImage: "images/foto_motorista.png",
+                              ocupation: "Permissionário",
+                              name: "Railan Rabelo",
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 30.0,
-              ),
-              Text(
-                "Motorista",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Container(
-                padding: EdgeInsets.all(20.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.0),
-                      topLeft: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0),
-                      bottomLeft: Radius.circular(10.0)),
-                  color: Util.hexToColor("#2d9cdb"),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: 100.0,
-                      height: 100.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: //_fotoStr != null
-                                  // ? FileImage(File(_fotoStr))
-                                  // :
-                                  AssetImage("images/foto_motorista.png"))),
-                    ),
-                    SizedBox(
-                      width: 15.0,
-                    ),
-                    CardMotoristaTile(),
-                  ],
-                ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );

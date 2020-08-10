@@ -43,6 +43,7 @@ dependencies:
   tuple: ^1.0.3
   carousel_slider: ^2.2.1
   font_awesome_flutter: ^8.8.1
+  expandable: ^4.1.4
 
 dev_dependencies:
   flutter_test:
@@ -86,12 +87,16 @@ flutter:
     - images/icon-car.png
     - images/mdi-menu.png
     - images/arrow-down.png
+    - images/arrow-up.png
 
   fonts:
-    - family: Inter
+    - family: InterBold
       fonts:
         - asset: fonts/Inter-Bold.ttf
           weight: 700
+    - family: InterRegular
+      fonts:
+        - asset: fonts/Inter-Regular.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

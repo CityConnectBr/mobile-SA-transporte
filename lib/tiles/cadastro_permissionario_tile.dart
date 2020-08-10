@@ -10,12 +10,12 @@ class PermissionarioTile extends StatefulWidget {
 }
 
 class _PermissionarioTileState extends State<PermissionarioTile> {
-  final _prefixoController = TextEditingController();
-  final _permissionarioController = TextEditingController();
-  final _validadeCNHController = TextEditingController();
+  final _nomeController = TextEditingController();
   final _localController = TextEditingController();
-  final _pontoController = TextEditingController();
+  final _pontosController = TextEditingController();
   final _cnhController = TextEditingController();
+  final _cnhValidadeController = TextEditingController();
+  final _prefixoController = TextEditingController();
   final _fiscalizacaoController = TextEditingController();
 
   @override
@@ -31,17 +31,8 @@ class _PermissionarioTileState extends State<PermissionarioTile> {
               child: Column(
                 children: <Widget>[
                   CustomFormInputField(
-                    controller: _prefixoController,
-                    label: "Prefixo:",
-                    obscure: false,
-                    type: TextInputType.text,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  CustomFormInputField(
-                    controller: _permissionarioController,
-                    label: "Permissionário:",
+                    controller: _nomeController,
+                    label: "Nome",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -50,7 +41,7 @@ class _PermissionarioTileState extends State<PermissionarioTile> {
                   ),
                   CustomFormInputField(
                     controller: _localController,
-                    label: "Local:",
+                    label: "Local",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -58,8 +49,8 @@ class _PermissionarioTileState extends State<PermissionarioTile> {
                     height: 10.0,
                   ),
                   CustomFormInputField(
-                    controller: _pontoController,
-                    label: "Nº Ponto:",
+                    controller: _pontosController,
+                    label: "Nº Pontos",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -68,7 +59,7 @@ class _PermissionarioTileState extends State<PermissionarioTile> {
                   ),
                   CustomFormInputField(
                     controller: _cnhController,
-                    label: "CNH Reg:",
+                    label: "CNH",
                     obscure: false,
                     type: TextInputType.text,
                   ),
@@ -76,8 +67,17 @@ class _PermissionarioTileState extends State<PermissionarioTile> {
                     height: 10.0,
                   ),
                   CustomFormInputField(
-                    controller: _validadeCNHController,
-                    label: "Validade/CNH:",
+                    controller: _cnhValidadeController,
+                    label: "Validade CNH",
+                    obscure: false,
+                    type: TextInputType.text,
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  CustomFormInputField(
+                    controller: _prefixoController,
+                    label: "Prefixo",
                     obscure: false,
                     type: TextInputType.text,
                     validator: ValidatorsUtil.validateDate,
@@ -87,14 +87,14 @@ class _PermissionarioTileState extends State<PermissionarioTile> {
                   ),
                   CustomFormInputField(
                     controller: _fiscalizacaoController,
-                    label: "Ass./Ger. Fiscalização Operacional:",
+                    label: "Ger. Fiscalização Operacional:",
                     obscure: false,
                     type: TextInputType.text,
                   ),
                   SizedBox(
                     height: 20.0,
                   ),
-                  CustomRaisedButtonYellow(
+                  CustomRaisedButtonBlue(
                       label: "Associar Veículo",
                       func: () {
                         //Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -104,7 +104,7 @@ class _PermissionarioTileState extends State<PermissionarioTile> {
                     height: 10.0,
                   ),
                   CustomRaisedButtonBlue(
-                      label: "Cadastrar Permissionário",
+                      label: "Finalizar Cadastro",
                       func: () {
                         //Navigator.of(context).pushReplacement(MaterialPageRoute(
                         //    builder: (context) => HomeScreen()));

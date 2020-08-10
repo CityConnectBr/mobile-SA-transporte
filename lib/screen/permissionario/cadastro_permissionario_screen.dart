@@ -1,4 +1,5 @@
 import 'package:cityconnect/tiles/cadastro_permissionario_tile.dart';
+import 'package:cityconnect/tiles/custom_hr_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 
@@ -13,13 +14,13 @@ class _CadastroPermissionarioScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Util.hexToColor("#E0E0E0"),
+      backgroundColor: Util.hexToColor("#2D9CDB"),
       appBar: AppBar(
         title: const Text(
           'Novo Permissionário',
           style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.normal,
+            fontSize: 18.0,
+            fontFamily: 'InterBold',
           ),
         ),
         centerTitle: true,
@@ -30,10 +31,16 @@ class _CadastroPermissionarioScreenState
             size: 45.0,
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.all(10.0),
+          margin: EdgeInsets.only(top: 40.0),
           padding: EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -45,22 +52,8 @@ class _CadastroPermissionarioScreenState
           ),
           child: Column(
             children: <Widget>[
-              Container(
-                width: 280.0,
-                margin: EdgeInsets.only(right: 70.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Cadastro',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.w500,
-                        color: Util.hexToColor("#828282"),
-                      ),
-                    ),
-                  ],
-                ),
+              CustomHr(
+                customColor: "#D5DDE0",
               ),
               PermissionarioTile(),
             ],

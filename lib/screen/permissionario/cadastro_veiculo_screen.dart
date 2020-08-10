@@ -1,4 +1,5 @@
 import 'package:cityconnect/tiles/cadastro_veiculo_tile.dart';
+import 'package:cityconnect/tiles/custom_hr_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 
@@ -17,7 +18,7 @@ class _CadastroVeiculoScreenState extends State<CadastroVeiculoScreen> {
           'Novo Veículo',
           style: TextStyle(
             fontSize: 18.0,
-            fontFamily: 'Inter',
+            fontFamily: 'InterBold',
           ),
         ),
         centerTitle: true,
@@ -49,23 +50,8 @@ class _CadastroVeiculoScreenState extends State<CadastroVeiculoScreen> {
           ),
           child: Column(
             children: <Widget>[
-              Center(
-                child: Container(
-                  width: 30.0,
-                  height: 4.0,
-                  margin: EdgeInsets.only(
-                    bottom: 20.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Util.hexToColor("#D5DDE0"),
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20.0),
-                      topLeft: Radius.circular(20.0),
-                      bottomRight: Radius.circular(20.0),
-                      bottomLeft: Radius.circular(20.0),
-                    ),
-                  ),
-                ),
+              CustomHr(
+                customColor: "#D5DDE0",
               ),
               VeiculoTile(),
             ],
