@@ -1,7 +1,11 @@
 import 'dart:io';
 
 import 'package:cityconnect/screen/fiscal/result_search_veiculo_screen.dart';
+import 'package:cityconnect/screen/fiscal/search_motorista_screen.dart';
+import 'package:cityconnect/screen/fiscal/search_veiculo_screen.dart';
 import 'package:cityconnect/screen/home_screen.dart';
+import 'package:cityconnect/screen/home_teste.dart';
+import 'package:cityconnect/screen/login_screen.dart';
 import 'package:cityconnect/screen/permissionario/cadastro_permissionario_screen.dart';
 import 'package:cityconnect/screen/permissionario/cadastro_veiculo_screen.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +57,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       //home: LoadingStartScreen(),
-      home: ResultSearchVeiculoScreen(),
+      home: HomeScreen(),
     );
   }
 }

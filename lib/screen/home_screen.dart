@@ -1,5 +1,7 @@
 import 'package:cityconnect/tiles/fiscal/home_fiscal.dart';
+import 'package:cityconnect/widgets/custom_drawer.dart';
 import 'package:cityconnect/widgets/custom_input_field_shadow.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/widgets/snack_message.dart';
@@ -17,12 +19,64 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {},
-          ),
-        ],
+        elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Container(
+                child: Column(
+                  children: <Widget>[
+                    Text("Railan Rabelo"),
+                    Text("Motorista"),
+                  ],
+                ),
+              ),
+              currentAccountPicture: Stack(
+                children: <Widget>[
+                  CircleAvatar(
+                    maxRadius: 80.0,
+                    backgroundColor: Colors.red,
+                  ),
+                  Positioned(
+                    top: -10.0,
+                    right: -15.0,
+                    child: Image.asset(
+                      "images/ic_edit.png",
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              // leading: Icon(Icons.arrow_downward),
+              title: Text(
+                "VISUALIZAR MOTORISTAS",
+                style: TextStyle(fontFamily: "Inter", fontSize: 16.0),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "NOVO MOTORISTA",
+                style: TextStyle(fontFamily: "Inter", fontSize: 16.0),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "NOVO VEÍCULO",
+                style: TextStyle(fontFamily: "Inter", fontSize: 16.0),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "SUPORTE",
+                style: TextStyle(fontFamily: "Inter", fontSize: 16.0),
+              ),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

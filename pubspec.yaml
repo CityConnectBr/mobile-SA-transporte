@@ -88,6 +88,7 @@ flutter:
     - images/mdi-menu.png
     - images/arrow-down.png
     - images/arrow-up.png
+    - images/ic_edit.png
 
   fonts:
     - family: InterBold

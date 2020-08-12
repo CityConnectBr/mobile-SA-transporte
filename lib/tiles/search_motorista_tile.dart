@@ -51,7 +51,7 @@ class _SearchMotoristaTileState extends State<SearchMotoristaTile> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Image.asset(
-                  "images/icon_search.png",
+                  "images/icon-search.png",
                   height: 40,
                   fit: BoxFit.contain,
                 ),
