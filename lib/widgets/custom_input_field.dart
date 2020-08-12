@@ -1,3 +1,4 @@
+import 'package:cityconnect/util/util.dart';
 import 'package:flutter/material.dart';
 
 class CustomFormInputField extends StatelessWidget {
@@ -40,7 +41,7 @@ class CustomFormInputField extends StatelessWidget {
           ),
         ),
       ),
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Util.hexToColor("#444444")),
       onEditingComplete: onEditingComplete,
       onChanged: onChanged,
       obscureText: obscure ?? false,

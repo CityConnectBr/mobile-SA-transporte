@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      key: _scaffoldKey,
       body: DefaultTabController(
         length: 2,
         child: ListView(
@@ -55,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               height: 500.0,
               child: TabBarView(children: [
-                LoginTile(),
+                LoginTile(_scaffoldKey),
                 //////////////////////
                 CadastroTile()
               ]),
