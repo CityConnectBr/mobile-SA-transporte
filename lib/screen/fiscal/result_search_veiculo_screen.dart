@@ -149,6 +149,59 @@ class _ResultSearchVeiculoScreenState extends State<ResultSearchVeiculoScreen> {
                                               //Navigator.of(context).pushReplacement(MaterialPageRoute(
                                               //    builder: (context) => HomeScreen()));
                                             }),
+                                        SizedBox(
+                                          height: 30.0,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Image.asset(
+                                                    "images/icon-new-driver.png",
+                                                    height: 20.0,
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10.0,
+                                                  ),
+                                                  Text(
+                                                    "Novo Motorista",
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          "InterRegular",
+                                                      fontSize: 20.0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Image.asset(
+                                                    "images/icon-edit-car.png",
+                                                    height: 20.0,
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10.0,
+                                                  ),
+                                                  Text(
+                                                    "Editar",
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          "InterRegular",
+                                                      fontSize: 20.0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),

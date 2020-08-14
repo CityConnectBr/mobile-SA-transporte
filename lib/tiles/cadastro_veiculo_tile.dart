@@ -114,7 +114,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                     height: 20.0,
                   ),
                   CustomRaisedButtonBlue(
-                      label: "Associar Motorista",
+                      label: "Associar Condutor",
                       func: () {
                         //Navigator.of(context).pushReplacement(MaterialPageRoute(
                         //    builder: (context) => HomeScreen()));

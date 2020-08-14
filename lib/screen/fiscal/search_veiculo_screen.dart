@@ -14,10 +14,10 @@ class _SearchVeiculoScreenState extends State<SearchVeiculoScreen> {
       backgroundColor: Util.hexToColor("#E0E0E0"),
       appBar: AppBar(
         title: const Text(
-          'Buscar Veículo',
+          'Veículos',
           style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.normal,
+            fontFamily: "InterBold",
+            fontSize: 20.0,
           ),
         ),
         centerTitle: true,

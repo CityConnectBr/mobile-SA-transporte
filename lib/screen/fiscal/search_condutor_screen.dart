@@ -3,32 +3,25 @@ import 'package:cityconnect/tiles/search_motorista_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 
-class SearchMotoristaScreen extends StatefulWidget {
+class SearchCondutorScreen extends StatefulWidget {
   @override
-  _SearchMotoristaScreenState createState() => _SearchMotoristaScreenState();
+  _SearchCondutorScreenState createState() => _SearchCondutorScreenState();
 }
 
-class _SearchMotoristaScreenState extends State<SearchMotoristaScreen> {
+class _SearchCondutorScreenState extends State<SearchCondutorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Util.hexToColor("#EEEEEE"),
       appBar: AppBar(
         title: const Text(
-          'Visualizar Motoristas',
+          'Condutores',
           style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.normal,
+            fontFamily: "InterBold",
+            fontSize: 20.0,
           ),
         ),
         centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {},
-          child: Icon(
-            Icons.navigate_before,
-            size: 45.0,
-          ),
-        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -40,13 +33,11 @@ class _SearchMotoristaScreenState extends State<SearchMotoristaScreen> {
             //],
             //),
             Container(
-              padding: EdgeInsets.only(
-                top: 10.0,
-                bottom: 20.0,
-              ),
+              padding: EdgeInsets.all(20.0),
               child: SearchMotoristaTile(),
             ),
             Container(
+              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
               child: CardMotoristaResultTile(),
             ),
           ],

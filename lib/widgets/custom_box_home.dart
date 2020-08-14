@@ -1,4 +1,3 @@
-import 'package:cityconnect/util/util.dart';
 import 'package:flutter/material.dart';
 
 class CustomBoxHome extends StatelessWidget {

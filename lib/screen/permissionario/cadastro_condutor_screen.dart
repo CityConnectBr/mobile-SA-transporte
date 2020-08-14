@@ -3,40 +3,25 @@ import 'package:cityconnect/tiles/custom_hr_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 
-class CadastroPermissionarioScreen extends StatefulWidget {
+class CadastroCondutorScreen extends StatefulWidget {
   @override
-  _CadastroPermissionarioScreenState createState() =>
-      _CadastroPermissionarioScreenState();
+  _CadastroCondutorScreenState createState() => _CadastroCondutorScreenState();
 }
 
-class _CadastroPermissionarioScreenState
-    extends State<CadastroPermissionarioScreen> {
+class _CadastroCondutorScreenState extends State<CadastroCondutorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Util.hexToColor("#2D9CDB"),
       appBar: AppBar(
         title: const Text(
-          'Novo Permissionário',
+          'Novo Condutor',
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'InterBold',
           ),
         ),
         centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {},
-          child: Icon(
-            Icons.navigate_before,
-            size: 45.0,
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Container(

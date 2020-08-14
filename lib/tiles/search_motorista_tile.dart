@@ -34,29 +34,31 @@ class _SearchMotoristaTileState extends State<SearchMotoristaTile> {
             ),
             child: CustomFormInputField(
               controller: _motoristaController,
-              label: "Buscar motorista",
+              label: "Buscar condutor",
               obscure: false,
               type: TextInputType.text,
               // hint: "Insira o número da placa",
             ),
           ),
         ),
-        Center(
-          child: Container(
-            margin: EdgeInsets.only(
-              top: 8.0,
-              right: 15.0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Image.asset(
+        Container(
+          padding: EdgeInsets.only(
+            top: 16.0,
+            right: 20.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              GestureDetector(
+                child: Image.asset(
                   "images/icon-search.png",
-                  height: 40,
+                  //width: 50,
+                  width: 22.0,
                   fit: BoxFit.contain,
                 ),
-              ],
-            ),
+                onTap: () {},
+              ),
+            ],
           ),
         ),
       ],

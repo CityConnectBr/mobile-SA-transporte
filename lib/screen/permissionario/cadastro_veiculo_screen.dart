@@ -22,19 +22,6 @@ class _CadastroVeiculoScreenState extends State<CadastroVeiculoScreen> {
           ),
         ),
         centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {},
-          child: Icon(
-            Icons.navigate_before,
-            size: 45.0,
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Container(
