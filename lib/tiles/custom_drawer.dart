@@ -1,6 +1,7 @@
 import 'package:cityconnect/screen/fiscal/search_condutor_screen.dart';
 import 'package:cityconnect/screen/permissionario/cadastro_condutor_screen.dart';
 import 'package:cityconnect/screen/permissionario/cadastro_veiculo_screen.dart';
+import 'package:cityconnect/screen/user_screen.dart';
 import 'package:cityconnect/tiles/custom_list_tile.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +39,15 @@ class CustomDrawerTile extends StatelessWidget {
                       Positioned(
                         right: -15.0,
                         top: -10.0,
-                        child: Image.asset(
-                          "images/ic_edit.png",
-                          fit: BoxFit.contain,
+                        child: GestureDetector(
+                          child: Image.asset(
+                            "images/ic_edit.png",
+                            fit: BoxFit.contain,
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => UserScreen()));
+                          },
                         ),
                       ),
                     ],

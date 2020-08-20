@@ -1,5 +1,7 @@
 import 'package:cityconnect/util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CustomFormInputField extends StatelessWidget {
   final IconData icon;
@@ -12,18 +14,21 @@ class CustomFormInputField extends StatelessWidget {
   final Function onEditingComplete;
   final Function onChanged;
   final TextEditingController controller;
+  final TextInputFormatter maskTextInputFormatter;
 
-  CustomFormInputField(
-      {this.controller,
-      this.icon,
-      this.hint,
-      this.label,
-      this.obscure,
-      this.type,
-      this.validator,
-      this.onEditingComplete,
-      this.onChanged,
-      this.enabled});
+  CustomFormInputField({
+    this.controller,
+    this.icon,
+    this.hint,
+    this.label,
+    this.obscure,
+    this.type,
+    this.validator,
+    this.onEditingComplete,
+    this.onChanged,
+    this.enabled,
+    this.maskTextInputFormatter,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +36,24 @@ class CustomFormInputField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         icon: icon != null ? Icon(icon) : null,
+        filled: true,
+        fillColor: Util.hexToColor("#F7F8F9"),
         hintText: hint,
         labelText: label,
         labelStyle: TextStyle(fontWeight: FontWeight.bold),
         errorText: null,
         border: new OutlineInputBorder(
-          borderRadius: const BorderRadius.all(
-            const Radius.circular(10.0),
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            width: 0,
+            style: BorderStyle.none,
           ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Util.hexToColor("#D5DDE0"),
+          ),
+          borderRadius: BorderRadius.circular(10.0),
         ),
       ),
       style: TextStyle(color: Util.hexToColor("#444444")),
@@ -48,6 +63,7 @@ class CustomFormInputField extends StatelessWidget {
       keyboardType: type,
       validator: validator,
       enabled: enabled != null ? enabled : true,
+      inputFormatters: [maskTextInputFormatter],
     );
   }
 }

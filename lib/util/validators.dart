@@ -1,14 +1,14 @@
-
+import 'package:cpf_cnpj_validator/cnpj_validator.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
-class ValidatorsUtil{
-
+class ValidatorsUtil {
   static final Pattern stringLowerCasePattern = "(?=.*[a-z])";
   static final Pattern stringUpperCasePattern = "(?=.*[A-Z])";
   static final Pattern numericPattern = "(?=.*[0-9])";
   static final Pattern minCharacterPattern = "(?=.{6,})";
   static final Pattern phonePattern = "^[0-9]{2}([0-9]{9}|[0-9]{8})";
-  static final Pattern dateTimePattern = "^(\\d{4})-(\\d\\d)-(\\d\\d)T(\\d\\d):(\\d\\d):(\\d\\d).(\\d\\d\\d)Z\$";
+  static final Pattern dateTimePattern =
+      "^(\\d{4})-(\\d\\d)-(\\d\\d)T(\\d\\d):(\\d\\d):(\\d\\d).(\\d\\d\\d)Z\$";
 
   static String isNullOrIsEmpty(text) {
     if (text == null || text.isEmpty) return "Campo obrigatório";
@@ -30,7 +30,9 @@ class ValidatorsUtil{
     print("3 ${!regex3.hasMatch(value)}");
     print("4 ${!regex4.hasMatch(value)}");
 */
-    if ((!regex1.hasMatch(value) || (!regex2.hasMatch(value) && !regex3.hasMatch(value)) || !regex4.hasMatch(value)))
+    if ((!regex1.hasMatch(value) ||
+        (!regex2.hasMatch(value) && !regex3.hasMatch(value)) ||
+        !regex4.hasMatch(value)))
       return 'Senha inválida. Mínimo de 6 caracteres com letras e números.';
     else
       return null;
@@ -62,14 +64,12 @@ class ValidatorsUtil{
       return null;
   }
 
-
   static String validateCPF(String value) {
     if (!CPFValidator.isValid(value))
       return 'CPF inválido';
     else
       return null;
   }
-
 
   static String validateDate(String value) {
     Pattern pattern = r'^\d{1,2}\/\d{1,2}\/\d{4}$';
@@ -95,4 +95,11 @@ class ValidatorsUtil{
       return null;
   }
 
+  static String validateCPFCNPJ(String value) {
+    if (value.length <= 11) {
+      CPFValidator.isValid("999.999.999-99");
+    } else {
+      CNPJValidator.isValid("99.999.999/9999-99");
+    }
+  }
 }

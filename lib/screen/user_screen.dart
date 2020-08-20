@@ -1,6 +1,8 @@
+import 'package:cityconnect/tiles/edit_dados_tile.dart';
+import 'package:cityconnect/tiles/edit_endereco_tile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
-import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 
 class UserScreen extends StatefulWidget {
   @override
@@ -8,187 +10,106 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  final _textStyleTitleBar = TextStyle(
+      color: Util.hexToColor("#3E4958"),
+      fontSize: 20.0,
+      fontFamily: "InterRegular");
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Perfil',
-            style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
-          centerTitle: true,
-          leading: GestureDetector(
-            onTap: () {},
-            child: Icon(
-              Icons.navigate_before,
-              size: 45.0,
-            ),
+      key: _scaffoldKey,
+      appBar: AppBar(
+        title: const Text(
+          'Perfil',
+          style: TextStyle(
+            fontFamily: "InterBold",
+            fontSize: 20.0,
           ),
         ),
-        body: SingleChildScrollView(
-            child: Column(
+        centerTitle: true,
+      ),
+      body: DefaultTabController(
+        length: 2,
+        child: ListView(
           children: <Widget>[
-            Stack(
-              children: <Widget>[
-                SizedBox(
-                  width: double.infinity,
-                  height: 180.0,
-                  // height: double.infinity,
-                  child: Container(
-                    padding: EdgeInsets.all(45.0),
-                    color: Util.hexToColor("#9ae3e9"),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 10.0, right: 10.0),
-                  child: Row(
+            Container(
+              color: Util.hexToColor("#2D9CDB"),
+              height: 160.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Stack(
                     children: <Widget>[
-                      Spacer(),
-                      Image.asset(
-                        "images/icon_edit.png",
-                        height: 30,
-                        fit: BoxFit.contain,
+                      Container(
+                        width: 120.0,
+                        height: 120.0,
+                        child: Container(
+                          width: 120.0,
+                          height: 120.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: //_fotoStr != null
+                                  // ? FileImage(File(_fotoStr))
+                                  // :
+                                  AssetImage("images/photo-user.png"),
+                            ),
+                          ),
+                        ),
                       ),
+                      Positioned(
+                        top: -5.0,
+                        right: -10.0,
+                        child: GestureDetector(
+                          child: Image.asset(
+                            "images/icon-cam.png",
+                            height: 50,
+                            fit: BoxFit.contain,
+                          ),
+                          onTap: () {},
+                        ),
+                      )
                     ],
                   ),
-                ),
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 110.0,
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          width: 190.0,
-                          height: 190.0,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Util.hexToColor("#FFFFFF"),
-                                width: 6,
-                              ),
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: //_fotoStr != null
-                                      // ? FileImage(File(_fotoStr))
-                                      // :
-                                      AssetImage("images/avatar.png"))),
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        Text(
-                          "Kátia Maria",
-                          style: TextStyle(
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.w500,
-                            color: Util.hexToColor("#828282"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Center(
-              child: Container(
-                margin: EdgeInsets.only(
-                  top: 50.0,
-                ),
-                padding: EdgeInsets.only(
-                  right: 40.0,
-                  left: 40.0,
-                ),
-                child: Row(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Image.asset(
-                          "images/icon_edit_avatar.png",
-                          height: 30,
-                          fit: BoxFit.contain,
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          "Editar Avatar",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
-                            color: Util.hexToColor("#828282"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Column(
-                      children: <Widget>[
-                        Image.asset(
-                          "images/icon_dados.png",
-                          height: 30,
-                          fit: BoxFit.contain,
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          "Meus Dados",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
-                            color: Util.hexToColor("#828282"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Column(
-                      children: <Widget>[
-                        Image.asset(
-                          "images/icon_modo_noturno.png",
-                          height: 30,
-                          fit: BoxFit.contain,
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          "Modo Noturno",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
-                            color: Util.hexToColor("#828282"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                ],
               ),
             ),
             Container(
-              margin: EdgeInsets.only(
-                top: 40.0,
-              ),
-              padding: EdgeInsets.only(
-                right: 25.0,
-                left: 25.0,
-              ),
-              child: CustomRaisedButtonBlue(
-                label: "Deslogar",
-                func: () {
-                  //Navigator.of(context).pushReplacement(
-                  //  MaterialPageRoute(builder: (context) => LoginScreen()));
-                },
+              constraints: BoxConstraints.expand(height: 50),
+              child: TabBar(
+                tabs: [
+                  Tab(
+                    child: Text(
+                      "Dados",
+                      style: _textStyleTitleBar,
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      "Endereço",
+                      style: _textStyleTitleBar,
+                    ),
+                  ),
+                ],
+                indicatorWeight: 5.0,
+                indicatorColor: Theme.of(context).primaryColor,
               ),
             ),
+            Container(
+              height: 930.0,
+              child: TabBarView(children: [
+                EditInformationTile(_scaffoldKey),
+                //////////////////////
+                EditAddressTile()
+              ]),
+            ),
           ],
-        )));
+        ),
+      ),
+    );
   }
 }
