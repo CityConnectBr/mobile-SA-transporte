@@ -1,7 +1,6 @@
 import 'package:cityconnect/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CustomFormInputField extends StatelessWidget {
   final IconData icon;
@@ -14,7 +13,6 @@ class CustomFormInputField extends StatelessWidget {
   final Function onEditingComplete;
   final Function onChanged;
   final TextEditingController controller;
-  final TextInputFormatter maskTextInputFormatter;
 
   CustomFormInputField({
     this.controller,
@@ -27,7 +25,6 @@ class CustomFormInputField extends StatelessWidget {
     this.onEditingComplete,
     this.onChanged,
     this.enabled,
-    this.maskTextInputFormatter,
   });
 
   @override
@@ -42,18 +39,17 @@ class CustomFormInputField extends StatelessWidget {
         labelText: label,
         labelStyle: TextStyle(fontWeight: FontWeight.bold),
         errorText: null,
-        border: new OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            width: 0,
-            style: BorderStyle.none,
-          ),
-        ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Util.hexToColor("#D5DDE0"),
-          ),
           borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Util.hexToColor("#c3c3c3"), width: 1.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Util.hexToColor("#e3e3e3"), width: 1.0),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
         ),
       ),
       style: TextStyle(color: Util.hexToColor("#444444")),
@@ -63,7 +59,6 @@ class CustomFormInputField extends StatelessWidget {
       keyboardType: type,
       validator: validator,
       enabled: enabled != null ? enabled : true,
-      inputFormatters: [maskTextInputFormatter],
     );
   }
 }

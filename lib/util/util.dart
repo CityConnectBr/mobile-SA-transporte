@@ -47,25 +47,6 @@ class Util {
 
 }
 
-class MasksUtil{
-
-  MaskedTextController getMaskCEP({double value}){
-    return MaskedTextController(mask: '00000-000', text: value??"");
-  }
-
-  MaskedTextController getMaskCPF({double value}){
-    return MaskedTextController(mask: '000.000.000-00', text: value??"");
-  }
-
-  MaskedTextController getMaskDate({double value}){
-    return MaskedTextController(mask: '00/00/0000', text: value??"");
-  }
-
-  MoneyMaskedTextController getMaskMoney({double value}){
-    return MoneyMaskedTextController(leftSymbol: 'R\$ ', initialValue: value??0.0, precision: 2);
-  }
-}
-
 class Entry {
   Entry(this.title, this.subtitle, this.value, [this.children = const <Entry>[]]);
 

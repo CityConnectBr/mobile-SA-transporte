@@ -17,23 +17,13 @@ class ValidatorsUtil {
   }
 
   static String validatePassword(String value) {
-    RegExp regex1 = new RegExp(numericPattern);
-    RegExp regex2 = new RegExp(stringLowerCasePattern);
-    RegExp regex3 = new RegExp(stringUpperCasePattern);
+    //RegExp regex1 = new RegExp(numericPattern);
+    //RegExp regex2 = new RegExp(stringLowerCasePattern);
+    //RegExp regex3 = new RegExp(stringUpperCasePattern);
     RegExp regex4 = new RegExp(minCharacterPattern);
-/*
-    print("-----------");
 
-    print("-- ${value}");
-    print("1 ${!regex1.hasMatch(value)}");
-    print("2 ${!regex2.hasMatch(value)}");
-    print("3 ${!regex3.hasMatch(value)}");
-    print("4 ${!regex4.hasMatch(value)}");
-*/
-    if ((!regex1.hasMatch(value) ||
-        (!regex2.hasMatch(value) && !regex3.hasMatch(value)) ||
-        !regex4.hasMatch(value)))
-      return 'Senha inválida. Mínimo de 6 caracteres com letras e números.';
+    if (!regex4.hasMatch(value))
+      return 'Senha inválida. Mínimo de 6 caracteres.';
     else
       return null;
   }
@@ -96,7 +86,7 @@ class ValidatorsUtil {
   }
 
   static String validateCPFCNPJ(String value) {
-    if (value.length <= 11) {
+    if (value.length <= 14) {//14 somando . e -
       CPFValidator.isValid("999.999.999-99");
     } else {
       CNPJValidator.isValid("99.999.999/9999-99");

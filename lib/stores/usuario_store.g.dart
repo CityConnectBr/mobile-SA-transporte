@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_store.dart';
+part of 'usuario_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'login_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$LoginStore on _LoginStore, Store {
-  final _$loadingAtom = Atom(name: '_LoginStore.loading');
+mixin _$UsuarioStore on _UsuarioStore, Store {
+  final _$loadingAtom = Atom(name: '_UsuarioStore.loading');
 
   @override
   bool get loading {
@@ -24,7 +24,14 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
-  final _$loginAsyncAction = AsyncAction('_LoginStore.login');
+  final _$isLoggedInAsyncAction = AsyncAction('_UsuarioStore.isLoggedIn');
+
+  @override
+  Future<void> isLoggedIn(BuildContext context) {
+    return _$isLoggedInAsyncAction.run(() => super.isLoggedIn(context));
+  }
+
+  final _$loginAsyncAction = AsyncAction('_UsuarioStore.login');
 
   @override
   Future<void> login(

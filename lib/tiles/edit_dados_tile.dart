@@ -1,6 +1,6 @@
 import 'package:cityconnect/screen/home_screen.dart';
 import 'package:cityconnect/screen/user_screen.dart';
-import 'package:cityconnect/stores/login_store.dart';
+import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
@@ -43,8 +43,6 @@ class _EditInformationTileState extends State<EditInformationTile> {
 
   _EditInformationTileState(this._scaffoldKey);
 
-  LoginStore loginStore;
-
   @override
   void initState() {
     super.initState();
@@ -71,7 +69,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
 
   @override
   Widget build(BuildContext context) {
-    // loginStore = Provider.of<LoginStore>(context);
+    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
 
     // return Container(
     //   padding: EdgeInsets.all(20.0),
@@ -178,9 +176,9 @@ class _EditInformationTileState extends State<EditInformationTile> {
                         obscure: false,
                         validator: ValidatorsUtil.validateDate,
                         hint: "DATA NASCIMENTO",
-                        maskTextInputFormatter: MaskTextInputFormatter(
+                        /*maskTextInputFormatter: MaskTextInputFormatter(
                             mask: "##/##/####",
-                            filter: {"#": RegExp(r'[0-9]')}),
+                            filter: {"#": RegExp(r'[0-9]')}),*/
                       ),
                     ),
                     Spacer(),
@@ -192,10 +190,10 @@ class _EditInformationTileState extends State<EditInformationTile> {
                         obscure: false,
                         type: TextInputType.text,
                         hint: "TELEFONE",
-                        maskTextInputFormatter: MaskTextInputFormatter(
+                        /*maskTextInputFormatter: MaskTextInputFormatter(
                           mask: '(##) ####-####',
                           filter: {"#": RegExp(r'[0-9]')},
-                        ),
+                        ),*/
                       ),
                     ),
                   ],
@@ -213,10 +211,10 @@ class _EditInformationTileState extends State<EditInformationTile> {
                         obscure: false,
                         type: TextInputType.text,
                         hint: "TELEFONE 2",
-                        maskTextInputFormatter: MaskTextInputFormatter(
+                        /*maskTextInputFormatter: MaskTextInputFormatter(
                           mask: '(##) ####-####',
                           filter: {"#": RegExp(r'[0-9]')},
-                        ),
+                        ),*/
                       ),
                     ),
                     Spacer(),
@@ -228,10 +226,10 @@ class _EditInformationTileState extends State<EditInformationTile> {
                         obscure: false,
                         type: TextInputType.text,
                         hint: "CELULAR",
-                        maskTextInputFormatter: MaskTextInputFormatter(
+                        /*maskTextInputFormatter: MaskTextInputFormatter(
                           mask: '(##) #####-####',
                           filter: {"#": RegExp(r'[0-9]')},
-                        ),
+                        ),*/
                       ),
                     ),
                   ],

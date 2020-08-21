@@ -1,20 +1,13 @@
-import 'dart:io';
 
-import 'package:cityconnect/screen/fiscal/result_search_veiculo_screen.dart';
-import 'package:cityconnect/screen/fiscal/search_condutor_screen.dart';
-import 'package:cityconnect/screen/fiscal/search_veiculo_screen.dart';
-import 'package:cityconnect/screen/home_screen.dart';
-import 'package:cityconnect/screen/login_screen.dart';
-import 'package:cityconnect/screen/permissionario/cadastro_condutor_screen.dart';
-import 'package:cityconnect/screen/permissionario/cadastro_veiculo_screen.dart';
-import 'package:cityconnect/screen/user_screen.dart';
-import 'package:cityconnect/stores/login_store.dart';
-import 'package:flutter/material.dart';
 import 'package:cityconnect/screen/loading_screen.dart';
+import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async{
+  await DotEnv().load('.env');
   runApp(new MyApp());
 }
 
@@ -22,8 +15,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Provider<LoginStore>(
-      create: (_) => LoginStore(),
+    return Provider<UsuarioStore>(
+      create: (_) => UsuarioStore(),
       child: MaterialApp(
         title: 'SA TRANS',
         theme: ThemeData(
@@ -60,7 +53,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         //home: LoadingStartScreen(),
-        home: HomeScreen(),
+        home: LoadingStartScreen(),
       ),
     );
   }

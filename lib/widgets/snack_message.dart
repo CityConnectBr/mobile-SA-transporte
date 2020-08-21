@@ -20,7 +20,7 @@ class SnackMessages{
   static void showSnackBarError(BuildContext context, GlobalKey<ScaffoldState> key, String text, {int secs}){
     key.currentState.showSnackBar(SnackBar(content: Text(text),
       backgroundColor: Util.hexToColor("#a81533"),
-      duration: Duration(seconds: secs??7),
+      duration: Duration(seconds: secs??5),
     ));
   }
 

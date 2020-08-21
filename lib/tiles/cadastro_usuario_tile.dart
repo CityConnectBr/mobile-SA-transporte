@@ -1,4 +1,6 @@
 import 'package:cityconnect/screen/home_screen.dart';
+import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/util/maskUtil.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
@@ -6,19 +8,33 @@ import 'package:cpf_cnpj_validator/cnpj_validator.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class CadastroTile extends StatefulWidget {
+class CadastroUsuarioTile extends StatefulWidget {
+  final GlobalKey<ScaffoldState> _globalKey;
+
+  CadastroUsuarioTile(this._globalKey);
+
   @override
-  _CadastroTileState createState() => _CadastroTileState();
+  _CadastroUsuarioTileState createState() =>
+      _CadastroUsuarioTileState(this._globalKey);
 }
 
-class _CadastroTileState extends State<CadastroTile> {
+class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
+  final GlobalKey<ScaffoldState> _globalKey;
+
+  _CadastroUsuarioTileState(this._globalKey);
+
+  final _formKey = GlobalKey<FormState>();
+
   bool _termoAceito = false;
 
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
-  final _documentController = MaskedTextController(mask: '000.000.000-00');
+  TextEditingController _documentController = MaskUtil.cpfMaskController;
   final _cnhController = TextEditingController();
   final _senhaController = TextEditingController();
   final _senhaConfirmacaoController = TextEditingController();
@@ -26,21 +42,42 @@ class _CadastroTileState extends State<CadastroTile> {
   @override
   void initState() {
     super.initState();
-    //_tabController = TabController(length: 2);
   }
 
   @override
   void dispose() {
     super.dispose();
 
+    _nomeController.dispose();
     _emailController.dispose();
+    //_documentController.dispose();//retirado pois estava dando erro na troca de tabs
+    _cnhController.dispose();
     _senhaController.dispose();
     _senhaConfirmacaoController.dispose();
-    //_tabController.dispose();
+  }
+
+  bool flagCPF = true;
+
+  void _controllerMaskCPFCNPJ(String valor) {
+    if (valor.length > 14 && flagCPF) {
+      flagCPF = false;
+      setState(() {
+        _documentController = MaskUtil.getMaskControllerWithValue(
+            mask: MaskUtil.cnpjMask, value: valor);
+      });
+    } else if (valor.length <= 14 && !flagCPF) {
+      flagCPF = true;
+      setState(() {
+        _documentController = MaskUtil.getMaskControllerWithValue(
+            mask: MaskUtil.cpfMask, value: valor);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(20.0),
@@ -57,13 +94,14 @@ class _CadastroTileState extends State<CadastroTile> {
               height: 16.0,
             ),
             Form(
+              key: this._formKey,
               child: Column(
                 children: <Widget>[
                   CustomFormInputField(
                     controller: _nomeController,
                     label: "Nome",
-                    obscure: false,
                     type: TextInputType.text,
+                    validator: ValidatorsUtil.validateIsEmpty,
                     hint: "Seu nome",
                   ),
                   SizedBox(
@@ -81,13 +119,13 @@ class _CadastroTileState extends State<CadastroTile> {
                     height: 16.0,
                   ),
                   CustomFormInputField(
-                    controller: _documentController,
-                    label: "CPF/CNPJ",
-                    obscure: false,
-                    type: TextInputType.number,
-                    validator: ValidatorsUtil.validateCPFCNPJ,
-                    hint: "Seu documento aqui",
-                  ),
+                      controller: _documentController,
+                      label: "CPF/CNPJ",
+                      obscure: false,
+                      type: TextInputType.number,
+                      validator: ValidatorsUtil.validateCPFCNPJ,
+                      hint: "Seu documento aqui",
+                      onChanged: _controllerMaskCPFCNPJ),
                   SizedBox(
                     height: 16.0,
                   ),
@@ -106,6 +144,7 @@ class _CadastroTileState extends State<CadastroTile> {
                     label: "Senha",
                     obscure: true,
                     type: TextInputType.text,
+                    validator: ValidatorsUtil.validatePassword,
                     hint: "Sua senha aqui",
                   ),
                   SizedBox(
@@ -116,6 +155,7 @@ class _CadastroTileState extends State<CadastroTile> {
                     label: "Confirmação de senha",
                     obscure: true,
                     type: TextInputType.text,
+                    validator: ValidatorsUtil.validateIsEmpty,
                     hint: "Repita a sua senha",
                   ),
                   SizedBox(
@@ -147,6 +187,7 @@ class _CadastroTileState extends State<CadastroTile> {
                             ),
                           ],
                         )),
+                    onTap: (){print(launch("http://api.santo-andre-transporte.cityconnect.com.br/"));},
                   ),
                   SizedBox(
                     height: 26.0,
@@ -154,8 +195,18 @@ class _CadastroTileState extends State<CadastroTile> {
                   CustomRaisedButtonBlue(
                       label: "Cadastro",
                       func: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => HomeScreen()));
+                        if (_formKey.currentState.validate()) {
+                          usuarioStore.signin(
+                              email: _emailController.text,
+                              senha: _senhaController.text,
+                              cpfCnpj: _documentController.text,
+                              cnh: _cnhController.text,
+                              confirmacaoDeSenha: _senhaConfirmacaoController.text,
+                              nome: _nomeController.text,
+                              contratoAceito: _termoAceito,
+                              context: context,
+                              scaffoldKey: _globalKey);
+                        }
                       }),
                 ],
               ),
