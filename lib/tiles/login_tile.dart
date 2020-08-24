@@ -24,6 +24,8 @@ class _LoginTileState extends State<LoginTile> {
 
   _LoginTileState(this._scaffoldKey);
 
+  bool _hidePassword = true;
+
   @override
   void initState() {
     super.initState();
@@ -77,12 +79,23 @@ class _LoginTileState extends State<LoginTile> {
                     height: 16.0,
                   ),
                   CustomFormInputField(
-                    controller: _senhaController,
-                    label: "Senha",
-                    obscure: true,
-                    type: TextInputType.text,
-                    validator: ValidatorsUtil.validatePassword,
-                  ),
+                      controller: _senhaController,
+                      label: "Senha",
+                      obscure: this._hidePassword,
+                      type: TextInputType.text,
+                      validator: ValidatorsUtil.validatePassword,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.remove_red_eye,
+                          color: !this._hidePassword
+                              ? Theme.of(context).primaryColor
+                              : Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(
+                              () => this._hidePassword = !this._hidePassword);
+                        },
+                      )),
                   SizedBox(
                     height: 26.0,
                   ),

@@ -1,6 +1,8 @@
+import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/screen/home_screen.dart';
 import 'package:cityconnect/screen/login_screen.dart';
 import 'package:cityconnect/services/usuario_service.dart';
+import 'package:cityconnect/util/error_handler_util.dart';
 import 'package:cityconnect/util/preferences.dart';
 import 'package:cityconnect/widgets/snack_message.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,12 +21,15 @@ abstract class _UsuarioStore with Store {
 
   final _prefs = Preferences();
 
+  @observable
+  Usuario usuario;
+
   @action
-  Future<void> isLoggedIn(BuildContext context) async{
-    if(await this._isLoggedIn()){
+  Future<void> isLoggedIn(BuildContext context) async {
+    if (await this._isLoggedIn()) {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomeScreen()));
-    }else{
+    } else {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => LoginScreen()));
     }
@@ -39,8 +44,11 @@ abstract class _UsuarioStore with Store {
     loading = true;
 
     try {
-      await _usuarioService.login(email, senha);
+      assert(await _usuarioService.login(email, senha));
+      usuario = await _usuarioService.me();
 
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomeScreen()));
     } catch (e) {
       print(e);
       SnackMessages.showSnackBarError(context, scaffoldKey, "Ocorreu um erro");
@@ -52,57 +60,76 @@ abstract class _UsuarioStore with Store {
   @action
   Future<void> signin(
       {String nome,
-        String email,
-        String cpfCnpj,
-        String cnh,
-        String senha,
-        String confirmacaoDeSenha,
-        bool contratoAceito,
-        BuildContext context,
-        GlobalKey<ScaffoldState> scaffoldKey}) async {
+      String email,
+      String cpfCnpj,
+      String cnh,
+      String senha,
+      String confirmacaoDeSenha,
+      bool contratoAceito,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     bool aux = true;
-    if(senha.compareTo(confirmacaoDeSenha)!=0){
+    if (senha.compareTo(confirmacaoDeSenha) != 0) {
       aux = false;
       SnackMessages.showSnackBarError(
           context, scaffoldKey, "A senhas sua confirmação não são iguais.");
     }
 
-    if(!contratoAceito){
+    if (!contratoAceito) {
       aux = false;
       SnackMessages.showSnackBarError(
           context, scaffoldKey, "É necessário aceitar os termos de uso.");
     }
 
-    if(aux) {
+    if (aux) {
       try {
-        print(await _usuarioService.signin(nome: nome,
+        if (await _usuarioService.signin(
+            nome: nome,
             email: email,
             cpfCnj: cpfCnpj,
             cnh: cnh,
-            senha: senha));
+            senha: senha)) {
+          assert(await _usuarioService.login(email, senha));
+          usuario = await _usuarioService.me();
+
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomeScreen()));
+        }
       } catch (e) {
-        print(e);
         SnackMessages.showSnackBarError(
-            context, scaffoldKey, "Ocorreu um erro");
+            context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
       }
     }
 
     loading = false;
   }
 
-  Future<bool> _isLoggedIn() async{
-    try{
+  @action
+  Future<void> logout(
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+    try {
+      await _usuarioService.logout();
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => LoginScreen()));
+    } catch (e) {
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+  }
+
+  Future<bool> _isLoggedIn() async {
+    try {
       String token = await _prefs.get(Preferences.KEY_LAST_JWT);
 
-      if(token!=null){
+      if (token != null) {
         //verificar se login e valido
         //services me
       }
 
       return false;
-    }catch(e){
+    } catch (e) {
       return false;
     }
   }

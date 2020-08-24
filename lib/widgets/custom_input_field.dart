@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomFormInputField extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
+  final Widget prefixIcon;
+  final Widget suffixIcon;
   final String hint;
   final String label;
   final bool obscure;
@@ -17,6 +19,8 @@ class CustomFormInputField extends StatelessWidget {
   CustomFormInputField({
     this.controller,
     this.icon,
+    this.prefixIcon,
+    this.suffixIcon,
     this.hint,
     this.label,
     this.obscure,
@@ -32,7 +36,9 @@ class CustomFormInputField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-        icon: icon != null ? Icon(icon) : null,
+        icon: icon,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         filled: true,
         fillColor: Util.hexToColor("#F7F8F9"),
         hintText: hint,
@@ -50,6 +56,7 @@ class CustomFormInputField extends StatelessWidget {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: Colors.red, width: 1.0),
+
         ),
       ),
       style: TextStyle(color: Util.hexToColor("#444444")),

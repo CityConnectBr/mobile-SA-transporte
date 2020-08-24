@@ -1,14 +1,14 @@
 
 class Usuario {
 
-  String id;
+  int id;
   String nome;
   String email;
   String cpf;
   String cnh;
   String password;
 
-  Usuario({String id, String nome, String email, String cpf, String cnh, String password}){
+  Usuario({int id, String nome, String email, String cpf, String cnh, String password}){
     this.id = id;
     this.nome = nome;
     this.email = email;

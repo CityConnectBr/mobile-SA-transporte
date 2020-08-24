@@ -21,10 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
-      drawer: CustomDrawerTile(),
+      drawer: CustomDrawerTile(_scaffoldKey),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

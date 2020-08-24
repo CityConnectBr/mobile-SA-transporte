@@ -1,15 +1,11 @@
 import 'package:cityconnect/screen/home_screen.dart';
 import 'package:cityconnect/stores/usuario_store.dart';
-import 'package:cityconnect/util/maskUtil.dart';
+import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
-import 'package:cpf_cnpj_validator/cnpj_validator.dart';
-import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,14 +26,20 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
 
   final _formKey = GlobalKey<FormState>();
 
-  bool _termoAceito = false;
-
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
   TextEditingController _documentController = MaskUtil.cpfMaskController;
   final _cnhController = TextEditingController();
   final _senhaController = TextEditingController();
   final _senhaConfirmacaoController = TextEditingController();
+
+  ////////// FLAGS
+  bool _termoAceito = false;
+  bool flagCPF = true;
+  bool _hidePassword = true;
+  bool _hideConfirmPassword = true;
+
+  //////////////////
 
   @override
   void initState() {
@@ -51,12 +53,11 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
     _nomeController.dispose();
     _emailController.dispose();
     //_documentController.dispose();//retirado pois estava dando erro na troca de tabs
+    _documentController.text = "";
     _cnhController.dispose();
     _senhaController.dispose();
     _senhaConfirmacaoController.dispose();
   }
-
-  bool flagCPF = true;
 
   void _controllerMaskCPFCNPJ(String valor) {
     if (valor.length > 14 && flagCPF) {
@@ -140,24 +141,46 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                     height: 16.0,
                   ),
                   CustomFormInputField(
-                    controller: _senhaController,
-                    label: "Senha",
-                    obscure: true,
-                    type: TextInputType.text,
-                    validator: ValidatorsUtil.validatePassword,
-                    hint: "Sua senha aqui",
-                  ),
+                      controller: _senhaController,
+                      label: "Senha",
+                      obscure: this._hidePassword,
+                      type: TextInputType.text,
+                      validator: ValidatorsUtil.validatePassword,
+                      hint: "Sua senha aqui",
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.remove_red_eye,
+                          color: !this._hidePassword
+                              ? Theme.of(context).primaryColor
+                              : Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(
+                              () => this._hidePassword = !this._hidePassword);
+                        },
+                      )),
                   SizedBox(
                     height: 16.0,
                   ),
                   CustomFormInputField(
-                    controller: _senhaConfirmacaoController,
-                    label: "Confirmação de senha",
-                    obscure: true,
-                    type: TextInputType.text,
-                    validator: ValidatorsUtil.validateIsEmpty,
-                    hint: "Repita a sua senha",
-                  ),
+                      controller: _senhaConfirmacaoController,
+                      label: "Confirmação de senha",
+                      obscure: this._hideConfirmPassword,
+                      type: TextInputType.text,
+                      validator: ValidatorsUtil.validateIsEmpty,
+                      hint: "Repita a sua senha",
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.remove_red_eye,
+                          color: !this._hideConfirmPassword
+                              ? Theme.of(context).primaryColor
+                              : Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() => this._hideConfirmPassword =
+                              !this._hideConfirmPassword);
+                        },
+                      )),
                   SizedBox(
                     height: 26.0,
                   ),
@@ -187,7 +210,10 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                             ),
                           ],
                         )),
-                    onTap: (){print(launch("http://api.santo-andre-transporte.cityconnect.com.br/"));},
+                    onTap: () {
+                      print(launch(
+                          "http://api.santo-andre-transporte.cityconnect.com.br/"));
+                    },
                   ),
                   SizedBox(
                     height: 26.0,
@@ -201,7 +227,8 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                               senha: _senhaController.text,
                               cpfCnpj: _documentController.text,
                               cnh: _cnhController.text,
-                              confirmacaoDeSenha: _senhaConfirmacaoController.text,
+                              confirmacaoDeSenha:
+                                  _senhaConfirmacaoController.text,
                               nome: _nomeController.text,
                               contratoAceito: _termoAceito,
                               context: context,

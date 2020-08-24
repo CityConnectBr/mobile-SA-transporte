@@ -24,6 +24,21 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
     });
   }
 
+  final _$usuarioAtom = Atom(name: '_UsuarioStore.usuario');
+
+  @override
+  Usuario get usuario {
+    _$usuarioAtom.reportRead();
+    return super.usuario;
+  }
+
+  @override
+  set usuario(Usuario value) {
+    _$usuarioAtom.reportWrite(value, super.usuario, () {
+      super.usuario = value;
+    });
+  }
+
   final _$isLoggedInAsyncAction = AsyncAction('_UsuarioStore.isLoggedIn');
 
   @override
@@ -46,10 +61,45 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
         scaffoldKey: scaffoldKey));
   }
 
+  final _$signinAsyncAction = AsyncAction('_UsuarioStore.signin');
+
+  @override
+  Future<void> signin(
+      {String nome,
+      String email,
+      String cpfCnpj,
+      String cnh,
+      String senha,
+      String confirmacaoDeSenha,
+      bool contratoAceito,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$signinAsyncAction.run(() => super.signin(
+        nome: nome,
+        email: email,
+        cpfCnpj: cpfCnpj,
+        cnh: cnh,
+        senha: senha,
+        confirmacaoDeSenha: confirmacaoDeSenha,
+        contratoAceito: contratoAceito,
+        context: context,
+        scaffoldKey: scaffoldKey));
+  }
+
+  final _$logoutAsyncAction = AsyncAction('_UsuarioStore.logout');
+
+  @override
+  Future<void> logout(
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$logoutAsyncAction
+        .run(() => super.logout(context: context, scaffoldKey: scaffoldKey));
+  }
+
   @override
   String toString() {
     return '''
-loading: ${loading}
+loading: ${loading},
+usuario: ${usuario}
     ''';
   }
 }

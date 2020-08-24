@@ -86,7 +86,9 @@ class ValidatorsUtil {
   }
 
   static String validateCPFCNPJ(String value) {
-    if (value.length <= 14) {//14 somando . e -
+    if (value == null || value.isEmpty)
+      return 'Campo vazio';
+    else if (value.length <= 14) {//14 somando . e -
       CPFValidator.isValid("999.999.999-99");
     } else {
       CNPJValidator.isValid("99.999.999/9999-99");

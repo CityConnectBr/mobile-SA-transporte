@@ -2,13 +2,22 @@ import 'package:cityconnect/screen/fiscal/search_condutor_screen.dart';
 import 'package:cityconnect/screen/permissionario/cadastro_condutor_screen.dart';
 import 'package:cityconnect/screen/permissionario/cadastro_veiculo_screen.dart';
 import 'package:cityconnect/screen/user_screen.dart';
+import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/tiles/custom_list_tile.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomDrawerTile extends StatelessWidget {
+
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  CustomDrawerTile(this.scaffoldKey);
+
   @override
   Widget build(BuildContext context) {
+    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -112,7 +121,9 @@ class CustomDrawerTile extends StatelessWidget {
               children: <Widget>[
                 CustomListTile(
                   title: "SAIR",
-                  onTap: () {},
+                  onTap: (){
+                    usuarioStore.logout(context: context, scaffoldKey: scaffoldKey);
+                  },
                 ),
                 Container(
                   padding: EdgeInsets.only(
