@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/services/main_service.dart';
-import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 class UsuarioService extends MainService {
@@ -10,9 +9,9 @@ class UsuarioService extends MainService {
       "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*\$";
 
   Future<Usuario> me() async {
-
-    final response = await http.get(urlApi + '/api/me',
-        headers: {'Authorization': "Bearer "+MainService.token},
+    final response = await http.get(
+      urlApi + '/api/me',
+      headers: {'Authorization': "Bearer " + MainService.token},
     );
 
     if (response.statusCode == 200) {
@@ -23,9 +22,9 @@ class UsuarioService extends MainService {
   }
 
   Future<bool> logout() async {
-
-    final response = await http.get(urlApi + '/auth/logout',
-      headers: {'Authorization': "Bearer "+MainService.token},
+    final response = await http.get(
+      urlApi + '/auth/logout',
+      headers: {'Authorization': "Bearer " + MainService.token},
     );
 
     if (response.statusCode == 200) {
@@ -36,14 +35,12 @@ class UsuarioService extends MainService {
   }
 
   Future<bool> login(String email, String senha) async {
-
     final response = await http.post(urlApi + '/auth/login',
         //headers: {'auth': _auth},
         body: {
           "email": email,
           "password": senha,
-        }
-    );
+        });
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonMap = json.decode(response.body);
@@ -59,8 +56,12 @@ class UsuarioService extends MainService {
     return false;
   }
 
-  Future<bool> signin({String nome, String email, String cpfCnj, String cnh, String senha}) async {
-
+  Future<bool> signin(
+      {String nome,
+      String email,
+      String cpfCnj,
+      String cnh,
+      String senha}) async {
     final response = await http.post(urlApi + '/auth/signin',
         //headers: {'auth': _auth},
         body: {
@@ -69,8 +70,7 @@ class UsuarioService extends MainService {
           "cpf_cnpj": cpfCnj,
           "cnh": cnh,
           "password": senha,
-        }
-    );
+        });
 
     if (response.statusCode == 200) {
       return true;
@@ -79,4 +79,44 @@ class UsuarioService extends MainService {
     }
   }
 
+  Future<bool> generateRecoverCode(String email) async {
+    final response =
+        await http.post(urlApi + '/auth/generaterecovercode', body: {
+      "email": email,
+    });
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception(response.body);
+    }
+  }
+
+  Future<bool> validateRecoverCode(String email, String code) async {
+    final response =
+        await http.post(urlApi + '/auth/validaterecoverycode', body: {
+      "email": email,
+      "code": code,
+    });
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception(response.body);
+    }
+  }
+
+  Future<bool> recoverPassword(String email, String code, String password) async {
+    final response = await http.post(urlApi + '/auth/recoverypassword', body: {
+      "email": email,
+      "code": code,
+      "new_password": password,
+    });
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception(response.body);
+    }
+  }
 }

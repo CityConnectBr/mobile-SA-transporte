@@ -158,7 +158,8 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                           setState(
                               () => this._hidePassword = !this._hidePassword);
                         },
-                      )),
+                      )
+                  ),
                   SizedBox(
                     height: 16.0,
                   ),
@@ -180,7 +181,8 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                           setState(() => this._hideConfirmPassword =
                               !this._hideConfirmPassword);
                         },
-                      )),
+                      )
+                  ),
                   SizedBox(
                     height: 26.0,
                   ),

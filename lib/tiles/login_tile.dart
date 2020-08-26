@@ -1,3 +1,4 @@
+import 'package:cityconnect/screen/recuperacao_senha_screen.dart';
 import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
@@ -125,7 +126,10 @@ class _LoginTileState extends State<LoginTile> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => RecuperacaoDeSenhaScreen()));
+                    },
                   ),
                 ],
               ),

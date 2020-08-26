@@ -24,6 +24,40 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
     });
   }
 
+  final _$showRecoverCodeFieldAtom =
+      Atom(name: '_UsuarioStore.showRecoverCodeField');
+
+  @override
+  bool get showRecoverCodeField {
+    _$showRecoverCodeFieldAtom.reportRead();
+    return super.showRecoverCodeField;
+  }
+
+  @override
+  set showRecoverCodeField(bool value) {
+    _$showRecoverCodeFieldAtom.reportWrite(value, super.showRecoverCodeField,
+        () {
+      super.showRecoverCodeField = value;
+    });
+  }
+
+  final _$showRecoverPasswordFieldAtom =
+      Atom(name: '_UsuarioStore.showRecoverPasswordField');
+
+  @override
+  bool get showRecoverPasswordField {
+    _$showRecoverPasswordFieldAtom.reportRead();
+    return super.showRecoverPasswordField;
+  }
+
+  @override
+  set showRecoverPasswordField(bool value) {
+    _$showRecoverPasswordFieldAtom
+        .reportWrite(value, super.showRecoverPasswordField, () {
+      super.showRecoverPasswordField = value;
+    });
+  }
+
   final _$usuarioAtom = Atom(name: '_UsuarioStore.usuario');
 
   @override
@@ -86,6 +120,56 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
         scaffoldKey: scaffoldKey));
   }
 
+  final _$initPasswordRecoveryAsyncAction =
+      AsyncAction('_UsuarioStore.initPasswordRecovery');
+
+  @override
+  Future<void> initPasswordRecovery(
+      {String email,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$initPasswordRecoveryAsyncAction.run(() => super
+        .initPasswordRecovery(
+            email: email, context: context, scaffoldKey: scaffoldKey));
+  }
+
+  final _$validateRecoveryCodeAsyncAction =
+      AsyncAction('_UsuarioStore.validateRecoveryCode');
+
+  @override
+  Future<void> validateRecoveryCode(
+      {String email,
+      String code,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$validateRecoveryCodeAsyncAction.run(() => super
+        .validateRecoveryCode(
+            email: email,
+            code: code,
+            context: context,
+            scaffoldKey: scaffoldKey));
+  }
+
+  final _$recoveryPasswordAsyncAction =
+      AsyncAction('_UsuarioStore.recoveryPassword');
+
+  @override
+  Future<void> recoveryPassword(
+      {String email,
+      String code,
+      String senha,
+      String confirmacaoDeSenha,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$recoveryPasswordAsyncAction.run(() => super.recoveryPassword(
+        email: email,
+        code: code,
+        senha: senha,
+        confirmacaoDeSenha: confirmacaoDeSenha,
+        context: context,
+        scaffoldKey: scaffoldKey));
+  }
+
   final _$logoutAsyncAction = AsyncAction('_UsuarioStore.logout');
 
   @override
@@ -99,6 +183,8 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
   String toString() {
     return '''
 loading: ${loading},
+showRecoverCodeField: ${showRecoverCodeField},
+showRecoverPasswordField: ${showRecoverPasswordField},
 usuario: ${usuario}
     ''';
   }

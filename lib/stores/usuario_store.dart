@@ -16,6 +16,10 @@ class UsuarioStore = _UsuarioStore with _$UsuarioStore;
 abstract class _UsuarioStore with Store {
   @observable
   bool loading = false;
+  @observable
+  bool showRecoverCodeField = false;
+  @observable
+  bool showRecoverPasswordField = false;
 
   UsuarioService _usuarioService = UsuarioService();
 
@@ -105,6 +109,80 @@ abstract class _UsuarioStore with Store {
 
     loading = false;
   }
+
+  @action
+  Future<void> initPasswordRecovery(
+      {String email,
+        BuildContext context,
+        GlobalKey<ScaffoldState> scaffoldKey}) async {
+    loading = true;
+
+      try {
+        if (await _usuarioService.generateRecoverCode(email)) {
+          this.showRecoverCodeField = true;
+        }
+      } catch (e) {
+        SnackMessages.showSnackBarError(
+            context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      }
+
+    loading = false;
+  }
+
+  @action
+  Future<void> validateRecoveryCode(
+      {String email,
+        String code,
+        BuildContext context,
+        GlobalKey<ScaffoldState> scaffoldKey}) async {
+    loading = true;
+
+    try {
+      if (await _usuarioService.validateRecoverCode(email, code)) {
+        this.showRecoverPasswordField = true;
+      }
+    } catch (e) {
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+
+    loading = false;
+  }
+
+  @action
+  Future<void> recoveryPassword(
+      {String email,
+        String code,
+        String senha,
+        String confirmacaoDeSenha,
+        BuildContext context,
+        GlobalKey<ScaffoldState> scaffoldKey}) async {
+    loading = true;
+
+    bool aux = true;
+    if (senha.compareTo(confirmacaoDeSenha) != 0) {
+      aux = false;
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, "A senhas sua confirmação não são iguais.");
+    }
+
+    if (aux) {
+      try {
+        if (await _usuarioService.recoverPassword(email, code, senha)) {
+          this.showRecoverCodeField = false;
+          this.showRecoverPasswordField = false;
+
+          SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Troca de senha efetuada com sucesso!");
+        }
+      } catch (e) {
+        SnackMessages.showSnackBarError(
+            context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      }
+    }
+
+    loading = false;
+  }
+
 
   @action
   Future<void> logout(
