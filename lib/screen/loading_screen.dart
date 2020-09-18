@@ -34,7 +34,11 @@ class _LoadingScreenState extends State<LoadingStartScreen>
         await Future.delayed(Duration(seconds: 3));
       }
 
-      _usuarioStore.isLoggedIn(context);
+      try {
+        _usuarioStore.isLoggedInWithRedirect(context: context);
+      }catch(e){
+
+      }
     }
   }
 

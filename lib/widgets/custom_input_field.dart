@@ -15,6 +15,7 @@ class CustomFormInputField extends StatelessWidget {
   final Function onEditingComplete;
   final Function onChanged;
   final TextEditingController controller;
+  final int maxLength;
 
   CustomFormInputField({
     this.controller,
@@ -28,7 +29,8 @@ class CustomFormInputField extends StatelessWidget {
     this.validator,
     this.onEditingComplete,
     this.onChanged,
-    this.enabled,
+    this.enabled=true,
+    this.maxLength=null
   });
 
   @override
@@ -40,7 +42,7 @@ class CustomFormInputField extends StatelessWidget {
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: Util.hexToColor("#F7F8F9"),
+        fillColor: (this.enabled)?Util.hexToColor("#F7F8F9"):Colors.grey[200],
         hintText: hint,
         labelText: label,
         labelStyle: TextStyle(fontWeight: FontWeight.bold),
@@ -56,7 +58,10 @@ class CustomFormInputField extends StatelessWidget {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: Colors.red, width: 1.0),
-
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.grey[200], width: 1.0),
         ),
       ),
       style: TextStyle(color: Util.hexToColor("#444444")),
@@ -66,6 +71,7 @@ class CustomFormInputField extends StatelessWidget {
       keyboardType: type,
       validator: validator,
       enabled: enabled != null ? enabled : true,
+      maxLength: maxLength,
     );
   }
 }

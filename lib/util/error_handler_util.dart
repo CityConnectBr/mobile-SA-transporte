@@ -1,27 +1,33 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+
 class ErrorHandlerUtil {
-  final Exception exception;
+  final Object exception;
 
   ErrorHandlerUtil(this.exception);
 
   dynamic getMessegeToUser() {
-    print(exception);
+
     try {
-      if (exception.runtimeType == SocketException) {
-        return "Falha ao conectar ao servidor.";
-      } else {
-        final Map<String, dynamic> jsonData =
-            json.decode(exception.toString().replaceFirst("Exception: ", ""));
-        if (jsonData.containsKey("message")) {
-          return jsonData['message'];
-        } else {
-          String msgs = "Problemas encontrados:";
-          jsonData.values.forEach((element) {
+      if (exception is Exception) {
+        if (exception.runtimeType == SocketException) {
+          return "Falha ao conectar ao servidor.";
+        } else if (exception.runtimeType == DioError) {
+          DioError dioError = exception;
+
+          final Map<String, dynamic> jsonData = json.decode(
+              dioError.response.toString().replaceFirst("Exception: ", ""));
+          if (jsonData.containsKey("message")) {
+            return jsonData['message'];
+          } else if (jsonData.containsKey("messages")) {
+            String msgs = "Problemas encontrados:";
+            jsonData['messages'].values.forEach((element) {
               msgs = msgs + "\n - " + element[0];
-          });
-          return msgs;
+            });
+            return msgs;
+          }
         }
       }
     } catch (e) {

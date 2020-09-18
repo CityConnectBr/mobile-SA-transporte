@@ -2,11 +2,12 @@ import 'package:cpf_cnpj_validator/cnpj_validator.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
 class ValidatorsUtil {
-  static final Pattern stringLowerCasePattern = "(?=.*[a-z])";
-  static final Pattern stringUpperCasePattern = "(?=.*[A-Z])";
-  static final Pattern numericPattern = "(?=.*[0-9])";
-  static final Pattern minCharacterPattern = "(?=.{6,})";
-  static final Pattern phonePattern = "^[0-9]{2}([0-9]{9}|[0-9]{8})";
+  static final Pattern numericPattern = "^[0-9]*\$";
+  static final Pattern min6CharacterPattern = "(?=.{6,})";
+  static final Pattern min1CharacterPattern = "(?=.{1,})";
+  static final Pattern phonePattern = "^[0-9]{2}([0-9]{9}|[0-9]{8})\$";
+  static final Pattern cepPattern = "^\\d{5}-\\d{3}\$";
+  static final Pattern ufPattern = "^(AC|AL|AP|AM|BA|CE|DF|GO|ES|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SP|SC|SE|TO)\$";
   static final Pattern dateTimePattern =
       "^(\\d{4})-(\\d\\d)-(\\d\\d)T(\\d\\d):(\\d\\d):(\\d\\d).(\\d\\d\\d)Z\$";
 
@@ -20,7 +21,7 @@ class ValidatorsUtil {
     //RegExp regex1 = new RegExp(numericPattern);
     //RegExp regex2 = new RegExp(stringLowerCasePattern);
     //RegExp regex3 = new RegExp(stringUpperCasePattern);
-    RegExp regex4 = new RegExp(minCharacterPattern);
+    RegExp regex4 = new RegExp(min6CharacterPattern);
 
     if (!regex4.hasMatch(value))
       return 'Senha inválida. Mínimo de 6 caracteres.';
@@ -70,17 +71,41 @@ class ValidatorsUtil {
       return null;
   }
 
-  static bool validateDateTime(String value) {
+  /*static bool validateDateTime(String value) {
     RegExp regex = new RegExp(dateTimePattern);
-    if (regex.hasMatch(value))
+    if (!regex.hasMatch(value))
       return true;
     else
       return false;
-  }
+  }*/
 
   static String validateIsEmpty(String value) {
     if (value == null || value.isEmpty)
       return 'Campo vazio';
+    else
+      return null;
+  }
+
+  static String validateOneCaracter(String value) {
+    RegExp regex = new RegExp(min1CharacterPattern);
+    if (!regex.hasMatch(value))
+      return 'Campo inválido';
+    else
+      return null;
+  }
+
+  static String validateCEP(String value) {
+    RegExp regex = new RegExp(cepPattern);
+    if (!regex.hasMatch(value))
+      return 'Campo inválido';
+    else
+      return null;
+  }
+
+  static String validateUF(String value) {
+    RegExp regex = new RegExp(ufPattern);
+    if (!regex.hasMatch(value.toUpperCase()))
+      return 'UF não encontrado';
     else
       return null;
   }

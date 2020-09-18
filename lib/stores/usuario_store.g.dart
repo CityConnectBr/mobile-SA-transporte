@@ -73,11 +73,15 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
     });
   }
 
-  final _$isLoggedInAsyncAction = AsyncAction('_UsuarioStore.isLoggedIn');
+  final _$isLoggedInWithRedirectAsyncAction =
+      AsyncAction('_UsuarioStore.isLoggedInWithRedirect');
 
   @override
-  Future<void> isLoggedIn(BuildContext context) {
-    return _$isLoggedInAsyncAction.run(() => super.isLoggedIn(context));
+  Future<bool> isLoggedInWithRedirect(
+      {@required BuildContext context, bool redirectToHomeIfLogged = true}) {
+    return _$isLoggedInWithRedirectAsyncAction.run(() => super
+        .isLoggedInWithRedirect(
+            context: context, redirectToHomeIfLogged: redirectToHomeIfLogged));
   }
 
   final _$loginAsyncAction = AsyncAction('_UsuarioStore.login');
@@ -170,13 +174,57 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
         scaffoldKey: scaffoldKey));
   }
 
+  final _$editUserAsyncAction = AsyncAction('_UsuarioStore.editUser');
+
+  @override
+  Future<void> editUser(
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$editUserAsyncAction
+        .run(() => super.editUser(context: context, scaffoldKey: scaffoldKey));
+  }
+
+  final _$saveUserAsyncAction = AsyncAction('_UsuarioStore.saveUser');
+
+  @override
+  Future<void> saveUser(
+      {String nome,
+      String rg,
+      String naturalidade,
+      String nacionalidade,
+      String inscricaoMunicipal,
+      DateTime dataNascimento,
+      String ddd,
+      String telefone,
+      String telefone2,
+      String celular,
+      String cnh,
+      String categoriaCNH,
+      DateTime vencimentoCNH,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$saveUserAsyncAction.run(() => super.saveUser(
+        nome: nome,
+        rg: rg,
+        naturalidade: naturalidade,
+        nacionalidade: nacionalidade,
+        inscricaoMunicipal: inscricaoMunicipal,
+        dataNascimento: dataNascimento,
+        ddd: ddd,
+        telefone: telefone,
+        telefone2: telefone2,
+        celular: celular,
+        cnh: cnh,
+        categoriaCNH: categoriaCNH,
+        vencimentoCNH: vencimentoCNH,
+        context: context,
+        scaffoldKey: scaffoldKey));
+  }
+
   final _$logoutAsyncAction = AsyncAction('_UsuarioStore.logout');
 
   @override
-  Future<void> logout(
-      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
-    return _$logoutAsyncAction
-        .run(() => super.logout(context: context, scaffoldKey: scaffoldKey));
+  Future<void> logout({BuildContext context}) {
+    return _$logoutAsyncAction.run(() => super.logout(context: context));
   }
 
   @override

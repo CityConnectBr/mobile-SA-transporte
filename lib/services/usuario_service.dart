@@ -2,58 +2,35 @@ import 'dart:convert';
 
 import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/services/main_service.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
 class UsuarioService extends MainService {
   static final Pattern jwtPattern =
       "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*\$";
 
   Future<Usuario> me() async {
-    final response = await http.get(
-      urlApi + '/api/me',
-      headers: {'Authorization': "Bearer " + MainService.token},
-    );
-
-    if (response.statusCode == 200) {
-      return Usuario.fromJson(json.decode(response.body));
-    } else {
-      throw Exception(response.body);
-    }
+    return Usuario.fromJson(
+        (await dio.get(urlApi + '/api/me', options: await getHeader())).data);
   }
 
   Future<bool> logout() async {
-    final response = await http.get(
-      urlApi + '/auth/logout',
-      headers: {'Authorization': "Bearer " + MainService.token},
-    );
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception(response.body);
-    }
+    await dio.get(urlApi + '/auth/logout', options: await getHeader());
+    return true;
   }
 
-  Future<bool> login(String email, String senha) async {
-    final response = await http.post(urlApi + '/auth/login',
-        //headers: {'auth': _auth},
-        body: {
-          "email": email,
-          "password": senha,
-        });
+  Future<String> login(String email, String senha) async {
+    Response response = await dio.post(urlApi + '/auth/login', data: {
+      "email": email,
+      "password": senha,
+    });
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> jsonMap = json.decode(response.body);
-      if (new RegExp(jwtPattern).hasMatch(jsonMap['token'])) {
-        MainService.token = jsonMap['token'];
-        print(MainService.token);
-        return true;
-      }
-    } else {
-      throw Exception(response.body);
+    Map<String, dynamic> jsonMap = response.data;
+    if (new RegExp(jwtPattern).hasMatch(jsonMap['token'])) {
+      return jsonMap['token'];
     }
 
-    return false;
+    return null;
   }
 
   Future<bool> signin(
@@ -62,61 +39,80 @@ class UsuarioService extends MainService {
       String cpfCnj,
       String cnh,
       String senha}) async {
-    final response = await http.post(urlApi + '/auth/signin',
-        //headers: {'auth': _auth},
-        body: {
-          "nome": nome,
-          "email": email,
-          "cpf_cnpj": cpfCnj,
-          "cnh": cnh,
-          "password": senha,
-        });
+    await dio.post(urlApi + '/auth/signin', data: {
+      "nome": nome,
+      "email": email,
+      "cpf_cnpj": cpfCnj,
+      "cnh": cnh,
+      "password": senha,
+    });
 
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception(response.body);
-    }
+    return true;
+  }
+
+  Future<bool> update(Usuario usuario) async {
+    await dio.put(
+      urlApi + '/api/me',
+      data: usuario.toMap(),
+      options: await getHeader(),
+    );
+
+    return true;
+  }
+
+  Future<bool> updatePassword({@required String senhaAtual, @required String novaSenha}) async {
+    await dio.patch(
+      urlApi + '/api/password',
+      data: {"password": senhaAtual, "new_password": novaSenha},
+      options: await getHeader(),
+    );
+    return true;
   }
 
   Future<bool> generateRecoverCode(String email) async {
-    final response =
-        await http.post(urlApi + '/auth/generaterecovercode', body: {
-      "email": email,
-    });
+    await dio.post(
+      urlApi + '/auth/generaterecovercode',
+      data: {"email": email},
+    );
 
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception(response.body);
-    }
+    return true;
   }
 
   Future<bool> validateRecoverCode(String email, String code) async {
-    final response =
-        await http.post(urlApi + '/auth/validaterecoverycode', body: {
-      "email": email,
-      "code": code,
-    });
+    await dio.post(
+      urlApi + '/auth/validaterecoverycode',
+      data: {
+        "email": email,
+        "code": code,
+      },
+    );
 
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception(response.body);
-    }
+    return true;
   }
 
-  Future<bool> recoverPassword(String email, String code, String password) async {
-    final response = await http.post(urlApi + '/auth/recoverypassword', body: {
-      "email": email,
-      "code": code,
-      "new_password": password,
-    });
+  Future<bool> recoverPassword(
+      String email, String code, String password) async {
+    await dio.post(
+      urlApi + '/auth/recoverypassword',
+      data: {
+        "email": email,
+        "code": code,
+        "new_password": password,
+      },
+    );
 
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception(response.body);
+    return true;
+  }
+
+  Future<String> refreshToken() async {
+    Response response =
+        await dio.get(urlApi + '/auth/refresh', options: await getHeader());
+
+    Map<String, dynamic> jsonMap = response.data;
+    if (new RegExp(jwtPattern).hasMatch(jsonMap['token'])) {
+      return jsonMap['token'];
     }
+
+    return null;
   }
 }

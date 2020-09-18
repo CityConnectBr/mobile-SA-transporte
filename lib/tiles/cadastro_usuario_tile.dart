@@ -1,11 +1,12 @@
-import 'package:cityconnect/screen/home_screen.dart';
 import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
+import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,7 +29,7 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
 
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
-  TextEditingController _documentController = MaskUtil.cpfMaskController;
+  TextEditingController _documentController = MaskedTextController(mask: MaskUtil.cpfMask);
   final _cnhController = TextEditingController();
   final _senhaController = TextEditingController();
   final _senhaConfirmacaoController = TextEditingController();
@@ -52,7 +53,7 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
 
     _nomeController.dispose();
     _emailController.dispose();
-    //_documentController.dispose();//retirado pois estava dando erro na troca de tabs
+    _documentController.dispose();
     _documentController.text = "";
     _cnhController.dispose();
     _senhaController.dispose();
@@ -227,7 +228,7 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                           usuarioStore.signin(
                               email: _emailController.text,
                               senha: _senhaController.text,
-                              cpfCnpj: _documentController.text,
+                              cpfCnpj: Util.clearString(_documentController.text),
                               cnh: _cnhController.text,
                               confirmacaoDeSenha:
                                   _senhaConfirmacaoController.text,
