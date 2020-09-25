@@ -1,4 +1,5 @@
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/models/condutor_model.dart';
+import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
@@ -12,64 +13,46 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class EditInformationTile extends StatefulWidget {
+class CondutorTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
+  final Condutor _condutor;
 
-  EditInformationTile(this._globalKey);
+  CondutorTile(this._globalKey, this._condutor);
 
   @override
-  _EditInformationTileState createState() =>
-      _EditInformationTileState(_globalKey);
+  _CondutorTileState createState() =>
+      _CondutorTileState(_globalKey, this._condutor);
 }
 
-class _EditInformationTileState extends State<EditInformationTile> {
+class _CondutorTileState extends State<CondutorTile> {
   final _nomeController = TextEditingController();
-  TextEditingController _documentController =
+  TextEditingController _cpfController =
       MaskedTextController(mask: MaskUtil.cpfMask);
   final _rgController = TextEditingController();
   final _natController = TextEditingController();
   final _nacController = TextEditingController();
-  final _inscricaoMunicipalController = TextEditingController();
   final _dataNascimentoController =
       MaskedTextController(mask: MaskUtil.dateMask);
   final _dddController = MaskedTextController(mask: MaskUtil.dddMask);
   final _phoneController = MaskedTextController(mask: MaskUtil.telefone8Mask);
-  final _phone2Controller = MaskedTextController(mask: MaskUtil.telefone8Mask);
   TextEditingController _celController =
       MaskedTextController(mask: MaskUtil.telefone8Mask);
   final _emailController = TextEditingController();
   final _cnhController = TextEditingController();
   final _vencimentoCNHController =
       MaskedTextController(mask: MaskUtil.dateMask);
-  final _modalidadeController = TextEditingController();
   String _categoriaCNH;
 
   final _dateFormat = Util.dateFormatddMMyyyy;
 
-  bool _flagCPF = true;
   bool _flagCelular = true;
   bool _flagIsLoad = false;
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
+  final Condutor _condutor;
 
-  _EditInformationTileState(this._scaffoldKey);
-
-  void _controllerMaskCPFCNPJ(String valor) {
-    if (valor.length > 14 && _flagCPF) {
-      _flagCPF = false;
-      setState(() {
-        _documentController = MaskUtil.getMaskControllerWithValue(
-            mask: MaskUtil.cnpjMask, value: valor);
-      });
-    } else if (valor.length <= 14 && !_flagCPF) {
-      _flagCPF = true;
-      setState(() {
-        _documentController = MaskUtil.getMaskControllerWithValue(
-            mask: MaskUtil.cpfMask, value: valor);
-      });
-    }
-  }
+  _CondutorTileState(this._scaffoldKey, this._condutor);
 
   void _controllerMaskCelular(String valor) {
     if (valor.length > 9 && _flagCelular) {
@@ -90,7 +73,6 @@ class _EditInformationTileState extends State<EditInformationTile> {
   @override
   void initState() {
     super.initState();
-    //_tabController = TabController(length: 2);
   }
 
   @override
@@ -98,62 +80,54 @@ class _EditInformationTileState extends State<EditInformationTile> {
     super.dispose();
 
     _nomeController.dispose();
-    _documentController.dispose();
+    _cpfController.dispose();
     _rgController.dispose();
     _natController.dispose();
     _nacController.dispose();
-    _inscricaoMunicipalController.dispose();
     _dataNascimentoController.dispose();
     _dddController.dispose();
     _phoneController.dispose();
-    _phone2Controller.dispose();
     _celController.dispose();
     _emailController.dispose();
     _cnhController.dispose();
     _vencimentoCNHController.dispose();
-    _modalidadeController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    CondutorStore condutorStore = Provider.of<CondutorStore>(context);
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
-
-      _nomeController.text = usuarioStore.usuario.permissionario.nome;
-      _documentController.text = usuarioStore.usuario.permissionario.cpfCnpj;
-      _rgController.text = usuarioStore.usuario.permissionario.rg;
-      _natController.text = usuarioStore.usuario.permissionario.naturalidade;
-      _nacController.text = usuarioStore.usuario.permissionario.nacionalidade;
-      _inscricaoMunicipalController.text =
-          usuarioStore.usuario.permissionario.inscricaoMunicipal;
+      _nomeController.text = this._condutor.nome;
+      _cpfController.text = Util.clearString(this._condutor.cpf);
+      _rgController.text = this._condutor.rg;
+      _natController.text = this._condutor.naturalidade;
+      _nacController.text = this._condutor.nacionalidade;
       _dataNascimentoController.text =
-          usuarioStore.usuario.permissionario.dataNascimento != null
-              ? this
-                  ._dateFormat
-                  .format(usuarioStore.usuario.permissionario.dataNascimento)
-              : null;
-      _dddController.text = usuarioStore.usuario.permissionario.ddd;
-      _phoneController.text = usuarioStore.usuario.permissionario.telefone;
-      _phone2Controller.text = usuarioStore.usuario.permissionario.telefone2;
-      _celController.text = usuarioStore.usuario.permissionario.celular;
-      _emailController.text = usuarioStore.usuario.permissionario.email;
-      _cnhController.text = usuarioStore.usuario.permissionario.cnh;
-      _categoriaCNH = usuarioStore.usuario.permissionario.categoriaCNH;
+      this._condutor.dataNascimento != null
+          ? this
+          ._dateFormat
+          .format(this._condutor.dataNascimento)
+          : null;
+      _dddController.text = this._condutor.ddd;
+      _phoneController.text = this._condutor.telefone;
+      _celController.text = this._condutor.celular;
+      _emailController.text = this._condutor.email;
+      _cnhController.text = this._condutor.cnh;
+      _categoriaCNH = this._condutor.categoriaCNH;
       _vencimentoCNHController.text =
-          usuarioStore.usuario.permissionario.vencimentoCNH != null
-              ? this
-                  ._dateFormat
-                  .format(usuarioStore.usuario.permissionario.vencimentoCNH)
-              : null;
-      _modalidadeController.text =
-          usuarioStore.usuario.permissionario.modalidade.descricao;
+      this._condutor.vencimentoCNH != null
+          ? this
+          ._dateFormat
+          .format(this._condutor.vencimentoCNH)
+          : null;
     }
+
 
     return Container(
       child: Observer(builder: (_) {
-        if (usuarioStore.loading)
+        if (condutorStore.loading)
           return Container(
             margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
             child: Center(
@@ -184,8 +158,8 @@ class _EditInformationTileState extends State<EditInformationTile> {
                     CustomFormInputField(
                       controller: _emailController,
                       label: "E-MAIL",
-                      enabled: false,
                       type: TextInputType.text,
+                      validator: ValidatorsUtil.validateEmail,
                       hint: "E-MAIL",
                     ),
                     SizedBox(
@@ -196,12 +170,11 @@ class _EditInformationTileState extends State<EditInformationTile> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
                           child: CustomFormInputField(
-                            controller: _documentController,
-                            label: "CPF/CNPJ",
+                            controller: _cpfController,
+                            label: "CPF",
                             type: TextInputType.text,
-                            enabled: false,
+                            validator: ValidatorsUtil.validateCPF,
                             hint: "CPF",
-                            onChanged: _controllerMaskCPFCNPJ,
                           ),
                         ),
                         Spacer(),
@@ -249,16 +222,6 @@ class _EditInformationTileState extends State<EditInformationTile> {
                       height: 16.0,
                     ),
                     CustomFormInputField(
-                      controller: _inscricaoMunicipalController,
-                      label: "INSCRIÇÃO MUNICIPAL",
-                      type: TextInputType.number,
-                      validator: ValidatorsUtil.validateIsEmpty,
-                      hint: "INSCRIÇÃO MUNICIPAL",
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    CustomFormInputField(
                       controller: _dataNascimentoController,
                       label: "DATA NASCIMENTO",
                       type: TextInputType.number,
@@ -295,29 +258,12 @@ class _EditInformationTileState extends State<EditInformationTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
-                            controller: _phone2Controller,
-                            label: "TELEFONE 2",
-                            type: TextInputType.text,
-                            hint: "TELEFONE 2",
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
-                            controller: _celController,
-                            label: "CELULAR",
-                            type: TextInputType.text,
-                            hint: "CELULAR",
-                            onChanged: _controllerMaskCelular,
-                          ),
-                        ),
-                      ],
+                    CustomFormInputField(
+                      controller: _celController,
+                      label: "CELULAR",
+                      type: TextInputType.text,
+                      hint: "CELULAR",
+                      onChanged: _controllerMaskCelular,
                     ),
                     SizedBox(
                       height: 16.0,
@@ -326,7 +272,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                       controller: _cnhController,
                       label: "CNH",
                       type: TextInputType.number,
-                      validator: ValidatorsUtil.validateNumber,
+                      validator: ValidatorsUtil.validateNumberAndNotIsEmpty,
                       hint: "CNH",
                     ),
                     SizedBox(
@@ -361,19 +307,6 @@ class _EditInformationTileState extends State<EditInformationTile> {
                       ],
                     ),
                     SizedBox(
-                      height: 16.0,
-                    ),
-                    CustomFormInputField(
-                      controller: _modalidadeController,
-                      label: "MODALIDADE",
-                      enabled: false,
-                      type: TextInputType.text,
-                      hint: "MODALIDADE",
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    SizedBox(
                       height: 30.0,
                     ),
                     CustomRaisedButtonBlue(
@@ -384,23 +317,22 @@ class _EditInformationTileState extends State<EditInformationTile> {
                               context: context,
                               text: "Tem certeza que\ndeseja salvar?",
                               voidCallbackSim: () {
-                                usuarioStore.saveUser(
+                                condutorStore.save(
                                     nome: this._nomeController.text,
-                                    cnh: this._cnhController.text,
-                                    categoriaCNH: this._categoriaCNH,
+                                    email: this._emailController.text,
+                                    cpf: Util.clearString(this._cpfController.text),
                                     celular: Util.clearString(this._celController.text),
                                     dataNascimento: this._dateFormat.parse(
                                         this._dataNascimentoController.text),
                                     ddd: this._dddController.text,
-                                    inscricaoMunicipal:
-                                    this._inscricaoMunicipalController.text,
                                     nacionalidade: this._nacController.text,
                                     naturalidade: this._natController.text,
                                     rg: this._rgController.text,
                                     telefone: Util.clearString(this._phoneController.text),
-                                    telefone2: Util.clearString(this._phone2Controller.text),
                                     vencimentoCNH: this._dateFormat.parse(
                                         this._vencimentoCNHController.text),
+                                    cnh: this._cnhController.text,
+                                    categoriaCNH: this._categoriaCNH,
                                     context: context,
                                     scaffoldKey: _scaffoldKey);
                               },

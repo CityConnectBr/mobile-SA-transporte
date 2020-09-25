@@ -4,6 +4,9 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:intl/intl.dart';
 
 class Util {
+
+  static final DateFormat dateFormatddMMyyyy = DateFormat("dd/MM/yyyy");
+
   static Color hexToColor(String code) {
     return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
   }

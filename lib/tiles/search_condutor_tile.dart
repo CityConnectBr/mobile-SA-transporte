@@ -1,14 +1,25 @@
+import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SearchMotoristaTile extends StatefulWidget {
+class SearchCondutorTile extends StatefulWidget {
+  SearchCondutorTile(this._scaffoldKey);
+
+  final GlobalKey<ScaffoldState> _scaffoldKey;
+
   @override
-  _SearchMotoristaTileState createState() => _SearchMotoristaTileState();
+  _SearchCondutorTileState createState() =>
+      _SearchCondutorTileState(_scaffoldKey);
 }
 
-class _SearchMotoristaTileState extends State<SearchMotoristaTile> {
-  final _motoristaController = TextEditingController();
+class _SearchCondutorTileState extends State<SearchCondutorTile> {
+  _SearchCondutorTileState(this._scaffoldKey);
+
+  final GlobalKey<ScaffoldState> _scaffoldKey;
+
+  final _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -19,11 +30,13 @@ class _SearchMotoristaTileState extends State<SearchMotoristaTile> {
   void dispose() {
     super.dispose();
 
-    _motoristaController.dispose();
+    _searchController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    CondutorStore _condutorStore = Provider.of<CondutorStore>(context);
+
     return Stack(
       children: <Widget>[
         Form(
@@ -33,11 +46,10 @@ class _SearchMotoristaTileState extends State<SearchMotoristaTile> {
               color: Colors.white,
             ),
             child: CustomFormInputField(
-              controller: _motoristaController,
+              controller: _searchController,
               label: "Buscar condutor",
               obscure: false,
               type: TextInputType.text,
-              // hint: "Insira o número da placa",
             ),
           ),
         ),
@@ -56,7 +68,12 @@ class _SearchMotoristaTileState extends State<SearchMotoristaTile> {
                   width: 22.0,
                   fit: BoxFit.contain,
                 ),
-                onTap: () {},
+                onTap: () {
+                  _condutorStore.pesquisarCondutores(
+                      search: this._searchController.text,
+                      scaffoldKey: _scaffoldKey,
+                      context: context);
+                },
               ),
             ],
           ),

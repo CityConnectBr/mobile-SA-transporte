@@ -1,16 +1,13 @@
 import 'package:cityconnect/models/endereco_model.dart';
-import 'package:cityconnect/models/modalidade_model.dart';
 import 'package:intl/intl.dart';
 
-class Permissionario {
+class Condutor {
   int id;
   String nome;
-  String tipo;
+  String cpf;
   String rg;
-  String inscricaoMunicipal; //inscricao_municipal
   String ddd;
   String telefone;
-  String telefone2;
   String celular;
   String email;
   DateTime dataNascimento;
@@ -19,22 +16,19 @@ class Permissionario {
   String cnh;
   String categoriaCNH; //categoria_cnh
   DateTime vencimentoCNH; //vencimento_cnh
-  String cpfCnpj;
-  Modalidade modalidade;
   Endereco endereco;
 
   final dateFormat = new DateFormat("yyyy-MM-dd");
 
-  Permissionario.fromJson(Map<String, dynamic> parsedJson) {
+  Condutor();
+
+  Condutor.fromJson(Map<String, dynamic> parsedJson) {
     this.id = parsedJson["id"];
     this.nome = parsedJson["nome"];
-    this.tipo = parsedJson["tipo"];
     this.rg = parsedJson["rg"];
-    this.cpfCnpj = parsedJson["cpf_cnpj"];
-    this.inscricaoMunicipal = parsedJson["inscricao_municipal"];
+    this.cpf = parsedJson["cpf"];
     this.ddd = parsedJson["ddd"];
     this.telefone = parsedJson["telefone"];
-    this.telefone2 = parsedJson["telefone2"];
     this.celular = parsedJson["celular"];
     this.email = parsedJson["email"];
     this.dataNascimento = parsedJson["data_nascimento"]!=null?dateFormat.parse(parsedJson["data_nascimento"]):null;
@@ -43,7 +37,6 @@ class Permissionario {
     this.cnh = parsedJson["cnh"];
     this.categoriaCNH = parsedJson["categoria_cnh"];
     this.vencimentoCNH = parsedJson["vencimento_cnh"]!=null?dateFormat.parse(parsedJson["vencimento_cnh"]):null;
-    this.modalidade = parsedJson["modalidade"]!=null?Modalidade.fromJson(parsedJson["modalidade"]):null;
     this.endereco = parsedJson["endereco"]!=null?Endereco.fromJson(parsedJson["endereco"]):null;
   }
 
@@ -51,12 +44,10 @@ class Permissionario {
     return {
       "id": id,
       "nome": nome,
-      "tipo": tipo,
+      "cpf": cpf,
       "rg": rg,
-      "inscricao_municipal": inscricaoMunicipal,
       "ddd": ddd,
       "telefone": telefone,
-      "telefone2": telefone2,
       "celular": celular,
       "email": email,
       "data_nascimento": dataNascimento!=null?dateFormat.format(dataNascimento):null,

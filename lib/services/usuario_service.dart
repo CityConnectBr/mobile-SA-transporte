@@ -2,36 +2,35 @@ import 'dart:convert';
 
 import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/services/main_service.dart';
+import 'package:cityconnect/util/validators.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 class UsuarioService extends MainService {
-  static final Pattern jwtPattern =
-      "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*\$";
-
-  Future<Usuario> me() async {
-    return Usuario.fromJson(
-        (await dio.get(urlApi + '/api/me', options: await getHeader())).data);
-  }
-
-  Future<bool> logout() async {
-    await dio.get(urlApi + '/auth/logout', options: await getHeader());
-    return true;
-  }
-
-  Future<String> login(String email, String senha) async {
-    Response response = await dio.post(urlApi + '/auth/login', data: {
+  
+   Future<String> login(String email, String senha) async {
+    Response response = await dio.post('/auth/login', data: {
       "email": email,
       "password": senha,
     });
 
     Map<String, dynamic> jsonMap = response.data;
-    if (new RegExp(jwtPattern).hasMatch(jsonMap['token'])) {
+    if (new RegExp(ValidatorsUtil.jwtPattern).hasMatch(jsonMap['token'])) {
+      MainService.setToken(jsonMap['token']);
       return jsonMap['token'];
     }
 
     return null;
   }
+
+   Future<Usuario> getUser() async {
+     return Usuario.fromJson((await dio.get('/api/user')).data);
+   }
+
+   Future<bool> logout() async {
+     await dio.get('/auth/logout');
+     return true;
+   }
 
   Future<bool> signin(
       {String nome,
@@ -39,7 +38,7 @@ class UsuarioService extends MainService {
       String cpfCnj,
       String cnh,
       String senha}) async {
-    await dio.post(urlApi + '/auth/signin', data: {
+    await dio.post('/auth/signin', data: {
       "nome": nome,
       "email": email,
       "cpf_cnpj": cpfCnj,
@@ -52,26 +51,25 @@ class UsuarioService extends MainService {
 
   Future<bool> update(Usuario usuario) async {
     await dio.put(
-      urlApi + '/api/me',
+      '/api/user',
       data: usuario.toMap(),
-      options: await getHeader(),
     );
 
     return true;
   }
 
-  Future<bool> updatePassword({@required String senhaAtual, @required String novaSenha}) async {
+  Future<bool> updatePassword(
+      {@required String senhaAtual, @required String novaSenha}) async {
     await dio.patch(
-      urlApi + '/api/password',
+      '/api/password',
       data: {"password": senhaAtual, "new_password": novaSenha},
-      options: await getHeader(),
     );
     return true;
   }
 
   Future<bool> generateRecoverCode(String email) async {
     await dio.post(
-      urlApi + '/auth/generaterecovercode',
+      '/auth/generaterecovercode',
       data: {"email": email},
     );
 
@@ -80,7 +78,7 @@ class UsuarioService extends MainService {
 
   Future<bool> validateRecoverCode(String email, String code) async {
     await dio.post(
-      urlApi + '/auth/validaterecoverycode',
+      '/auth/validaterecoverycode',
       data: {
         "email": email,
         "code": code,
@@ -93,7 +91,7 @@ class UsuarioService extends MainService {
   Future<bool> recoverPassword(
       String email, String code, String password) async {
     await dio.post(
-      urlApi + '/auth/recoverypassword',
+      '/auth/recoverypassword',
       data: {
         "email": email,
         "code": code,
@@ -104,15 +102,4 @@ class UsuarioService extends MainService {
     return true;
   }
 
-  Future<String> refreshToken() async {
-    Response response =
-        await dio.get(urlApi + '/auth/refresh', options: await getHeader());
-
-    Map<String, dynamic> jsonMap = response.data;
-    if (new RegExp(jwtPattern).hasMatch(jsonMap['token'])) {
-      return jsonMap['token'];
-    }
-
-    return null;
-  }
 }

@@ -1,7 +1,4 @@
-import 'package:cityconnect/screen/fiscal/search_condutor_screen.dart';
-import 'package:cityconnect/screen/permissionario/cadastro_condutor_screen.dart';
-import 'package:cityconnect/screen/permissionario/cadastro_veiculo_screen.dart';
-import 'package:cityconnect/screen/user_screen.dart';
+import 'package:cityconnect/screen/search_condutor_screen.dart';
 import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/tiles/custom_list_tile.dart';
 import 'package:cityconnect/util/util.dart';
@@ -43,8 +40,8 @@ class CustomDrawerTile extends StatelessWidget {
       CustomListTile(
         title: "VEÍCULOS",
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => CadastroCondutorScreen()));
+//          Navigator.of(context).push(MaterialPageRoute(
+//              builder: (context) => CondutorScreen()));
         },
       ),
       SizedBox(height: 24.0),
@@ -140,7 +137,8 @@ class CustomDrawerTile extends StatelessWidget {
                   Spacer(),
                   Observer(builder: (_) {
                     return Text(
-                      usuarioStore.usuario.nome,
+                      usuarioStore.usuario.nome.capitalize(),
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: "InterBold",
                         fontSize: 18.0,

@@ -73,17 +73,6 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
     });
   }
 
-  final _$isLoggedInWithRedirectAsyncAction =
-      AsyncAction('_UsuarioStore.isLoggedInWithRedirect');
-
-  @override
-  Future<bool> isLoggedInWithRedirect(
-      {@required BuildContext context, bool redirectToHomeIfLogged = true}) {
-    return _$isLoggedInWithRedirectAsyncAction.run(() => super
-        .isLoggedInWithRedirect(
-            context: context, redirectToHomeIfLogged: redirectToHomeIfLogged));
-  }
-
   final _$loginAsyncAction = AsyncAction('_UsuarioStore.login');
 
   @override
@@ -218,6 +207,59 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
         vencimentoCNH: vencimentoCNH,
         context: context,
         scaffoldKey: scaffoldKey));
+  }
+
+  final _$saveEnderecoAsyncAction = AsyncAction('_UsuarioStore.saveEndereco');
+
+  @override
+  Future<void> saveEndereco(
+      {String cep,
+      String endereco,
+      String numero,
+      String complemento,
+      String bairro,
+      String municipio,
+      String uf,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$saveEnderecoAsyncAction.run(() => super.saveEndereco(
+        cep: cep,
+        endereco: endereco,
+        numero: numero,
+        complemento: complemento,
+        bairro: bairro,
+        municipio: municipio,
+        uf: uf,
+        context: context,
+        scaffoldKey: scaffoldKey));
+  }
+
+  final _$savePasswordAsyncAction = AsyncAction('_UsuarioStore.savePassword');
+
+  @override
+  Future<void> savePassword(
+      {String senhaAtual,
+      String senha,
+      String confirmacao,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$savePasswordAsyncAction.run(() => super.savePassword(
+        senhaAtual: senhaAtual,
+        senha: senha,
+        confirmacao: confirmacao,
+        context: context,
+        scaffoldKey: scaffoldKey));
+  }
+
+  final _$isLoggedInWithRedirectAsyncAction =
+      AsyncAction('_UsuarioStore.isLoggedInWithRedirect');
+
+  @override
+  Future<bool> isLoggedInWithRedirect(
+      {@required BuildContext context, bool redirectToHomeIfLogged = true}) {
+    return _$isLoggedInWithRedirectAsyncAction.run(() => super
+        .isLoggedInWithRedirect(
+            context: context, redirectToHomeIfLogged: redirectToHomeIfLogged));
   }
 
   final _$logoutAsyncAction = AsyncAction('_UsuarioStore.logout');

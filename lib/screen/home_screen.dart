@@ -1,6 +1,3 @@
-import 'package:cityconnect/screen/fiscal/search_condutor_screen.dart';
-import 'package:cityconnect/screen/fiscal/search_veiculo_screen.dart';
-import 'package:cityconnect/screen/permissionario/cadastro_condutor_screen.dart';
 import 'package:cityconnect/tiles/custom_drawer.dart';
 import 'package:cityconnect/tiles/fiscal/home_fiscal.dart';
 import 'package:cityconnect/widgets/custom_input_field_shadow.dart';

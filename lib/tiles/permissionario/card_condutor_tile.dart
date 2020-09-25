@@ -1,19 +1,14 @@
+import 'package:cityconnect/models/condutor_model.dart';
+import 'package:cityconnect/util/style_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/widgets/custom_text_search_result.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class CustomMotoristaSearchResult extends StatelessWidget {
-  final String imagem;
-  final String name;
-  final String cnh;
-  final String vencimentoCNH;
+class CardCondutorTile extends StatelessWidget {
+  final Condutor _condutor;
 
-  CustomMotoristaSearchResult({
-    this.imagem,
-    this.name,
-    this.cnh,
-    this.vencimentoCNH,
-  });
+  CardCondutorTile(this._condutor);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +34,7 @@ class CustomMotoristaSearchResult extends StatelessWidget {
                     image: //_fotoStr != null
                         // ? FileImage(File(_fotoStr))
                         // :
-                        AssetImage(imagem))),
+                        AssetImage("images/foto_motorista.png"))),
           ),
           SizedBox(
             width: 20.0,
@@ -49,25 +44,17 @@ class CustomMotoristaSearchResult extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CustomTextSearchResult(
-                  customText: name,
-                  color: Util.hexToColor("#828282"),
+                  customText: this._condutor.nome,
+                  color: StyleUtil.colorGrey,
                 ),
                 SizedBox(
                   height: 5.0,
                 ),
                 CustomTextSearchResult(
                   customText: "CNH: ",
-                  item: cnh,
-                  color: Util.hexToColor("#828282"),
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                CustomTextSearchResult(
-                  customText: "Vencimento: ",
-                  item: vencimentoCNH,
-                  color: Util.hexToColor("#828282"),
-                ),
+                  item: this._condutor.cnh,
+                  color: StyleUtil.colorGrey,
+                )
               ],
             ),
           ),

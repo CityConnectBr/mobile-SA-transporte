@@ -2,7 +2,6 @@ import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/screen/home_screen.dart';
 import 'package:cityconnect/screen/login_screen.dart';
 import 'package:cityconnect/screen/user_screen.dart';
-import 'package:cityconnect/services/main_service.dart';
 import 'package:cityconnect/services/usuario_service.dart';
 import 'package:cityconnect/util/error_handler_util.dart';
 import 'package:cityconnect/util/preferences.dart';
@@ -31,35 +30,6 @@ abstract class _UsuarioStore with Store {
   Usuario usuario;
 
   @action
-  Future<bool> isLoggedInWithRedirect(
-      {@required BuildContext context,
-      bool redirectToHomeIfLogged = true}) async {
-    print("isLoggedInWithRedirect");
-
-    try {
-      if (await this.isLoggedIn(context)) {
-        if (redirectToHomeIfLogged) {
-          print("isLoggedInWithRedirect IF");
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomeScreen()));
-        }
-        return true;
-      } else {
-        print("isLoggedInWithRedirect ELSE");
-        //this.logout(context: context);
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()));
-      }
-    } catch (e) {
-      print(e);
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => LoginScreen()));
-    }
-
-    return false;
-  }
-
-  @action
   Future<void> login(
       {String email,
       String senha,
@@ -75,9 +45,9 @@ abstract class _UsuarioStore with Store {
       }
 
       //armazenando token gerado
-      _prefs.save(Preferences.KEY_LAST_JWT, token);
+      await _prefs.save(Preferences.KEY_LAST_JWT, token);
 
-      usuario = await _usuarioService.me();
+      usuario = await _usuarioService.getUser();
 
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomeScreen()));
@@ -131,9 +101,9 @@ abstract class _UsuarioStore with Store {
           }
 
           //armazenando token gerado
-          _prefs.save(Preferences.KEY_LAST_JWT, token);
+          await _prefs.save(Preferences.KEY_LAST_JWT, token);
 
-          usuario = await _usuarioService.me();
+          usuario = await _usuarioService.getUser();
 
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => HomeScreen()));
@@ -362,6 +332,35 @@ abstract class _UsuarioStore with Store {
   }
 
   @action
+  Future<bool> isLoggedInWithRedirect(
+      {@required BuildContext context,
+        bool redirectToHomeIfLogged = true}) async {
+    print("isLoggedInWithRedirect");
+
+    try {
+      if (await this.isLoggedIn(context)) {
+        if (redirectToHomeIfLogged) {
+          print("isLoggedInWithRedirect IF");
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomeScreen()));
+        }
+        return true;
+      } else {
+        print("isLoggedInWithRedirect ELSE");
+        //this.logout(context: context);
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()));
+      }
+    } catch (e) {
+      print(e);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => LoginScreen()));
+    }
+
+    return false;
+  }
+
+  @action
   Future<void> logout({BuildContext context}) async {
     try {
       _prefs.save(Preferences.KEY_LAST_JWT, null);
@@ -374,34 +373,11 @@ abstract class _UsuarioStore with Store {
   }
 
   Future<bool> isLoggedIn(BuildContext context) async {
-    String token = await _prefs.get(Preferences.KEY_LAST_JWT);
-    print(token);
-    bool tudoOk = false;
-    if (token == null) {
-      throw Exception("Nenhum token encontrado");
-    } else {
-      try {
-        this.usuario = await this._usuarioService.me();
-        tudoOk = this.usuario != null;
-      } catch (e) {
-        String newToken =
-            await await _prefs.save(Preferences.KEY_LAST_JWT, token);
-
-        if (newToken == null) {
-          throw Exception("Novo token inválido");
-        }
-
-        //armazenando token gerado
-        await _prefs.save(Preferences.KEY_LAST_JWT, newToken);
-        this._reloadUser();
-        tudoOk = this.usuario != null;
-      }
-    }
-
-    return tudoOk;
+    this.usuario = await this._usuarioService.getUser();
+    return this.usuario!=null;
   }
 
   Future<void> _reloadUser() async {
-    this.usuario = await this._usuarioService.me();
+    this.usuario = await this._usuarioService.getUser();
   }
 }

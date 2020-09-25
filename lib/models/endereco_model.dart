@@ -12,6 +12,8 @@ class Endereco {
 
   final dateFormat = new DateFormat("yyyy-MM-dd");
 
+  Endereco();
+
   Endereco.fromJson(Map<String, dynamic> parsedJson) {
     this.id = parsedJson["id"];
     this.cep = parsedJson["cep"];

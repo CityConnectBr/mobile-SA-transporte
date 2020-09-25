@@ -7,9 +7,12 @@ class ValidatorsUtil {
   static final Pattern min1CharacterPattern = "(?=.{1,})";
   static final Pattern phonePattern = "^[0-9]{2}([0-9]{9}|[0-9]{8})\$";
   static final Pattern cepPattern = "^\\d{5}-\\d{3}\$";
-  static final Pattern ufPattern = "^(AC|AL|AP|AM|BA|CE|DF|GO|ES|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SP|SC|SE|TO)\$";
+  static final Pattern ufPattern =
+      "^(AC|AL|AP|AM|BA|CE|DF|GO|ES|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SP|SC|SE|TO)\$";
   static final Pattern dateTimePattern =
       "^(\\d{4})-(\\d\\d)-(\\d\\d)T(\\d\\d):(\\d\\d):(\\d\\d).(\\d\\d\\d)Z\$";
+  static final Pattern jwtPattern =
+      "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*\$";
 
   static String isNullOrIsEmpty(text) {
     if (text == null || text.isEmpty) return "Campo obrigatório";
@@ -42,6 +45,13 @@ class ValidatorsUtil {
   static String validateNumber(String value) {
     RegExp regex = new RegExp(numericPattern);
     if (!regex.hasMatch(value))
+      return 'Número inválido';
+    else
+      return null;
+  }
+
+  static String validateNumberAndNotIsEmpty(String value) {
+    if (value == null || value.isEmpty || !RegExp(numericPattern).hasMatch(value))
       return 'Número inválido';
     else
       return null;
@@ -113,7 +123,8 @@ class ValidatorsUtil {
   static String validateCPFCNPJ(String value) {
     if (value == null || value.isEmpty)
       return 'Campo vazio';
-    else if (value.length <= 14) {//14 somando . e -
+    else if (value.length <= 14) {
+      //14 somando . e -
       CPFValidator.isValid("999.999.999-99");
     } else {
       CNPJValidator.isValid("99.999.999/9999-99");

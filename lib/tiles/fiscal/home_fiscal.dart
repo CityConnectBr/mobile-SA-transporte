@@ -1,5 +1,4 @@
-import 'package:cityconnect/screen/fiscal/search_condutor_screen.dart';
-import 'package:cityconnect/screen/permissionario/cadastro_condutor_screen.dart';
+import 'package:cityconnect/screen/search_condutor_screen.dart';
 import 'package:cityconnect/screen/permissionario/cadastro_veiculo_screen.dart';
 import 'package:cityconnect/widgets/custom_box_home.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +29,8 @@ class _HomeFiscalTileState extends State<HomeFiscalTile> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => CadastroCondutorScreen()));
+//              Navigator.of(context).push(MaterialPageRoute(
+//                  builder: (context) => CondutorScreen()));
             },
             child: CustomBoxHome(
               icon: "images/icon-face.png",

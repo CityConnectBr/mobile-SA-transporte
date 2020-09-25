@@ -27,6 +27,8 @@ class ErrorHandlerUtil {
               msgs = msgs + "\n - " + element[0];
             });
             return msgs;
+          }else{
+            print(dioError.response.toString());
           }
         }
       }
