@@ -68,7 +68,7 @@ class _LoginTileState extends State<LoginTile> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _emailController,
                     label: "E-mail",
                     obscure: false,
@@ -79,7 +79,7 @@ class _LoginTileState extends State<LoginTile> {
                   SizedBox(
                     height: 16.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                       controller: _senhaController,
                       label: "Senha",
                       obscure: this._hidePassword,

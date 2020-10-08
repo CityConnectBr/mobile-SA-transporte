@@ -1,64 +1,128 @@
-import 'package:cityconnect/widgets/custom_text_search_result.dart';
-import 'package:flutter/material.dart';
+import 'package:cityconnect/models/veiculo_model.dart';
+import 'package:cityconnect/tiles/fiscal/card_permissionario_tile.dart';
 import 'package:cityconnect/util/util.dart';
+import 'package:cityconnect/widgets/custom_raisedbutton.dart';
+import 'package:expandable/expandable.dart';
+import 'package:flutter/material.dart';
 
-class CardVeiculoTile extends StatefulWidget {
-  @override
-  _CardVeiculoTileState createState() => _CardVeiculoTileState();
-}
+class CardVeiculoTile extends StatelessWidget {
+  final Veiculo _veiculo;
 
-class _CardVeiculoTileState extends State<CardVeiculoTile> {
+  CardVeiculoTile(this._veiculo);
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        CustomTextSearchResult(
-          customText: "Marca: ",
-          item: "Ford",
-          color: Theme.of(context).accentColor,
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        CustomTextSearchResult(
-          customText: "Modelo: ",
-          item: "Fiesta Class 1.0 2p",
-          color: Theme.of(context).accentColor,
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        CustomTextSearchResult(
-          customText: "Placa: ",
-          item: "DML-8333",
-          color: Theme.of(context).accentColor,
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        CustomTextSearchResult(
-          customText: "Ano: ",
-          item: "1998",
-          color: Theme.of(context).accentColor,
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        CustomTextSearchResult(
-          customText: "Cor: ",
-          item: "Vermelho",
-          color: Theme.of(context).accentColor,
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        CustomTextSearchResult(
-          customText: "RENAVAM: ",
-          item: "37861887262",
-          color: Theme.of(context).accentColor,
-        ),
-      ],
+    return Container(
+      padding: EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Util.hexToColor("#D5DDE0")),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(10.0),
+            topLeft: Radius.circular(10.0),
+            bottomRight: Radius.circular(10.0),
+            bottomLeft: Radius.circular(10.0)),
+        color: Util.hexToColor("#f5f5f5"),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        this._veiculo.placa,
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'InterBold',
+                        ),
+                      ),
+                      Spacer(),
+                      Image.asset(
+                        "images/icon_car.png",
+                        height: 70,
+                        fit: BoxFit.contain,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        this._veiculo.marcaModeloVeiculo.descricao,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'InterBold',
+                        ),
+                      ),
+                      Text(
+                        "Cor: ${this._veiculo.corVeiculo.descricao} / Ano: ${this._veiculo.anoDoModelo}",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'InterRegular',
+                        ),
+                      ),
+                      Text(
+                        "Renavan: ${this._veiculo.renavam}",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'InterRegular',
+                        ),
+                      ),
+                      (false
+                          ? CustomRaisedButtonBlue(
+                              label: "Aplicar Multa",
+                              func: () {
+                                //Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                //    builder: (context) => HomeScreen()));
+                              })
+                          : Container())
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          !false
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: ExpandablePanel(
+                    header: Container(
+                      margin: EdgeInsets.only(top: 5.0),
+                      child: Text(
+                        "Permissionários",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18.0),
+                      ),
+                    ),
+                    expanded: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          CardPermissionarioSimplesTile(
+                              this._veiculo.permissionario),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+//          Container(
+//            child: CustomHrBig(
+//              customColor: "#D5DDE0",
+//            ),
+//          ),
+        ],
+      ),
     );
   }
 }

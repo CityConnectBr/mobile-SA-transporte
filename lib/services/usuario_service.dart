@@ -7,8 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 class UsuarioService extends MainService {
-  
-   Future<String> login(String email, String senha) async {
+  Future<String> login(String email, String senha) async {
     Response response = await dio.post('/auth/login', data: {
       "email": email,
       "password": senha,
@@ -16,21 +15,21 @@ class UsuarioService extends MainService {
 
     Map<String, dynamic> jsonMap = response.data;
     if (new RegExp(ValidatorsUtil.jwtPattern).hasMatch(jsonMap['token'])) {
-      MainService.setToken(jsonMap['token']);
+      super.setToken(jsonMap['token']);
       return jsonMap['token'];
     }
-
-    return null;
   }
 
-   Future<Usuario> getUser() async {
-     return Usuario.fromJson((await dio.get('/api/user')).data);
-   }
+  Future<Usuario> getUser() async {
+    if ((await super.getToken()) != null) {
+      return Usuario.fromJson((await dio.get('/api/user')).data);
+    }
+  }
 
-   Future<bool> logout() async {
-     await dio.get('/auth/logout');
-     return true;
-   }
+  Future<bool> logout() async {
+    await dio.get('/auth/logout');
+    return true;
+  }
 
   Future<bool> signin(
       {String nome,
@@ -49,7 +48,7 @@ class UsuarioService extends MainService {
     return true;
   }
 
-  Future<bool> update(Usuario usuario) async {
+  Future<bool> updateUser(Usuario usuario) async {
     await dio.put(
       '/api/user',
       data: usuario.toMap(),
@@ -101,5 +100,4 @@ class UsuarioService extends MainService {
 
     return true;
   }
-
 }

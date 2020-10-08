@@ -1,10 +1,13 @@
+import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/tiles/condutor/home_condutor.dart';
 import 'package:cityconnect/tiles/custom_drawer.dart';
 import 'package:cityconnect/tiles/fiscal/home_fiscal.dart';
-import 'package:cityconnect/widgets/custom_input_field_shadow.dart';
+import 'package:cityconnect/tiles/permissionario/home_permissionario.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/widgets/snack_message.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,6 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -58,12 +63,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Container(
                   padding: EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      HomeFiscalTile(),
-                    ],
-                  ),
+                  child: Observer(builder: (_) {
+                    if (usuarioStore.usuario.tipo.id == 1) {
+                      return HomePermissionarioTile();
+                    } else if (usuarioStore.usuario.tipo.id == 2) {
+                      return HomeCondutorTile();
+                    } else if (usuarioStore.usuario.tipo.id == 3) {
+                      return HomeFiscalTile();
+                    }
+
+                    return Container();
+                  }),
                 )
               ],
             ),
@@ -81,85 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.only(
-                  top: 14.0, bottom: 25.0, left: 40.0, right: 40.0),
-              decoration: BoxDecoration(
-                color: Util.hexToColor("#FFFFFF"),
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20.0),
-                  topLeft: Radius.circular(20.0),
-                ),
-                border: Border.all(
-                  width: 1.0,
-                  color: Color.fromRGBO(151, 173, 182, 0.2),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.8),
-                    blurRadius: 8.0, // soften the shadow
-                    spreadRadius: 0.0, //extend the shadow
-                    offset: Offset(
-                      0.0, // Move to right 10  horizontally
-                      5.0, // Move to bottom 5 Vertically
-                    ),
-                  )
-                ],
-              ),
-              child: Column(
-                children: [
-                  Center(
-                    child: Container(
-                      width: 30.0,
-                      height: 4.0,
-                      margin: EdgeInsets.only(
-                        bottom: 20.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Util.hexToColor("#D5DDE0"),
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20.0),
-                          topLeft: Radius.circular(20.0),
-                          bottomRight: Radius.circular(20.0),
-                          bottomLeft: Radius.circular(20.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Stack(
-                    children: <Widget>[
-                      Form(
-                        child: CustomFormInputField(
-                          controller: _searchController,
-                          label: "Buscar veículo",
-                          obscure: false,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(
-                          top: 16.0,
-                          right: 20.0,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            GestureDetector(
-                              child: Image.asset(
-                                "images/icon-search.png",
-                                //width: 50,
-                                width: 22.0,
-                                fit: BoxFit.contain,
-                              ),
-                              onTap: () {},
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+//            BoxRounded(
+//              child: CustomSearch(
+//                controller: _searchController,
+//                label: "Buscar Veículo",
+//                onTap: () {},
+//              ),
+//            )
           ],
         ),
       ),

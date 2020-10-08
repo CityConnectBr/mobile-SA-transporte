@@ -98,7 +98,7 @@ class _CondutorAddressTileState extends State<CondutorAddressTile> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _cepController,
                             label: "CEP",
                             type: TextInputType.number,
@@ -109,7 +109,7 @@ class _CondutorAddressTileState extends State<CondutorAddressTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _addressController,
                             label: "ENDEREÇO",
                             type: TextInputType.text,
@@ -126,7 +126,7 @@ class _CondutorAddressTileState extends State<CondutorAddressTile> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _numController,
                             label: "NÚMERO",
                             type: TextInputType.number,
@@ -137,7 +137,7 @@ class _CondutorAddressTileState extends State<CondutorAddressTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _complementController,
                             label: "COMPLEMENTO",
                             type: TextInputType.text,
@@ -149,7 +149,7 @@ class _CondutorAddressTileState extends State<CondutorAddressTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _bairroController,
                       label: "BAIRRO",
                       type: TextInputType.text,
@@ -163,7 +163,7 @@ class _CondutorAddressTileState extends State<CondutorAddressTile> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _municipioController,
                             label: "MUNICÍPIO",
                             type: TextInputType.text,

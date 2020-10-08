@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CustomBoxHome extends StatelessWidget {
+class BoxItem extends StatelessWidget {
   final String icon;
   final String description;
 
-  CustomBoxHome({
+  BoxItem({
     this.icon,
     this.description,
   });

@@ -1,6 +1,6 @@
 import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/models/endereco_model.dart';
-import 'package:cityconnect/screen/permissionario/condutor_screen.dart';
+import 'package:cityconnect/screen/condutor_screen.dart';
 import 'package:cityconnect/services/condutor_service.dart';
 import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/util/error_handler_util.dart';
@@ -28,7 +28,7 @@ abstract class _CondutorStore with Store {
   List<Condutor> condutores;
 
   @action
-  Future<void> pesquisarCondutores(
+  Future<void> pesquisar(
       {String search,
       BuildContext context,
       GlobalKey<ScaffoldState> scaffoldKey}) async {
@@ -41,7 +41,7 @@ abstract class _CondutorStore with Store {
           .isLoggedInWithRedirect(
               context: context, redirectToHomeIfLogged: false));
 
-      condutores = await _condutorService.search(search);
+      condutores = (await _condutorService.search(search)).map((model) => Condutor.fromJson(model)).toList();
 
       if (condutores == null) {
         condutores = [];
@@ -67,7 +67,7 @@ abstract class _CondutorStore with Store {
               context: context, redirectToHomeIfLogged: false));
 
       if (this.condutores == null) {
-        this.condutores = await this._condutorService.search("");
+        this.condutores = (await this._condutorService.search("")).map((model) => Condutor.fromJson(model)).toList();
       }
     } catch (e) {
       SnackMessages.showSnackBarError(
@@ -96,7 +96,7 @@ abstract class _CondutorStore with Store {
         SnackMessages.showSnackBarSuccess(
             context, scaffoldKey, "Salvo com sucesso");
 
-        this.pesquisarCondutores(
+        this.pesquisar(
             scaffoldKey: scaffoldKey, context: context, search: _lastSearch);
       }
     } catch (e) {
@@ -125,7 +125,7 @@ abstract class _CondutorStore with Store {
         SnackMessages.showSnackBarSuccess(
             context, scaffoldKey, "Salvo com sucesso");
 
-        this.pesquisarCondutores(
+        this.pesquisar(
             scaffoldKey: scaffoldKey,
             context: context,
             search: this._lastSearch);
@@ -231,7 +231,7 @@ abstract class _CondutorStore with Store {
       await saveCondutor(context: context, scaffoldKey: scaffoldKey);
     } catch (e) {
       SnackMessages.showSnackBarError(
-          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser().toString().replaceAll("endereco.", ""));
     }
 
     loading = false;
@@ -240,11 +240,12 @@ abstract class _CondutorStore with Store {
   Future<void> saveCondutor(
       {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
     if (this._condutor.id == null || this._condutor.id.toString().isEmpty) {
-      if ((await _condutorService.create(this._condutor) != null)) {
+      if ((await _condutorService.create(this._condutor.toMap()) != null)) {
         Navigator.of(context).pop(true);
       }
     } else {
-      if (await _condutorService.update(this._condutor)) {
+      if (await _condutorService.update(
+          this._condutor.id.toString(), this._condutor.toMap())) {
         Navigator.of(context).pop(true);
       }
     }

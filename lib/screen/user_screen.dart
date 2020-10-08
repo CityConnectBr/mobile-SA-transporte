@@ -1,6 +1,7 @@
 import 'package:cityconnect/tiles/edit_dados_tile.dart';
 import 'package:cityconnect/tiles/edit_endereco_tile.dart';
 import 'package:cityconnect/tiles/edit_password_tile.dart';
+import 'package:cityconnect/util/style_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
@@ -12,11 +13,6 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateMixin {
-
-  final _textStyleTitleBar = TextStyle(
-      color: Util.hexToColor("#3E4958"),
-      fontSize: 20.0,
-      fontFamily: "InterRegular");
 
   TabController _tabController;
 
@@ -110,19 +106,19 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
               Tab(
                 child: Text(
                   "Dados",
-                  style: _textStyleTitleBar,
+                  style: StyleUtil.textBlueSize16,
                 ),
               ),
               Tab(
                 child: Text(
                   "Endereço",
-                  style: _textStyleTitleBar,
+                  style: StyleUtil.textBlueSize16,
                 ),
               ),
               Tab(
                 child: Text(
                   "Senha",
-                  style: _textStyleTitleBar,
+                  style: StyleUtil.textBlueSize16,
                 ),
               ),
             ],

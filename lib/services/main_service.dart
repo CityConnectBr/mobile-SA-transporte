@@ -1,18 +1,21 @@
 import 'package:cityconnect/util/preferences.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MainService {
   final dio = Dio();
   final _tokenDio = Dio();
 
+  String url;
+
   MainService() {
     dio.options.baseUrl = DotEnv().env['URL_API'];
     _tokenDio.options.baseUrl = DotEnv().env['URL_API'];
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
-      final token = await _getToken();
+      final token = await getToken();
       if (token != null && token.isNotEmpty) {
         options.headers['Authorization'] = "Bearer " + token;
       }
@@ -29,7 +32,8 @@ class MainService {
           print("refresh token");
           print(d.data['newToken']);
           //update token
-          if (new RegExp(ValidatorsUtil.jwtPattern).hasMatch(d.data['newToken'])) {
+          if (new RegExp(ValidatorsUtil.jwtPattern)
+              .hasMatch(d.data['newToken'])) {
             setToken(d.data['newToken']);
             options.headers['Authorization'] = "Bearer " + d.data['newToken'];
           }
@@ -42,22 +46,45 @@ class MainService {
           return dio.request(options.path, options: options);
         });
       }
+      print(error);
       return error;
     }));
   }
 
-  static String _token;
-
-  static Future<String> _getToken() async {
-    if (_token == null) {
-      _token = await Preferences().get(Preferences.KEY_LAST_JWT);
-    }
-
-    return _token;
+  @protected
+  Future<String> getToken() async {
+    return await Preferences().get(Preferences.KEY_LAST_JWT);
   }
 
-  static void setToken(String token) async {
-    Preferences().save(Preferences.KEY_LAST_JWT, token);
-    _token = token;
+  @protected
+  Future<Null> setToken(String token) async {
+    await Preferences().save(Preferences.KEY_LAST_JWT, token);
+  }
+
+  ///////////////////////////////////
+
+  Future<List<dynamic>> search(String search) async {
+    return (await dio.get(url, queryParameters: {"search": search}))
+        .data['data'];
+  }
+
+  Future<dynamic> create(json) async {
+    return await dio.post(url, data: json);
+  }
+
+  Future<bool> update(String id, json) async {
+    await dio.put(
+      url + "/${id}",
+      data: json,
+    );
+
+    return true;
+  }
+
+  Future<dynamic> get(int id) async {
+    return (await dio.get(
+      url + "/${id}",
+    ))
+        .data;
   }
 }

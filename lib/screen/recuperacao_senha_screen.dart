@@ -61,7 +61,7 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _emailController,
                       label: "E-mail",
                       obscure: false,
@@ -86,7 +86,7 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
                               SizedBox(
                                 height: 10.0,
                               ),
-                              CustomFormInputField(
+                              CustomInputFieldGrey(
                                 controller: _codeController,
                                 label: "Código",
                                 obscure: false,
@@ -102,7 +102,7 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
                               SizedBox(
                                 height: 16.0,
                               ),
-                              CustomFormInputField(
+                              CustomInputFieldGrey(
                                   controller: _senhaController,
                                   label: "Senha",
                                   obscure: this._hidePassword,
@@ -124,7 +124,7 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
                               SizedBox(
                                 height: 16.0,
                               ),
-                              CustomFormInputField(
+                              CustomInputFieldGrey(
                                   controller: _confirmacaoDeSenhaController,
                                   label: "Confirmação de senha",
                                   obscure: this._hideConfirmPassword,

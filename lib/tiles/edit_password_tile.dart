@@ -76,7 +76,7 @@ class _EditPasswordTileState extends State<EditPasswordTile> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                         controller: _passwordActualController,
                         label: "Senha Atual",
                         obscure: this._hidePasswordActual,
@@ -98,7 +98,7 @@ class _EditPasswordTileState extends State<EditPasswordTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                         controller: _passwordController,
                         label: "Senha",
                         obscure: this._hidePassword,
@@ -120,7 +120,7 @@ class _EditPasswordTileState extends State<EditPasswordTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                         controller: _passwordConfirmController,
                         label: "Confirmação de senha",
                         obscure: this._hideConfirmPassword,

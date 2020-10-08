@@ -244,7 +244,7 @@ abstract class _UsuarioStore with Store {
         this.usuario.permissionario.categoriaCNH = categoriaCNH;
         this.usuario.permissionario.vencimentoCNH = vencimentoCNH;
 
-        if (await _usuarioService.update(this.usuario)) {
+        if (await _usuarioService.updateUser(this.usuario)) {
           this._reloadUser();
           SnackMessages.showSnackBarSuccess(
               context, scaffoldKey, "Salvo com sucesso");
@@ -281,7 +281,7 @@ abstract class _UsuarioStore with Store {
         this.usuario.permissionario.endereco.municipio = municipio;
         this.usuario.permissionario.endereco.uf = uf;
 
-        if (await _usuarioService.update(this.usuario)) {
+        if (await _usuarioService.updateUser(this.usuario)) {
           this._reloadUser();
           SnackMessages.showSnackBarSuccess(
               context, scaffoldKey, "Salvo com sucesso");
@@ -334,7 +334,7 @@ abstract class _UsuarioStore with Store {
   @action
   Future<bool> isLoggedInWithRedirect(
       {@required BuildContext context,
-        bool redirectToHomeIfLogged = true}) async {
+      bool redirectToHomeIfLogged = true}) async {
     print("isLoggedInWithRedirect");
 
     try {
@@ -349,7 +349,7 @@ abstract class _UsuarioStore with Store {
         print("isLoggedInWithRedirect ELSE");
         //this.logout(context: context);
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()));
+            MaterialPageRoute(builder: (context) => LoginScreen()));
       }
     } catch (e) {
       print(e);
@@ -374,7 +374,7 @@ abstract class _UsuarioStore with Store {
 
   Future<bool> isLoggedIn(BuildContext context) async {
     this.usuario = await this._usuarioService.getUser();
-    return this.usuario!=null;
+    return this.usuario != null;
   }
 
   Future<void> _reloadUser() async {

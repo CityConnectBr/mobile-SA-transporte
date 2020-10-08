@@ -3,12 +3,12 @@ import 'package:cityconnect/screen/veiculo_screen.dart';
 import 'package:cityconnect/widgets/box_item.dart';
 import 'package:flutter/material.dart';
 
-class HomeFiscalTile extends StatefulWidget {
+class HomeCondutorTile extends StatefulWidget {
   @override
-  _HomeFiscalTileState createState() => _HomeFiscalTileState();
+  _HomeCondutorTileState createState() => _HomeCondutorTileState();
 }
 
-class _HomeFiscalTileState extends State<HomeFiscalTile> {
+class _HomeCondutorTileState extends State<HomeCondutorTile> {
   @override
   Widget build(BuildContext context) {
     return Container(

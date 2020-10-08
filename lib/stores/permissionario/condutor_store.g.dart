@@ -39,16 +39,15 @@ mixin _$CondutorStore on _CondutorStore, Store {
     });
   }
 
-  final _$pesquisarCondutoresAsyncAction =
-      AsyncAction('_CondutorStore.pesquisarCondutores');
+  final _$pesquisarAsyncAction = AsyncAction('_CondutorStore.pesquisar');
 
   @override
-  Future<void> pesquisarCondutores(
+  Future<void> pesquisar(
       {String search,
       BuildContext context,
       GlobalKey<ScaffoldState> scaffoldKey}) {
-    return _$pesquisarCondutoresAsyncAction.run(() => super.pesquisarCondutores(
-        search: search, context: context, scaffoldKey: scaffoldKey));
+    return _$pesquisarAsyncAction.run(() => super
+        .pesquisar(search: search, context: context, scaffoldKey: scaffoldKey));
   }
 
   final _$firstLoadListAsyncAction =

@@ -145,7 +145,7 @@ class _CondutorTileState extends State<CondutorTile> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _nomeController,
                       label: "NOME",
                       type: TextInputType.text,
@@ -155,7 +155,7 @@ class _CondutorTileState extends State<CondutorTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _emailController,
                       label: "E-MAIL",
                       type: TextInputType.text,
@@ -169,7 +169,7 @@ class _CondutorTileState extends State<CondutorTile> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _cpfController,
                             label: "CPF",
                             type: TextInputType.text,
@@ -180,7 +180,7 @@ class _CondutorTileState extends State<CondutorTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _rgController,
                             label: "RG",
                             type: TextInputType.number,
@@ -197,7 +197,7 @@ class _CondutorTileState extends State<CondutorTile> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _natController,
                             label: "NATURALIDADE",
                             type: TextInputType.text,
@@ -208,7 +208,7 @@ class _CondutorTileState extends State<CondutorTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _nacController,
                             label: "NACIONALIDADE",
                             type: TextInputType.text,
@@ -221,7 +221,7 @@ class _CondutorTileState extends State<CondutorTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _dataNascimentoController,
                       label: "DATA NASCIMENTO",
                       type: TextInputType.number,
@@ -235,7 +235,7 @@ class _CondutorTileState extends State<CondutorTile> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _dddController,
                             label: "DDD",
                             type: TextInputType.number,
@@ -246,7 +246,7 @@ class _CondutorTileState extends State<CondutorTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _phoneController,
                             label: "TELEFONE",
                             type: TextInputType.number,
@@ -258,7 +258,7 @@ class _CondutorTileState extends State<CondutorTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _celController,
                       label: "CELULAR",
                       type: TextInputType.text,
@@ -268,7 +268,7 @@ class _CondutorTileState extends State<CondutorTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _cnhController,
                       label: "CNH",
                       type: TextInputType.number,
@@ -296,7 +296,7 @@ class _CondutorTileState extends State<CondutorTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _vencimentoCNHController,
                             label: "VENCIMENTO",
                             type: TextInputType.text,

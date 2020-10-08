@@ -1,38 +1,89 @@
-import 'package:cityconnect/util/validators.dart';
+import 'package:cityconnect/models/condutor_model.dart';
+import 'package:cityconnect/models/veiculo_model.dart';
+import 'package:cityconnect/tiles/edit_endereco_tile.dart';
+import 'package:cityconnect/tiles/permissionario/condutor_dados_tile.dart';
+import 'package:cityconnect/tiles/permissionario/condutor_endereco_tile.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cityconnect/util/util.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
-class VeiculoTile extends StatefulWidget {
+class VeiculoScreen extends StatefulWidget {
+  final Veiculo _veiculo;
+
+  VeiculoScreen(this._veiculo);
+
   @override
-  _VeiculoTileState createState() => _VeiculoTileState();
+  _VeiculoScreenState createState() => _VeiculoScreenState(this._veiculo);
 }
 
-class _VeiculoTileState extends State<VeiculoTile> {
-  final _veiculoController = TextEditingController();
-  final _especieController = TextEditingController();
-  final _placaController = TextEditingController();
-  final _anoController = TextEditingController();
-  final _capacidadeController = TextEditingController();
-  final _corController = TextEditingController();
-  final _taximetroController = TextEditingController();
-  final _dataVencimentoController = TextEditingController();
-  final _dataEmissaoController = TextEditingController();
+class _VeiculoScreenState extends State<VeiculoScreen>
+    with SingleTickerProviderStateMixin {
+  final Veiculo _veiculo;
+
+  _VeiculoScreenState(this._veiculo);
+
+  final _textStyleTitleBar = TextStyle(
+      color: Util.hexToColor("#3E4958"),
+      fontSize: 20.0,
+      fontFamily: "InterRegular");
+
+  TabController _tabController;
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_handleTabSelection);
+    super.initState();
+  }
+
+  _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 20.0),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Form(
+    final _veiculoController = TextEditingController();
+    final _especieController = TextEditingController();
+    final _placaController = TextEditingController();
+    final _anoController = TextEditingController();
+    final _capacidadeController = TextEditingController();
+    final _corController = TextEditingController();
+    final _taximetroController = TextEditingController();
+    final _dataVencimentoController = TextEditingController();
+    final _dataEmissaoController = TextEditingController();
+
+    return Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text(
+            this._veiculo.id == null ? 'Novo Veículo' : "Veículo",
+            style: TextStyle(
+              fontFamily: "InterBold",
+              fontSize: 20.0,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(20.0),
+            child: Form(
               child: Column(
                 children: <Widget>[
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _veiculoController,
                     label: "Qual a marca do veículo?",
                     obscure: false,
@@ -41,7 +92,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _especieController,
                     label: "Digite o modelo do veículo",
                     obscure: false,
@@ -50,7 +101,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _placaController,
                     label: "Placa",
                     obscure: false,
@@ -59,7 +110,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _anoController,
                     label: "Ano",
                     obscure: false,
@@ -68,7 +119,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _capacidadeController,
                     label: "Capacidade",
                     obscure: false,
@@ -77,7 +128,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _corController,
                     label: "Cor",
                     obscure: false,
@@ -86,7 +137,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _taximetroController,
                     label: "Taxímetro/Tacografo:",
                     obscure: false,
@@ -95,7 +146,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _dataVencimentoController,
                     label: "Emissão",
                     obscure: false,
@@ -104,7 +155,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _dataEmissaoController,
                     label: "Vencimento",
                     obscure: false,
@@ -114,16 +165,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                     height: 20.0,
                   ),
                   CustomRaisedButtonBlue(
-                      label: "Associar Condutor",
-                      func: () {
-                        //Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        //    builder: (context) => HomeScreen()));
-                      }),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  CustomRaisedButtonBlue(
-                      label: "Finalizar Cadastro",
+                      label: "Salvar",
                       func: () {
                         //Navigator.of(context).pushReplacement(MaterialPageRoute(
                         //    builder: (context) => HomeScreen()));
@@ -131,9 +173,7 @@ class _VeiculoTileState extends State<VeiculoTile> {
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

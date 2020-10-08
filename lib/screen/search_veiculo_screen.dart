@@ -1,6 +1,12 @@
+import 'package:cityconnect/stores/permissionario/veiculo_store.dart';
+import 'package:cityconnect/tiles/card_veiculo_tile.dart';
+import 'package:cityconnect/util/style_util.dart';
+import 'package:cityconnect/widgets/box_rounded.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/tiles/search_veiculo_tile.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class SearchVeiculoScreen extends StatefulWidget {
   @override
@@ -8,77 +14,94 @@ class SearchVeiculoScreen extends StatefulWidget {
 }
 
 class _SearchVeiculoScreenState extends State<SearchVeiculoScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {}
+
   @override
   Widget build(BuildContext context) {
+    VeiculoStore _veiculoStore = Provider.of<VeiculoStore>(context);
+
+    _veiculoStore.firstLoadList(context: context, scaffoldKey: _scaffoldKey);
+
     return Scaffold(
-      backgroundColor: Util.hexToColor("#E0E0E0"),
-      appBar: AppBar(
-        title: const Text(
-          'Veículos',
-          style: TextStyle(
-            fontFamily: "InterBold",
-            fontSize: 20.0,
+        key: _scaffoldKey,
+        backgroundColor: Util.hexToColor("#EEEEEE"),
+        appBar: AppBar(
+          title: const Text(
+            'Veículos',
           ),
-        ),
-        centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {},
-          child: Icon(
-            Icons.navigate_before,
-            size: 45.0,
-          ),
-        ),
-      ),
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(10.0),
-                topLeft: Radius.circular(10.0),
-                bottomRight: Radius.circular(10.0),
-                bottomLeft: Radius.circular(10.0)),
-            color: Colors.white,
-          ),
-          width: 390.0,
-          height: 300.0,
-          child: Column(
-            children: <Widget>[
-              Container(
-                width: 280.0,
-                margin: EdgeInsets.only(right: 70.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    RichText(
-                      text: TextSpan(
-                        text: 'OK, só precisamos que você insira o número da ',
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w500,
-                          color: Util.hexToColor("#828282"),
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'placa ',
-                            style: TextStyle(
-                              color: Util.hexToColor("#6fcf97"),
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'do veículo',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+          centerTitle: true,
+          actions: <Widget>[
+            GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(right: 15.0),
+                child: Icon(Icons.add),
               ),
-              SearchTile(),
-            ],
+              onTap: () {
+                _veiculoStore.newCondutor(
+                    context: context, scaffoldKey: _scaffoldKey);
+              },
+            )
+          ],
+          elevation: 0.0,
+        ),
+        body: Container(
+          color: Theme.of(context).primaryColor,
+          padding: EdgeInsets.only(top: 10.0),
+          child: BoxStackRounded(
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0, bottom: 10.0),
+                  child: SearchVeiculoTile(this._scaffoldKey),
+                ),
+                Observer(builder: (_) {
+                  if (_veiculoStore.loading)
+                    return Container(
+                      margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+
+                  return Container(
+                      padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+                      child: (_veiculoStore.veiculos != null &&
+                          _veiculoStore.veiculos.isNotEmpty)
+                          ? Column(
+                        children: _veiculoStore.veiculos
+                            .map((condutor) => GestureDetector(
+                          child: Container(
+                            margin: EdgeInsets.all(5.0),
+                            child: CardVeiculoTile(condutor),
+                          ),
+                          onTap: () {
+//                            _veiculoStore.editCondutor(
+//                                condutor: condutor,
+//                                context: context,
+//                                scaffoldKey: this._scaffoldKey);
+                          },
+                        ))
+                            .toList(),
+                      )
+                          : Center(
+                        child: Text(
+                          "Nenhum condutor encontrado!",
+                          style: StyleUtil.textBlueBoldSize20,
+                        ),
+                      ));
+                }),
+              ],
+            ),
           ),
         ),
-      ),
     );
   }
 }

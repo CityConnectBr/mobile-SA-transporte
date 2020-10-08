@@ -3,7 +3,6 @@ import 'package:cityconnect/util/style_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/widgets/custom_text_search_result.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class CardCondutorTile extends StatelessWidget {
   final Condutor _condutor;
@@ -15,12 +14,13 @@ class CardCondutorTile extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20.0),
       decoration: BoxDecoration(
+        border: Border.all(color: Util.hexToColor("#D5DDE0")),
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(10.0),
             topLeft: Radius.circular(10.0),
             bottomRight: Radius.circular(10.0),
             bottomLeft: Radius.circular(10.0)),
-        color: Colors.white,
+        color: Util.hexToColor("#f5f5f5"),
       ),
       child: Row(
         children: <Widget>[

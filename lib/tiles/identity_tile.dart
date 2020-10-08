@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 
-class ResultVeiculoFiscalTile extends StatefulWidget {
+class IdentityTile extends StatefulWidget {
   final String customImage;
   final String ocupation;
   final String name;
 
-  ResultVeiculoFiscalTile({this.customImage, this.ocupation, this.name});
+  IdentityTile({this.customImage, this.ocupation, this.name});
 
   @override
-  _ResultVeiculoFiscalTileState createState() => _ResultVeiculoFiscalTileState(
+  _IdentityTileState createState() => _IdentityTileState(
       customImage: this.customImage,
       ocupation: this.ocupation,
       name: this.name);
 }
 
-class _ResultVeiculoFiscalTileState extends State<ResultVeiculoFiscalTile> {
+class _IdentityTileState extends State<IdentityTile> {
   final String customImage;
   final String ocupation;
   final String name;
 
-  _ResultVeiculoFiscalTileState({this.customImage, this.ocupation, this.name});
+  _IdentityTileState({this.customImage, this.ocupation, this.name});
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       child: Column(
         children: <Widget>[
@@ -40,9 +41,9 @@ class _ResultVeiculoFiscalTileState extends State<ResultVeiculoFiscalTile> {
                         image: DecorationImage(
                             fit: BoxFit.cover,
                             image: //_fotoStr != null
-                                // ? FileImage(File(_fotoStr))
-                                // :
-                                AssetImage(this.customImage)),
+                            // ? FileImage(File(_fotoStr))
+                            // :
+                            AssetImage(this.customImage)),
                       ),
                     ),
                     SizedBox(
@@ -61,13 +62,17 @@ class _ResultVeiculoFiscalTileState extends State<ResultVeiculoFiscalTile> {
                                   fontFamily: 'InterRegular',
                                 ),
                               ),
-                              Text(
-                                this.name,
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontFamily: 'InterBold',
+                              Container(
+                                width: (MediaQuery.of(context).size.width*0.5),
+                                child: Text(
+                                  this.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontFamily: 'InterBold',
+                                  ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         ],

@@ -1,14 +1,15 @@
 import 'package:cityconnect/screen/search_condutor_screen.dart';
+import 'package:cityconnect/screen/search_veiculo_screen.dart';
 import 'package:cityconnect/screen/veiculo_screen.dart';
 import 'package:cityconnect/widgets/box_item.dart';
 import 'package:flutter/material.dart';
 
-class HomeFiscalTile extends StatefulWidget {
+class HomePermissionarioTile extends StatefulWidget {
   @override
-  _HomeFiscalTileState createState() => _HomeFiscalTileState();
+  _HomePermissionarioTileState createState() => _HomePermissionarioTileState();
 }
 
-class _HomeFiscalTileState extends State<HomeFiscalTile> {
+class _HomePermissionarioTileState extends State<HomePermissionarioTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,7 +31,7 @@ class _HomeFiscalTileState extends State<HomeFiscalTile> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => VeiculoScreen(null)));
+                  builder: (context) => SearchVeiculoScreen()));
             },
             child: BoxItem(
               icon: "images/icon-car.png",

@@ -171,7 +171,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _nomeController,
                       label: "NOME",
                       type: TextInputType.text,
@@ -181,7 +181,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _emailController,
                       label: "E-MAIL",
                       enabled: false,
@@ -195,7 +195,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _documentController,
                             label: "CPF/CNPJ",
                             type: TextInputType.text,
@@ -207,7 +207,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _rgController,
                             label: "RG",
                             type: TextInputType.number,
@@ -224,7 +224,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _natController,
                             label: "NATURALIDADE",
                             type: TextInputType.text,
@@ -235,7 +235,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _nacController,
                             label: "NACIONALIDADE",
                             type: TextInputType.text,
@@ -248,7 +248,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _inscricaoMunicipalController,
                       label: "INSCRIÇÃO MUNICIPAL",
                       type: TextInputType.number,
@@ -258,7 +258,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _dataNascimentoController,
                       label: "DATA NASCIMENTO",
                       type: TextInputType.number,
@@ -272,7 +272,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _dddController,
                             label: "DDD",
                             type: TextInputType.number,
@@ -283,7 +283,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _phoneController,
                             label: "TELEFONE",
                             type: TextInputType.number,
@@ -299,7 +299,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _phone2Controller,
                             label: "TELEFONE 2",
                             type: TextInputType.text,
@@ -309,7 +309,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _celController,
                             label: "CELULAR",
                             type: TextInputType.text,
@@ -322,7 +322,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _cnhController,
                       label: "CNH",
                       type: TextInputType.number,
@@ -350,7 +350,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                         Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomFormInputField(
+                          child: CustomInputFieldGrey(
                             controller: _vencimentoCNHController,
                             label: "VENCIMENTO",
                             type: TextInputType.text,
@@ -363,7 +363,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomFormInputField(
+                    CustomInputFieldGrey(
                       controller: _modalidadeController,
                       label: "MODALIDADE",
                       enabled: false,

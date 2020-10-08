@@ -37,12 +37,15 @@ class CustomRaisedButtonWhite extends StatelessWidget {
 }
 
 class CustomRaisedButtonBlue extends StatelessWidget {
-  final IconData icon;
-  final String label;
+  IconData icon;
+  String label;
   final VoidCallback func;
+  Widget child;
 
   CustomRaisedButtonBlue(
       {@required this.icon, @required this.label, this.func});
+
+  CustomRaisedButtonBlue.withChild({@required this.child, this.func});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class CustomRaisedButtonBlue extends StatelessWidget {
                 color: Util.hexToColor("#2d9cdb"),
                 style: BorderStyle.solid,
                 width: 2.0)),
-        child: Text(
+        child: this.child != null ? this.child : Text(
           this.label,
           style: TextStyle(
               fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),

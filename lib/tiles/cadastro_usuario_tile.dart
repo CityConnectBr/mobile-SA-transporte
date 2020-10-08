@@ -99,7 +99,7 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
               key: this._formKey,
               child: Column(
                 children: <Widget>[
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _nomeController,
                     label: "Nome",
                     type: TextInputType.text,
@@ -109,7 +109,7 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                   SizedBox(
                     height: 16.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _emailController,
                     label: "E-mail",
                     obscure: false,
@@ -120,7 +120,7 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                   SizedBox(
                     height: 16.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                       controller: _documentController,
                       label: "CPF/CNPJ",
                       obscure: false,
@@ -131,7 +131,7 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                   SizedBox(
                     height: 16.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                     controller: _cnhController,
                     label: "CNH",
                     obscure: false,
@@ -141,7 +141,7 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                   SizedBox(
                     height: 16.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                       controller: _senhaController,
                       label: "Senha",
                       obscure: this._hidePassword,
@@ -164,7 +164,7 @@ class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
                   SizedBox(
                     height: 16.0,
                   ),
-                  CustomFormInputField(
+                  CustomInputFieldGrey(
                       controller: _senhaConfirmacaoController,
                       label: "Confirmação de senha",
                       obscure: this._hideConfirmPassword,

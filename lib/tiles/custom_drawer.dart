@@ -1,4 +1,5 @@
 import 'package:cityconnect/screen/search_condutor_screen.dart';
+import 'package:cityconnect/screen/search_veiculo_screen.dart';
 import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/tiles/custom_list_tile.dart';
 import 'package:cityconnect/util/util.dart';
@@ -24,8 +25,8 @@ class CustomDrawerTile extends StatelessWidget {
       CustomListTile(
         title: "ALVARÁ DIGITAL",
         onTap: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => SearchCondutorScreen()));
+//          Navigator.of(context).push(
+//              MaterialPageRoute(builder: (context) => SearchCondutorScreen()));
         },
       ),
       SizedBox(height: 24.0),
@@ -40,14 +41,9 @@ class CustomDrawerTile extends StatelessWidget {
       CustomListTile(
         title: "VEÍCULOS",
         onTap: () {
-//          Navigator.of(context).push(MaterialPageRoute(
-//              builder: (context) => CondutorScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
         },
-      ),
-      SizedBox(height: 24.0),
-      CustomListTile(
-        title: "SUPORTE",
-        onTap: () {},
       ),
     ];
 
@@ -63,11 +59,6 @@ class CustomDrawerTile extends StatelessWidget {
       CustomListTile(
         title: "VEÍCULO",
       ),
-      SizedBox(height: 24.0),
-      CustomListTile(
-        title: "SUPORTE",
-        onTap: () {},
-      ),
     ];
 
     final acoesFiscalMap = [
@@ -81,11 +72,6 @@ class CustomDrawerTile extends StatelessWidget {
       SizedBox(height: 24.0),
       CustomListTile(
         title: "MULTAS",
-      ),
-      SizedBox(height: 24.0),
-      CustomListTile(
-        title: "SUPORTE",
-        onTap: () {},
       ),
     ];
 
