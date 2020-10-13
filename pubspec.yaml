@@ -47,6 +47,7 @@ dependencies:
   dio: ^3.0.10
   cpfcnpj: ^1.0.3
   simple_autocomplete_formfield: ^0.2.7
+  flutter_automation: ^1.4.0
 
 dev_dependencies:
   flutter_test:
