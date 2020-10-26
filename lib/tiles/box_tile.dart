@@ -28,7 +28,7 @@ class CustomBoxShadowWhite extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 22.0,
+              fontSize: 20.0,
               height: heightValue,
               fontWeight: FontWeight.bold,
               color: Util.hexToColor("#2d9cdb"),

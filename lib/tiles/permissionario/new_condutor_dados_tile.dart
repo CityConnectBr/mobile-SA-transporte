@@ -13,20 +13,21 @@ import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class CondutorTile extends StatefulWidget {
+class NewCondutorTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
   final Condutor _condutor;
 
-  CondutorTile(this._globalKey, this._condutor);
+  NewCondutorTile(this._globalKey, this._condutor);
 
   @override
-  _CondutorTileState createState() =>
-      _CondutorTileState(_globalKey, this._condutor);
+  _NewCondutorTileState createState() =>
+      _NewCondutorTileState(_globalKey, this._condutor);
 }
 
-class _CondutorTileState extends State<CondutorTile> {
+class _NewCondutorTileState extends State<NewCondutorTile> {
   final _nomeController = TextEditingController();
   TextEditingController _cpfController =
       MaskedTextController(mask: MaskUtil.cpfMask);
@@ -44,6 +45,8 @@ class _CondutorTileState extends State<CondutorTile> {
   final _vencimentoCNHController =
       MaskedTextController(mask: MaskUtil.dateMask);
   String _categoriaCNH;
+  String _imageCNH;
+  final picker = ImagePicker();
 
   final _dateFormat = Util.dateFormatddMMyyyy;
 
@@ -54,7 +57,7 @@ class _CondutorTileState extends State<CondutorTile> {
   final GlobalKey<ScaffoldState> _scaffoldKey;
   final Condutor _condutor;
 
-  _CondutorTileState(this._scaffoldKey, this._condutor);
+  _NewCondutorTileState(this._scaffoldKey, this._condutor);
 
   void _controllerMaskCelular(String valor) {
     if (valor.length > 9 && _flagCelular) {
@@ -157,21 +160,6 @@ class _CondutorTileState extends State<CondutorTile> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Spacer(),
-                        GestureDetector(
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Image.asset(
-                              "images/icon-edit-car.png",
-                              height: 14,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CondutorDadoContatoScreen(Condutor())));
-                          },
-                        ),
                       ],
                     ),
                     SizedBox(
@@ -233,21 +221,6 @@ class _CondutorTileState extends State<CondutorTile> {
                             fontSize: 22.0,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
-                        Spacer(),
-                        GestureDetector(
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Image.asset(
-                              "images/icon-edit-car.png",
-                              height: 14,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CondutorDadoIdentidadeScreen(Condutor())));
-                          },
                         ),
                       ],
                     ),
@@ -340,21 +313,6 @@ class _CondutorTileState extends State<CondutorTile> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Spacer(),
-                        GestureDetector(
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Image.asset(
-                              "images/icon-edit-car.png",
-                              height: 14,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CondutorDadoCnhScreen(Condutor())));
-                          },
-                        ),
                       ],
                     ),
                     SizedBox(
@@ -397,6 +355,56 @@ class _CondutorTileState extends State<CondutorTile> {
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 32.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Comprovante de CNH",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    GestureDetector(
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        child: _imageCNH != null ?
+
+                        Image.asset(
+                          "${_imageCNH}",
+                          height: 140,
+                          fit: BoxFit.contain,
+                        ) : Text(
+                          "Nenhuma imagem selecionada",
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                      ),
+                      onTap: () async {
+                        final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+
+
+                        setState(() {
+
+                          if (pickedFile != null) {
+                            print(pickedFile.path);
+                            _imageCNH = pickedFile.path;
+                            print(_imageCNH);
+                          } else {
+                            print('No image selected.');
+                          }
+                        });
+                      },
                     ),
                     SizedBox(
                       height: 30.0,

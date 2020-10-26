@@ -1,6 +1,7 @@
 import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/models/endereco_model.dart';
 import 'package:cityconnect/screen/condutor_screen.dart';
+import 'package:cityconnect/screen/new_condutor_screen.dart';
 import 'package:cityconnect/services/condutor_service.dart';
 import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/util/error_handler_util.dart';
@@ -90,7 +91,7 @@ abstract class _CondutorStore with Store {
 
       dynamic returnFromScreen = await Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) => CondutorScreen(this._condutor)));
+              builder: (context) => NewCondutorScreen(this._condutor)));
 
       if (returnFromScreen != null && returnFromScreen) {
         SnackMessages.showSnackBarSuccess(
