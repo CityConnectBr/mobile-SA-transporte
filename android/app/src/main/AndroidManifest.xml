@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.cityconnect">
+    package="br.com.cityconnect.satransp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

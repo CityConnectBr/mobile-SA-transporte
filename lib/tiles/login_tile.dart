@@ -57,7 +57,7 @@ class _LoginTileState extends State<LoginTile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "Seja bem vindo, \nFiscal",
+              "Seja bem vindo,",
               textAlign: TextAlign.left,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0),
             ),
