@@ -1,5 +1,4 @@
 import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/screen/permissionario/condutor_dado_endereco_edit_screen.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
@@ -12,25 +11,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class CondutorAddressTile extends StatefulWidget {
+class NewCondutorAddressTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
   final Condutor _condutor;
 
-  CondutorAddressTile(this._globalKey, this._condutor);
+  NewCondutorAddressTile(this._globalKey, this._condutor);
 
   @override
-  _CondutorAddressTileState createState() =>
-      _CondutorAddressTileState(_globalKey, this._condutor);
+  _NewCondutorAddressTileState createState() =>
+      _NewCondutorAddressTileState(_globalKey, this._condutor);
 }
 
-class _CondutorAddressTileState extends State<CondutorAddressTile> {
+class _NewCondutorAddressTileState extends State<NewCondutorAddressTile> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
   final Condutor _condutor;
 
-  _CondutorAddressTileState(this._scaffoldKey, this._condutor);
+  _NewCondutorAddressTileState(this._scaffoldKey, this._condutor);
 
   final _cepController = MaskedTextController(mask: MaskUtil.cepMask);
   final _addressController = TextEditingController();
@@ -39,6 +39,8 @@ class _CondutorAddressTileState extends State<CondutorAddressTile> {
   final _bairroController = TextEditingController();
   final _municipioController = TextEditingController();
   String _uf;
+  String _image;
+  final picker = ImagePicker();
 
   @override
   void initState() {
@@ -95,36 +97,6 @@ class _CondutorAddressTileState extends State<CondutorAddressTile> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Dados de endereço',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Spacer(),
-                        GestureDetector(
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Image.asset(
-                              "images/icon-edit-car.png",
-                              height: 14,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CondutorDadoEnderecoScreen(Condutor())));
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
                     Row(
                       children: <Widget>[
                         Container(
@@ -216,6 +188,56 @@ class _CondutorAddressTileState extends State<CondutorAddressTile> {
                               },
                             )),
                       ],
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Comprovante de endereço",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    GestureDetector(
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        child: _image != null ?
+
+                        Image.asset(
+                          "${_image}",
+                          height: 140,
+                          fit: BoxFit.contain,
+                        ) : Text(
+                          "Nenhuma imagem selecionada",
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                      ),
+                      onTap: () async {
+                        final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+
+
+                        setState(() {
+
+                          if (pickedFile != null) {
+                            print(pickedFile.path);
+                            _image = pickedFile.path;
+                            print(_image);
+                          } else {
+                            print('No image selected.');
+                          }
+                        });
+                      },
                     ),
                     SizedBox(
                       height: 26.0,
