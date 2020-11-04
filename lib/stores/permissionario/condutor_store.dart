@@ -143,9 +143,6 @@ abstract class _CondutorStore with Store {
       String email,
       String cpf,
       String rg,
-      String naturalidade,
-      String nacionalidade,
-      DateTime dataNascimento,
       String ddd,
       String telefone,
       String celular,
@@ -179,9 +176,6 @@ abstract class _CondutorStore with Store {
         this._condutor.email = email;
         this._condutor.rg = rg;
         this._condutor.cpf = cpf;
-        this._condutor.naturalidade = naturalidade;
-        this._condutor.nacionalidade = nacionalidade;
-        this._condutor.dataNascimento = dataNascimento;
         this._condutor.ddd = ddd;
         this._condutor.telefone = telefone;
         this._condutor.celular = celular;

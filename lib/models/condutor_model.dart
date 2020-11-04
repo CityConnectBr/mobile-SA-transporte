@@ -10,9 +10,6 @@ class Condutor {
   String telefone;
   String celular;
   String email;
-  DateTime dataNascimento;
-  String naturalidade;
-  String nacionalidade;
   String cnh;
   String categoriaCNH; //categoria_cnh
   DateTime vencimentoCNH; //vencimento_cnh
@@ -31,9 +28,6 @@ class Condutor {
     this.telefone = parsedJson["telefone"];
     this.celular = parsedJson["celular"];
     this.email = parsedJson["email"];
-    this.dataNascimento = parsedJson["data_nascimento"]!=null?dateFormat.parse(parsedJson["data_nascimento"]):null;
-    this.naturalidade = parsedJson["naturalidade"];
-    this.nacionalidade = parsedJson["nacionalidade"];
     this.cnh = parsedJson["cnh"];
     this.categoriaCNH = parsedJson["categoria_cnh"];
     this.vencimentoCNH = parsedJson["vencimento_cnh"]!=null?dateFormat.parse(parsedJson["vencimento_cnh"]):null;
@@ -50,9 +44,6 @@ class Condutor {
       "telefone": telefone,
       "celular": celular,
       "email": email,
-      "data_nascimento": dataNascimento!=null?dateFormat.format(dataNascimento):null,
-      "naturalidade": naturalidade,
-      "nacionalidade": nacionalidade,
       "cnh": cnh,
       "categoria_cnh": categoriaCNH,
       "vencimento_cnh": vencimentoCNH!=null?dateFormat.format(vencimentoCNH):null,

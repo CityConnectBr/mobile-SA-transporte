@@ -31,10 +31,6 @@ class _CondutorTileState extends State<CondutorTile> {
   TextEditingController _cpfController =
       MaskedTextController(mask: MaskUtil.cpfMask);
   final _rgController = TextEditingController();
-  final _natController = TextEditingController();
-  final _nacController = TextEditingController();
-  final _dataNascimentoController =
-      MaskedTextController(mask: MaskUtil.dateMask);
   final _dddController = MaskedTextController(mask: MaskUtil.dddMask);
   final _phoneController = MaskedTextController(mask: MaskUtil.telefone8Mask);
   TextEditingController _celController =
@@ -84,9 +80,6 @@ class _CondutorTileState extends State<CondutorTile> {
     _nomeController.dispose();
     _cpfController.dispose();
     _rgController.dispose();
-    _natController.dispose();
-    _nacController.dispose();
-    _dataNascimentoController.dispose();
     _dddController.dispose();
     _phoneController.dispose();
     _celController.dispose();
@@ -104,14 +97,6 @@ class _CondutorTileState extends State<CondutorTile> {
       _nomeController.text = this._condutor.nome;
       _cpfController.text = Util.clearString(this._condutor.cpf);
       _rgController.text = this._condutor.rg;
-      _natController.text = this._condutor.naturalidade;
-      _nacController.text = this._condutor.nacionalidade;
-      _dataNascimentoController.text =
-      this._condutor.dataNascimento != null
-          ? this
-          ._dateFormat
-          .format(this._condutor.dataNascimento)
-          : null;
       _dddController.text = this._condutor.ddd;
       _phoneController.text = this._condutor.telefone;
       _celController.text = this._condutor.celular;
@@ -292,41 +277,6 @@ class _CondutorTileState extends State<CondutorTile> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomInputFieldGrey(
-                            controller: _natController,
-                            label: "NATURALIDADE",
-                            type: TextInputType.text,
-                            validator: ValidatorsUtil.validateIsEmpty,
-                            hint: "NATURALIDADE",
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.43,
-                          child: CustomInputFieldGrey(
-                            controller: _nacController,
-                            label: "NACIONALIDADE",
-                            type: TextInputType.text,
-                            validator: ValidatorsUtil.validateIsEmpty,
-                            hint: "NACIONALIDADE",
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    CustomInputFieldGrey(
-                      controller: _dataNascimentoController,
-                      label: "DATA NASCIMENTO",
-                      type: TextInputType.number,
-                      validator: ValidatorsUtil.validateDate,
-                      hint: "DATA NASCIMENTO",
-                    ),
                     SizedBox(
                       height: 32.0,
                     ),
@@ -414,11 +364,6 @@ class _CondutorTileState extends State<CondutorTile> {
                                     email: this._emailController.text,
                                     cpf: Util.clearString(this._cpfController.text),
                                     celular: Util.clearString(this._celController.text),
-                                    dataNascimento: this._dateFormat.parse(
-                                        this._dataNascimentoController.text),
-                                    ddd: this._dddController.text,
-                                    nacionalidade: this._nacController.text,
-                                    naturalidade: this._natController.text,
                                     rg: this._rgController.text,
                                     telefone: Util.clearString(this._phoneController.text),
                                     vencimentoCNH: this._dateFormat.parse(

@@ -38,10 +38,6 @@ class _CondutorDadoIdentidadeScreenState
   TextEditingController _cpfController =
       MaskedTextController(mask: MaskUtil.cpfMask);
   final _rgController = TextEditingController();
-  final _natController = TextEditingController();
-  final _nacController = TextEditingController();
-  final _dataNascimentoController =
-      MaskedTextController(mask: MaskUtil.dateMask);
 
   final _dateFormat = Util.dateFormatddMMyyyy;
 
@@ -59,9 +55,6 @@ class _CondutorDadoIdentidadeScreenState
     _nomeController.dispose();
     _cpfController.dispose();
     _rgController.dispose();
-    _natController.dispose();
-    _nacController.dispose();
-    _dataNascimentoController.dispose();
   }
 
   @override
@@ -73,11 +66,6 @@ class _CondutorDadoIdentidadeScreenState
       _nomeController.text = this._condutor.nome;
       _cpfController.text = Util.clearString(this._condutor.cpf);
       _rgController.text = this._condutor.rg;
-      _natController.text = this._condutor.naturalidade;
-      _nacController.text = this._condutor.nacionalidade;
-      _dataNascimentoController.text = this._condutor.dataNascimento != null
-          ? this._dateFormat.format(this._condutor.dataNascimento)
-          : null;
     }
 
     return Scaffold(
@@ -167,66 +155,31 @@ class _CondutorDadoIdentidadeScreenState
                           SizedBox(
                             height: 16.0,
                           ),
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.43,
-                                child: CustomInputFieldGrey(
-                                  controller: _natController,
-                                  label: "NATURALIDADE",
-                                  type: TextInputType.text,
-                                  validator: ValidatorsUtil.validateIsEmpty,
-                                  hint: "NATURALIDADE",
-                                ),
-                              ),
-                              Spacer(),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.43,
-                                child: CustomInputFieldGrey(
-                                  controller: _nacController,
-                                  label: "NACIONALIDADE",
-                                  type: TextInputType.text,
-                                  validator: ValidatorsUtil.validateIsEmpty,
-                                  hint: "NACIONALIDADE",
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 16.0,
-                          ),
-                          CustomInputFieldGrey(
-                            controller: _dataNascimentoController,
-                            label: "DATA NASCIMENTO",
-                            type: TextInputType.number,
-                            validator: ValidatorsUtil.validateDate,
-                            hint: "DATA NASCIMENTO",
-                          ),
                           SizedBox(
                             height: 30.0,
                           ),
                           GestureDetector(
                             child: Container(
                               alignment: Alignment.topLeft,
-                              child: _image != null ?
-
-                              Image.asset(
-                                "${_image}",
-                                height: 140,
-                                fit: BoxFit.contain,
-                              ) : Text(
-                                "Nenhuma imagem selecionada",
-                                style: TextStyle(
-                                    fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
-                              ),
+                              child: _image != null
+                                  ? Image.asset(
+                                      "${_image}",
+                                      height: 140,
+                                      fit: BoxFit.contain,
+                                    )
+                                  : Text(
+                                      "Nenhuma imagem selecionada",
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
                             ),
                             onTap: () async {
-                              final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-
+                              final pickedFile = await picker.getImage(
+                                  source: ImageSource.camera);
 
                               setState(() {
-
                                 if (pickedFile != null) {
                                   print(pickedFile.path);
                                   _image = pickedFile.path;
@@ -252,15 +205,6 @@ class _CondutorDadoIdentidadeScreenState
                                             nome: this._nomeController.text,
                                             cpf: Util.clearString(
                                                 this._cpfController.text),
-                                            dataNascimento: this
-                                                ._dateFormat
-                                                .parse(this
-                                                    ._dataNascimentoController
-                                                    .text),
-                                            nacionalidade:
-                                                this._nacController.text,
-                                            naturalidade:
-                                                this._natController.text,
                                             rg: this._rgController.text,
                                             context: context,
                                             scaffoldKey: _scaffoldKey);
