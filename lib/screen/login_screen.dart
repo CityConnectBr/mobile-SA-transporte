@@ -1,4 +1,4 @@
-import 'package:cityconnect/tiles/cadastro_usuario_tile.dart';
+import 'package:cityconnect/screen/cadastro_usuario_screen.dart';
 import 'package:cityconnect/tiles/login_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TabBarView(children: [
                     LoginTile(_scaffoldKey),
                     //////////////////////
-                    CadastroUsuarioTile(_scaffoldKey)
+                    CadastroUsuarioScreen(_scaffoldKey)
                   ]),
                 ),
               ],

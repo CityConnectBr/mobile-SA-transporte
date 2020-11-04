@@ -1,7 +1,7 @@
 import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/tiles/edit_endereco_tile.dart';
-import 'package:cityconnect/tiles/permissionario/condutor_dados_tile.dart';
-import 'package:cityconnect/tiles/permissionario/condutor_endereco_tile.dart';
+import 'package:cityconnect/tiles/usuario_edit_endereco_tile.dart';
+import 'package:cityconnect/tiles/condutor_dados_tile.dart';
+import 'package:cityconnect/tiles/condutor_endereco_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';

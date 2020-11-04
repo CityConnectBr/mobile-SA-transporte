@@ -1,5 +1,5 @@
-import 'package:cityconnect/screen/search_condutor_screen.dart';
-import 'package:cityconnect/screen/search_veiculo_screen.dart';
+import 'package:cityconnect/screen/condutor_search_screen.dart';
+import 'package:cityconnect/screen/veiculo_search_screen.dart';
 import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/tiles/custom_list_tile.dart';
 import 'package:cityconnect/util/util.dart';

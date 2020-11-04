@@ -4,7 +4,7 @@ import 'package:cityconnect/util/style_util.dart';
 import 'package:cityconnect/widgets/box_rounded.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
-import 'package:cityconnect/tiles/search_veiculo_tile.dart';
+import 'package:cityconnect/tiles/veiculo_search_tile.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 

@@ -1,6 +1,6 @@
-import 'package:cityconnect/tiles/edit_dados_tile.dart';
-import 'package:cityconnect/tiles/edit_endereco_tile.dart';
-import 'package:cityconnect/tiles/edit_password_tile.dart';
+import 'package:cityconnect/tiles/usuario_edit_dados_tile.dart';
+import 'package:cityconnect/tiles/usuario_edit_endereco_tile.dart';
+import 'package:cityconnect/tiles/usuario_edit_password_tile.dart';
 import 'package:cityconnect/util/style_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

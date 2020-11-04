@@ -1,6 +1,6 @@
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/tiles/permissionario/card_condutor_tile.dart';
-import 'package:cityconnect/tiles/search_condutor_tile.dart';
+import 'package:cityconnect/tiles/condutor_search_tile.dart';
 import 'package:cityconnect/util/style_util.dart';
 import 'package:cityconnect/widgets/box_rounded.dart';
 import 'package:flutter/material.dart';

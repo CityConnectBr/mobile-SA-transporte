@@ -10,20 +10,20 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CadastroUsuarioTile extends StatefulWidget {
+class CadastroUsuarioScreen extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
 
-  CadastroUsuarioTile(this._globalKey);
+  CadastroUsuarioScreen(this._globalKey);
 
   @override
-  _CadastroUsuarioTileState createState() =>
-      _CadastroUsuarioTileState(this._globalKey);
+  _CadastroUsuarioScreenState createState() =>
+      _CadastroUsuarioScreenState(this._globalKey);
 }
 
-class _CadastroUsuarioTileState extends State<CadastroUsuarioTile> {
+class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
   final GlobalKey<ScaffoldState> _globalKey;
 
-  _CadastroUsuarioTileState(this._globalKey);
+  _CadastroUsuarioScreenState(this._globalKey);
 
   final _formKey = GlobalKey<FormState>();
 
