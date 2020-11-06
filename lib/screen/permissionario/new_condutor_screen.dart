@@ -1,27 +1,19 @@
 import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/tiles/usuario_edit_endereco_tile.dart';
-import 'package:cityconnect/tiles/condutor_dados_tile.dart';
-import 'package:cityconnect/tiles/condutor_endereco_tile.dart';
+import 'package:cityconnect/stores/permissionario/condutor_store.dart';
+import 'package:cityconnect/tiles/permissionario/new_condutor_dados_tile.dart';
+import 'package:cityconnect/tiles/permissionario/new_condutor_endereco_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
-class CondutorScreen extends StatefulWidget {
-
-  final Condutor condutor;
-
-  CondutorScreen(this.condutor);
-
+class NewCondutorScreen extends StatefulWidget {
   @override
-  _CondutorScreenState createState() => _CondutorScreenState(condutor);
+  _NewCondutorScreenState createState() => _NewCondutorScreenState();
 }
 
-class _CondutorScreenState extends State<CondutorScreen> with SingleTickerProviderStateMixin {
-
-  final Condutor condutor;
-
-  _CondutorScreenState(this.condutor);
+class _NewCondutorScreenState extends State<NewCondutorScreen> with SingleTickerProviderStateMixin {
 
   final _textStyleTitleBar = TextStyle(
       color: Util.hexToColor("#3E4958"),
@@ -53,11 +45,15 @@ class _CondutorScreenState extends State<CondutorScreen> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
+    CondutorStore condutorStore = Provider.of<CondutorStore>(context);
+
+    condutorStore.tabController = this._tabController;
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          this.condutor.id==null?'Novo Condutor':"Condutor",
+          'Novo Condutor',
           style: TextStyle(
             fontFamily: "InterBold",
             fontSize: 20.0,
@@ -135,8 +131,8 @@ class _CondutorScreenState extends State<CondutorScreen> with SingleTickerProvid
           ),
           Center(
             child: [
-              CondutorTile(this._scaffoldKey, this.condutor),
-              CondutorAddressTile(_scaffoldKey, this.condutor),
+              NewCondutorTile(this._scaffoldKey),
+              NewCondutorAddressTile(this._scaffoldKey),
             ][_tabController.index],
           ),
         ],

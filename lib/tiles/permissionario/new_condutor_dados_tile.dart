@@ -1,27 +1,23 @@
-import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
-import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
+import 'package:cityconnect/widgets/custom_picked_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class NewCondutorTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
-  final Condutor _condutor;
 
-  NewCondutorTile(this._globalKey, this._condutor);
+  NewCondutorTile(this._globalKey);
 
   @override
-  _NewCondutorTileState createState() =>
-      _NewCondutorTileState(_globalKey, this._condutor);
+  _NewCondutorTileState createState() => _NewCondutorTileState(_globalKey);
 }
 
 class _NewCondutorTileState extends State<NewCondutorTile> {
@@ -34,23 +30,19 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
   TextEditingController _celController =
       MaskedTextController(mask: MaskUtil.telefone8Mask);
   final _emailController = TextEditingController();
-  final _cnhController = TextEditingController();
+  final _cnhController = MaskedTextController(mask: MaskUtil.cnhMask);
   final _vencimentoCNHController =
       MaskedTextController(mask: MaskUtil.dateMask);
   String _categoriaCNH;
   String _imageCNH;
-  final picker = ImagePicker();
 
-  final _dateFormat = Util.dateFormatddMMyyyy;
-
-  bool _flagCelular = true;
   bool _flagIsLoad = false;
+  bool _flagCelular = true;
 
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
-  final Condutor _condutor;
 
-  _NewCondutorTileState(this._scaffoldKey, this._condutor);
+  _NewCondutorTileState(this._scaffoldKey);
 
   void _controllerMaskCelular(String valor) {
     if (valor.length > 9 && _flagCelular) {
@@ -94,23 +86,23 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
-      _nomeController.text = this._condutor.nome;
-      _cpfController.text = Util.clearString(this._condutor.cpf);
-      _rgController.text = this._condutor.rg;
-      _dddController.text = this._condutor.ddd;
-      _phoneController.text = this._condutor.telefone;
-      _celController.text = this._condutor.celular;
-      _emailController.text = this._condutor.email;
-      _cnhController.text = this._condutor.cnh;
-      _categoriaCNH = this._condutor.categoriaCNH;
+      _nomeController.text = condutorStore.solicitacaoDeAlteracao.campo15;
+      _cpfController.text =
+          Util.clearString(condutorStore.solicitacaoDeAlteracao.campo16);
+      _rgController.text = condutorStore.solicitacaoDeAlteracao.campo17;
+      _dddController.text = condutorStore.solicitacaoDeAlteracao.campo5;
+      _phoneController.text = condutorStore.solicitacaoDeAlteracao.campo6;
+      _celController.text = condutorStore.solicitacaoDeAlteracao.campo7;
+      _emailController.text = condutorStore.solicitacaoDeAlteracao.campo4;
+      _cnhController.text = condutorStore.solicitacaoDeAlteracao.campo1;
+      _categoriaCNH = condutorStore.solicitacaoDeAlteracao.campo2;
       _vencimentoCNHController.text =
-      this._condutor.vencimentoCNH != null
-          ? this
-          ._dateFormat
-          .format(this._condutor.vencimentoCNH)
-          : null;
+          condutorStore.solicitacaoDeAlteracao.campo3 != null
+              ? Util.convertyyyyMMddToddMMyyyy(
+                  condutorStore.solicitacaoDeAlteracao.campo3)
+              : null;
+      _imageCNH = condutorStore.solicitacaoDeAlteracao.arquivo1;
     }
-
 
     return Container(
       child: Observer(builder: (_) {
@@ -269,7 +261,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                       controller: _cnhController,
                       label: "CNH",
                       type: TextInputType.number,
-                      validator: ValidatorsUtil.validateNumberAndNotIsEmpty,
+                      validator: ValidatorsUtil.validateCNH,
                       hint: "CNH",
                     ),
                     SizedBox(
@@ -280,7 +272,17 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
                           child: CustomDropdown(
-                            dropdownValues: const <String>['A', 'AB', 'AC', 'AD', 'AE', 'B', 'C', 'D', 'E'],
+                            dropdownValues: const <String>[
+                              'A',
+                              'AB',
+                              'AC',
+                              'AD',
+                              'AE',
+                              'B',
+                              'C',
+                              'D',
+                              'E'
+                            ],
                             hint: Text("CATEGORIA"),
                             value: this._categoriaCNH,
                             onChanged: (newValue) {
@@ -296,7 +298,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                           child: CustomInputFieldGrey(
                             controller: _vencimentoCNHController,
                             label: "VENCIMENTO",
-                            type: TextInputType.text,
+                            type: TextInputType.number,
                             hint: "VENCIMENTO",
                             validator: ValidatorsUtil.validateDate,
                           ),
@@ -306,51 +308,11 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                     SizedBox(
                       height: 32.0,
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Comprovante de CNH",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    GestureDetector(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: _imageCNH != null ?
-
-                        Image.asset(
-                          "${_imageCNH}",
-                          height: 140,
-                          fit: BoxFit.contain,
-                        ) : Text(
-                          "Nenhuma imagem selecionada",
-                          style: TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                      ),
-                      onTap: () async {
-                        final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-
-
-                        setState(() {
-
-                          if (pickedFile != null) {
-                            print(pickedFile.path);
-                            _imageCNH = pickedFile.path;
-                            print(_imageCNH);
-                          } else {
-                            print('No image selected.');
-                          }
-                        });
+                    CustomPickedField(
+                      imagePath: this._imageCNH,
+                      text: "Comprovante de CNH",
+                      callBack: (String imgPath) {
+                        this._imageCNH = imgPath;
                       },
                     ),
                     SizedBox(
@@ -360,26 +322,23 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                         label: "Salvar",
                         func: () {
                           if (_formKey.currentState.validate()) {
-                            CustomDialog().showConfirmDialog(
-                              context: context,
-                              text: "Tem certeza que\ndeseja salvar?",
-                              voidCallbackSim: () {
-                                condutorStore.save(
-                                    nome: this._nomeController.text,
-                                    email: this._emailController.text,
-                                    cpf: Util.clearString(this._cpfController.text),
-                                    celular: Util.clearString(this._celController.text),
-                                    rg: this._rgController.text,
-                                    telefone: Util.clearString(this._phoneController.text),
-                                    vencimentoCNH: this._dateFormat.parse(
-                                        this._vencimentoCNHController.text),
-                                    cnh: this._cnhController.text,
-                                    categoriaCNH: this._categoriaCNH,
-                                    context: context,
-                                    scaffoldKey: _scaffoldKey);
-                              },
-                              voidCallbackNao: () {}
-                            );
+                            condutorStore.saveAbaDadosNewCondutor(
+                                nome: this._nomeController.text,
+                                email: this._emailController.text,
+                                cpf: Util.clearString(this._cpfController.text),
+                                ddd: this._dddController.text,
+                                celular:
+                                    Util.clearString(this._celController.text),
+                                rg: this._rgController.text,
+                                telefone: Util.clearString(
+                                    this._phoneController.text),
+                                vencimentoCNH: Util.dateFormatddMMyyyy
+                                    .parse(this._vencimentoCNHController.text),
+                                cnh: this._cnhController.text,
+                                categoriaCNH: this._categoriaCNH,
+                                imgComprovanteCNH: this._imageCNH,
+                                context: context,
+                                scaffoldKey: _scaffoldKey);
                           }
                         }),
                   ],

@@ -10,6 +10,7 @@ class MaskUtil {
   static final telefone9Mask = '00000-0000';
   static final cepMask = '00000-000';
   static final dateMask = '00/00/0000';
+  static final cnhMask = '00000000000';
 
   static MaskedTextController getMaskControllerWithValue({String mask, String value}){
     return MaskedTextController(mask: mask, text: value??"");

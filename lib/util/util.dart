@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 class Util {
 
   static final DateFormat dateFormatddMMyyyy = DateFormat("dd/MM/yyyy");
+  static final DateFormat dateFormatyyyyMMdd = DateFormat("yyyy-MM-dd");
 
   static Color hexToColor(String code) {
     return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
@@ -13,6 +14,14 @@ class Util {
 
   static String stringOnlyNumber(String value) {
     return value.replaceAll(" ", "").replaceAll(new RegExp('[^0-9]'), '');
+  }
+
+  static String convertyyyyMMddToddMMyyyy(String value) {
+    return dateFormatddMMyyyy.format(dateFormatyyyyMMdd.parse(value));
+  }
+
+  static String convertddMMyyyyToyyyyMMdd(String value) {
+    return dateFormatyyyyMMdd.format(dateFormatddMMyyyy.parse(value));
   }
 
   static List<String> get UFs {

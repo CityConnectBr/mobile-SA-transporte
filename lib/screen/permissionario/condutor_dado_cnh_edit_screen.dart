@@ -211,16 +211,16 @@ class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
                                       context: context,
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
-                                        condutorStore.save(
-                                            vencimentoCNH: this
-                                                ._dateFormat
-                                                .parse(this
-                                                    ._vencimentoCNHController
-                                                    .text),
-                                            cnh: this._cnhController.text,
-                                            categoriaCNH: this._categoriaCNH,
-                                            context: context,
-                                            scaffoldKey: _scaffoldKey);
+//                                        condutorStore.save(
+//                                            vencimentoCNH: this
+//                                                ._dateFormat
+//                                                .parse(this
+//                                                    ._vencimentoCNHController
+//                                                    .text),
+//                                            cnh: this._cnhController.text,
+//                                            categoriaCNH: this._categoriaCNH,
+//                                            context: context,
+//                                            scaffoldKey: _scaffoldKey);
                                       },
                                       voidCallbackNao: () {});
                                 }

@@ -60,16 +60,6 @@ mixin _$CondutorStore on _CondutorStore, Store {
         () => super.firstLoadList(context: context, scaffoldKey: scaffoldKey));
   }
 
-  final _$newCondutorAsyncAction = AsyncAction('_CondutorStore.newCondutor');
-
-  @override
-  Future<void> newCondutor(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
-    return _$newCondutorAsyncAction.run(
-        () => super.newCondutor(context: context, scaffoldKey: scaffoldKey));
-  }
-
   final _$editCondutorAsyncAction = AsyncAction('_CondutorStore.editCondutor');
 
   @override
@@ -81,10 +71,21 @@ mixin _$CondutorStore on _CondutorStore, Store {
         condutor: condutor, context: context, scaffoldKey: scaffoldKey));
   }
 
-  final _$saveAsyncAction = AsyncAction('_CondutorStore.save');
+  final _$newCondutorAsyncAction = AsyncAction('_CondutorStore.newCondutor');
 
   @override
-  Future<void> save(
+  Future<void> newCondutor(
+      {@required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$newCondutorAsyncAction.run(
+        () => super.newCondutor(context: context, scaffoldKey: scaffoldKey));
+  }
+
+  final _$saveAbaDadosNewCondutorAsyncAction =
+      AsyncAction('_CondutorStore.saveAbaDadosNewCondutor');
+
+  @override
+  Future<void> saveAbaDadosNewCondutor(
       {String nome,
       String email,
       String cpf,
@@ -94,28 +95,32 @@ mixin _$CondutorStore on _CondutorStore, Store {
       String celular,
       String cnh,
       String categoriaCNH,
+      String imgComprovanteCNH,
       DateTime vencimentoCNH,
       BuildContext context,
       GlobalKey<ScaffoldState> scaffoldKey}) {
-    return _$saveAsyncAction.run(() => super.save(
-        nome: nome,
-        email: email,
-        cpf: cpf,
-        rg: rg,
-        ddd: ddd,
-        telefone: telefone,
-        celular: celular,
-        cnh: cnh,
-        categoriaCNH: categoriaCNH,
-        vencimentoCNH: vencimentoCNH,
-        context: context,
-        scaffoldKey: scaffoldKey));
+    return _$saveAbaDadosNewCondutorAsyncAction.run(() => super
+        .saveAbaDadosNewCondutor(
+            nome: nome,
+            email: email,
+            cpf: cpf,
+            rg: rg,
+            ddd: ddd,
+            telefone: telefone,
+            celular: celular,
+            cnh: cnh,
+            categoriaCNH: categoriaCNH,
+            imgComprovanteCNH: imgComprovanteCNH,
+            vencimentoCNH: vencimentoCNH,
+            context: context,
+            scaffoldKey: scaffoldKey));
   }
 
-  final _$saveEnderecoAsyncAction = AsyncAction('_CondutorStore.saveEndereco');
+  final _$saveAbaEnderecoNewCondutorAsyncAction =
+      AsyncAction('_CondutorStore.saveAbaEnderecoNewCondutor');
 
   @override
-  Future<void> saveEndereco(
+  Future<void> saveAbaEnderecoNewCondutor(
       {String cep,
       String endereco,
       String numero,
@@ -123,18 +128,21 @@ mixin _$CondutorStore on _CondutorStore, Store {
       String bairro,
       String municipio,
       String uf,
+      String imgComprovanteEndereco,
       BuildContext context,
       GlobalKey<ScaffoldState> scaffoldKey}) {
-    return _$saveEnderecoAsyncAction.run(() => super.saveEndereco(
-        cep: cep,
-        endereco: endereco,
-        numero: numero,
-        complemento: complemento,
-        bairro: bairro,
-        municipio: municipio,
-        uf: uf,
-        context: context,
-        scaffoldKey: scaffoldKey));
+    return _$saveAbaEnderecoNewCondutorAsyncAction.run(() => super
+        .saveAbaEnderecoNewCondutor(
+            cep: cep,
+            endereco: endereco,
+            numero: numero,
+            complemento: complemento,
+            bairro: bairro,
+            municipio: municipio,
+            uf: uf,
+            imgComprovanteEndereco: imgComprovanteEndereco,
+            context: context,
+            scaffoldKey: scaffoldKey));
   }
 
   @override

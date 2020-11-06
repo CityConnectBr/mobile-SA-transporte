@@ -7,12 +7,10 @@ class ValidatorsUtil {
   static final Pattern min1CharacterPattern = "(?=.{1,})";
   static final Pattern phonePattern = "^[0-9]{2}([0-9]{9}|[0-9]{8})\$";
   static final Pattern cepPattern = "^\\d{5}-\\d{3}\$";
-  static final Pattern ufPattern =
-      "^(AC|AL|AP|AM|BA|CE|DF|GO|ES|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SP|SC|SE|TO)\$";
-  static final Pattern dateTimePattern =
-      "^(\\d{4})-(\\d\\d)-(\\d\\d)T(\\d\\d):(\\d\\d):(\\d\\d).(\\d\\d\\d)Z\$";
-  static final Pattern jwtPattern =
-      "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*\$";
+  static final Pattern cnhPattern = "^(\\d{11})\$";
+  static final Pattern ufPattern = "^(AC|AL|AP|AM|BA|CE|DF|GO|ES|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SP|SC|SE|TO)\$";
+  static final Pattern dateTimePattern = "^(\\d{4})-(\\d\\d)-(\\d\\d)T(\\d\\d):(\\d\\d):(\\d\\d).(\\d\\d\\d)Z\$";
+  static final Pattern jwtPattern = "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*\$";
 
   static String isNullOrIsEmpty(text) {
     if (text == null || text.isEmpty) return "Campo obrigatório";
@@ -61,6 +59,14 @@ class ValidatorsUtil {
     RegExp regex = new RegExp(phonePattern);
     if (!regex.hasMatch(value))
       return 'Número inválido';
+    else
+      return null;
+  }
+
+  static String validateCNH(String value) {
+    RegExp regex = new RegExp(cnhPattern);
+    if (!regex.hasMatch(value))
+      return 'CNH inválido';
     else
       return null;
   }

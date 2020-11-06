@@ -1,8 +1,8 @@
 import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/models/veiculo_model.dart';
 import 'package:cityconnect/tiles/usuario_edit_endereco_tile.dart';
-import 'package:cityconnect/tiles/condutor_dados_tile.dart';
-import 'package:cityconnect/tiles/condutor_endereco_tile.dart';
+import 'package:cityconnect/tiles/condutor_edit_dados_tile.dart';
+import 'package:cityconnect/tiles/condutor_edit_endereco_tile.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/cupertino.dart';

@@ -186,13 +186,13 @@ class _CondutorDadoContatoScreenState extends State<CondutorDadoContatoScreen> {
                                       context: context,
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
-                                        condutorStore.save(
-                                            email: this._emailController.text,
-                                            celular: Util.clearString(this._celController.text),
-                                            ddd: this._dddController.text,
-                                            telefone: Util.clearString(this._phoneController.text),
-                                            context: context,
-                                            scaffoldKey: _scaffoldKey);
+//                                        condutorStore.save(
+//                                            email: this._emailController.text,
+//                                            celular: Util.clearString(this._celController.text),
+//                                            ddd: this._dddController.text,
+//                                            telefone: Util.clearString(this._phoneController.text),
+//                                            context: context,
+//                                            scaffoldKey: _scaffoldKey);
                                       },
                                       voidCallbackNao: () {}
                                   );

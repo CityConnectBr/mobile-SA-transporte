@@ -6,31 +6,29 @@ import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
+import 'package:cityconnect/widgets/custom_picked_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class NewCondutorAddressTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
-  final Condutor _condutor;
 
-  NewCondutorAddressTile(this._globalKey, this._condutor);
+  NewCondutorAddressTile(this._globalKey);
 
   @override
   _NewCondutorAddressTileState createState() =>
-      _NewCondutorAddressTileState(_globalKey, this._condutor);
+      _NewCondutorAddressTileState(_globalKey);
 }
 
 class _NewCondutorAddressTileState extends State<NewCondutorAddressTile> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
-  final Condutor _condutor;
 
-  _NewCondutorAddressTileState(this._scaffoldKey, this._condutor);
+  _NewCondutorAddressTileState(this._scaffoldKey);
 
   final _cepController = MaskedTextController(mask: MaskUtil.cepMask);
   final _addressController = TextEditingController();
@@ -40,7 +38,6 @@ class _NewCondutorAddressTileState extends State<NewCondutorAddressTile> {
   final _municipioController = TextEditingController();
   String _uf;
   String _image;
-  final picker = ImagePicker();
 
   @override
   void initState() {
@@ -65,16 +62,17 @@ class _NewCondutorAddressTileState extends State<NewCondutorAddressTile> {
   Widget build(BuildContext context) {
     CondutorStore condutorStore = Provider.of<CondutorStore>(context);
 
-    if (!this._flagIsLoad && this._condutor.endereco != null) {
+    if (!this._flagIsLoad) {
       this._flagIsLoad = true;
 
-      _cepController.text = this._condutor.endereco.cep;
-      _addressController.text = this._condutor.endereco.endereco;
-      _numController.text = this._condutor.endereco.numero;
-      _complementController.text = this._condutor.endereco.complemento;
-      _bairroController.text = this._condutor.endereco.bairro;
-      _municipioController.text = this._condutor.endereco.municipio;
-      _uf = this._condutor.endereco.uf;
+      _cepController.text = condutorStore.solicitacaoDeAlteracao.campo8;
+      _addressController.text = condutorStore.solicitacaoDeAlteracao.campo9;
+      _numController.text = condutorStore.solicitacaoDeAlteracao.campo10;
+      _complementController.text = condutorStore.solicitacaoDeAlteracao.campo11;
+      _bairroController.text = condutorStore.solicitacaoDeAlteracao.campo12;
+      _municipioController.text = condutorStore.solicitacaoDeAlteracao.campo13;
+      _uf = condutorStore.solicitacaoDeAlteracao.campo14;
+      _image = condutorStore.solicitacaoDeAlteracao.arquivo2;
     }
 
     return Container(
@@ -190,80 +188,33 @@ class _NewCondutorAddressTileState extends State<NewCondutorAddressTile> {
                       ],
                     ),
                     SizedBox(
-                      height: 30.0,
+                      height: 32.0,
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Comprovante de endereço",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    GestureDetector(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: _image != null ?
-
-                        Image.asset(
-                          "${_image}",
-                          height: 140,
-                          fit: BoxFit.contain,
-                        ) : Text(
-                          "Nenhuma imagem selecionada",
-                          style: TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                      ),
-                      onTap: () async {
-                        final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-
-
-                        setState(() {
-
-                          if (pickedFile != null) {
-                            print(pickedFile.path);
-                            _image = pickedFile.path;
-                            print(_image);
-                          } else {
-                            print('No image selected.');
-                          }
-                        });
+                    CustomPickedField(
+                      imagePath: this._image,
+                      text: "Comprovante do Endereço",
+                      callBack: (String imgPath) {
+                        this._image = imgPath;
                       },
                     ),
                     SizedBox(
-                      height: 26.0,
+                      height: 30.0,
                     ),
                     CustomRaisedButtonBlue(
                         label: "Salvar",
                         func: () {
                           if (_formKey.currentState.validate()) {
-                            CustomDialog().showConfirmDialog(
+                            condutorStore.saveAbaEnderecoNewCondutor(
+                                cep: Util.clearString(this._cepController.text),
+                                endereco: this._addressController.text,
+                                complemento: this._complementController.text,
+                                bairro: this._bairroController.text,
+                                numero: this._numController.text,
+                                municipio: this._municipioController.text,
+                                uf: this._uf,
+                                imgComprovanteEndereco: this._image,
                                 context: context,
-                                text: "Tem certeza que\ndeseja salvar?",
-                                voidCallbackSim: () {
-                                  condutorStore.saveEndereco(
-                                      cep: Util.clearString(
-                                          this._cepController.text),
-                                      endereco: this._addressController.text,
-                                      complemento:
-                                          this._complementController.text,
-                                      bairro: this._bairroController.text,
-                                      numero: this._numController.text,
-                                      municipio: this._municipioController.text,
-                                      uf: this._uf,
-                                      context: context,
-                                      scaffoldKey: _scaffoldKey);
-                                },
-                                voidCallbackNao: () {});
+                                scaffoldKey: _scaffoldKey);
                           }
                         }),
                   ],

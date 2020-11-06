@@ -265,20 +265,20 @@ class _CondutorDadoEnderecoScreenState
                                       context: context,
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
-                                        condutorStore.saveEndereco(
-                                            cep: Util.clearString(
-                                                this._cepController.text),
-                                            endereco:
-                                                this._addressController.text,
-                                            complemento:
-                                                this._complementController.text,
-                                            bairro: this._bairroController.text,
-                                            numero: this._numController.text,
-                                            municipio:
-                                                this._municipioController.text,
-                                            uf: this._uf,
-                                            context: context,
-                                            scaffoldKey: _scaffoldKey);
+//                                        condutorStore.saveEndereco(
+//                                            cep: Util.clearString(
+//                                                this._cepController.text),
+//                                            endereco:
+//                                                this._addressController.text,
+//                                            complemento:
+//                                                this._complementController.text,
+//                                            bairro: this._bairroController.text,
+//                                            numero: this._numController.text,
+//                                            municipio:
+//                                                this._municipioController.text,
+//                                            uf: this._uf,
+//                                            context: context,
+//                                            scaffoldKey: _scaffoldKey);
                                       },
                                       voidCallbackNao: () {});
                                 }

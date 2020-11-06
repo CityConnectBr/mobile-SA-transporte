@@ -201,13 +201,13 @@ class _CondutorDadoIdentidadeScreenState
                                       context: context,
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
-                                        condutorStore.save(
-                                            nome: this._nomeController.text,
-                                            cpf: Util.clearString(
-                                                this._cpfController.text),
-                                            rg: this._rgController.text,
-                                            context: context,
-                                            scaffoldKey: _scaffoldKey);
+//                                        condutorStore.save(
+//                                            nome: this._nomeController.text,
+//                                            cpf: Util.clearString(
+//                                                this._cpfController.text),
+//                                            rg: this._rgController.text,
+//                                            context: context,
+//                                            scaffoldKey: _scaffoldKey);
                                       },
                                       voidCallbackNao: () {});
                                 }

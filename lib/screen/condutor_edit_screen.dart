@@ -1,26 +1,26 @@
 import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/tiles/permissionario/new_condutor_dados_tile.dart';
-import 'package:cityconnect/tiles/permissionario/new_condutor_endereco_tile.dart';
+import 'package:cityconnect/tiles/condutor_edit_dados_tile.dart';
+import 'package:cityconnect/tiles/condutor_edit_endereco_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-class NewCondutorScreen extends StatefulWidget {
+class CondutorEditScreen extends StatefulWidget {
 
   final Condutor condutor;
 
-  NewCondutorScreen(this.condutor);
+  CondutorEditScreen(this.condutor);
 
   @override
-  _NewCondutorScreenState createState() => _NewCondutorScreenState(condutor);
+  _CondutorEditScreenState createState() => _CondutorEditScreenState(condutor);
 }
 
-class _NewCondutorScreenState extends State<NewCondutorScreen> with SingleTickerProviderStateMixin {
+class _CondutorEditScreenState extends State<CondutorEditScreen> with SingleTickerProviderStateMixin {
 
   final Condutor condutor;
 
-  _NewCondutorScreenState(this.condutor);
+  _CondutorEditScreenState(this.condutor);
 
   final _textStyleTitleBar = TextStyle(
       color: Util.hexToColor("#3E4958"),
@@ -56,7 +56,7 @@ class _NewCondutorScreenState extends State<NewCondutorScreen> with SingleTicker
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          'Novo Condutor',
+          this.condutor.id==null?'Novo Condutor':"Condutor",
           style: TextStyle(
             fontFamily: "InterBold",
             fontSize: 20.0,
@@ -134,8 +134,8 @@ class _NewCondutorScreenState extends State<NewCondutorScreen> with SingleTicker
           ),
           Center(
             child: [
-              NewCondutorTile(this._scaffoldKey, this.condutor),
-              NewCondutorAddressTile(_scaffoldKey, this.condutor),
+              CondutorEditDadosTile(this._scaffoldKey, this.condutor),
+              CondutorEditEnderecoTile(_scaffoldKey, this.condutor),
             ][_tabController.index],
           ),
         ],

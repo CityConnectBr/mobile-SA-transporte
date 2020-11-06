@@ -36,10 +36,12 @@ class CustomDialog {
 
   void showConfirmDialog(
       {BuildContext context,
-        String text,
+      String text,
+      bool barrierDismissible = true,
       VoidCallback voidCallbackSim,
       VoidCallback voidCallbackNao}) {
     showDialog(
+      barrierDismissible: barrierDismissible,
       context: context,
       builder: (BuildContext contextDialog) {
         return AlertDialog(
@@ -125,6 +127,79 @@ class CustomDialog {
                       ),
                     ),
                   ],
+                ),
+              ],
+            ),
+          ),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(15.0),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showMessegeDialog(
+      {BuildContext context,
+      String text,
+      bool barrierDismissible = true,
+      double height = 210.0,
+      String imageAsset = null,
+      VoidCallback voidCallback}) {
+    showDialog(
+      barrierDismissible: barrierDismissible,
+      context: context,
+      builder: (BuildContext contextDialog) {
+        return AlertDialog(
+          content: Container(
+            height: height,
+            child: Column(
+              children: [
+                imageAsset != null ? Image.asset(imageAsset) : Container(),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontFamily: "InterBold",
+                    fontSize: 20.0,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Spacer(),
+                Container(
+                  width: 100.0,
+                  child: FlatButton(
+                    child: Text(
+                      "OK",
+                      style: TextStyle(
+                        fontFamily: "InterBold",
+                        fontSize: 20.0,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    onPressed: () {
+                      Navigator.of(contextDialog).pop();
+                      voidCallback.call();
+                    },
+                  ),
+                  decoration: BoxDecoration(
+                    color: Util.hexToColor("#2D9CDB"),
+                    borderRadius: BorderRadius.circular(7.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Util.hexToColor("#1069E3").withOpacity(0.3),
+                        spreadRadius: 3,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
