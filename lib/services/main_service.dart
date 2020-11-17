@@ -6,13 +6,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MainService {
   final dio = Dio();
-  final _tokenDio = Dio();
+  final simpleDio = Dio();
 
   String url;
 
   MainService() {
     dio.options.baseUrl = DotEnv().env['URL_API'];
-    _tokenDio.options.baseUrl = DotEnv().env['URL_API'];
+    simpleDio.options.baseUrl = DotEnv().env['URL_API'];
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       final token = await getToken();
@@ -28,7 +28,7 @@ class MainService {
         dio.lock();
         dio.interceptors.responseLock.lock();
         dio.interceptors.errorLock.lock();
-        return _tokenDio.get("/auth/refresh", options: options).then((d) async {
+        return simpleDio.get("/auth/refresh", options: options).then((d) async {
           print("refresh token");
           print(d.data['newToken']);
           //update token

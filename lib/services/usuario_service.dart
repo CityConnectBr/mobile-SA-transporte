@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 
 class UsuarioService extends MainService {
   Future<String> login(String email, String senha) async {
-    Response response = await dio.post('/auth/login', data: {
+    Response response = await simpleDio.post('/auth/login', data: {
       "email": email,
       "password": senha,
     });
@@ -37,7 +37,7 @@ class UsuarioService extends MainService {
       String cpfCnj,
       String cnh,
       String senha}) async {
-    await dio.post('/auth/signin', data: {
+    await simpleDio.post('/auth/signin', data: {
       "nome": nome,
       "email": email,
       "cpf_cnpj": cpfCnj,
