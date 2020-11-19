@@ -1,4 +1,5 @@
 import 'package:cityconnect/screen/cadastro_usuario_screen.dart';
+import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/tiles/login_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
@@ -8,81 +9,85 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final _textStyleTitleBar =
-  TextStyle(color: Util.hexToColor("#505050"), fontSize: 20.0);
+class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
+  final _textStyleTitleBar = TextStyle(color: Util.hexToColor("#505050"), fontSize: 20.0);
+
+  TabController _tabController;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  double heightTab = 450.0;
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_handleTabSelection);
+    super.initState();
+  }
+
+  _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-      ),
-      backgroundColor: Colors.white,
       key: _scaffoldKey,
-      body: ListView(
-        children: <Widget>[
-          SizedBox(
-            width: double.infinity,
-            height: 150.0,
-            // height: double.infinity,
-            child: Container(
-              padding: EdgeInsets.only(left: 45.0, right: 45.0, bottom: 70.0),
-              color: Theme.of(context).primaryColor,
-              child: Image.asset(
-                "images/logo.png",
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          DefaultTabController(
-            length: 2,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  constraints: BoxConstraints.expand(height: 50),
-                  child: TabBar(
-                    indicatorColor: Theme.of(context).primaryColor,
-                    indicatorWeight: 5.0,
-                    onTap: (index) {
-                      setState(() {
-                        if (index == 0)
-                          heightTab = 450.0;
-                        else
-                          heightTab = 800.0;
-                      });
-                    },
-                    tabs: [
-                      Tab(
-                        child: Text(
-                          "Login",
-                          style: _textStyleTitleBar,
-                        ),
-                      ),
-                      Tab(
-                        child: Text(
-                          "Cadastro",
-                          style: _textStyleTitleBar,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  height: heightTab,
-                  child: TabBarView(children: [
-                    LoginTile(_scaffoldKey),
-                    //////////////////////
-                    CadastroUsuarioScreen(_scaffoldKey)
-                  ]),
-                ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(120.0),
+        child: AppBar(
+          flexibleSpace: Container(
+            margin: EdgeInsets.only(top: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'images/logo.png',
+                  fit: BoxFit.contain,
+                  width: 180,
+                  height: 180,
+                )
               ],
             ),
+          ),
+          elevation: 0.0,
+          backgroundColor: Theme.of(context).primaryColor,
+          brightness: Brightness.light,
+        ),
+      ),
+      body: ListView(
+        children: <Widget>[
+          TabBar(
+            controller: _tabController,
+            labelColor: Colors.redAccent,
+            tabs: [
+              Tab(
+                child: Text(
+                  "Login",
+                  style: _textStyleTitleBar,
+                ),
+              ),
+              Tab(
+                child: Text(
+                  "Cadastro",
+                  style: _textStyleTitleBar,
+                ),
+              ),
+            ],
+            indicatorWeight: 5.0,
+            indicatorColor: Theme.of(context).primaryColor,
+          ),
+          Center(
+            child: [
+              LoginTile(this._scaffoldKey),
+              CadastroUsuarioScreen(this._scaffoldKey),
+            ][_tabController.index],
           ),
         ],
       ),
