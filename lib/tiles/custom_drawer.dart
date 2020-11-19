@@ -1,4 +1,5 @@
 import 'package:cityconnect/screen/condutor_search_screen.dart';
+import 'package:cityconnect/screen/fiscal/emissao_multa_screen.dart';
 import 'package:cityconnect/screen/veiculo_search_screen.dart';
 import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/tiles/custom_list_tile.dart';
@@ -33,16 +34,14 @@ class CustomDrawerTile extends StatelessWidget {
       CustomListTile(
         title: "CONDUTORES",
         onTap: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => SearchCondutorScreen()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchCondutorScreen()));
         },
       ),
       SizedBox(height: 24.0),
       CustomListTile(
         title: "VEÍCULOS",
         onTap: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
         },
       ),
     ];
@@ -63,16 +62,16 @@ class CustomDrawerTile extends StatelessWidget {
 
     final acoesFiscalMap = [
       CustomListTile(
-        title: "VEÍCULOS",
-      ),
+          title: "VEÍCULOS",
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
+          }),
       SizedBox(height: 24.0),
       CustomListTile(
-        title: "CONDUTORES",
-      ),
-      SizedBox(height: 24.0),
-      CustomListTile(
-        title: "MULTAS",
-      ),
+          title: "EMISSÃO DE MULTAS",
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => EmissaoDeMultaScreen()));
+          }),
     ];
 
     return Drawer(
@@ -113,8 +112,7 @@ class CustomDrawerTile extends StatelessWidget {
                             fit: BoxFit.contain,
                           ),
                           onTap: () {
-                            usuarioStore.editUser(
-                                context: context, scaffoldKey: scaffoldKey);
+                            usuarioStore.editUser(context: context, scaffoldKey: scaffoldKey);
                           },
                         ),
                       ),
