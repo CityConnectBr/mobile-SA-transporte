@@ -1,6 +1,9 @@
 import 'package:cityconnect/screen/condutor/alvara_digital_screen.dart';
 import 'package:cityconnect/screen/condutor_search_screen.dart';
 import 'package:cityconnect/screen/fiscal/emissao_multa_screen.dart';
+import 'package:cityconnect/screen/permissionario/alvara_digital_screen.dart';
+import 'package:cityconnect/screen/permissionario/boletos_screen.dart';
+import 'package:cityconnect/screen/permissionario/solicitacoes_screen.dart';
 import 'package:cityconnect/screen/veiculo_search_screen.dart';
 import 'package:cityconnect/stores/usuario_store.dart';
 import 'package:cityconnect/tiles/custom_list_tile.dart';
@@ -15,36 +18,51 @@ class CustomDrawerTile extends StatelessWidget {
 
   CustomDrawerTile(this.scaffoldKey);
 
+  final double heightSpace = 18.0;
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+
     UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
 
     final acoesPermissionarioMap = [
       CustomListTile(
-        title: "ALVARÁ DE PERMISSÃO",
-      ),
-      SizedBox(height: 24.0),
-      CustomListTile(
         title: "ALVARÁ DIGITAL",
         onTap: () {
-//          Navigator.of(context).push(
-//              MaterialPageRoute(builder: (context) => SearchCondutorScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => AlvaraDigitalPermissionarioScreen()));
         },
       ),
-      SizedBox(height: 24.0),
+      SizedBox(height: heightSpace),
       CustomListTile(
         title: "CONDUTORES",
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchCondutorScreen()));
         },
       ),
-      SizedBox(height: 24.0),
+      SizedBox(height: heightSpace),
       CustomListTile(
         title: "VEÍCULOS",
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
         },
       ),
+      SizedBox(height: heightSpace),
+      CustomListTile(
+        title: "BOLETOS",
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => BoletosScreen()));
+        },
+      ),
+      SizedBox(height: heightSpace),
+      CustomListTile(
+        title: "SOLICITAÇÕES",
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SolicitacoesScreen()));
+        },
+      ),
+      SizedBox(height: height*.05),
     ];
 
     final acoesCondutorMap = [
@@ -54,6 +72,7 @@ class CustomDrawerTile extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlvaraDigitalScreen()));
         },
       ),
+      SizedBox(height: height*.35),
     ];
 
     final acoesFiscalMap = [
@@ -62,12 +81,13 @@ class CustomDrawerTile extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
           }),
-      SizedBox(height: 24.0),
+      SizedBox(height: heightSpace),
       CustomListTile(
           title: "EMISSÃO DE MULTAS",
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => EmissaoDeMultaScreen()));
           }),
+      SizedBox(height: height*.30),
     ];
 
     return Drawer(
@@ -160,7 +180,7 @@ class CustomDrawerTile extends StatelessWidget {
           }),
           Container(
             margin: EdgeInsets.only(
-              top: 120.0,
+              top: 20.0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
