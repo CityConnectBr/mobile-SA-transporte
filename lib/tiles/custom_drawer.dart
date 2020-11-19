@@ -1,3 +1,4 @@
+import 'package:cityconnect/screen/condutor/alvara_digital_screen.dart';
 import 'package:cityconnect/screen/condutor_search_screen.dart';
 import 'package:cityconnect/screen/fiscal/emissao_multa_screen.dart';
 import 'package:cityconnect/screen/veiculo_search_screen.dart';
@@ -48,15 +49,10 @@ class CustomDrawerTile extends StatelessWidget {
 
     final acoesCondutorMap = [
       CustomListTile(
-        title: "ALVARÁ DE PERMISSÃO",
-      ),
-      SizedBox(height: 24.0),
-      CustomListTile(
         title: "ALVARÁ DIGITAL",
-      ),
-      SizedBox(height: 24.0),
-      CustomListTile(
-        title: "VEÍCULO",
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlvaraDigitalScreen()));
+        },
       ),
     ];
 

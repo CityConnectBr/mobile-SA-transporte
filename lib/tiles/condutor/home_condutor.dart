@@ -1,5 +1,4 @@
-import 'package:cityconnect/screen/condutor_search_screen.dart';
-import 'package:cityconnect/screen/veiculo_screen.dart';
+import 'package:cityconnect/screen/condutor/alvara_digital_screen.dart';
 import 'package:cityconnect/widgets/box_item.dart';
 import 'package:flutter/material.dart';
 
@@ -17,24 +16,11 @@ class _HomeCondutorTileState extends State<HomeCondutorTile> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SearchCondutorScreen()));
+                  builder: (context) => AlvaraDigitalScreen()));
             },
             child: BoxItem(
               icon: "images/icon-face.png",
-              description: "Visualizar Condutores",
-            ),
-          ),
-          SizedBox(
-            height: 15.0,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => VeiculoScreen(null)));
-            },
-            child: BoxItem(
-              icon: "images/icon-car.png",
-              description: "Visualizar Veículos",
+              description: "Alvará Digital",
             ),
           ),
         ],
