@@ -1,5 +1,6 @@
 import 'package:cityconnect/screen/condutor_search_screen.dart';
 import 'package:cityconnect/screen/veiculo_screen.dart';
+import 'package:cityconnect/screen/veiculo_search_screen.dart';
 import 'package:cityconnect/widgets/box_item.dart';
 import 'package:flutter/material.dart';
 
@@ -17,20 +18,7 @@ class _HomeFiscalTileState extends State<HomeFiscalTile> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SearchCondutorScreen()));
-            },
-            child: BoxItem(
-              icon: "images/icon-face.png",
-              description: "Visualizar Condutores",
-            ),
-          ),
-          SizedBox(
-            height: 15.0,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => VeiculoScreen(null)));
+                  builder: (context) => SearchVeiculoScreen()));
             },
             child: BoxItem(
               icon: "images/icon-car.png",

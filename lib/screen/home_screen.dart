@@ -77,20 +77,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               ],
             ),
-            Container(
-              padding: EdgeInsets.only(top: 20.0, bottom: 40.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Image.asset(
-                    "images/arrow-down.png",
-                    //width: 50,
-                    width: 12.0,
-                    fit: BoxFit.contain,
-                  ),
-                ],
-              ),
-            ),
+//            Container(
+//              padding: EdgeInsets.only(top: 20.0, bottom: 40.0),
+//              child: Column(
+//                mainAxisAlignment: MainAxisAlignment.end,
+//                children: <Widget>[
+//                  Image.asset(
+//                    "images/arrow-down.png",
+//                    //width: 50,
+//                    width: 12.0,
+//                    fit: BoxFit.contain,
+//                  ),
+//                ],
+//              ),
+//            ),
 //            BoxRounded(
 //              child: CustomSearch(
 //                controller: _searchController,
