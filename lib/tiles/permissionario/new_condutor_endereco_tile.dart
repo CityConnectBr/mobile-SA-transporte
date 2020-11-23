@@ -14,21 +14,21 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class NewCondutorAddressTile extends StatefulWidget {
+class NewCondutorEnderecoTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
 
-  NewCondutorAddressTile(this._globalKey);
+  NewCondutorEnderecoTile(this._globalKey);
 
   @override
-  _NewCondutorAddressTileState createState() =>
-      _NewCondutorAddressTileState(_globalKey);
+  _NewCondutorEnderecoTileState createState() =>
+      _NewCondutorEnderecoTileState(_globalKey);
 }
 
-class _NewCondutorAddressTileState extends State<NewCondutorAddressTile> {
+class _NewCondutorEnderecoTileState extends State<NewCondutorEnderecoTile> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
-  _NewCondutorAddressTileState(this._scaffoldKey);
+  _NewCondutorEnderecoTileState(this._scaffoldKey);
 
   final _cepController = MaskedTextController(mask: MaskUtil.cepMask);
   final _addressController = TextEditingController();

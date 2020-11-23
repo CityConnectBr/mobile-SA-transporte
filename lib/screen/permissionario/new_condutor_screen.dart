@@ -2,6 +2,7 @@ import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/tiles/permissionario/new_condutor_dados_tile.dart';
 import 'package:cityconnect/tiles/permissionario/new_condutor_endereco_tile.dart';
+import 'package:cityconnect/tiles/photo_person_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
@@ -63,52 +64,12 @@ class _NewCondutorScreenState extends State<NewCondutorScreen> with SingleTicker
       ),
       body: ListView(
         children: <Widget>[
-          Container(
-            color: Util.hexToColor("#2D9CDB"),
-            height: 160.0,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      width: 120.0,
-                      height: 120.0,
-                      child: Observer(builder: (_) {
-                        return Container(
-                          width: 120.0,
-                          height: 120.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: //_fotoStr != null
-                              // ? FileImage(File(_fotoStr))
-                              // :
-                              AssetImage("images/photo-user.png"),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                    Positioned(
-                      top: -5.0,
-                      right: -10.0,
-                      child: GestureDetector(
-                        child: Image.asset(
-                          "images/icon-cam.png",
-                          height: 50,
-                          fit: BoxFit.contain,
-                        ),
-                        onTap: () {},
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
+          PhotoPersonTile(
+            imagePath: condutorStore.fotoCondutor,
+            callBack: (String imgPath) {
+              condutorStore.fotoCondutor = imgPath;
+            },
           ),
-
           TabBar(
             controller: _tabController,
             labelColor: Colors.redAccent,
@@ -132,7 +93,7 @@ class _NewCondutorScreenState extends State<NewCondutorScreen> with SingleTicker
           Center(
             child: [
               NewCondutorTile(this._scaffoldKey),
-              NewCondutorAddressTile(this._scaffoldKey),
+              NewCondutorEnderecoTile(this._scaffoldKey),
             ][_tabController.index],
           ),
         ],

@@ -30,6 +30,7 @@ abstract class _CondutorStore with Store {
   final _solicitacaoService = SolicitacaoDeAlteracaoService();
 
   String _lastSearch;
+  String fotoCondutor;
 
   TabController tabController;
 
@@ -114,6 +115,7 @@ abstract class _CondutorStore with Store {
       this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
       this.flagAbaDadosOk = false;
       this.flagAbaEnderecoOk = false;
+      this.fotoCondutor = null;
 
       dynamic returnFromScreen = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewCondutorScreen()));
 
@@ -160,10 +162,15 @@ abstract class _CondutorStore with Store {
         aux = false;
         SnackMessages.showSnackBarError(context, scaffoldKey, "Categoria da CNH não pode estar vazio.");
       }
-      print(imgComprovanteCNH);
+
       if (imgComprovanteCNH == null || imgComprovanteCNH.isEmpty) {
         aux = false;
         SnackMessages.showSnackBarError(context, scaffoldKey, "Comprovante da CNH não pode estar vazio.");
+      }
+
+      if (fotoCondutor == null || fotoCondutor.isEmpty) {
+        aux = false;
+        SnackMessages.showSnackBarError(context, scaffoldKey, "Condutor não possui foto.");
       }
 
       if (aux) {
@@ -247,9 +254,10 @@ abstract class _CondutorStore with Store {
     CustomDialog().showConfirmDialog(
         context: context,
         text: "Tem certeza que\ndeseja salvar?",
-        voidCallbackSim: () {
+        voidCallbackSim: () async {
           try {
-            this._solicitacaoService.createSolicitacao(this.solicitacaoDeAlteracao).then((_) => Navigator.of(context).pop(true));
+            this.solicitacaoDeAlteracao.arquivo3 = fotoCondutor;
+            await this._solicitacaoService.createSolicitacao(this.solicitacaoDeAlteracao).then((_) => Navigator.of(context).pop(true));
           } catch (e) {
             SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser().toString().replaceAll("endereco.", ""));
           }
