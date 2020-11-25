@@ -1,11 +1,12 @@
 import 'package:cityconnect/models/condutor_model.dart';
+import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/tiles/condutor_edit_dados_tile.dart';
 import 'package:cityconnect/tiles/condutor_edit_endereco_tile.dart';
 import 'package:cityconnect/tiles/photo_person_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class CondutorEditScreen extends StatefulWidget {
 
@@ -53,21 +54,24 @@ class _CondutorEditScreenState extends State<CondutorEditScreen> with SingleTick
 
   @override
   Widget build(BuildContext context) {
+    CondutorStore _condutorStore = Provider.of<CondutorStore>(context);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           this.condutor.id==null?'Novo Condutor':"Condutor",
-          style: TextStyle(
-            fontFamily: "InterBold",
-            fontSize: 20.0,
-          ),
         ),
         centerTitle: true,
       ),
       body: ListView(
         children: <Widget>[
-          PhotoPersonTile(),
+          GestureDetector(
+            child: PhotoPersonTile(),
+            onTap: (){
+              _condutorStore.editFotoCondutor(context: context, scaffoldKey: _scaffoldKey);
+            },
+          ),
           TabBar(
             controller: _tabController,
             labelColor: Colors.redAccent,

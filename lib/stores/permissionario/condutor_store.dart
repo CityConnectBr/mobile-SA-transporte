@@ -1,11 +1,11 @@
 import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/models/endereco_model.dart';
 import 'package:cityconnect/models/solicitacao_alteracao_model.dart';
 import 'package:cityconnect/screen/condutor_edit_screen.dart';
+import 'package:cityconnect/screen/permissionario/condutor_foto_edit_screen.dart';
 import 'package:cityconnect/screen/permissionario/new_condutor_screen.dart';
 import 'package:cityconnect/services/condutor_service.dart';
 import 'package:cityconnect/services/solicitacao_alteracao_service.dart';
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/util/error_handler_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
@@ -13,16 +13,12 @@ import 'package:cityconnect/widgets/snack_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:provider/provider.dart';
 
 part 'condutor_store.g.dart';
 
 class CondutorStore = _CondutorStore with _$CondutorStore;
 
-abstract class _CondutorStore with Store {
-  @observable
-  bool loading = false;
-
+abstract class _CondutorStore extends MainStore with Store {
   Condutor _condutor;
   SolicitacaoDeAlteracao solicitacaoDeAlteracao;
 
@@ -47,10 +43,12 @@ abstract class _CondutorStore with Store {
     try {
       this._lastSearch = search;
 
-      assert(await Provider.of<UsuarioStore>(context, listen: false).isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false);
 
+      print(condutores.length);
       condutores = (await _condutorService.search(search)).map((model) => Condutor.fromJson(model)).toList();
 
+      print(condutores.length);
       if (condutores == null) {
         condutores = [];
       }
@@ -68,7 +66,7 @@ abstract class _CondutorStore with Store {
     loading = true;
 
     try {
-      assert(await Provider.of<UsuarioStore>(context, listen: false).isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       if (this.condutores == null) {
         this.condutores = (await this._condutorService.search("")).map((model) => Condutor.fromJson(model)).toList();
@@ -87,20 +85,73 @@ abstract class _CondutorStore with Store {
   @action
   Future<void> editCondutor({@required Condutor condutor, @required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
     try {
-      assert(await Provider.of<UsuarioStore>(context, listen: false).isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      this.loading = true;
+
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       this._condutor = condutor;
 
-      dynamic returnFromScreen = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorEditScreen(this._condutor)));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorEditScreen(this._condutor))).then((returnFromScreen) => () {
+            if (returnFromScreen != null && returnFromScreen) {
+              SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
 
-      if (returnFromScreen != null && returnFromScreen) {
-        SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
+              this.pesquisar(scaffoldKey: scaffoldKey, context: context, search: this._lastSearch);
+            }
+          });
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+    this.loading = false;
+  }
 
-        this.pesquisar(scaffoldKey: scaffoldKey, context: context, search: this._lastSearch);
+  @action
+  Future<void> editFotoCondutor({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
+    try {
+      this.loading = true;
+
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorFotoScreen()));
+
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+
+      //verificar se existe solicitacoes pendentes
+      solicitacaoExistente =
+          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_FOTO, _condutor.id.toString(), true)).length > 0;
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+    this.loading = false;
+  }
+
+  @action
+  Future<void> saveFotoCondutor({String foto, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+    loading = true;
+
+    try {
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+
+      bool aux = true;
+      if (foto == null || foto.isEmpty) {
+        aux = false;
+        SnackMessages.showSnackBarError(context, scaffoldKey, "Nenhuma foto selecionada.");
+      }
+
+      if (aux) {
+        this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
+        this.solicitacaoDeAlteracao.referenciaId = _condutor.id.toString();
+        this.solicitacaoDeAlteracao.arquivo1 = foto;
+        solicitacaoDeAlteracao.tipoSolicitacaoId = "6";
+
+        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao);
+
+        this.showDialogMessageAfterCreateSolicitacao("Foto salva com suscesso!", context, () {
+          Navigator.of(context).pop();
+        });
       }
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
+
+    loading = false;
   }
 
   ////////////////////////////////
@@ -110,9 +161,11 @@ abstract class _CondutorStore with Store {
   @action
   Future<void> newCondutor({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
     try {
-      assert(await Provider.of<UsuarioStore>(context, listen: false).isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
+      solicitacaoDeAlteracao.tipoSolicitacaoId = "5"; //condutor_cadastro
+
       this.flagAbaDadosOk = false;
       this.flagAbaEnderecoOk = false;
       this.fotoCondutor = null;
@@ -121,14 +174,7 @@ abstract class _CondutorStore with Store {
 
       if (returnFromScreen != null && returnFromScreen) {
         //SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
-        CustomDialog().showMessegeDialog(
-            context: context,
-            barrierDismissible: true,
-            imageAsset: "images/check-dialog.png",
-            height: 340.0,
-            text:
-            "Cadastro finalizado com sucesso! Os dados foram enviados para aprovação. É possível visualizar suas solitações pendentes clicando no botão do menu Solicitações",
-            voidCallback: () {});
+        this.showDialogMessageAfterCreateSolicitacao("Cadastro finalizado com sucesso! ", context, () {});
 
         this.pesquisar(scaffoldKey: scaffoldKey, context: context, search: _lastSearch);
       }
@@ -155,7 +201,7 @@ abstract class _CondutorStore with Store {
     loading = true;
 
     try {
-      assert(await Provider.of<UsuarioStore>(context, listen: false).isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       bool aux = true;
       if (categoriaCNH == null || categoriaCNH.isEmpty) {
@@ -216,7 +262,7 @@ abstract class _CondutorStore with Store {
     loading = true;
 
     try {
-      assert(await Provider.of<UsuarioStore>(context, listen: false).isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       bool aux = true;
       if (imgComprovanteEndereco == null || imgComprovanteEndereco.isEmpty) {
@@ -263,6 +309,17 @@ abstract class _CondutorStore with Store {
           }
         },
         voidCallbackNao: () {});
+  }
+
+  void showDialogMessageAfterCreateSolicitacao(String startOfMessage, BuildContext context, VoidCallback voidCallback) {
+    CustomDialog().showMessegeDialog(
+        context: context,
+        barrierDismissible: true,
+        imageAsset: "images/check-dialog.png",
+        height: 340.0,
+        text:
+            startOfMessage + " Os dados foram enviados para aprovação. É possível visualizar suas solitações pendentes clicando no botão do menu Solicitações",
+        voidCallback: voidCallback);
   }
 
 //  Future<void> saveCondutor(

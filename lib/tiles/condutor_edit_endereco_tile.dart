@@ -1,5 +1,5 @@
 import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/screen/permissionario/condutor_dado_endereco_edit_screen.dart';
+import 'package:cityconnect/screen/permissionario/condutor_dados_endereco_edit_screen.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/tiles/card_edit_fields_tile.dart';
 import 'package:cityconnect/util/mask_util.dart';
@@ -102,7 +102,7 @@ class _CondutorEditEnderecoTileState extends State<CondutorEditEnderecoTile> {
                       title: 'Dados de Endereço',
                       voidCallback: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CondutorDadoEnderecoScreen(Condutor())));
+                            builder: (context) => CondutorDadosEnderecoScreen(Condutor())));
                       },
                       child: Column(
                         children: [

@@ -1,9 +1,8 @@
-import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/models/veiculo_model.dart';
 import 'package:cityconnect/screen/veiculo_screen.dart';
 import 'package:cityconnect/services/veiculo_service.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/util/error_handler_util.dart';
 import 'package:cityconnect/widgets/snack_message.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +14,7 @@ part 'veiculo_store.g.dart';
 
 class VeiculoStore = _VeiculoStore with _$VeiculoStore;
 
-abstract class _VeiculoStore with Store {
+abstract class _VeiculoStore extends MainStore with Store {
   @observable
   bool loading = false;
 
@@ -30,29 +29,21 @@ abstract class _VeiculoStore with Store {
   List<Veiculo> veiculos;
 
   @action
-  Future<void> pesquisar(
-      {String search,
-      BuildContext context,
-      GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> pesquisar({String search, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     try {
       this._lastSearch = search;
 
-      assert(await Provider.of<UsuarioStore>(context, listen: false)
-          .isLoggedInWithRedirect(
-              context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
-      veiculos = (await _veiculoService.search(search))
-          .map((model) => Veiculo.fromJson(model))
-          .toList();
+      veiculos = (await _veiculoService.search(search)).map((model) => Veiculo.fromJson(model)).toList();
 
       if (veiculos == null) {
         veiculos = [];
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(
-          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
 
       veiculos = [];
     }
@@ -61,53 +52,38 @@ abstract class _VeiculoStore with Store {
   }
 
   @action
-  Future<void> firstLoadList(
-      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> firstLoadList({BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     try {
-      assert(await Provider.of<UsuarioStore>(context, listen: false)
-          .isLoggedInWithRedirect(
-              context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       if (this.veiculos == null) {
-        this.veiculos = (await this._veiculoService.search(""))
-            .map((model) => Veiculo.fromJson(model))
-            .toList();
+        this.veiculos = (await this._veiculoService.search("")).map((model) => Veiculo.fromJson(model)).toList();
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(
-          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
 
     loading = false;
   }
 
   @action
-  Future<void> newCondutor(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> newCondutor({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
     try {
-      assert(await Provider.of<UsuarioStore>(context, listen: false)
-          .isLoggedInWithRedirect(
-              context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       this._veiculo = Veiculo();
 
-      dynamic returnFromScreen = await Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context) => VeiculoScreen(this._veiculo)));
+      dynamic returnFromScreen = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoScreen(this._veiculo)));
 
       if (returnFromScreen != null && returnFromScreen) {
-        SnackMessages.showSnackBarSuccess(
-            context, scaffoldKey, "Salvo com sucesso");
+        SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
 
-        this.pesquisar(
-            scaffoldKey: scaffoldKey, context: context, search: _lastSearch);
+        this.pesquisar(scaffoldKey: scaffoldKey, context: context, search: _lastSearch);
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(
-          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
   }
 //

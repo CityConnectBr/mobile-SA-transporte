@@ -1,4 +1,4 @@
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
@@ -78,7 +78,7 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    MainStore mainStore = Provider.of<MainStore>(context);
 
     return SingleChildScrollView(
       child: Container(
@@ -225,7 +225,7 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
                       label: "Cadastro",
                       func: () {
                         if (_formKey.currentState.validate()) {
-                          usuarioStore.signin(
+                          mainStore.signin(
                               email: _emailController.text,
                               senha: _senhaController.text,
                               cpfCnpj: Util.clearString(_documentController.text),

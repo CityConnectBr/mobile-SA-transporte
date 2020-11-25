@@ -13,24 +13,24 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class CondutorDadoCnhScreen extends StatefulWidget {
+class CondutorDadosCnhScreen extends StatefulWidget {
   final Condutor _condutor;
 
-  CondutorDadoCnhScreen(this._condutor);
+  CondutorDadosCnhScreen(this._condutor);
 
   @override
-  _CondutorDadoCnhScreenState createState() =>
-      _CondutorDadoCnhScreenState(this._condutor);
+  _CondutorDadosCnhScreenState createState() =>
+      _CondutorDadosCnhScreenState(this._condutor);
 }
 
-class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
+class _CondutorDadosCnhScreenState extends State<CondutorDadosCnhScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final Condutor _condutor;
   String _image;
   final picker = ImagePicker();
 
-  _CondutorDadoCnhScreenState(this._condutor);
+  _CondutorDadosCnhScreenState(this._condutor);
 
   final _cnhController = TextEditingController();
   final _vencimentoCNHController =
@@ -72,10 +72,6 @@ class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
       appBar: AppBar(
         title: Text(
           "Dados CNH",
-          style: TextStyle(
-            fontFamily: "InterBold",
-            fontSize: 20.0,
-          ),
         ),
         centerTitle: true,
       ),

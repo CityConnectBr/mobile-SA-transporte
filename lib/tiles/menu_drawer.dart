@@ -5,7 +5,7 @@ import 'package:cityconnect/screen/permissionario/alvara_digital_screen.dart';
 import 'package:cityconnect/screen/permissionario/boletos_screen.dart';
 import 'package:cityconnect/screen/permissionario/solicitacoes_screen.dart';
 import 'package:cityconnect/screen/veiculo_search_screen.dart';
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/tiles/custom_list_tile.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +13,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:cityconnect/util/extensions.dart';
 
-class CustomDrawerTile extends StatelessWidget {
+class MenuDrawerTile extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  CustomDrawerTile(this.scaffoldKey);
+  MenuDrawerTile(this.scaffoldKey);
 
   final double heightSpace = 18.0;
 
@@ -24,7 +24,7 @@ class CustomDrawerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
 
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    MainStore mainStore = Provider.of<MainStore>(context);
 
     final acoesPermissionarioMap = [
       CustomListTile(
@@ -115,7 +115,7 @@ class CustomDrawerTile extends StatelessWidget {
                                         //_fotoStr != null
                                         // ? FileImage(File(_fotoStr))
                                         // :
-                                        AssetImage("images/photo-user.png"),
+                                        AssetImage("images/photo-user.jpeg"),
                                   )),
                             );
                           })),
@@ -128,7 +128,7 @@ class CustomDrawerTile extends StatelessWidget {
                             fit: BoxFit.contain,
                           ),
                           onTap: () {
-                            usuarioStore.editUser(context: context, scaffoldKey: scaffoldKey);
+                            mainStore.editUser(context: context, scaffoldKey: scaffoldKey);
                           },
                         ),
                       ),
@@ -137,7 +137,7 @@ class CustomDrawerTile extends StatelessWidget {
                   Spacer(),
                   Observer(builder: (_) {
                     return Text(
-                      usuarioStore.usuario.nome.capitalize(),
+                      mainStore.usuario.nome.capitalize(),
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: "InterBold",
@@ -148,7 +148,7 @@ class CustomDrawerTile extends StatelessWidget {
                   }),
                   Observer(builder: (_) {
                     return Text(
-                      usuarioStore.usuario.tipo.nome.capitalize(),
+                      mainStore.usuario.tipo.nome.capitalize(),
                       style: TextStyle(
                         fontFamily: "InterRegular",
                         fontSize: 14.0,
@@ -162,15 +162,15 @@ class CustomDrawerTile extends StatelessWidget {
           ),
           SizedBox(height: 40.0),
           Observer(builder: (_) {
-            if (usuarioStore.usuario.tipo.id == 1) {
+            if (mainStore.usuario.tipo.id == 1) {
               return Column(
                 children: acoesPermissionarioMap,
               );
-            } else if (usuarioStore.usuario.tipo.id == 2) {
+            } else if (mainStore.usuario.tipo.id == 2) {
               return Column(
                 children: acoesCondutorMap,
               );
-            } else if (usuarioStore.usuario.tipo.id == 3) {
+            } else if (mainStore.usuario.tipo.id == 3) {
               return Column(
                 children: acoesFiscalMap,
               );
@@ -189,7 +189,7 @@ class CustomDrawerTile extends StatelessWidget {
                 CustomListTile(
                   title: "SAIR",
                   onTap: () {
-                    usuarioStore.logout(context: context);
+                    mainStore.logout(context: context);
                   },
                 ),
                 Container(

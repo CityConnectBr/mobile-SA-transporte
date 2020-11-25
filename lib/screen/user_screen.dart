@@ -44,10 +44,6 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
       appBar: AppBar(
         title: const Text(
           'Perfil',
-          style: TextStyle(
-            fontFamily: "InterBold",
-            fontSize: 20.0,
-          ),
         ),
         centerTitle: true,
       ),

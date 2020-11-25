@@ -25,11 +25,6 @@ class _VeiculoScreenState extends State<VeiculoScreen>
 
   _VeiculoScreenState(this._veiculo);
 
-  final _textStyleTitleBar = TextStyle(
-      color: Util.hexToColor("#3E4958"),
-      fontSize: 20.0,
-      fontFamily: "InterRegular");
-
   TabController _tabController;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -70,10 +65,6 @@ class _VeiculoScreenState extends State<VeiculoScreen>
         appBar: AppBar(
           title: Text(
             this._veiculo.id == null ? 'Novo Veículo' : "Veículo",
-            style: TextStyle(
-              fontFamily: "InterBold",
-              fontSize: 20.0,
-            ),
           ),
           centerTitle: true,
         ),

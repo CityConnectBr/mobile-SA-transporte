@@ -9,21 +9,6 @@ part of 'condutor_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CondutorStore on _CondutorStore, Store {
-  final _$loadingAtom = Atom(name: '_CondutorStore.loading');
-
-  @override
-  bool get loading {
-    _$loadingAtom.reportRead();
-    return super.loading;
-  }
-
-  @override
-  set loading(bool value) {
-    _$loadingAtom.reportWrite(value, super.loading, () {
-      super.loading = value;
-    });
-  }
-
   final _$condutoresAtom = Atom(name: '_CondutorStore.condutores');
 
   @override
@@ -69,6 +54,29 @@ mixin _$CondutorStore on _CondutorStore, Store {
       @required GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$editCondutorAsyncAction.run(() => super.editCondutor(
         condutor: condutor, context: context, scaffoldKey: scaffoldKey));
+  }
+
+  final _$editFotoCondutorAsyncAction =
+      AsyncAction('_CondutorStore.editFotoCondutor');
+
+  @override
+  Future<void> editFotoCondutor(
+      {@required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$editFotoCondutorAsyncAction.run(() =>
+        super.editFotoCondutor(context: context, scaffoldKey: scaffoldKey));
+  }
+
+  final _$saveFotoCondutorAsyncAction =
+      AsyncAction('_CondutorStore.saveFotoCondutor');
+
+  @override
+  Future<void> saveFotoCondutor(
+      {String foto,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$saveFotoCondutorAsyncAction.run(() => super.saveFotoCondutor(
+        foto: foto, context: context, scaffoldKey: scaffoldKey));
   }
 
   final _$newCondutorAsyncAction = AsyncAction('_CondutorStore.newCondutor');
@@ -148,7 +156,6 @@ mixin _$CondutorStore on _CondutorStore, Store {
   @override
   String toString() {
     return '''
-loading: ${loading},
 condutores: ${condutores}
     ''';
   }

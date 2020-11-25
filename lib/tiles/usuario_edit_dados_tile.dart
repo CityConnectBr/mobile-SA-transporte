@@ -1,4 +1,4 @@
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
@@ -116,44 +116,44 @@ class _EditInformationTileState extends State<EditInformationTile> {
 
   @override
   Widget build(BuildContext context) {
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    MainStore mainStore = Provider.of<MainStore>(context);
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
 
-      _nomeController.text = usuarioStore.usuario.permissionario.nome;
-      _documentController.text = usuarioStore.usuario.permissionario.cpfCnpj;
-      _rgController.text = usuarioStore.usuario.permissionario.rg;
-      _natController.text = usuarioStore.usuario.permissionario.naturalidade;
-      _nacController.text = usuarioStore.usuario.permissionario.nacionalidade;
+      _nomeController.text = mainStore.usuario.permissionario.nome;
+      _documentController.text = mainStore.usuario.permissionario.cpfCnpj;
+      _rgController.text = mainStore.usuario.permissionario.rg;
+      _natController.text = mainStore.usuario.permissionario.naturalidade;
+      _nacController.text = mainStore.usuario.permissionario.nacionalidade;
       _inscricaoMunicipalController.text =
-          usuarioStore.usuario.permissionario.inscricaoMunicipal;
+          mainStore.usuario.permissionario.inscricaoMunicipal;
       _dataNascimentoController.text =
-          usuarioStore.usuario.permissionario.dataNascimento != null
+          mainStore.usuario.permissionario.dataNascimento != null
               ? this
                   ._dateFormat
-                  .format(usuarioStore.usuario.permissionario.dataNascimento)
+                  .format(mainStore.usuario.permissionario.dataNascimento)
               : null;
-      _dddController.text = usuarioStore.usuario.permissionario.ddd;
-      _phoneController.text = usuarioStore.usuario.permissionario.telefone;
-      _phone2Controller.text = usuarioStore.usuario.permissionario.telefone2;
-      _celController.text = usuarioStore.usuario.permissionario.celular;
-      _emailController.text = usuarioStore.usuario.permissionario.email;
-      _cnhController.text = usuarioStore.usuario.permissionario.cnh;
-      _categoriaCNH = usuarioStore.usuario.permissionario.categoriaCNH;
+      _dddController.text = mainStore.usuario.permissionario.ddd;
+      _phoneController.text = mainStore.usuario.permissionario.telefone;
+      _phone2Controller.text = mainStore.usuario.permissionario.telefone2;
+      _celController.text = mainStore.usuario.permissionario.celular;
+      _emailController.text = mainStore.usuario.permissionario.email;
+      _cnhController.text = mainStore.usuario.permissionario.cnh;
+      _categoriaCNH = mainStore.usuario.permissionario.categoriaCNH;
       _vencimentoCNHController.text =
-          usuarioStore.usuario.permissionario.vencimentoCNH != null
+          mainStore.usuario.permissionario.vencimentoCNH != null
               ? this
                   ._dateFormat
-                  .format(usuarioStore.usuario.permissionario.vencimentoCNH)
+                  .format(mainStore.usuario.permissionario.vencimentoCNH)
               : null;
       _modalidadeController.text =
-          usuarioStore.usuario.permissionario.modalidade.descricao;
+          mainStore.usuario.permissionario.modalidade.descricao;
     }
 
     return Container(
       child: Observer(builder: (_) {
-        if (usuarioStore.loading)
+        if (mainStore.loading)
           return Container(
             margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
             child: Center(
@@ -384,7 +384,7 @@ class _EditInformationTileState extends State<EditInformationTile> {
                               context: context,
                               text: "Tem certeza que\ndeseja salvar?",
                               voidCallbackSim: () {
-                                usuarioStore.saveUser(
+                                mainStore.saveUser(
                                     nome: this._nomeController.text,
                                     cnh: this._cnhController.text,
                                     categoriaCNH: this._categoriaCNH,

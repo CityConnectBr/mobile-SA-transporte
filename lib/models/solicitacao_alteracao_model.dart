@@ -37,9 +37,8 @@ class SolicitacaoDeAlteracao {
 
   SolicitacaoDeAlteracao.fromJson(Map<String, dynamic> parsedJson) {
     this.id = parsedJson["id"];
-    this.referenciaId = parsedJson["referencia_id"];
     this.motivoRecusado = parsedJson["motivo_recusado"];
-    this.sincronizado = parsedJson["sincronizado"];
+    this.sincronizado = parsedJson["sincronizado"]==0;
     this.campo1 = parsedJson["campo1"];
     this.campo2 = parsedJson["campo2"];
     this.campo3 = parsedJson["campo3"];

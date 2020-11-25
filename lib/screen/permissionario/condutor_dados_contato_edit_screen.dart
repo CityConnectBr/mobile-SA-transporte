@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
-import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
@@ -11,37 +8,49 @@ import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class CondutorDadoIdentidadeScreen extends StatefulWidget {
+class CondutorDadosContatoScreen extends StatefulWidget {
   final Condutor _condutor;
 
-  CondutorDadoIdentidadeScreen(this._condutor);
+  CondutorDadosContatoScreen(this._condutor);
 
   @override
-  _CondutorDadoIdentidadeScreenState createState() =>
-      _CondutorDadoIdentidadeScreenState(this._condutor);
+  _CondutorDadosContatoScreenState createState() =>
+      _CondutorDadosContatoScreenState(this._condutor);
 }
 
-class _CondutorDadoIdentidadeScreenState
-    extends State<CondutorDadoIdentidadeScreen> {
+class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  String _image;
-  final picker = ImagePicker();
   final Condutor _condutor;
 
-  _CondutorDadoIdentidadeScreenState(this._condutor);
+  _CondutorDadosContatoScreenState(this._condutor);
 
-  final _nomeController = TextEditingController();
-  TextEditingController _cpfController =
-      MaskedTextController(mask: MaskUtil.cpfMask);
-  final _rgController = TextEditingController();
+  final _dddController = MaskedTextController(mask: MaskUtil.dddMask);
+  final _phoneController = MaskedTextController(mask: MaskUtil.telefone8Mask);
+  TextEditingController _celController =
+  MaskedTextController(mask: MaskUtil.telefone8Mask);
+  final _emailController = TextEditingController();
 
-  final _dateFormat = Util.dateFormatddMMyyyy;
-
+  bool _flagCelular = true;
   bool _flagIsLoad = false;
+
+  void _controllerMaskCelular(String valor) {
+    if (valor.length > 9 && _flagCelular) {
+      _flagCelular = false;
+      setState(() {
+        _celController = MaskUtil.getMaskControllerWithValue(
+            mask: MaskUtil.telefone9Mask, value: valor);
+      });
+    } else if (valor.length <= 9 && !_flagCelular) {
+      _flagCelular = true;
+      setState(() {
+        _celController = MaskUtil.getMaskControllerWithValue(
+            mask: MaskUtil.telefone8Mask, value: valor);
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -52,9 +61,10 @@ class _CondutorDadoIdentidadeScreenState
   void dispose() {
     super.dispose();
 
-    _nomeController.dispose();
-    _cpfController.dispose();
-    _rgController.dispose();
+    _dddController.dispose();
+    _phoneController.dispose();
+    _celController.dispose();
+    _emailController.dispose();
   }
 
   @override
@@ -63,16 +73,17 @@ class _CondutorDadoIdentidadeScreenState
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
-      _nomeController.text = this._condutor.nome;
-      _cpfController.text = Util.clearString(this._condutor.cpf);
-      _rgController.text = this._condutor.rg;
+      _emailController.text = this._condutor.email;
+      _dddController.text = this._condutor.ddd;
+      _phoneController.text = this._condutor.telefone;
+      _celController.text = this._condutor.celular;
     }
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          "Dados Identidade",
+          "Dados Contato",
           style: TextStyle(
             fontFamily: "InterBold",
             fontSize: 20.0,
@@ -105,7 +116,7 @@ class _CondutorDadoIdentidadeScreenState
                           Row(
                             children: <Widget>[
                               Text(
-                                "Dados de identidade",
+                                "Dados de contato",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 22.0,
@@ -118,11 +129,11 @@ class _CondutorDadoIdentidadeScreenState
                             height: 16.0,
                           ),
                           CustomInputFieldGrey(
-                            controller: _nomeController,
-                            label: "NOME",
+                            controller: _emailController,
+                            label: "E-MAIL",
                             type: TextInputType.text,
-                            validator: ValidatorsUtil.validateIsEmpty,
-                            hint: "NOME",
+                            validator: ValidatorsUtil.validateEmail,
+                            hint: "E-MAIL",
                           ),
                           SizedBox(
                             height: 16.0,
@@ -132,22 +143,21 @@ class _CondutorDadoIdentidadeScreenState
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.43,
                                 child: CustomInputFieldGrey(
-                                  controller: _cpfController,
-                                  label: "CPF",
-                                  type: TextInputType.text,
-                                  validator: ValidatorsUtil.validateCPF,
-                                  hint: "CPF",
+                                  controller: _dddController,
+                                  label: "DDD",
+                                  type: TextInputType.number,
+                                  validator: ValidatorsUtil.validateNumber,
+                                  hint: "DDD",
                                 ),
                               ),
                               Spacer(),
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.43,
                                 child: CustomInputFieldGrey(
-                                  controller: _rgController,
-                                  label: "RG",
+                                  controller: _phoneController,
+                                  label: "TELEFONE",
                                   type: TextInputType.number,
-                                  validator: ValidatorsUtil.validateIsEmpty,
-                                  hint: "RG",
+                                  hint: "TELEFONE",
                                 ),
                               ),
                             ],
@@ -155,40 +165,12 @@ class _CondutorDadoIdentidadeScreenState
                           SizedBox(
                             height: 16.0,
                           ),
-                          SizedBox(
-                            height: 30.0,
-                          ),
-                          GestureDetector(
-                            child: Container(
-                              alignment: Alignment.topLeft,
-                              child: _image != null
-                                  ? Image.asset(
-                                      "${_image}",
-                                      height: 140,
-                                      fit: BoxFit.contain,
-                                    )
-                                  : Text(
-                                      "Nenhuma imagem selecionada",
-                                      style: TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
-                                    ),
-                            ),
-                            onTap: () async {
-                              final pickedFile = await picker.getImage(
-                                  source: ImageSource.camera);
-
-                              setState(() {
-                                if (pickedFile != null) {
-                                  print(pickedFile.path);
-                                  _image = pickedFile.path;
-                                  print(_image);
-                                } else {
-                                  print('No image selected.');
-                                }
-                              });
-                            },
+                          CustomInputFieldGrey(
+                            controller: _celController,
+                            label: "CELULAR",
+                            type: TextInputType.text,
+                            hint: "CELULAR",
+                            onChanged: _controllerMaskCelular,
                           ),
                           SizedBox(
                             height: 30.0,
@@ -202,14 +184,15 @@ class _CondutorDadoIdentidadeScreenState
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
 //                                        condutorStore.save(
-//                                            nome: this._nomeController.text,
-//                                            cpf: Util.clearString(
-//                                                this._cpfController.text),
-//                                            rg: this._rgController.text,
+//                                            email: this._emailController.text,
+//                                            celular: Util.clearString(this._celController.text),
+//                                            ddd: this._dddController.text,
+//                                            telefone: Util.clearString(this._phoneController.text),
 //                                            context: context,
 //                                            scaffoldKey: _scaffoldKey);
                                       },
-                                      voidCallbackNao: () {});
+                                      voidCallbackNao: () {}
+                                  );
                                 }
                               }),
                         ],

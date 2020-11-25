@@ -1,5 +1,4 @@
-import 'package:cityconnect/screen/home_screen.dart';
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
@@ -7,8 +6,6 @@ import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
-import 'package:cpf_cnpj_validator/cnpj_validator.dart';
-import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -59,27 +56,27 @@ class _EditAddressTileState extends State<EditAddressTile> {
 
   @override
   Widget build(BuildContext context) {
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    MainStore mainStore = Provider.of<MainStore>(context);
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
 
-      _cepController.text = usuarioStore.usuario.permissionario.endereco.cep;
+      _cepController.text = mainStore.usuario.permissionario.endereco.cep;
       _addressController.text =
-          usuarioStore.usuario.permissionario.endereco.endereco;
-      _numController.text = usuarioStore.usuario.permissionario.endereco.numero;
+          mainStore.usuario.permissionario.endereco.endereco;
+      _numController.text = mainStore.usuario.permissionario.endereco.numero;
       _complementController.text =
-          usuarioStore.usuario.permissionario.endereco.complemento;
+          mainStore.usuario.permissionario.endereco.complemento;
       _bairroController.text =
-          usuarioStore.usuario.permissionario.endereco.bairro;
+          mainStore.usuario.permissionario.endereco.bairro;
       _municipioController.text =
-          usuarioStore.usuario.permissionario.endereco.municipio;
-      _uf = usuarioStore.usuario.permissionario.endereco.uf;
+          mainStore.usuario.permissionario.endereco.municipio;
+      _uf = mainStore.usuario.permissionario.endereco.uf;
     }
 
     return Container(
       child: Observer(builder: (_) {
-        if (usuarioStore.loading)
+        if (mainStore.loading)
           return Container(
             margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
             child: Center(
@@ -200,7 +197,7 @@ class _EditAddressTileState extends State<EditAddressTile> {
                                 context: context,
                                 text: "Tem certeza que\ndeseja salvar?",
                                 voidCallbackSim: () {
-                                  usuarioStore.saveEndereco(
+                                  mainStore.saveEndereco(
                                       cep: Util.clearString(
                                           this._cepController.text),
                                       endereco: this._addressController.text,

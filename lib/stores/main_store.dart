@@ -10,13 +10,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-part 'usuario_store.g.dart';
+part 'main_store.g.dart';
 
-class UsuarioStore = _UsuarioStore with _$UsuarioStore;
+class MainStore = _MainStore with _$MainStore;
 
-abstract class _UsuarioStore with Store {
+abstract class _MainStore with Store {
+
   @observable
   bool loading = false;
+  @observable
+  bool solicitacaoExistente = false;
   @observable
   bool showRecoverCodeField = false;
   @observable

@@ -55,10 +55,6 @@ class _NewCondutorScreenState extends State<NewCondutorScreen> with SingleTicker
       appBar: AppBar(
         title: Text(
           'Novo Condutor',
-          style: TextStyle(
-            fontFamily: "InterBold",
-            fontSize: 20.0,
-          ),
         ),
         centerTitle: true,
       ),

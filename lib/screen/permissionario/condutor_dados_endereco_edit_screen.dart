@@ -14,25 +14,25 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class CondutorDadoEnderecoScreen extends StatefulWidget {
+class CondutorDadosEnderecoScreen extends StatefulWidget {
   final Condutor _condutor;
 
-  CondutorDadoEnderecoScreen(this._condutor);
+  CondutorDadosEnderecoScreen(this._condutor);
 
   @override
-  _CondutorDadoEnderecoScreenState createState() =>
-      _CondutorDadoEnderecoScreenState(this._condutor);
+  _CondutorDadosEnderecoScreenState createState() =>
+      _CondutorDadosEnderecoScreenState(this._condutor);
 }
 
-class _CondutorDadoEnderecoScreenState
-    extends State<CondutorDadoEnderecoScreen> {
+class _CondutorDadosEnderecoScreenState
+    extends State<CondutorDadosEnderecoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final Condutor _condutor;
   String _image;
   final picker = ImagePicker();
 
-  _CondutorDadoEnderecoScreenState(this._condutor);
+  _CondutorDadosEnderecoScreenState(this._condutor);
 
   final _cepController = MaskedTextController(mask: MaskUtil.cepMask);
   final _addressController = TextEditingController();
@@ -82,10 +82,6 @@ class _CondutorDadoEnderecoScreenState
       appBar: AppBar(
         title: Text(
           "Dados Endereço",
-          style: TextStyle(
-            fontFamily: "InterBold",
-            fontSize: 20.0,
-          ),
         ),
         centerTitle: true,
       ),

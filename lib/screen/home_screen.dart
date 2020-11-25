@@ -1,6 +1,6 @@
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/tiles/condutor/home_condutor.dart';
-import 'package:cityconnect/tiles/custom_drawer.dart';
+import 'package:cityconnect/tiles/menu_drawer.dart';
 import 'package:cityconnect/tiles/fiscal/home_fiscal.dart';
 import 'package:cityconnect/tiles/permissionario/home_permissionario.dart';
 import 'package:flutter/foundation.dart';
@@ -20,14 +20,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    MainStore mainStore = Provider.of<MainStore>(context);
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
       ),
-      drawer: CustomDrawerTile(_scaffoldKey),
+      drawer: MenuDrawerTile(_scaffoldKey),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -64,11 +64,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   padding: EdgeInsets.all(20.0),
                   child: Observer(builder: (_) {
-                    if (usuarioStore.usuario.tipo.id == 1) {
+                    if (mainStore.usuario.tipo.id == 1) {
                       return HomePermissionarioTile();
-                    } else if (usuarioStore.usuario.tipo.id == 2) {
+                    } else if (mainStore.usuario.tipo.id == 2) {
                       return HomeCondutorTile();
-                    } else if (usuarioStore.usuario.tipo.id == 3) {
+                    } else if (mainStore.usuario.tipo.id == 3) {
                       return HomeFiscalTile();
                     }
 

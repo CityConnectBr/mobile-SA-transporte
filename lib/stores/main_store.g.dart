@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'usuario_store.dart';
+part of 'main_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'usuario_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$UsuarioStore on _UsuarioStore, Store {
-  final _$loadingAtom = Atom(name: '_UsuarioStore.loading');
+mixin _$MainStore on _MainStore, Store {
+  final _$loadingAtom = Atom(name: '_MainStore.loading');
 
   @override
   bool get loading {
@@ -24,8 +24,25 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
     });
   }
 
+  final _$solicitacaoExistenteAtom =
+      Atom(name: '_MainStore.solicitacaoExistente');
+
+  @override
+  bool get solicitacaoExistente {
+    _$solicitacaoExistenteAtom.reportRead();
+    return super.solicitacaoExistente;
+  }
+
+  @override
+  set solicitacaoExistente(bool value) {
+    _$solicitacaoExistenteAtom.reportWrite(value, super.solicitacaoExistente,
+        () {
+      super.solicitacaoExistente = value;
+    });
+  }
+
   final _$showRecoverCodeFieldAtom =
-      Atom(name: '_UsuarioStore.showRecoverCodeField');
+      Atom(name: '_MainStore.showRecoverCodeField');
 
   @override
   bool get showRecoverCodeField {
@@ -42,7 +59,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
   }
 
   final _$showRecoverPasswordFieldAtom =
-      Atom(name: '_UsuarioStore.showRecoverPasswordField');
+      Atom(name: '_MainStore.showRecoverPasswordField');
 
   @override
   bool get showRecoverPasswordField {
@@ -58,7 +75,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
     });
   }
 
-  final _$usuarioAtom = Atom(name: '_UsuarioStore.usuario');
+  final _$usuarioAtom = Atom(name: '_MainStore.usuario');
 
   @override
   Usuario get usuario {
@@ -73,7 +90,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
     });
   }
 
-  final _$loginAsyncAction = AsyncAction('_UsuarioStore.login');
+  final _$loginAsyncAction = AsyncAction('_MainStore.login');
 
   @override
   Future<void> login(
@@ -88,7 +105,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
         scaffoldKey: scaffoldKey));
   }
 
-  final _$signinAsyncAction = AsyncAction('_UsuarioStore.signin');
+  final _$signinAsyncAction = AsyncAction('_MainStore.signin');
 
   @override
   Future<void> signin(
@@ -114,7 +131,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
   }
 
   final _$initPasswordRecoveryAsyncAction =
-      AsyncAction('_UsuarioStore.initPasswordRecovery');
+      AsyncAction('_MainStore.initPasswordRecovery');
 
   @override
   Future<void> initPasswordRecovery(
@@ -127,7 +144,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
   }
 
   final _$validateRecoveryCodeAsyncAction =
-      AsyncAction('_UsuarioStore.validateRecoveryCode');
+      AsyncAction('_MainStore.validateRecoveryCode');
 
   @override
   Future<void> validateRecoveryCode(
@@ -144,7 +161,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
   }
 
   final _$recoveryPasswordAsyncAction =
-      AsyncAction('_UsuarioStore.recoveryPassword');
+      AsyncAction('_MainStore.recoveryPassword');
 
   @override
   Future<void> recoveryPassword(
@@ -163,7 +180,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
         scaffoldKey: scaffoldKey));
   }
 
-  final _$editUserAsyncAction = AsyncAction('_UsuarioStore.editUser');
+  final _$editUserAsyncAction = AsyncAction('_MainStore.editUser');
 
   @override
   Future<void> editUser(
@@ -172,7 +189,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
         .run(() => super.editUser(context: context, scaffoldKey: scaffoldKey));
   }
 
-  final _$saveUserAsyncAction = AsyncAction('_UsuarioStore.saveUser');
+  final _$saveUserAsyncAction = AsyncAction('_MainStore.saveUser');
 
   @override
   Future<void> saveUser(
@@ -209,7 +226,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
         scaffoldKey: scaffoldKey));
   }
 
-  final _$saveEnderecoAsyncAction = AsyncAction('_UsuarioStore.saveEndereco');
+  final _$saveEnderecoAsyncAction = AsyncAction('_MainStore.saveEndereco');
 
   @override
   Future<void> saveEndereco(
@@ -234,7 +251,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
         scaffoldKey: scaffoldKey));
   }
 
-  final _$savePasswordAsyncAction = AsyncAction('_UsuarioStore.savePassword');
+  final _$savePasswordAsyncAction = AsyncAction('_MainStore.savePassword');
 
   @override
   Future<void> savePassword(
@@ -252,7 +269,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
   }
 
   final _$isLoggedInWithRedirectAsyncAction =
-      AsyncAction('_UsuarioStore.isLoggedInWithRedirect');
+      AsyncAction('_MainStore.isLoggedInWithRedirect');
 
   @override
   Future<bool> isLoggedInWithRedirect(
@@ -262,7 +279,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
             context: context, redirectToHomeIfLogged: redirectToHomeIfLogged));
   }
 
-  final _$logoutAsyncAction = AsyncAction('_UsuarioStore.logout');
+  final _$logoutAsyncAction = AsyncAction('_MainStore.logout');
 
   @override
   Future<void> logout({BuildContext context}) {
@@ -273,6 +290,7 @@ mixin _$UsuarioStore on _UsuarioStore, Store {
   String toString() {
     return '''
 loading: ${loading},
+solicitacaoExistente: ${solicitacaoExistente},
 showRecoverCodeField: ${showRecoverCodeField},
 showRecoverPasswordField: ${showRecoverPasswordField},
 usuario: ${usuario}

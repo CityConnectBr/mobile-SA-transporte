@@ -1,4 +1,4 @@
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +13,7 @@ class _LoadingScreenState extends State<LoadingStartScreen>
 
   static bool _hasLoaded = false;
 
-  UsuarioStore _usuarioStore;
+  MainStore _mainStore;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _LoadingScreenState extends State<LoadingStartScreen>
       }
 
       try {
-        _usuarioStore.isLoggedInWithRedirect(context: context);
+        _mainStore.isLoggedInWithRedirect(context: context);
       }catch(e){
 
       }
@@ -44,7 +44,7 @@ class _LoadingScreenState extends State<LoadingStartScreen>
 
   @override
   Widget build(BuildContext context) {
-    _usuarioStore = Provider.of<UsuarioStore>(context);
+    _mainStore = Provider.of<MainStore>(context);
     Future.delayed(Duration.zero, () => _loading());
 
     double width = MediaQuery.of(context).size.width;
