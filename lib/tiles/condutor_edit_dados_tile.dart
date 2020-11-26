@@ -119,7 +119,7 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                     CardEditFieldsTile(
                       title: 'Dados de Contato',
                       voidCallback: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorDadosContatoScreen(Condutor())));
+                        condutorStore.editContatoCondutor(context: context, scaffoldKey: _scaffoldKey);
                       },
                       child: Column(
                         children: [

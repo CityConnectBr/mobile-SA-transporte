@@ -1,7 +1,9 @@
 import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
+import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
+import 'package:cityconnect/widgets/custom_alert_message.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
@@ -11,26 +13,19 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 class CondutorDadosContatoScreen extends StatefulWidget {
-  final Condutor _condutor;
-
-  CondutorDadosContatoScreen(this._condutor);
+  CondutorDadosContatoScreen();
 
   @override
-  _CondutorDadosContatoScreenState createState() =>
-      _CondutorDadosContatoScreenState(this._condutor);
+  _CondutorDadosContatoScreenState createState() => _CondutorDadosContatoScreenState();
 }
 
 class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final Condutor _condutor;
-
-  _CondutorDadosContatoScreenState(this._condutor);
 
   final _dddController = MaskedTextController(mask: MaskUtil.dddMask);
   final _phoneController = MaskedTextController(mask: MaskUtil.telefone8Mask);
-  TextEditingController _celController =
-  MaskedTextController(mask: MaskUtil.telefone8Mask);
+  TextEditingController _celController = MaskedTextController(mask: MaskUtil.telefone8Mask);
   final _emailController = TextEditingController();
 
   bool _flagCelular = true;
@@ -40,14 +35,12 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
     if (valor.length > 9 && _flagCelular) {
       _flagCelular = false;
       setState(() {
-        _celController = MaskUtil.getMaskControllerWithValue(
-            mask: MaskUtil.telefone9Mask, value: valor);
+        _celController = MaskUtil.getMaskControllerWithValue(mask: MaskUtil.telefone9Mask, value: valor);
       });
     } else if (valor.length <= 9 && !_flagCelular) {
       _flagCelular = true;
       setState(() {
-        _celController = MaskUtil.getMaskControllerWithValue(
-            mask: MaskUtil.telefone8Mask, value: valor);
+        _celController = MaskUtil.getMaskControllerWithValue(mask: MaskUtil.telefone8Mask, value: valor);
       });
     }
   }
@@ -73,10 +66,17 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
-      _emailController.text = this._condutor.email;
-      _dddController.text = this._condutor.ddd;
-      _phoneController.text = this._condutor.telefone;
-      _celController.text = this._condutor.celular;
+      if (condutorStore.solicitacaoExistente) {
+        _emailController.text = condutorStore.solicitacaoDeAlteracao.campo1;
+        _dddController.text = condutorStore.solicitacaoDeAlteracao.campo2;
+        _phoneController.text = condutorStore.solicitacaoDeAlteracao.campo3;
+        _celController.text = condutorStore.solicitacaoDeAlteracao.campo4;
+      } else {
+        _emailController.text = condutorStore.condutor.email;
+        _dddController.text = condutorStore.condutor.ddd;
+        _phoneController.text = condutorStore.condutor.telefone;
+        _celController.text = condutorStore.condutor.celular;
+      }
     }
 
     return Scaffold(
@@ -109,6 +109,15 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    condutorStore.solicitacaoExistente
+                        ? CustomAlertMessage(
+                            type: CustomAlertMessage.WANNING,
+                            message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                          )
+                        : Container(),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Form(
                       key: _formKey,
                       child: Column(
@@ -146,7 +155,7 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
                                   controller: _dddController,
                                   label: "DDD",
                                   type: TextInputType.number,
-                                  validator: ValidatorsUtil.validateNumber,
+                                  validator: ValidatorsUtil.validateNumberAndNotIsEmpty,
                                   hint: "DDD",
                                 ),
                               ),
@@ -183,16 +192,15 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
                                       context: context,
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
-//                                        condutorStore.save(
-//                                            email: this._emailController.text,
-//                                            celular: Util.clearString(this._celController.text),
-//                                            ddd: this._dddController.text,
-//                                            telefone: Util.clearString(this._phoneController.text),
-//                                            context: context,
-//                                            scaffoldKey: _scaffoldKey);
+                                        condutorStore.saveContatoCondutor(
+                                            email: this._emailController.text,
+                                            celular: Util.clearString(this._celController.text),
+                                            ddd: this._dddController.text,
+                                            telefone: Util.clearString(this._phoneController.text),
+                                            context: context,
+                                            scaffoldKey: _scaffoldKey);
                                       },
-                                      voidCallbackNao: () {}
-                                  );
+                                      voidCallbackNao: () {});
                                 }
                               }),
                         ],

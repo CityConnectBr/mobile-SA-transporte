@@ -1,6 +1,7 @@
 import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/models/solicitacao_alteracao_model.dart';
 import 'package:cityconnect/screen/condutor_edit_screen.dart';
+import 'package:cityconnect/screen/permissionario/condutor_dados_contato_edit_screen.dart';
 import 'package:cityconnect/screen/permissionario/condutor_foto_edit_screen.dart';
 import 'package:cityconnect/screen/permissionario/new_condutor_screen.dart';
 import 'package:cityconnect/services/condutor_service.dart';
@@ -19,7 +20,7 @@ part 'condutor_store.g.dart';
 class CondutorStore = _CondutorStore with _$CondutorStore;
 
 abstract class _CondutorStore extends MainStore with Store {
-  Condutor _condutor;
+  Condutor condutor;
   SolicitacaoDeAlteracao solicitacaoDeAlteracao;
 
   final _condutorService = CondutorService();
@@ -89,9 +90,9 @@ abstract class _CondutorStore extends MainStore with Store {
 
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
-      this._condutor = condutor;
+      this.condutor = condutor;
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorEditScreen(this._condutor))).then((returnFromScreen) => () {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorEditScreen(this.condutor))).then((returnFromScreen) => () {
             if (returnFromScreen != null && returnFromScreen) {
               SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
 
@@ -115,7 +116,7 @@ abstract class _CondutorStore extends MainStore with Store {
 
       //verificar se existe solicitacoes pendentes
       solicitacaoExistente =
-          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_FOTO, _condutor.id.toString(), true)).length > 0;
+          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_FOTO, condutor.id.toString(), true)).length > 0;
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
@@ -137,9 +138,9 @@ abstract class _CondutorStore extends MainStore with Store {
 
       if (aux) {
         this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
-        this.solicitacaoDeAlteracao.referenciaId = _condutor.id.toString();
+        this.solicitacaoDeAlteracao.referenciaId = condutor.id.toString();
         this.solicitacaoDeAlteracao.arquivo1 = foto;
-        solicitacaoDeAlteracao.tipoSolicitacaoId = "6";
+        solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CONTATO.toString();
 
         await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao);
 
@@ -153,6 +154,65 @@ abstract class _CondutorStore extends MainStore with Store {
 
     loading = false;
   }
+
+  @action
+  Future<void> editContatoCondutor({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
+    try {
+      this.loading = true;
+
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorDadosContatoScreen()));
+
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+
+      //verificar se existe solicitacoes pendentes
+      List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
+          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CONTATO, condutor.id.toString(), true));
+
+      if (solicitacoesEmAberto.isNotEmpty) {
+        this.solicitacaoExistente = true;
+        this.solicitacaoDeAlteracao = solicitacoesEmAberto.last;
+      }
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+    this.loading = false;
+  }
+
+  @action
+  Future<void> saveContatoCondutor({
+    String email,
+    String ddd,
+    String telefone,
+    String celular,
+    BuildContext context,
+    GlobalKey<ScaffoldState> scaffoldKey,
+  }) async {
+    loading = true;
+
+    try {
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+
+      this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
+      this.solicitacaoDeAlteracao.referenciaId = condutor.id.toString();
+      this.solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CONTATO.toString();
+      this.solicitacaoDeAlteracao.campo1 = email;
+      this.solicitacaoDeAlteracao.campo2 = ddd;
+      this.solicitacaoDeAlteracao.campo3 = telefone;
+      this.solicitacaoDeAlteracao.campo4 = celular;
+
+      await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao);
+
+      this.showDialogMessageAfterCreateSolicitacao("Dados salvos com suscesso!", context, () {
+        Navigator.of(context).pop();
+      });
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+
+    loading = false;
+  }
+
+
 
   ////////////////////////////////
   /////////////// NOVO CONDUTOR

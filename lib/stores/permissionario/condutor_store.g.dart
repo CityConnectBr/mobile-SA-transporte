@@ -79,6 +79,37 @@ mixin _$CondutorStore on _CondutorStore, Store {
         foto: foto, context: context, scaffoldKey: scaffoldKey));
   }
 
+  final _$editContatoCondutorAsyncAction =
+      AsyncAction('_CondutorStore.editContatoCondutor');
+
+  @override
+  Future<void> editContatoCondutor(
+      {@required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$editContatoCondutorAsyncAction.run(() =>
+        super.editContatoCondutor(context: context, scaffoldKey: scaffoldKey));
+  }
+
+  final _$saveContatoCondutorAsyncAction =
+      AsyncAction('_CondutorStore.saveContatoCondutor');
+
+  @override
+  Future<void> saveContatoCondutor(
+      {String email,
+      String ddd,
+      String telefone,
+      String celular,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$saveContatoCondutorAsyncAction.run(() => super.saveContatoCondutor(
+        email: email,
+        ddd: ddd,
+        telefone: telefone,
+        celular: celular,
+        context: context,
+        scaffoldKey: scaffoldKey));
+  }
+
   final _$newCondutorAsyncAction = AsyncAction('_CondutorStore.newCondutor');
 
   @override

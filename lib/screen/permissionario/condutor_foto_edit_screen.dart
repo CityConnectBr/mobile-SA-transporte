@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/tiles/photo_person_tile.dart';
