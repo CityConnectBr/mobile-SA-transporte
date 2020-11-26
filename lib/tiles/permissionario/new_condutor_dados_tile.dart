@@ -4,7 +4,7 @@ import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
-import 'package:cityconnect/widgets/custom_picked_field.dart';
+import 'package:cityconnect/widgets/custom_image_picker_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -308,7 +308,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                     SizedBox(
                       height: 32.0,
                     ),
-                    CustomPickedField(
+                    CustomImagePickerField(
                       imagePath: this._imageCNH,
                       text: "Comprovante de CNH",
                       callBack: (String imgPath) {

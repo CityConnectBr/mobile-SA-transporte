@@ -1,6 +1,7 @@
 import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/screen/permissionario/condutor_dados_cnh_edit_screen.dart';
 import 'package:cityconnect/screen/permissionario/condutor_dados_identidade_edit_screen.dart';
+import 'package:cityconnect/services/solicitacao_alteracao_service.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/screen/permissionario/condutor_dados_contato_edit_screen.dart';
 import 'package:cityconnect/tiles/card_edit_fields_tile.dart';
@@ -119,7 +120,11 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                     CardEditFieldsTile(
                       title: 'Dados de Contato',
                       voidCallback: () {
-                        condutorStore.editContatoCondutor(context: context, scaffoldKey: _scaffoldKey);
+                        condutorStore.editDadoCondutor(
+                            context: context,
+                            scaffoldKey: _scaffoldKey,
+                            tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CONTATO,
+                            screenToOpen: CondutorDadosContatoScreen());
                       },
                       child: Column(
                         children: [

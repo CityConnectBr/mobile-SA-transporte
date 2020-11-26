@@ -11,9 +11,7 @@ class ErrorHandlerUtil {
 
   ErrorHandlerUtil(this.exception) {
     try {
-      this._DEBUG = DotEnv().env['DEBUG'] != null
-          ? DotEnv().env['DEBUG'].toString().contains("true")
-          : false;
+      this._DEBUG = DotEnv().env['DEBUG'] != null ? DotEnv().env['DEBUG'].toString().contains("true") : false;
     } catch (e) {}
   }
 
@@ -24,16 +22,21 @@ class ErrorHandlerUtil {
           return "Falha ao conectar ao servidor.";
         } else if (exception.runtimeType == DioError) {
           DioError dioError = exception;
-          final Map<String, dynamic> jsonData = json.decode(
-              dioError.response.toString().replaceFirst("Exception: ", ""));
+          final Map<String, dynamic> jsonData = json.decode(dioError.response.toString().replaceFirst("Exception: ", ""));
           if (jsonData.containsKey("message")) {
-            return jsonData['message'];
-          } else if (jsonData.containsKey("messages")) {
-            String msgs = "Problemas encontrados:";
-            jsonData['messages'].values.forEach((element) {
-              msgs = msgs + "\n - " + element[0];
-            });
-            return msgs;
+            dynamic jsonAuxData = jsonData['message']!=null?jsonData['message']:jsonData['messages'];
+            if (jsonAuxData.toString().startsWith("[")) {
+              print("--------------");
+              String msgs = "Problemas encontrados:";
+              List<dynamic> listErros = jsonAuxData;
+              listErros.forEach((element) {
+                //msgs = msgs + "\n - " + element[0];
+                msgs = msgs + "\n - " + element;
+              });
+              return msgs;
+            }
+
+            return jsonAuxData;
           } else if (jsonData.length > 0) {
             String msgs = "Problemas encontrados:";
             jsonData.values.forEach((element) {

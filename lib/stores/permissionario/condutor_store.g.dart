@@ -79,15 +79,20 @@ mixin _$CondutorStore on _CondutorStore, Store {
         foto: foto, context: context, scaffoldKey: scaffoldKey));
   }
 
-  final _$editContatoCondutorAsyncAction =
-      AsyncAction('_CondutorStore.editContatoCondutor');
+  final _$editDadoCondutorAsyncAction =
+      AsyncAction('_CondutorStore.editDadoCondutor');
 
   @override
-  Future<void> editContatoCondutor(
+  Future<void> editDadoCondutor(
       {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
-    return _$editContatoCondutorAsyncAction.run(() =>
-        super.editContatoCondutor(context: context, scaffoldKey: scaffoldKey));
+      @required GlobalKey<ScaffoldState> scaffoldKey,
+      @required int tipoDaSolicitacao,
+      Widget screenToOpen}) {
+    return _$editDadoCondutorAsyncAction.run(() => super.editDadoCondutor(
+        context: context,
+        scaffoldKey: scaffoldKey,
+        tipoDaSolicitacao: tipoDaSolicitacao,
+        screenToOpen: screenToOpen));
   }
 
   final _$saveContatoCondutorAsyncAction =
@@ -108,6 +113,35 @@ mixin _$CondutorStore on _CondutorStore, Store {
         celular: celular,
         context: context,
         scaffoldKey: scaffoldKey));
+  }
+
+  final _$saveEnderecoCondutorAsyncAction =
+      AsyncAction('_CondutorStore.saveEnderecoCondutor');
+
+  @override
+  Future<void> saveEnderecoCondutor(
+      {String cep,
+      String endereco,
+      String numero,
+      String complemento,
+      String bairro,
+      String municipio,
+      String uf,
+      String imgComprovanteEndereco,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$saveEnderecoCondutorAsyncAction.run(() => super
+        .saveEnderecoCondutor(
+            cep: cep,
+            endereco: endereco,
+            numero: numero,
+            complemento: complemento,
+            bairro: bairro,
+            municipio: municipio,
+            uf: uf,
+            imgComprovanteEndereco: imgComprovanteEndereco,
+            context: context,
+            scaffoldKey: scaffoldKey));
   }
 
   final _$newCondutorAsyncAction = AsyncAction('_CondutorStore.newCondutor');

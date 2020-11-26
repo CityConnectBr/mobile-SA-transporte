@@ -2,6 +2,7 @@ import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/models/solicitacao_alteracao_model.dart';
 import 'package:cityconnect/screen/condutor_edit_screen.dart';
 import 'package:cityconnect/screen/permissionario/condutor_dados_contato_edit_screen.dart';
+import 'package:cityconnect/screen/permissionario/condutor_dados_endereco_edit_screen.dart';
 import 'package:cityconnect/screen/permissionario/condutor_foto_edit_screen.dart';
 import 'package:cityconnect/screen/permissionario/new_condutor_screen.dart';
 import 'package:cityconnect/services/condutor_service.dart';
@@ -156,21 +157,24 @@ abstract class _CondutorStore extends MainStore with Store {
   }
 
   @action
-  Future<void> editContatoCondutor({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> editDadoCondutor(
+      {@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey, @required int tipoDaSolicitacao, Widget screenToOpen}) async {
     try {
       this.loading = true;
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorDadosContatoScreen()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => screenToOpen));
 
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       //verificar se existe solicitacoes pendentes
-      List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
-          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CONTATO, condutor.id.toString(), true));
+      List<SolicitacaoDeAlteracao> solicitacoesEmAberto = (await _solicitacaoService.searchForSolicitacoes(tipoDaSolicitacao, condutor.id.toString(), true));
 
       if (solicitacoesEmAberto.isNotEmpty) {
         this.solicitacaoExistente = true;
         this.solicitacaoDeAlteracao = solicitacoesEmAberto.last;
+      } else {
+        this.solicitacaoExistente = false;
+        this.solicitacaoDeAlteracao = null;
       }
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
@@ -212,7 +216,54 @@ abstract class _CondutorStore extends MainStore with Store {
     loading = false;
   }
 
+  @action
+  Future<void> saveEnderecoCondutor({
+    String cep,
+    String endereco,
+    String numero,
+    String complemento,
+    String bairro,
+    String municipio,
+    String uf,
+    String imgComprovanteEndereco,
+    BuildContext context,
+    GlobalKey<ScaffoldState> scaffoldKey,
+  }) async {
+    loading = true;
 
+    try {
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      bool aux = true;
+      if (imgComprovanteEndereco == null || imgComprovanteEndereco.isEmpty) {
+        aux = false;
+        SnackMessages.showSnackBarError(context, scaffoldKey, "Comprovante do endereço não pode estar vazio.");
+      }
+
+      if (aux) {
+        this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
+        this.solicitacaoDeAlteracao.referenciaId = condutor.id.toString();
+        this.solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_ENDERECO.toString();
+        this.solicitacaoDeAlteracao.campo1 = cep;
+        this.solicitacaoDeAlteracao.campo2 = endereco;
+        this.solicitacaoDeAlteracao.campo3 = numero;
+        this.solicitacaoDeAlteracao.campo4 = complemento;
+        this.solicitacaoDeAlteracao.campo5 = bairro;
+        this.solicitacaoDeAlteracao.campo6 = municipio;
+        this.solicitacaoDeAlteracao.campo7 = uf;
+        this.solicitacaoDeAlteracao.arquivo1 = imgComprovanteEndereco;
+
+        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao);
+
+        this.showDialogMessageAfterCreateSolicitacao("Dados salvos com suscesso!", context, () {
+          Navigator.of(context).pop();
+        });
+      }
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+
+    loading = false;
+  }
 
   ////////////////////////////////
   /////////////// NOVO CONDUTOR
