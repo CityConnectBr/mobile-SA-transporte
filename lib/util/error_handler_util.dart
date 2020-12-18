@@ -18,34 +18,44 @@ class ErrorHandlerUtil {
   dynamic getMessegeToUser() {
     try {
       if (exception is Exception) {
-        if (exception.runtimeType == SocketException) {
-          return "Falha ao conectar ao servidor.";
-        } else if (exception.runtimeType == DioError) {
+
+        if (exception.runtimeType == DioError) {
           DioError dioError = exception;
-          final Map<String, dynamic> jsonData = json.decode(dioError.response.toString().replaceFirst("Exception: ", ""));
-          if (jsonData.containsKey("message")) {
-            dynamic jsonAuxData = jsonData['message']!=null?jsonData['message']:jsonData['messages'];
-            if (jsonAuxData.toString().startsWith("[")) {
-              print("--------------");
+          if (DioErrorType.RECEIVE_TIMEOUT == dioError.type ||
+              DioErrorType.CONNECT_TIMEOUT == dioError.type) {
+            return "Servidor não encontrado. Verifique sua internet por favor.";
+          } else if (DioErrorType.RESPONSE == dioError.type) {
+            final Map<String, dynamic> jsonData = json.decode(dioError.response.toString().replaceFirst("Exception: ", ""));
+            if (jsonData.containsKey("message")) {
+              dynamic jsonAuxData = jsonData['message']!=null?jsonData['message']:jsonData['messages'];
+              if (jsonAuxData.toString().startsWith("[")) {
+                print("--------------");
+                String msgs = "Problemas encontrados:";
+                List<dynamic> listErros = jsonAuxData;
+                listErros.forEach((element) {
+                  //msgs = msgs + "\n - " + element[0];
+                  msgs = msgs + "\n - " + element;
+                });
+                return msgs;
+              }
+
+              return jsonAuxData;
+            } else if (jsonData.length > 0) {
               String msgs = "Problemas encontrados:";
-              List<dynamic> listErros = jsonAuxData;
-              listErros.forEach((element) {
-                //msgs = msgs + "\n - " + element[0];
-                msgs = msgs + "\n - " + element;
+              jsonData.values.forEach((element) {
+                msgs = msgs + "\n - " + element[0];
               });
               return msgs;
+            } else {
+              print(dioError.response.toString());
             }
-
-            return jsonAuxData;
-          } else if (jsonData.length > 0) {
-            String msgs = "Problemas encontrados:";
-            jsonData.values.forEach((element) {
-              msgs = msgs + "\n - " + element[0];
-            });
-            return msgs;
+          } else if (dioError.message.contains('SocketException')) {
+            return "Ocorreu um problema ao se conectar com o servidor.";
           } else {
-            print(dioError.response.toString());
+            return "Ocorreu um problema ao se conectar com o servidor. Tente novamente mais tarde.";
           }
+        }else{
+          return "Ocorreu um problema. Entre em contato com o administrador.";
         }
       }
     } catch (e) {
