@@ -20,18 +20,23 @@ class MenuDrawerTile extends StatelessWidget {
 
   final double heightSpace = 18.0;
 
+  FotoAux fotoAux;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
 
     MainStore mainStore = Provider.of<MainStore>(context);
 
+    mainStore.loadPhoto().then((value) => {
+      fotoAux = value,
+    });
+    
     final acoesPermissionarioMap = [
       CustomListTile(
         title: "ALVARÁ DIGITAL",
         onTap: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => AlvaraDigitalPermissionarioScreen()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlvaraDigitalPermissionarioScreen()));
         },
       ),
       SizedBox(height: heightSpace),
@@ -62,7 +67,7 @@ class MenuDrawerTile extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => SolicitacoesScreen()));
         },
       ),
-      SizedBox(height: height*.05),
+      SizedBox(height: height * .05),
     ];
 
     final acoesCondutorMap = [
@@ -72,7 +77,7 @@ class MenuDrawerTile extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlvaraDigitalScreen()));
         },
       ),
-      SizedBox(height: height*.35),
+      SizedBox(height: height * .35),
     ];
 
     final acoesFiscalMap = [
@@ -87,7 +92,7 @@ class MenuDrawerTile extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => EmissaoDeMultaScreen()));
           }),
-      SizedBox(height: height*.30),
+      SizedBox(height: height * .30),
     ];
 
     return Drawer(
@@ -100,39 +105,36 @@ class MenuDrawerTile extends StatelessWidget {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                          width: 80.0,
-                          height: 80.0,
-                          child: Observer(builder: (_) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        //_fotoStr != null
-                                        // ? FileImage(File(_fotoStr))
-                                        // :
-                                        AssetImage("images/photo-user.jpeg"),
-                                  )),
-                            );
-                          })),
-                      Positioned(
-                        right: -15.0,
-                        top: -10.0,
-                        child: GestureDetector(
-                          child: Image.asset(
-                            "images/ic_edit.png",
-                            fit: BoxFit.contain,
-                          ),
-                          onTap: () {
-                            mainStore.editUser(context: context, scaffoldKey: scaffoldKey);
-                          },
-                        ),
-                      ),
-                    ],
+                  GestureDetector(
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                            width: 80.0,
+                            height: 80.0,
+                            child: Observer(builder: (_) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: mainStore.showPhotoFake
+                                          ? AssetImage("images/photo-user.jpeg")
+                                          : NetworkImage(this.fotoAux.urlFoto, headers: this.fotoAux.header),
+                                    )),
+                              );
+                            })),
+                        Positioned(
+                            right: -20.0,
+                            top: -15.0,
+                            child: Image.asset(
+                              "images/ic_edit.png",
+                              fit: BoxFit.contain,
+                            )),
+                      ],
+                    ),
+                    onTap: () {
+                      mainStore.editUser(context: context, scaffoldKey: scaffoldKey);
+                    },
                   ),
                   Spacer(),
                   Observer(builder: (_) {

@@ -20,6 +20,8 @@ class Permissionario {
   String categoriaCNH; //categoria_cnh
   DateTime vencimentoCNH; //vencimento_cnh
   String cpfCnpj;
+  int statusFoto;
+  String fotoUrl;
   Modalidade modalidade;
   Endereco endereco;
 
@@ -43,6 +45,8 @@ class Permissionario {
     this.cnh = parsedJson["cnh"];
     this.categoriaCNH = parsedJson["categoria_cnh"];
     this.vencimentoCNH = parsedJson["vencimento_cnh"]!=null?dateFormat.parse(parsedJson["vencimento_cnh"]):null;
+    this.statusFoto = parsedJson["status_foto"];
+    this.fotoUrl = parsedJson["foto_url"];
     this.modalidade = parsedJson["modalidade"]!=null?Modalidade.fromJson(parsedJson["modalidade"]):null;
     this.endereco = parsedJson["endereco"]!=null?Endereco.fromJson(parsedJson["endereco"]):null;
   }
@@ -65,6 +69,8 @@ class Permissionario {
       "cnh": cnh,
       "categoria_cnh": categoriaCNH,
       "vencimento_cnh": vencimentoCNH!=null?dateFormat.format(vencimentoCNH):null,
+      "status_foto": statusFoto,
+      "foto_url": fotoUrl,
       "endereco": endereco!=null?endereco.toMap():null,
     };
   }

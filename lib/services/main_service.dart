@@ -10,11 +10,14 @@ class MainService {
 
   String url;
 
+  static String get URLApi {
+    return DotEnv().env['URL_API'];
+  }
+
   MainService() {
-    dio.options.baseUrl = DotEnv().env['URL_API'];
-    simpleDio.options.baseUrl = DotEnv().env['URL_API'];
-    dio.interceptors
-        .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+    dio.options.baseUrl = MainService.URLApi;
+    simpleDio.options.baseUrl = MainService.URLApi;
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       final token = await getToken();
       if (token != null && token.isNotEmpty) {
         options.headers['Authorization'] = "Bearer " + token;
@@ -32,8 +35,7 @@ class MainService {
           print("refresh token");
           print(d.data['newToken']);
           //update token
-          if (new RegExp(ValidatorsUtil.jwtPattern)
-              .hasMatch(d.data['newToken'])) {
+          if (new RegExp(ValidatorsUtil.jwtPattern).hasMatch(d.data['newToken'])) {
             setToken(d.data['newToken']);
             options.headers['Authorization'] = "Bearer " + d.data['newToken'];
           }
@@ -61,11 +63,14 @@ class MainService {
     await Preferences().save(Preferences.KEY_LAST_JWT, token);
   }
 
+  Future<Map<String, String>> getHeaderWithAuthToken() async {
+    return {"Authorization": "Bearer "+(await this.getToken())};
+  }
+
   ///////////////////////////////////
 
   Future<List<dynamic>> search(String search) async {
-    return (await dio.get(url, queryParameters: {"search": search}))
-        .data['data'];
+    return (await dio.get(url, queryParameters: {"search": search})).data['data'];
   }
 
   Future<dynamic> create(json) async {

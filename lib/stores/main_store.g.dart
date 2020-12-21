@@ -75,6 +75,21 @@ mixin _$MainStore on _MainStore, Store {
     });
   }
 
+  final _$showPhotoFakeAtom = Atom(name: '_MainStore.showPhotoFake');
+
+  @override
+  bool get showPhotoFake {
+    _$showPhotoFakeAtom.reportRead();
+    return super.showPhotoFake;
+  }
+
+  @override
+  set showPhotoFake(bool value) {
+    _$showPhotoFakeAtom.reportWrite(value, super.showPhotoFake, () {
+      super.showPhotoFake = value;
+    });
+  }
+
   final _$usuarioAtom = Atom(name: '_MainStore.usuario');
 
   @override
@@ -286,6 +301,13 @@ mixin _$MainStore on _MainStore, Store {
     return _$logoutAsyncAction.run(() => super.logout(context: context));
   }
 
+  final _$loadPhotoAsyncAction = AsyncAction('_MainStore.loadPhoto');
+
+  @override
+  Future<FotoAux> loadPhoto() {
+    return _$loadPhotoAsyncAction.run(() => super.loadPhoto());
+  }
+
   @override
   String toString() {
     return '''
@@ -293,6 +315,7 @@ loading: ${loading},
 solicitacaoExistente: ${solicitacaoExistente},
 showRecoverCodeField: ${showRecoverCodeField},
 showRecoverPasswordField: ${showRecoverPasswordField},
+showPhotoFake: ${showPhotoFake},
 usuario: ${usuario}
     ''';
   }

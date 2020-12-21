@@ -71,7 +71,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                               image: //_fotoStr != null
                               // ? FileImage(File(_fotoStr))
                               // :
-                              AssetImage("images/photo-user.png"),
+                              AssetImage("images/photo-user.jpeg"),
                             ),
                           ),
                         );

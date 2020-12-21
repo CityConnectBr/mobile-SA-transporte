@@ -2,6 +2,7 @@ import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/screen/home_screen.dart';
 import 'package:cityconnect/screen/login_screen.dart';
 import 'package:cityconnect/screen/user_screen.dart';
+import 'package:cityconnect/services/main_service.dart';
 import 'package:cityconnect/services/usuario_service.dart';
 import 'package:cityconnect/util/error_handler_util.dart';
 import 'package:cityconnect/util/preferences.dart';
@@ -24,6 +25,9 @@ abstract class _MainStore with Store {
   bool showRecoverCodeField = false;
   @observable
   bool showRecoverPasswordField = false;
+
+  @observable
+  bool showPhotoFake = true;
 
   final _usuarioService = UsuarioService();
 
@@ -375,6 +379,21 @@ abstract class _MainStore with Store {
         MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
+  @action
+  Future<FotoAux> loadPhoto() async{
+    this.showPhotoFake = true;
+
+    Usuario usuario = await this._usuarioService.getUser();
+    Map<String, String> header;
+    if(usuario!=null) {
+      this.showPhotoFake = false;
+
+      return FotoAux(urlFoto: MainService.URLApi+"/api/photouser", header: await _usuarioService.getHeaderWithAuthToken());
+    }
+
+    return null;
+  }
+
   Future<bool> isLoggedIn(BuildContext context) async {
     this.usuario = await this._usuarioService.getUser();
     return this.usuario != null;
@@ -383,4 +402,13 @@ abstract class _MainStore with Store {
   Future<void> _reloadUser() async {
     this.usuario = await this._usuarioService.getUser();
   }
+}
+
+class FotoAux{
+
+  final urlFoto;
+  final Map<String, String> header;
+
+  FotoAux({this.urlFoto, this.header});
+
 }
