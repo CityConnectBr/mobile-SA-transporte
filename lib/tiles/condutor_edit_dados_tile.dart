@@ -120,7 +120,7 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                     CardEditFieldsTile(
                       title: 'Dados de Contato',
                       voidCallback: () {
-                        condutorStore.editDadoCondutor(
+                        condutorStore.editCondutor(
                             context: context,
                             scaffoldKey: _scaffoldKey,
                             tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CONTATO,
@@ -179,7 +179,11 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                     CardEditFieldsTile(
                       title: "Dados de Identidade",
                       voidCallback: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorDadoIsdentidadeScreen(Condutor())));
+                        condutorStore.editCondutor(
+                            context: context,
+                            scaffoldKey: _scaffoldKey,
+                            tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_IDENTIDADE,
+                            screenToOpen: CondutorDadoIsdentidadeScreen());
                       },
                       child: Column(
                         children: [
@@ -224,7 +228,11 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                     CardEditFieldsTile(
                       title: "Dados de CNH",
                       voidCallback: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorDadoIsdentidadeScreen(Condutor())));
+                        condutorStore.editCondutor(
+                            context: context,
+                            scaffoldKey: _scaffoldKey,
+                            tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CNH,
+                            screenToOpen: CondutorDadosCnhScreen());
                       },
                       child: Column(
                         children: [

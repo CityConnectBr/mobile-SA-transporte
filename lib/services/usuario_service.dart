@@ -1,14 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/services/main_service.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UsuarioService extends MainService {
   Future<String> login(String email, String senha) async {
-    Response response = await simpleDio.post('/auth/login', data: {
+    Response response = await simpleDio.post('/v1/auth/login', data: {
       "email": email,
       "password": senha,
     });
@@ -22,7 +24,7 @@ class UsuarioService extends MainService {
 
   Future<Usuario> getUser() async {
     if ((await super.getToken()) != null) {
-      return Usuario.fromJson((await dio.get('/api/user')).data);
+      return Usuario.fromJson((await dio.get('/v1/user')).data);
     }
   }
 
@@ -31,13 +33,8 @@ class UsuarioService extends MainService {
     return true;
   }
 
-  Future<bool> signin(
-      {String nome,
-      String email,
-      String cpfCnj,
-      String cnh,
-      String senha}) async {
-    await simpleDio.post('/auth/signin', data: {
+  Future<bool> signin({String nome, String email, String cpfCnj, String cnh, String senha}) async {
+    await simpleDio.post('/v1/auth/signin', data: {
       "nome": nome,
       "email": email,
       "cpf_cnpj": cpfCnj,
@@ -50,17 +47,16 @@ class UsuarioService extends MainService {
 
   Future<bool> updateUser(Usuario usuario) async {
     await dio.put(
-      '/api/user',
+      '/v1/user',
       data: usuario.toMap(),
     );
 
     return true;
   }
 
-  Future<bool> updatePassword(
-      {@required String senhaAtual, @required String novaSenha}) async {
+  Future<bool> updatePassword({@required String senhaAtual, @required String novaSenha}) async {
     await dio.patch(
-      '/api/password',
+      '/v1/password',
       data: {"password": senhaAtual, "new_password": novaSenha},
     );
     return true;
@@ -68,7 +64,7 @@ class UsuarioService extends MainService {
 
   Future<bool> generateRecoverCode(String email) async {
     await dio.post(
-      '/auth/generaterecovercode',
+      '/v1/auth/generaterecovercode',
       data: {"email": email},
     );
 
@@ -77,7 +73,7 @@ class UsuarioService extends MainService {
 
   Future<bool> validateRecoverCode(String email, String code) async {
     await dio.post(
-      '/auth/validaterecoverycode',
+      '/v1/auth/validaterecoverycode',
       data: {
         "email": email,
         "code": code,
@@ -87,10 +83,9 @@ class UsuarioService extends MainService {
     return true;
   }
 
-  Future<bool> recoverPassword(
-      String email, String code, String password) async {
+  Future<bool> recoverPassword(String email, String code, String password) async {
     await dio.post(
-      '/auth/recoverypassword',
+      '/v1/auth/recoverypassword',
       data: {
         "email": email,
         "code": code,
@@ -99,5 +94,37 @@ class UsuarioService extends MainService {
     );
 
     return true;
+  }
+
+  Future<File> downloadPhotoUser() async {
+
+    try {
+      Response response = await dio.get(
+        '/v1/photouser',
+        //Received data with List<int>
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            }),
+      );
+      Directory appDocDirectory = await getApplicationDocumentsDirectory();
+
+      File file = File(appDocDirectory.path + '/' + 'photo_user.jpg');
+      print("------------->>>>");
+      print(file.path);
+
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
+
+      if (await file.exists()) {
+        return file;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

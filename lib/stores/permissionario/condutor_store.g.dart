@@ -45,14 +45,14 @@ mixin _$CondutorStore on _CondutorStore, Store {
         () => super.firstLoadList(context: context, scaffoldKey: scaffoldKey));
   }
 
-  final _$editCondutorAsyncAction = AsyncAction('_CondutorStore.editCondutor');
+  final _$showCondutorAsyncAction = AsyncAction('_CondutorStore.showCondutor');
 
   @override
-  Future<void> editCondutor(
+  Future<void> showCondutor(
       {@required Condutor condutor,
       @required BuildContext context,
       @required GlobalKey<ScaffoldState> scaffoldKey}) {
-    return _$editCondutorAsyncAction.run(() => super.editCondutor(
+    return _$showCondutorAsyncAction.run(() => super.showCondutor(
         condutor: condutor, context: context, scaffoldKey: scaffoldKey));
   }
 
@@ -67,6 +67,21 @@ mixin _$CondutorStore on _CondutorStore, Store {
         super.editFotoCondutor(context: context, scaffoldKey: scaffoldKey));
   }
 
+  final _$editCondutorAsyncAction = AsyncAction('_CondutorStore.editCondutor');
+
+  @override
+  Future<void> editCondutor(
+      {@required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey,
+      @required int tipoDaSolicitacao,
+      Widget screenToOpen}) {
+    return _$editCondutorAsyncAction.run(() => super.editCondutor(
+        context: context,
+        scaffoldKey: scaffoldKey,
+        tipoDaSolicitacao: tipoDaSolicitacao,
+        screenToOpen: screenToOpen));
+  }
+
   final _$saveFotoCondutorAsyncAction =
       AsyncAction('_CondutorStore.saveFotoCondutor');
 
@@ -77,22 +92,6 @@ mixin _$CondutorStore on _CondutorStore, Store {
       GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$saveFotoCondutorAsyncAction.run(() => super.saveFotoCondutor(
         foto: foto, context: context, scaffoldKey: scaffoldKey));
-  }
-
-  final _$editDadoCondutorAsyncAction =
-      AsyncAction('_CondutorStore.editDadoCondutor');
-
-  @override
-  Future<void> editDadoCondutor(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey,
-      @required int tipoDaSolicitacao,
-      Widget screenToOpen}) {
-    return _$editDadoCondutorAsyncAction.run(() => super.editDadoCondutor(
-        context: context,
-        scaffoldKey: scaffoldKey,
-        tipoDaSolicitacao: tipoDaSolicitacao,
-        screenToOpen: screenToOpen));
   }
 
   final _$saveContatoCondutorAsyncAction =
@@ -111,6 +110,47 @@ mixin _$CondutorStore on _CondutorStore, Store {
         ddd: ddd,
         telefone: telefone,
         celular: celular,
+        context: context,
+        scaffoldKey: scaffoldKey));
+  }
+
+  final _$saveIdentidadeCondutorAsyncAction =
+      AsyncAction('_CondutorStore.saveIdentidadeCondutor');
+
+  @override
+  Future<void> saveIdentidadeCondutor(
+      {String nome,
+      String cpf,
+      String rg,
+      String imgComprovante,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$saveIdentidadeCondutorAsyncAction.run(() => super
+        .saveIdentidadeCondutor(
+            nome: nome,
+            cpf: cpf,
+            rg: rg,
+            imgComprovante: imgComprovante,
+            context: context,
+            scaffoldKey: scaffoldKey));
+  }
+
+  final _$saveCNHCondutorAsyncAction =
+      AsyncAction('_CondutorStore.saveCNHCondutor');
+
+  @override
+  Future<void> saveCNHCondutor(
+      {String cnh,
+      String categoria,
+      DateTime validade,
+      String imgComprovante,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$saveCNHCondutorAsyncAction.run(() => super.saveCNHCondutor(
+        cnh: cnh,
+        categoria: categoria,
+        validade: validade,
+        imgComprovante: imgComprovante,
         context: context,
         scaffoldKey: scaffoldKey));
   }

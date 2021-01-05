@@ -47,8 +47,7 @@ abstract class _CondutorStore extends MainStore with Store {
 
       await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false);
 
-      print(condutores.length);
-      condutores = (await _condutorService.search(search)).map((model) => Condutor.fromJson(model)).toList();
+      condutores = (await _condutorService.search(search, super.usuario)).map((model) => Condutor.fromJson(model)).toList();
 
       print(condutores.length);
       if (condutores == null) {
@@ -71,7 +70,7 @@ abstract class _CondutorStore extends MainStore with Store {
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       if (this.condutores == null) {
-        this.condutores = (await this._condutorService.search("")).map((model) => Condutor.fromJson(model)).toList();
+        this.condutores = (await this._condutorService.search("", super.usuario)).map((model) => Condutor.fromJson(model)).toList();
       }
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
@@ -85,7 +84,7 @@ abstract class _CondutorStore extends MainStore with Store {
   ////////////////////////////////
 
   @action
-  Future<void> editCondutor({@required Condutor condutor, @required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> showCondutor({@required Condutor condutor, @required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
     try {
       this.loading = true;
 
@@ -117,12 +116,41 @@ abstract class _CondutorStore extends MainStore with Store {
 
       //verificar se existe solicitacoes pendentes
       solicitacaoExistente =
-          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_FOTO, condutor.id.toString(), true)).length > 0;
+          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_FOTO, condutor.id.toString(), true, super.usuario)).length > 0;
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
     this.loading = false;
   }
+
+  @action
+  Future<void> editCondutor(
+      {@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey, @required int tipoDaSolicitacao, Widget screenToOpen}) async {
+    try {
+      this.loading = true;
+
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => screenToOpen));
+
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+
+      //verificar se existe solicitacoes pendentes
+      List<SolicitacaoDeAlteracao> solicitacoesEmAberto = (await _solicitacaoService.searchForSolicitacoes(tipoDaSolicitacao, condutor.id.toString(), true, super.usuario));
+
+      if (solicitacoesEmAberto.isNotEmpty) {
+        this.solicitacaoExistente = true;
+        this.solicitacaoDeAlteracao = solicitacoesEmAberto.last;
+      } else {
+        this.solicitacaoExistente = false;
+        this.solicitacaoDeAlteracao = null;
+      }
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+    this.loading = false;
+  }
+
+  /////////////////////////
+  /////////////////////////
 
   @action
   Future<void> saveFotoCondutor({String foto, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
@@ -141,9 +169,9 @@ abstract class _CondutorStore extends MainStore with Store {
         this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
         this.solicitacaoDeAlteracao.referenciaId = condutor.id.toString();
         this.solicitacaoDeAlteracao.arquivo1 = foto;
-        solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CONTATO.toString();
+        solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_FOTO.toString();
 
-        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao);
+        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, super.usuario);
 
         this.showDialogMessageAfterCreateSolicitacao("Foto salva com suscesso!", context, () {
           Navigator.of(context).pop();
@@ -154,32 +182,6 @@ abstract class _CondutorStore extends MainStore with Store {
     }
 
     loading = false;
-  }
-
-  @action
-  Future<void> editDadoCondutor(
-      {@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey, @required int tipoDaSolicitacao, Widget screenToOpen}) async {
-    try {
-      this.loading = true;
-
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => screenToOpen));
-
-      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
-
-      //verificar se existe solicitacoes pendentes
-      List<SolicitacaoDeAlteracao> solicitacoesEmAberto = (await _solicitacaoService.searchForSolicitacoes(tipoDaSolicitacao, condutor.id.toString(), true));
-
-      if (solicitacoesEmAberto.isNotEmpty) {
-        this.solicitacaoExistente = true;
-        this.solicitacaoDeAlteracao = solicitacoesEmAberto.last;
-      } else {
-        this.solicitacaoExistente = false;
-        this.solicitacaoDeAlteracao = null;
-      }
-    } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
-    }
-    this.loading = false;
   }
 
   @action
@@ -204,11 +206,93 @@ abstract class _CondutorStore extends MainStore with Store {
       this.solicitacaoDeAlteracao.campo3 = telefone;
       this.solicitacaoDeAlteracao.campo4 = celular;
 
-      await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao);
+      await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, super.usuario);
 
       this.showDialogMessageAfterCreateSolicitacao("Dados salvos com suscesso!", context, () {
         Navigator.of(context).pop();
       });
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+
+    loading = false;
+  }
+
+  @action
+  Future<void> saveIdentidadeCondutor({
+    String nome,
+    String cpf,
+    String rg,
+    String imgComprovante,
+    BuildContext context,
+    GlobalKey<ScaffoldState> scaffoldKey,
+  }) async {
+    loading = true;
+
+    try {
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      bool aux = true;
+      if (imgComprovante == null || imgComprovante.isEmpty) {
+        aux = false;
+        SnackMessages.showSnackBarError(context, scaffoldKey, "Comprovante não pode estar vazio.");
+      }
+
+      if (aux) {
+        this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
+        this.solicitacaoDeAlteracao.referenciaId = condutor.id.toString();
+        this.solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_IDENTIDADE.toString();
+        this.solicitacaoDeAlteracao.campo1 = nome;
+        this.solicitacaoDeAlteracao.campo2 = cpf;
+        this.solicitacaoDeAlteracao.campo3 = rg;
+        this.solicitacaoDeAlteracao.arquivo1 = imgComprovante;
+
+        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, super.usuario);
+
+        this.showDialogMessageAfterCreateSolicitacao("Dados salvos com suscesso!", context, () {
+          Navigator.of(context).pop();
+        });
+      }
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+
+    loading = false;
+  }
+
+  @action
+  Future<void> saveCNHCondutor({
+    String cnh,
+    String categoria,
+    DateTime validade,
+    String imgComprovante,
+    BuildContext context,
+    GlobalKey<ScaffoldState> scaffoldKey,
+  }) async {
+    loading = true;
+
+    try {
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      bool aux = true;
+      if (imgComprovante == null || imgComprovante.isEmpty) {
+        aux = false;
+        SnackMessages.showSnackBarError(context, scaffoldKey, "Comprovante não pode estar vazio.");
+      }
+
+      if (aux) {
+        this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
+        this.solicitacaoDeAlteracao.referenciaId = condutor.id.toString();
+        this.solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CNH.toString();
+        this.solicitacaoDeAlteracao.campo1 = cnh;
+        this.solicitacaoDeAlteracao.campo2 = categoria;
+        this.solicitacaoDeAlteracao.campo3 = Util.dateFormatyyyyMMdd.format(validade);
+        this.solicitacaoDeAlteracao.arquivo1 = imgComprovante;
+
+        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, super.usuario);
+
+        this.showDialogMessageAfterCreateSolicitacao("Dados salvos com suscesso!", context, () {
+          Navigator.of(context).pop();
+        });
+      }
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
@@ -252,7 +336,7 @@ abstract class _CondutorStore extends MainStore with Store {
         this.solicitacaoDeAlteracao.campo7 = uf;
         this.solicitacaoDeAlteracao.arquivo1 = imgComprovanteEndereco;
 
-        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao);
+        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, super.usuario);
 
         this.showDialogMessageAfterCreateSolicitacao("Dados salvos com suscesso!", context, () {
           Navigator.of(context).pop();
@@ -414,7 +498,7 @@ abstract class _CondutorStore extends MainStore with Store {
         voidCallbackSim: () async {
           try {
             this.solicitacaoDeAlteracao.arquivo3 = fotoCondutor;
-            await this._solicitacaoService.createSolicitacao(this.solicitacaoDeAlteracao).then((_) => Navigator.of(context).pop(true));
+            await this._solicitacaoService.createSolicitacao(this.solicitacaoDeAlteracao, super.usuario).then((_) => Navigator.of(context).pop(true));
           } catch (e) {
             SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser().toString().replaceAll("endereco.", ""));
           }

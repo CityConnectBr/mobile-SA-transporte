@@ -37,7 +37,7 @@ abstract class _VeiculoStore extends MainStore with Store {
 
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
-      veiculos = (await _veiculoService.search(search)).map((model) => Veiculo.fromJson(model)).toList();
+      veiculos = (await _veiculoService.search(search, super.usuario)).map((model) => Veiculo.fromJson(model)).toList();
 
       if (veiculos == null) {
         veiculos = [];
@@ -59,7 +59,7 @@ abstract class _VeiculoStore extends MainStore with Store {
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       if (this.veiculos == null) {
-        this.veiculos = (await this._veiculoService.search("")).map((model) => Veiculo.fromJson(model)).toList();
+        this.veiculos = (await this._veiculoService.search("", super.usuario)).map((model) => Veiculo.fromJson(model)).toList();
       }
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());

@@ -102,7 +102,7 @@ class _CondutorEditEnderecoTileState extends State<CondutorEditEnderecoTile> {
                     CardEditFieldsTile(
                       title: 'Dados de Endereço',
                       voidCallback: () {
-                        condutorStore.editDadoCondutor(
+                        condutorStore.editCondutor(
                             context: context,
                             scaffoldKey: _scaffoldKey,
                             tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_ENDERECO,

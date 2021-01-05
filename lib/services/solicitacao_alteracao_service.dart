@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/models/solicitacao_alteracao_model.dart';
+import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/services/main_service.dart';
 import 'package:dio/dio.dart';
 
 class SolicitacaoDeAlteracaoService extends MainService {
-
   static final int TIPO_CONDUTOR_CONTATO = 1;
   static final int TIPO_CONDUTOR_ENDERECO = 2;
   static final int TIPO_CONDUTOR_IDENTIDADE = 3;
@@ -37,22 +37,11 @@ class SolicitacaoDeAlteracaoService extends MainService {
   static final int TIPO_ONIBUS_IDENTIDADE = 50;
 
   SolicitacaoDeAlteracaoService() {
-    super.url = '/api/permissionarios/solicitacaodealteracao';
+    super.endPoint = '/solicitacaodealteracao';
+    super.endPointVersion = 1;
   }
 
-  Future<dynamic> createSolicitacao(SolicitacaoDeAlteracao solicitacaoDeAlteracao) async {
-    //String fileName = file.path.split('/').last;
-
-//    FormData data = FormData.fromMap({
-//      "file": await MultipartFile.fromFile(
-//
-//        file.path,
-//        filename: fileName,
-//      ),
-//    });
-
-    //Map<String, dynamic> data = solicitacaoDeAlteracao.toMap();
-
+  Future<dynamic> createSolicitacao(SolicitacaoDeAlteracao solicitacaoDeAlteracao, Usuario usuarioLogged) async {
     Map<String, dynamic> fileMap = solicitacaoDeAlteracao.toMap();
 
     if (solicitacaoDeAlteracao.arquivo1 != null) {
@@ -74,12 +63,14 @@ class SolicitacaoDeAlteracaoService extends MainService {
 
     //fileMap.addAll(solicitacaoDeAlteracao.toMap());
 
-    await dio.post(url, data: FormData.fromMap(fileMap));
+    await dio.post(makeEndPoint(usuario: usuarioLogged), data: FormData.fromMap(fileMap));
   }
 
-  Future<List<SolicitacaoDeAlteracao>> searchForSolicitacoes(int tipo, String referencia, bool statusNull) async {
+  Future<List<SolicitacaoDeAlteracao>> searchForSolicitacoes(int tipo, String referencia, bool statusNull, Usuario usuarioLogged) async {
     List<SolicitacaoDeAlteracao> solicitacoesList = List();
-    List<dynamic> list = (await dio.get(url, queryParameters: {"tipo": tipo, "referencia": referencia, "status": statusNull ? "null" : ""})).data['data'];
+    List<dynamic> list =
+        (await dio.get(makeEndPoint(usuario: usuarioLogged), queryParameters: {"tipo": tipo, "referencia": referencia, "status": statusNull ? "null" : ""}))
+            .data['data'];
 
     if (list != null) {
       list.forEach((e) => solicitacoesList.add(SolicitacaoDeAlteracao.fromJson(e)));

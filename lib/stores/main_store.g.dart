@@ -75,18 +75,18 @@ mixin _$MainStore on _MainStore, Store {
     });
   }
 
-  final _$showPhotoFakeAtom = Atom(name: '_MainStore.showPhotoFake');
+  final _$photoUserAtom = Atom(name: '_MainStore.photoUser');
 
   @override
-  bool get showPhotoFake {
-    _$showPhotoFakeAtom.reportRead();
-    return super.showPhotoFake;
+  File get photoUser {
+    _$photoUserAtom.reportRead();
+    return super.photoUser;
   }
 
   @override
-  set showPhotoFake(bool value) {
-    _$showPhotoFakeAtom.reportWrite(value, super.showPhotoFake, () {
-      super.showPhotoFake = value;
+  set photoUser(File value) {
+    _$photoUserAtom.reportWrite(value, super.photoUser, () {
+      super.photoUser = value;
     });
   }
 
@@ -304,7 +304,7 @@ mixin _$MainStore on _MainStore, Store {
   final _$loadPhotoAsyncAction = AsyncAction('_MainStore.loadPhoto');
 
   @override
-  Future<FotoAux> loadPhoto() {
+  Future<void> loadPhoto() {
     return _$loadPhotoAsyncAction.run(() => super.loadPhoto());
   }
 
@@ -315,7 +315,7 @@ loading: ${loading},
 solicitacaoExistente: ${solicitacaoExistente},
 showRecoverCodeField: ${showRecoverCodeField},
 showRecoverPasswordField: ${showRecoverPasswordField},
-showPhotoFake: ${showPhotoFake},
+photoUser: ${photoUser},
 usuario: ${usuario}
     ''';
   }

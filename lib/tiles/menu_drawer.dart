@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cityconnect/screen/condutor/alvara_digital_screen.dart';
 import 'package:cityconnect/screen/condutor_search_screen.dart';
 import 'package:cityconnect/screen/fiscal/emissao_multa_screen.dart';
@@ -20,17 +22,13 @@ class MenuDrawerTile extends StatelessWidget {
 
   final double heightSpace = 18.0;
 
-  FotoAux fotoAux;
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
 
     MainStore mainStore = Provider.of<MainStore>(context);
 
-    mainStore.loadPhoto().then((value) => {
-      fotoAux = value,
-    });
+    mainStore.loadPhoto();
     
     final acoesPermissionarioMap = [
       CustomListTile(
@@ -117,9 +115,9 @@ class MenuDrawerTile extends StatelessWidget {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
-                                      image: mainStore.showPhotoFake
+                                      image: mainStore.photoUser==null
                                           ? AssetImage("images/photo-user.jpeg")
-                                          : NetworkImage(this.fotoAux.urlFoto, headers: this.fotoAux.header),
+                                          : FileImage(mainStore.photoUser),
                                     )),
                               );
                             })),

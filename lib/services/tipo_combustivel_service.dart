@@ -4,6 +4,7 @@ import 'package:cityconnect/services/main_service.dart';
 
 class TipoCombustivelService extends MainService {
   TipoCombustivelService() {
-    super.url = '/api/permissionarios/tiposcombustiveis';
+    super.endPoint = '/tiposcombustiveis';
+    super.endPointVersion = 1;
   }
 }

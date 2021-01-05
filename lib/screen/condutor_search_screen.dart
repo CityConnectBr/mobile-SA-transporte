@@ -83,7 +83,7 @@ class _SearchCondutorScreenState extends State<SearchCondutorScreen> {
                           child: CardCondutorTile(condutor),
                         ),
                         onTap: () {
-                          _condutorStore.editCondutor(
+                          _condutorStore.showCondutor(
                               condutor: condutor,
                               context: context,
                               scaffoldKey: this._scaffoldKey);

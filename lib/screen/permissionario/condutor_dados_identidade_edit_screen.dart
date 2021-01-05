@@ -6,6 +6,7 @@ import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
+import 'package:cityconnect/widgets/custom_image_picker_field.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
@@ -15,28 +16,18 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class CondutorDadoIsdentidadeScreen extends StatefulWidget {
-  final Condutor _condutor;
-
-  CondutorDadoIsdentidadeScreen(this._condutor);
-
   @override
-  _CondutorDadoIsdentidadeScreenState createState() =>
-      _CondutorDadoIsdentidadeScreenState(this._condutor);
+  _CondutorDadoIsdentidadeScreenState createState() => _CondutorDadoIsdentidadeScreenState();
 }
 
-class _CondutorDadoIsdentidadeScreenState
-    extends State<CondutorDadoIsdentidadeScreen> {
+class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _image;
   final picker = ImagePicker();
-  final Condutor _condutor;
-
-  _CondutorDadoIsdentidadeScreenState(this._condutor);
 
   final _nomeController = TextEditingController();
-  TextEditingController _cpfController =
-      MaskedTextController(mask: MaskUtil.cpfMask);
+  TextEditingController _cpfController = MaskedTextController(mask: MaskUtil.cpfMask);
   final _rgController = TextEditingController();
 
   final _dateFormat = Util.dateFormatddMMyyyy;
@@ -63,9 +54,15 @@ class _CondutorDadoIsdentidadeScreenState
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
-      _nomeController.text = this._condutor.nome;
-      _cpfController.text = Util.clearString(this._condutor.cpf);
-      _rgController.text = this._condutor.rg;
+      if (condutorStore.solicitacaoExistente) {
+        _nomeController.text = condutorStore.solicitacaoDeAlteracao.campo1;
+        _cpfController.text = condutorStore.solicitacaoDeAlteracao.campo2;
+        _rgController.text = condutorStore.solicitacaoDeAlteracao.campo3;
+      } else {
+        _nomeController.text = condutorStore.condutor.nome;
+        _cpfController.text = condutorStore.condutor.cpf;
+        _rgController.text = condutorStore.condutor.rg;
+      }
     }
 
     return Scaffold(
@@ -152,42 +149,17 @@ class _CondutorDadoIsdentidadeScreenState
                             height: 16.0,
                           ),
                           SizedBox(
-                            height: 30.0,
+                            height: 32.0,
                           ),
-                          GestureDetector(
-                            child: Container(
-                              alignment: Alignment.topLeft,
-                              child: _image != null
-                                  ? Image.asset(
-                                      "${_image}",
-                                      height: 140,
-                                      fit: BoxFit.contain,
-                                    )
-                                  : Text(
-                                      "Nenhuma imagem selecionada",
-                                      style: TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
-                                    ),
-                            ),
-                            onTap: () async {
-                              final pickedFile = await picker.getImage(
-                                  source: ImageSource.camera);
-
-                              setState(() {
-                                if (pickedFile != null) {
-                                  print(pickedFile.path);
-                                  _image = pickedFile.path;
-                                  print(_image);
-                                } else {
-                                  print('No image selected.');
-                                }
-                              });
+                          CustomImagePickerField(
+                            imagePath: this._image,
+                            text: "Foto da Identidade ou CNH",
+                            callBack: (String imgPath) {
+                              this._image = imgPath;
                             },
                           ),
                           SizedBox(
-                            height: 30.0,
+                            height: 32.0,
                           ),
                           CustomRaisedButtonBlue(
                               label: "Salvar",
@@ -197,13 +169,13 @@ class _CondutorDadoIsdentidadeScreenState
                                       context: context,
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
-//                                        condutorStore.save(
-//                                            nome: this._nomeController.text,
-//                                            cpf: Util.clearString(
-//                                                this._cpfController.text),
-//                                            rg: this._rgController.text,
-//                                            context: context,
-//                                            scaffoldKey: _scaffoldKey);
+                                        condutorStore.saveIdentidadeCondutor(
+                                            nome: this._nomeController.text,
+                                            cpf: Util.clearString(this._cpfController.text),
+                                            rg: this._rgController.text,
+                                            imgComprovante: this._image,
+                                            context: context,
+                                            scaffoldKey: _scaffoldKey);
                                       },
                                       voidCallbackNao: () {});
                                 }

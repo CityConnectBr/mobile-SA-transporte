@@ -1,3 +1,4 @@
+import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/util/preferences.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:dio/dio.dart';
@@ -8,7 +9,8 @@ class MainService {
   final dio = Dio();
   final simpleDio = Dio();
 
-  String url;
+  String endPoint = "";
+  int endPointVersion = 1;
 
   static String get URLApi {
     return DotEnv().env['URL_API'];
@@ -31,7 +33,7 @@ class MainService {
         dio.lock();
         dio.interceptors.responseLock.lock();
         dio.interceptors.errorLock.lock();
-        return simpleDio.get("/auth/refresh", options: options).then((d) async {
+        return simpleDio.get("/v1/auth/refresh", options: options).then((d) async {
           print("refresh token");
           print(d.data['newToken']);
           //update token
@@ -53,6 +55,26 @@ class MainService {
     }));
   }
 
+  String makeEndPoint({String endPoint, Usuario usuario, int endPointVersion}) {
+    String endPointAux = endPointVersion != null ? "/v${endPointVersion}" : "/v${this.endPointVersion}"; //setando versao
+
+    if (usuario != null) {
+      switch (usuario.tipo.id) {
+        case 1:
+          endPointAux += "/permissionarios";
+          break;
+        case 2:
+          endPointAux += "/condutores";
+          break;
+        case 3:
+          endPointAux += "/fiscais";
+          break;
+      }
+    }
+
+    return endPointAux + (endPoint != null ? endPoint : this.endPoint);
+  }
+
   @protected
   Future<String> getToken() async {
     return await Preferences().get(Preferences.KEY_LAST_JWT);
@@ -64,31 +86,31 @@ class MainService {
   }
 
   Future<Map<String, String>> getHeaderWithAuthToken() async {
-    return {"Authorization": "Bearer "+(await this.getToken())};
+    return {"Authorization": "Bearer " + (await this.getToken())};
   }
 
   ///////////////////////////////////
 
-  Future<List<dynamic>> search(String search) async {
-    return (await dio.get(url, queryParameters: {"search": search})).data['data'];
+  Future<List<dynamic>> search(String search, Usuario userLogged) async {
+    return (await dio.get(makeEndPoint(usuario: userLogged), queryParameters: {"search": search})).data['data'];
   }
 
-  Future<dynamic> create(json) async {
-    return await dio.post(url, data: json);
+  Future<dynamic> create(json, Usuario userLogged) async {
+    return await dio.post(makeEndPoint(usuario: userLogged), data: json);
   }
 
-  Future<bool> update(String id, json) async {
+  Future<bool> update(String id, json, Usuario userLogged) async {
     await dio.put(
-      url + "/${id}",
+      makeEndPoint(usuario: userLogged) + "/${id}",
       data: json,
     );
 
     return true;
   }
 
-  Future<dynamic> get(int id) async {
+  Future<dynamic> get(int id, Usuario userLogged) async {
     return (await dio.get(
-      url + "/${id}",
+      makeEndPoint(usuario: userLogged) + "/${id}",
     ))
         .data;
   }

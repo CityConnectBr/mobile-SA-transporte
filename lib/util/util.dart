@@ -1,6 +1,7 @@
+import 'dart:convert';
+
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:intl/intl.dart';
 
 class Util {
@@ -10,6 +11,14 @@ class Util {
 
   static Color hexToColor(String code) {
     return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+  }
+
+  static Map<String, dynamic> decodeJson(String string) {
+    try{
+      return json.decode(string);
+    }catch(e){
+      return null;
+    }
   }
 
   static String stringOnlyNumber(String value) {
@@ -90,7 +99,7 @@ class Util {
   }
 
   static String clearString(String str) {
-    return str != null ? str.replaceAll(RegExp(r'[.,-\/\\\[\]{}]'), "") : null;
+    return str != null ? str.replaceAll(RegExp(r'[.,-\/\\\[\]{}]'), "").replaceAll(" ", "") : null;
   }
 }
 
