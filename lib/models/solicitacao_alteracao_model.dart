@@ -1,4 +1,6 @@
 import 'package:cityconnect/models/endereco_model.dart';
+import 'package:cityconnect/models/tipo_solicitacao_model.dart';
+import 'package:cityconnect/util/util.dart';
 import 'package:intl/intl.dart';
 
 class SolicitacaoDeAlteracao {
@@ -32,6 +34,8 @@ class SolicitacaoDeAlteracao {
   String arquivo3;
   String arquivo4;
   String tipoSolicitacaoId;//tipo_solicitacao_id
+  TipoSolicitacao tipoSolicitacao;
+  DateTime createdAt;
 
   SolicitacaoDeAlteracao();
 
@@ -63,6 +67,8 @@ class SolicitacaoDeAlteracao {
     this.arquivo2 = parsedJson["arquivo2"];
     this.arquivo3 = parsedJson["arquivo3"];
     this.arquivo4 = parsedJson["arquivo4"];
+    this.tipoSolicitacao = parsedJson["tipo"]!=null?TipoSolicitacao.fromJson(parsedJson["tipo"]):null;
+    this.createdAt = parsedJson["created_at"]!=null?Util.dateFormatyyyyMMddTHHmmssZ.parse(parsedJson["created_at"]):null;
   }
 
   Map<String, dynamic> toMap() {
@@ -96,5 +102,21 @@ class SolicitacaoDeAlteracao {
       "arquivo3": arquivo3,
       "arquivo4": arquivo4,
     };
+  }
+
+  String get statusToShow{
+    try{
+      if(status==null){
+        return "Aguardando";
+      }else if(status.contains("A")){
+        return "Aceito";
+      }else if(status.contains("R")){
+        return "Recusado";
+      }else if(status.contains("C")){
+        return "Cancelado";
+      }
+    }catch(e){}
+
+    return "Não Definido";
   }
 }

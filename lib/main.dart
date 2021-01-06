@@ -1,5 +1,6 @@
 import 'package:cityconnect/screen/loading_screen.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
+import 'package:cityconnect/stores/permissionario/solicitacao_store.dart';
 import 'package:cityconnect/stores/permissionario/veiculo_store.dart';
 import 'package:cityconnect/stores/main_store.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
           Provider<MainStore>(create: (_) => MainStore()),
           Provider<CondutorStore>(create: (_) => CondutorStore()),
           Provider<VeiculoStore>(create: (_) => VeiculoStore()),
+          Provider<SolicitacaoStore>(create: (_) => SolicitacaoStore()),
         ],
         child: MaterialApp(
           title: 'SA TRANS',

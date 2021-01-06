@@ -7,7 +7,10 @@ import 'package:intl/intl.dart';
 class Util {
 
   static final DateFormat dateFormatddMMyyyy = DateFormat("dd/MM/yyyy");
+  static final DateFormat dateFormatddMMyyyyHHmm = DateFormat("dd/MM/yyyy 'às' HH:mm'h'");
   static final DateFormat dateFormatyyyyMMdd = DateFormat("yyyy-MM-dd");
+  static final DateFormat dateFormatyyyyMMddTHHmmssZ = DateFormat('yyyy-MM-ddTHH:mm:ssZ');
+
 
   static Color hexToColor(String code) {
     return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);

@@ -5,7 +5,7 @@ import 'package:cityconnect/screen/condutor_search_screen.dart';
 import 'package:cityconnect/screen/fiscal/emissao_multa_screen.dart';
 import 'package:cityconnect/screen/permissionario/alvara_digital_screen.dart';
 import 'package:cityconnect/screen/permissionario/boletos_screen.dart';
-import 'package:cityconnect/screen/permissionario/solicitacoes_screen.dart';
+import 'package:cityconnect/screen/solicitacao_search_screen.dart';
 import 'package:cityconnect/screen/veiculo_search_screen.dart';
 import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/tiles/custom_list_tile.dart';
@@ -62,7 +62,7 @@ class MenuDrawerTile extends StatelessWidget {
       CustomListTile(
         title: "SOLICITAÇÕES",
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SolicitacoesScreen()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SolicitacaoScreen()));
         },
       ),
       SizedBox(height: height * .05),
