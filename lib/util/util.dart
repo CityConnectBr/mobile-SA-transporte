@@ -1,25 +1,24 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Util {
-
   static final DateFormat dateFormatddMMyyyy = DateFormat("dd/MM/yyyy");
   static final DateFormat dateFormatddMMyyyyHHmm = DateFormat("dd/MM/yyyy 'às' HH:mm'h'");
   static final DateFormat dateFormatyyyyMMdd = DateFormat("yyyy-MM-dd");
   static final DateFormat dateFormatyyyyMMddTHHmmssZ = DateFormat('yyyy-MM-ddTHH:mm:ssZ');
-
 
   static Color hexToColor(String code) {
     return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
   static Map<String, dynamic> decodeJson(String string) {
-    try{
+    try {
       return json.decode(string);
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
@@ -76,8 +75,7 @@ class Util {
             title: Text(
               titulo,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 20.0, color: Theme.of(context).primaryColor),
+              style: TextStyle(fontSize: 20.0, color: Theme.of(context).primaryColor),
             ),
             content: Text(texto),
             actions: <Widget>[
@@ -104,11 +102,18 @@ class Util {
   static String clearString(String str) {
     return str != null ? str.replaceAll(RegExp(r'[.,-\/\\\[\]{}]'), "").replaceAll(" ", "") : null;
   }
+
+  static Future<bool> needDownloadFile(File file) async {
+    if (file != null && await file.exists() && (await file.lastModified()).isBefore(DateTime.now().add(Duration(minutes: -10)))) {
+      return false;
+    }
+
+    return true;
+  }
 }
 
 class Entry {
-  Entry(this.title, this.subtitle, this.value,
-      [this.children = const <Entry>[]]);
+  Entry(this.title, this.subtitle, this.value, [this.children = const <Entry>[]]);
 
   final String title;
   final String subtitle;

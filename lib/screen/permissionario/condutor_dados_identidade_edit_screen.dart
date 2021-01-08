@@ -5,6 +5,7 @@ import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
+import 'package:cityconnect/widgets/custom_alert_message.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_image_picker_field.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
@@ -52,19 +53,6 @@ class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeS
   Widget build(BuildContext context) {
     CondutorStore condutorStore = Provider.of<CondutorStore>(context);
 
-    if (!this._flagIsLoad) {
-      this._flagIsLoad = true;
-      if (condutorStore.solicitacaoExistente) {
-        _nomeController.text = condutorStore.solicitacaoDeAlteracao.campo1;
-        _cpfController.text = condutorStore.solicitacaoDeAlteracao.campo2;
-        _rgController.text = condutorStore.solicitacaoDeAlteracao.campo3;
-      } else {
-        _nomeController.text = condutorStore.condutor.nome;
-        _cpfController.text = condutorStore.condutor.cpf;
-        _rgController.text = condutorStore.condutor.rg;
-      }
-    }
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -85,12 +73,35 @@ class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeS
                   ),
                 );
 
+              //Setando dados carregados após loader
+              if (!this._flagIsLoad) {
+                this._flagIsLoad = true;
+                if (condutorStore.solicitacaoExistente) {
+                  _nomeController.text = condutorStore.solicitacaoDeAlteracao.campo1;
+                  _cpfController.text = condutorStore.solicitacaoDeAlteracao.campo2;
+                  _rgController.text = condutorStore.solicitacaoDeAlteracao.campo3;
+                } else {
+                  _nomeController.text = condutorStore.condutor.nome;
+                  _cpfController.text = condutorStore.condutor.cpf;
+                  _rgController.text = condutorStore.condutor.rg;
+                }
+              }
+
               return Container(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    condutorStore.solicitacaoExistente
+                        ? CustomAlertMessage(
+                      type: CustomAlertMessage.WANNING,
+                      message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                    )
+                        : Container(),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Form(
                       key: _formKey,
                       child: Column(

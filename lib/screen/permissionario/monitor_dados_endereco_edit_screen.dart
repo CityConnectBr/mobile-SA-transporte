@@ -1,5 +1,4 @@
-import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/stores/permissionario/condutor_store.dart';
+import 'package:cityconnect/stores/permissionario/monitor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
@@ -9,18 +8,17 @@ import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_image_picker_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class CondutorDadosEnderecoScreen extends StatefulWidget {
+class MonitorDadosEnderecoScreen extends StatefulWidget {
   @override
-  _CondutorDadosEnderecoScreenState createState() => _CondutorDadosEnderecoScreenState();
+  _MonitorDadosEnderecoScreenState createState() => _MonitorDadosEnderecoScreenState();
 }
 
-class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScreen> {
+class _MonitorDadosEnderecoScreenState extends State<MonitorDadosEnderecoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _image;
@@ -54,7 +52,7 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
 
   @override
   Widget build(BuildContext context) {
-    CondutorStore condutorStore = Provider.of<CondutorStore>(context);
+    MonitorStore monitorStore = Provider.of<MonitorStore>(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -68,7 +66,7 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
         children: <Widget>[
           Container(
             child: Observer(builder: (_) {
-              if (condutorStore.loading)
+              if (monitorStore.loading)
                 return Container(
                   margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
                   child: Center(
@@ -79,22 +77,22 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
               //Setando dados carregados após loader
               if (!this._flagIsLoad) {
                 this._flagIsLoad = true;
-                if (condutorStore.solicitacaoExistente) {
-                  _cepController.text = condutorStore.solicitacaoDeAlteracao.campo1;
-                  _addressController.text = condutorStore.solicitacaoDeAlteracao.campo2;
-                  _numController.text = condutorStore.solicitacaoDeAlteracao.campo3;
-                  _complementController.text = condutorStore.solicitacaoDeAlteracao.campo4;
-                  _bairroController.text = condutorStore.solicitacaoDeAlteracao.campo5;
-                  _municipioController.text = condutorStore.solicitacaoDeAlteracao.campo6;
-                  _uf = condutorStore.solicitacaoDeAlteracao.campo7;
+                if (monitorStore.solicitacaoExistente) {
+                  _cepController.text = monitorStore.solicitacaoDeAlteracao.campo1;
+                  _addressController.text = monitorStore.solicitacaoDeAlteracao.campo2;
+                  _numController.text = monitorStore.solicitacaoDeAlteracao.campo3;
+                  _complementController.text = monitorStore.solicitacaoDeAlteracao.campo4;
+                  _bairroController.text = monitorStore.solicitacaoDeAlteracao.campo5;
+                  _municipioController.text = monitorStore.solicitacaoDeAlteracao.campo6;
+                  _uf = monitorStore.solicitacaoDeAlteracao.campo7;
                 } else {
-                  _cepController.text = condutorStore.condutor.endereco.cep;
-                  _addressController.text = condutorStore.condutor.endereco.endereco;
-                  _numController.text = condutorStore.condutor.endereco.numero;
-                  _complementController.text = condutorStore.condutor.endereco.complemento;
-                  _bairroController.text = condutorStore.condutor.endereco.bairro;
-                  _municipioController.text = condutorStore.condutor.endereco.municipio;
-                  _uf = condutorStore.condutor.endereco.uf;
+                  _cepController.text = monitorStore.monitor.endereco.cep;
+                  _addressController.text = monitorStore.monitor.endereco.endereco;
+                  _numController.text = monitorStore.monitor.endereco.numero;
+                  _complementController.text = monitorStore.monitor.endereco.complemento;
+                  _bairroController.text = monitorStore.monitor.endereco.bairro;
+                  _municipioController.text = monitorStore.monitor.endereco.municipio;
+                  _uf = monitorStore.monitor.endereco.uf;
                 }
               }
 
@@ -104,11 +102,11 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    condutorStore.solicitacaoExistente
+                    monitorStore.solicitacaoExistente
                         ? CustomAlertMessage(
-                      type: CustomAlertMessage.WANNING,
-                      message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
-                    )
+                            type: CustomAlertMessage.WANNING,
+                            message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                          )
                         : Container(),
                     SizedBox(
                       height: 20.0,
@@ -245,7 +243,7 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
                                       context: context,
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
-                                        condutorStore.saveEnderecoCondutor(
+                                        monitorStore.saveEnderecoMonitor(
                                             cep: Util.clearString(this._cepController.text),
                                             endereco: this._addressController.text,
                                             complemento: this._complementController.text,

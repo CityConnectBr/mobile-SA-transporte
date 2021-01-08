@@ -127,7 +127,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                     Row(
                       children: <Widget>[
                         Text(
-                          'Dados de contato',
+                          'Dados de Contato',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 22.0,
@@ -189,7 +189,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                     Row(
                       children: <Widget>[
                         Text(
-                          "Dados de identidade",
+                          "Dados de Identidade",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 22.0,

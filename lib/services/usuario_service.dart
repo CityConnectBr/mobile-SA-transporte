@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/services/main_service.dart';
+import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +11,7 @@ import 'package:path_provider/path_provider.dart';
 
 class UsuarioService extends MainService {
   Future<String> login(String email, String senha) async {
-    Response response = await simpleDio.post('/v1/auth/login', data: {
+    Response response = await simpleDio.post('/auth/login', data: {
       "email": email,
       "password": senha,
     });
@@ -24,7 +25,7 @@ class UsuarioService extends MainService {
 
   Future<Usuario> getUser() async {
     if ((await super.getToken()) != null) {
-      return Usuario.fromJson((await dio.get('/v1/user')).data);
+      return Usuario.fromJson((await dio.get('/api/user')).data);
     }
   }
 
@@ -34,7 +35,7 @@ class UsuarioService extends MainService {
   }
 
   Future<bool> signin({String nome, String email, String cpfCnj, String cnh, String senha}) async {
-    await simpleDio.post('/v1/auth/signin', data: {
+    await simpleDio.post('/api/auth/signin', data: {
       "nome": nome,
       "email": email,
       "cpf_cnpj": cpfCnj,
@@ -47,7 +48,7 @@ class UsuarioService extends MainService {
 
   Future<bool> updateUser(Usuario usuario) async {
     await dio.put(
-      '/v1/user',
+      '/api/user',
       data: usuario.toMap(),
     );
 
@@ -56,7 +57,7 @@ class UsuarioService extends MainService {
 
   Future<bool> updatePassword({@required String senhaAtual, @required String novaSenha}) async {
     await dio.patch(
-      '/v1/password',
+      '/api/password',
       data: {"password": senhaAtual, "new_password": novaSenha},
     );
     return true;
@@ -64,7 +65,7 @@ class UsuarioService extends MainService {
 
   Future<bool> generateRecoverCode(String email) async {
     await dio.post(
-      '/v1/auth/generaterecovercode',
+      '/auth/generaterecovercode',
       data: {"email": email},
     );
 
@@ -73,7 +74,7 @@ class UsuarioService extends MainService {
 
   Future<bool> validateRecoverCode(String email, String code) async {
     await dio.post(
-      '/v1/auth/validaterecoverycode',
+      '/auth/validaterecoverycode',
       data: {
         "email": email,
         "code": code,
@@ -85,7 +86,7 @@ class UsuarioService extends MainService {
 
   Future<bool> recoverPassword(String email, String code, String password) async {
     await dio.post(
-      '/v1/auth/recoverypassword',
+      '/auth/recoverypassword',
       data: {
         "email": email,
         "code": code,
@@ -97,28 +98,28 @@ class UsuarioService extends MainService {
   }
 
   Future<File> downloadPhotoUser() async {
-
     try {
-      Response response = await dio.get(
-        '/v1/photouser',
-        //Received data with List<int>
-        options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            validateStatus: (status) {
-              return status < 500;
-            }),
-      );
       Directory appDocDirectory = await getApplicationDocumentsDirectory();
 
       File file = File(appDocDirectory.path + '/' + 'photo_user.jpg');
-      print("------------->>>>");
-      print(file.path);
 
-      var raf = file.openSync(mode: FileMode.write);
-      // response.data is List<int> type
-      raf.writeFromSync(response.data);
-      await raf.close();
+      if (await Util.needDownloadFile(file)) {
+        Response response = await dio.get(
+          '/api/photouser',
+          //Received data with List<int>
+          options: Options(
+              responseType: ResponseType.bytes,
+              followRedirects: false,
+              validateStatus: (status) {
+                return status < 500;
+              }),
+        );
+
+        var raf = file.openSync(mode: FileMode.write);
+        // response.data is List<int> type
+        raf.writeFromSync(response.data);
+        await raf.close();
+      }
 
       if (await file.exists()) {
         return file;

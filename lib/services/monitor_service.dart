@@ -1,22 +1,32 @@
+
 import 'dart:io';
 
-import 'package:cityconnect/models/condutor_model.dart';
+import 'package:cityconnect/models/monitor_model.dart';
 import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/services/main_service.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 
-class CondutorService extends MainService {
-  CondutorService() {
-    super.endPoint = '/condutores';
+class MonitorService extends MainService {
+  MonitorService() {
+    super.endPoint = '/monitores';
     super.endPointVersion = 1;
   }
 
-  Future<File> downloadPhoto(Condutor condutor, Usuario usuarioLogged) async {
+  Future<File> downloadPhoto(Monitor monitor, Usuario usuarioLogged) async {
     try {
+      print("downloadPhoto");
+
+      Directory appDocDirectory = await getApplicationDocumentsDirectory();
+
+      File file = File(appDocDirectory.path + '/monitores/${monitor.id}.jpg');
+
+      //print(await Util.needDownloadFile(file));
+
+      //if(await Util.needDownloadFile(file)){
       Response response = await dio.get(
-        super.makeEndPoint(usuario: usuarioLogged, endPoint: "/condutores/${condutor.id}/foto", endPointVersion: 1),
+        super.makeEndPoint(usuario: usuarioLogged, endPoint: "/monitores/${monitor.id}/foto", endPointVersion:  1),
         //Received data with List<int>
         options: Options(
             responseType: ResponseType.bytes,
@@ -25,16 +35,14 @@ class CondutorService extends MainService {
               return status < 500;
             }),
       );
-      Directory appDocDirectory = await getApplicationDocumentsDirectory();
 
-      File file = File(appDocDirectory.path + '/condutores/${condutor.id}.jpg');
-
-      if(await Util.needDownloadFile(file)){
         var raf = file.openSync(mode: FileMode.write);
         // response.data is List<int> type
         raf.writeFromSync(response.data);
         await raf.close();
-      }
+      //}
+      print(super.makeEndPoint(usuario: usuarioLogged, endPoint: "/monitores/${monitor.id}/foto", endPointVersion:  1));
+      print(await file.exists());
 
       if (await file.exists()) {
         return file;
@@ -43,4 +51,6 @@ class CondutorService extends MainService {
       print(e);
     }
   }
+
+
 }

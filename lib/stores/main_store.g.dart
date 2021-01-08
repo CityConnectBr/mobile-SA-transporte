@@ -301,11 +301,11 @@ mixin _$MainStore on _MainStore, Store {
     return _$logoutAsyncAction.run(() => super.logout(context: context));
   }
 
-  final _$loadPhotoAsyncAction = AsyncAction('_MainStore.loadPhoto');
+  final _$loadPhotoUserAsyncAction = AsyncAction('_MainStore.loadPhotoUser');
 
   @override
-  Future<void> loadPhoto() {
-    return _$loadPhotoAsyncAction.run(() => super.loadPhoto());
+  Future<void> loadPhotoUser() {
+    return _$loadPhotoUserAsyncAction.run(() => super.loadPhotoUser());
   }
 
   @override

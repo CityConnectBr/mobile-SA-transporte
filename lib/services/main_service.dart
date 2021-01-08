@@ -33,7 +33,7 @@ class MainService {
         dio.lock();
         dio.interceptors.responseLock.lock();
         dio.interceptors.errorLock.lock();
-        return simpleDio.get("/v1/auth/refresh", options: options).then((d) async {
+        return simpleDio.get("/auth/refresh", options: options).then((d) async {
           print("refresh token");
           print(d.data['newToken']);
           //update token
@@ -56,7 +56,7 @@ class MainService {
   }
 
   String makeEndPoint({String endPoint, Usuario usuario, int endPointVersion}) {
-    String endPointAux = endPointVersion != null ? "/v${endPointVersion}" : "/v${this.endPointVersion}"; //setando versao
+    String endPointAux = "/api";
 
     if (usuario != null) {
       switch (usuario.tipo.id) {
@@ -71,6 +71,8 @@ class MainService {
           break;
       }
     }
+
+    endPointAux += endPointVersion != null ? "/v${endPointVersion}" : "/v${this.endPointVersion}"; //setando versao
 
     return endPointAux + (endPoint != null ? endPoint : this.endPoint);
   }

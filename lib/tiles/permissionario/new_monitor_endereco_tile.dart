@@ -1,9 +1,7 @@
-import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/stores/permissionario/condutor_store.dart';
+import 'package:cityconnect/stores/permissionario/monitor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
-import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_image_picker_field.dart';
@@ -13,21 +11,21 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class NewCondutorEnderecoTile extends StatefulWidget {
+class NewMonitorEnderecoTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
 
-  NewCondutorEnderecoTile(this._globalKey);
+  NewMonitorEnderecoTile(this._globalKey);
 
   @override
-  _NewCondutorEnderecoTileState createState() =>
-      _NewCondutorEnderecoTileState(_globalKey);
+  _NewMonitorEnderecoTileState createState() =>
+      _NewMonitorEnderecoTileState(_globalKey);
 }
 
-class _NewCondutorEnderecoTileState extends State<NewCondutorEnderecoTile> {
+class _NewMonitorEnderecoTileState extends State<NewMonitorEnderecoTile> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
-  _NewCondutorEnderecoTileState(this._scaffoldKey);
+  _NewMonitorEnderecoTileState(this._scaffoldKey);
 
   final _cepController = MaskedTextController(mask: MaskUtil.cepMask);
   final _addressController = TextEditingController();
@@ -59,24 +57,24 @@ class _NewCondutorEnderecoTileState extends State<NewCondutorEnderecoTile> {
 
   @override
   Widget build(BuildContext context) {
-    CondutorStore condutorStore = Provider.of<CondutorStore>(context);
+    MonitorStore monitorStore = Provider.of<MonitorStore>(context);
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
 
-      _cepController.text = condutorStore.solicitacaoDeAlteracao.campo8;
-      _addressController.text = condutorStore.solicitacaoDeAlteracao.campo9;
-      _numController.text = condutorStore.solicitacaoDeAlteracao.campo10;
-      _complementController.text = condutorStore.solicitacaoDeAlteracao.campo11;
-      _bairroController.text = condutorStore.solicitacaoDeAlteracao.campo12;
-      _municipioController.text = condutorStore.solicitacaoDeAlteracao.campo13;
-      _uf = condutorStore.solicitacaoDeAlteracao.campo14;
-      _image = condutorStore.solicitacaoDeAlteracao.arquivo2;
+      _cepController.text = monitorStore.solicitacaoDeAlteracao.campo3;
+      _addressController.text = monitorStore.solicitacaoDeAlteracao.campo4;
+      _numController.text = monitorStore.solicitacaoDeAlteracao.campo5;
+      _complementController.text = monitorStore.solicitacaoDeAlteracao.campo6;
+      _bairroController.text = monitorStore.solicitacaoDeAlteracao.campo7;
+      _municipioController.text = monitorStore.solicitacaoDeAlteracao.campo8;
+      _uf = monitorStore.solicitacaoDeAlteracao.campo9;
+      _image = monitorStore.solicitacaoDeAlteracao.arquivo2;
     }
 
     return Container(
       child: Observer(builder: (_) {
-        if (condutorStore.loading)
+        if (monitorStore.loading)
           return Container(
             margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
             child: Center(
@@ -203,7 +201,7 @@ class _NewCondutorEnderecoTileState extends State<NewCondutorEnderecoTile> {
                         label: "Salvar",
                         func: () {
                           if (_formKey.currentState.validate()) {
-                            condutorStore.saveAbaEnderecoNewCondutor(
+                            monitorStore.saveAbaEnderecoNewMonitor(
                                 cep: Util.clearString(this._cepController.text),
                                 endereco: this._addressController.text,
                                 complemento: this._complementController.text,

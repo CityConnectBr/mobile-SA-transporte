@@ -325,7 +325,7 @@ abstract class _MainStore with Store {
   }
 
   @action
-  Future<void> loadPhoto() async {
+  Future<void> loadPhotoUser() async {
     try {
       if(this.photoUser==null) {
         this.photoUser = await this._usuarioService.downloadPhotoUser();

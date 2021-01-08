@@ -1,17 +1,27 @@
-import 'package:cityconnect/stores/permissionario/condutor_store.dart';
-import 'package:cityconnect/tiles/permissionario/new_condutor_dados_tile.dart';
-import 'package:cityconnect/tiles/permissionario/new_condutor_endereco_tile.dart';
+import 'package:cityconnect/models/monitor_model.dart';
+import 'package:cityconnect/stores/permissionario/monitor_store.dart';
+import 'package:cityconnect/tiles/monitor_edit_dados_tile.dart';
+import 'package:cityconnect/tiles/monitor_edit_endereco_tile.dart';
 import 'package:cityconnect/tiles/photo_person_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:provider/provider.dart';
 
-class NewCondutorScreen extends StatefulWidget {
+class MonitorEditScreen extends StatefulWidget {
+
+  final Monitor monitor;
+
+  MonitorEditScreen(this.monitor);
+
   @override
-  _NewCondutorScreenState createState() => _NewCondutorScreenState();
+  _MonitorEditScreenState createState() => _MonitorEditScreenState(monitor);
 }
 
-class _NewCondutorScreenState extends State<NewCondutorScreen> with SingleTickerProviderStateMixin {
+class _MonitorEditScreenState extends State<MonitorEditScreen> with SingleTickerProviderStateMixin {
+
+  final Monitor monitor;
+
+  _MonitorEditScreenState(this.monitor);
 
   final _textStyleTitleBar = TextStyle(
       color: Util.hexToColor("#3E4958"),
@@ -43,24 +53,22 @@ class _NewCondutorScreenState extends State<NewCondutorScreen> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-    CondutorStore condutorStore = Provider.of<CondutorStore>(context);
-
-    condutorStore.tabController = this._tabController;
+    MonitorStore _monitorStore = Provider.of<MonitorStore>(context);
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          'Novo Condutor',
+          this.monitor.id==null?'Novo Monitor':"Monitor",
         ),
         centerTitle: true,
       ),
       body: ListView(
         children: <Widget>[
-          PhotoPersonTile(
-            imagePath: condutorStore.fotoCondutor,
-            callBack: (String imgPath) {
-              condutorStore.fotoCondutor = imgPath;
+          GestureDetector(
+            child: PhotoPersonTile(),
+            onTap: (){
+              _monitorStore.editFotoMonitor(context: context, scaffoldKey: _scaffoldKey);
             },
           ),
           TabBar(
@@ -85,8 +93,8 @@ class _NewCondutorScreenState extends State<NewCondutorScreen> with SingleTicker
           ),
           Center(
             child: [
-              NewCondutorTile(this._scaffoldKey),
-              NewCondutorEnderecoTile(this._scaffoldKey),
+              MonitorEditDadosTile(this._scaffoldKey, this.monitor),
+              MonitorEditEnderecoTile(_scaffoldKey, this.monitor),
             ][_tabController.index],
           ),
         ],

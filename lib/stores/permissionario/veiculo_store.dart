@@ -8,7 +8,6 @@ import 'package:cityconnect/widgets/snack_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:provider/provider.dart';
 
 part 'veiculo_store.g.dart';
 
@@ -21,7 +20,6 @@ abstract class _VeiculoStore extends MainStore with Store {
   Veiculo _veiculo;
 
   final _veiculoService = VeiculoService();
-  final _condutorService = CondutorStore();
 
   String _lastSearch;
 
@@ -56,11 +54,11 @@ abstract class _VeiculoStore extends MainStore with Store {
     loading = true;
 
     try {
+      this._lastSearch = null;
+
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
-      if (this.veiculos == null) {
-        this.veiculos = (await this._veiculoService.search("", super.usuario)).map((model) => Veiculo.fromJson(model)).toList();
-      }
+      this.veiculos = (await this._veiculoService.search("", super.usuario)).map((model) => Veiculo.fromJson(model)).toList();
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }

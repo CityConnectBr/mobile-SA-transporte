@@ -258,6 +258,15 @@ mixin _$CondutorStore on _CondutorStore, Store {
             scaffoldKey: scaffoldKey));
   }
 
+  final _$loadPhotoFromCondutorAsyncAction =
+      AsyncAction('_CondutorStore.loadPhotoFromCondutor');
+
+  @override
+  Future<File> loadPhotoFromCondutor(Condutor condutor) {
+    return _$loadPhotoFromCondutorAsyncAction
+        .run(() => super.loadPhotoFromCondutor(condutor));
+  }
+
   @override
   String toString() {
     return '''
