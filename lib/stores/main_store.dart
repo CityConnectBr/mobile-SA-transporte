@@ -318,6 +318,8 @@ abstract class _MainStore with Store {
     try {
       _prefs.save(Preferences.KEY_LAST_JWT, null);
 
+      this.photoUser = null;
+
       await _usuarioService.logout();
     } catch (e) {}
 
@@ -328,8 +330,20 @@ abstract class _MainStore with Store {
   Future<void> loadPhotoUser() async {
     try {
       if(this.photoUser==null) {
+        final lastPhoto = await this._prefs.get(Preferences.KEY_LAST_PHOTO);
+
+        if(lastPhoto!=null){
+          final photo = File(lastPhoto);
+          if(await photo.exists()){
+            photo.delete();
+          }
+        }
+
         this.photoUser = await this._usuarioService.downloadPhotoUser();
+
+        this._prefs.save(Preferences.KEY_LAST_PHOTO, this.photoUser.path);
       }
+
     } catch (e) {
       this.photoUser = null;
     }

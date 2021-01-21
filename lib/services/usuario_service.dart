@@ -101,25 +101,23 @@ class UsuarioService extends MainService {
     try {
       Directory appDocDirectory = await getApplicationDocumentsDirectory();
 
-      File file = File(appDocDirectory.path + '/' + 'photo_user.jpg');
+      File file = File(appDocDirectory.path + '/' + Util.getRandomString(20) + '.jpg');
 
-      if (await Util.needDownloadFile(file)) {
-        Response response = await dio.get(
-          '/api/photouser',
-          //Received data with List<int>
-          options: Options(
-              responseType: ResponseType.bytes,
-              followRedirects: false,
-              validateStatus: (status) {
-                return status < 500;
-              }),
-        );
+      Response response = await dio.get(
+        '/api/photouser',
+        //Received data with List<int>
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            }),
+      );
 
-        var raf = file.openSync(mode: FileMode.write);
-        // response.data is List<int> type
-        raf.writeFromSync(response.data);
-        await raf.close();
-      }
+      var raf = await file.open(mode: FileMode.write);
+      // response.data is List<int> type
+      await raf.writeFrom(response.data);
+      await raf.close();
 
       if (await file.exists()) {
         return file;

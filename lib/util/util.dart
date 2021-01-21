@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,14 @@ class Util {
   static final DateFormat dateFormatddMMyyyyHHmm = DateFormat("dd/MM/yyyy 'às' HH:mm'h'");
   static final DateFormat dateFormatyyyyMMdd = DateFormat("yyyy-MM-dd");
   static final DateFormat dateFormatyyyyMMddTHHmmssZ = DateFormat('yyyy-MM-ddTHH:mm:ssZ');
+  static final _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 
   static Color hexToColor(String code) {
     return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
   }
+
+  static String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length))));
 
   static Map<String, dynamic> decodeJson(String string) {
     try {
