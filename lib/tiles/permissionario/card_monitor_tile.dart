@@ -41,7 +41,7 @@ class _CardMonitorTileState extends State<CardMonitorTile> {
     }
 
     return Container(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         border: Border.all(color: Util.hexToColor("#D5DDE0")),
         borderRadius: BorderRadius.only(
@@ -51,8 +51,8 @@ class _CardMonitorTileState extends State<CardMonitorTile> {
       child: Row(
         children: <Widget>[
           Container(
-            width: 100.0,
-            height: 100.0,
+            width: 70.0,
+            height: 70.0,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(fit: BoxFit.cover, image: foto != null ? FileImage(foto) : AssetImage("images/photo-user.jpeg"))),

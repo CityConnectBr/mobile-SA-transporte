@@ -24,7 +24,7 @@ class CustomTextSearchResult extends StatelessWidget {
               text: TextSpan(
                 text: customText,
                 style: TextStyle(
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.w500,
                   color: this.color,
                 ),
