@@ -20,7 +20,7 @@ class MonitorService extends MainService {
 
       Directory appDocDirectory = await getApplicationDocumentsDirectory();
 
-      File file = File(appDocDirectory.path + '/monitores/${monitor.id}.jpg');
+      File file = File(appDocDirectory.path + '/monitores_${monitor.id}.jpg');
 
       //print(await Util.needDownloadFile(file));
 
@@ -41,8 +41,6 @@ class MonitorService extends MainService {
         raf.writeFromSync(response.data);
         await raf.close();
       //}
-      print(super.makeEndPoint(usuario: usuarioLogged, endPoint: "/monitores/${monitor.id}/foto", endPointVersion:  1));
-      print(await file.exists());
 
       if (await file.exists()) {
         return file;

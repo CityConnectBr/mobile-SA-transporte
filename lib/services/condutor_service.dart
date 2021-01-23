@@ -27,7 +27,7 @@ class CondutorService extends MainService {
       );
       Directory appDocDirectory = await getApplicationDocumentsDirectory();
 
-      File file = File(appDocDirectory.path + '/condutores/${condutor.id}.jpg');
+      File file = File(appDocDirectory.path + '/condutores_${condutor.id}.jpg');
 
       if(await Util.needDownloadFile(file)){
         var raf = file.openSync(mode: FileMode.write);

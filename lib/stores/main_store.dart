@@ -338,9 +338,9 @@ abstract class _MainStore with Store {
             photo.delete();
           }
         }
-
         this.photoUser = await this._usuarioService.downloadPhotoUser();
 
+        print(photoUser);
         this._prefs.save(Preferences.KEY_LAST_PHOTO, this.photoUser.path);
       }
 

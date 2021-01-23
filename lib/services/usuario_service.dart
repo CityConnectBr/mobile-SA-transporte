@@ -113,13 +113,7 @@ class UsuarioService extends MainService {
               return status < 500;
             }),
       );
-
-      var raf = await file.open(mode: FileMode.write);
-      // response.data is List<int> type
-      await raf.writeFrom(response.data);
-      await raf.close();
-
-      if (await file.exists()) {
+      if (response.statusCode == 200 && await file.exists()) {
         return file;
       }
     } catch (e) {
