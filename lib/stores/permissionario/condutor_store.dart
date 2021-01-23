@@ -528,10 +528,8 @@ abstract class _CondutorStore extends MainStore with Store {
   @action
   Future<File> loadPhotoFromCondutor(Condutor condutor) async {
     try {
-      print("AKIIII 000");
       return await this._condutorService.downloadPhoto(condutor, super.usuario);
     } catch (e) {
-      print("AKIII E");
     }
     return null;
   }

@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:cityconnect/models/monitor_model.dart';
@@ -22,11 +21,8 @@ class MonitorService extends MainService {
 
       File file = File(appDocDirectory.path + '/monitores_${monitor.id}.jpg');
 
-      //print(await Util.needDownloadFile(file));
-
-      //if(await Util.needDownloadFile(file)){
       Response response = await dio.get(
-        super.makeEndPoint(usuario: usuarioLogged, endPoint: "/monitores/${monitor.id}/foto", endPointVersion:  1),
+        super.makeEndPoint(usuario: usuarioLogged, endPoint: "/monitores/${monitor.id}/foto", endPointVersion: 1),
         //Received data with List<int>
         options: Options(
             responseType: ResponseType.bytes,
@@ -36,19 +32,16 @@ class MonitorService extends MainService {
             }),
       );
 
-        var raf = file.openSync(mode: FileMode.write);
-        // response.data is List<int> type
-        raf.writeFromSync(response.data);
-        await raf.close();
-      //}
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
 
-      if (await file.exists()) {
+      if (response.statusCode == 200 && await file.exists()) {
         return file;
       }
     } catch (e) {
       print(e);
     }
   }
-
-
 }
