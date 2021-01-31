@@ -32,9 +32,7 @@ class SolicitacaoDeAlteracaoService extends MainService {
   static final int TIPO_FISCAL_IDENTIDADE = 32;
   static final int TIPO_FISCAL_FOTO = 33;
 
-  static final int TIPO_VEICULO_IDENTIDADE = 40;
-
-  static final int TIPO_ONIBUS_IDENTIDADE = 50;
+  static final int TIPO_VEICULO = 40;
 
   SolicitacaoDeAlteracaoService() {
     super.endPoint = '/solicitacaodealteracao';

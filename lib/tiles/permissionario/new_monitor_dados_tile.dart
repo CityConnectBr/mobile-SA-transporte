@@ -200,9 +200,6 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                       validator: ValidatorsUtil.validateDate,
                     ),
                     SizedBox(
-                      height: 16.0,
-                    ),
-                    SizedBox(
                       height: 32.0,
                     ),
                     CustomImagePickerField(

@@ -1,6 +1,6 @@
 import 'package:cityconnect/screen/condutor_search_screen.dart';
 import 'package:cityconnect/screen/veiculo_search_screen.dart';
-import 'package:cityconnect/screen/veiculo_screen.dart';
+import 'package:cityconnect/screen/veiculo_edit_screen.dart';
 import 'package:cityconnect/widgets/box_item.dart';
 import 'package:flutter/material.dart';
 

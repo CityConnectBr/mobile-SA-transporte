@@ -59,14 +59,38 @@ mixin _$VeiculoStore on _VeiculoStore, Store {
         () => super.firstLoadList(context: context, scaffoldKey: scaffoldKey));
   }
 
-  final _$newCondutorAsyncAction = AsyncAction('_VeiculoStore.newCondutor');
+  final _$showVeiculoAsyncAction = AsyncAction('_VeiculoStore.showVeiculo');
 
   @override
-  Future<void> newCondutor(
+  Future<void> showVeiculo(
+      {@required Veiculo veiculo,
+      @required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$showVeiculoAsyncAction.run(() => super.showVeiculo(
+        veiculo: veiculo, context: context, scaffoldKey: scaffoldKey));
+  }
+
+  final _$editVeiculoAsyncAction = AsyncAction('_VeiculoStore.editVeiculo');
+
+  @override
+  Future<void> editVeiculo(
+      {@required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey,
+      Widget screenToOpen}) {
+    return _$editVeiculoAsyncAction.run(() => super.editVeiculo(
+        context: context,
+        scaffoldKey: scaffoldKey,
+        screenToOpen: screenToOpen));
+  }
+
+  final _$newVeiculoAsyncAction = AsyncAction('_VeiculoStore.newVeiculo');
+
+  @override
+  Future<void> newVeiculo(
       {@required BuildContext context,
       @required GlobalKey<ScaffoldState> scaffoldKey}) {
-    return _$newCondutorAsyncAction.run(
-        () => super.newCondutor(context: context, scaffoldKey: scaffoldKey));
+    return _$newVeiculoAsyncAction.run(
+        () => super.newVeiculo(context: context, scaffoldKey: scaffoldKey));
   }
 
   @override

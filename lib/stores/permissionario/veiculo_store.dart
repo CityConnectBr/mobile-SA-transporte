@@ -1,11 +1,20 @@
+import 'package:cityconnect/models/marca_modelo_veiculo_model.dart';
+import 'package:cityconnect/models/solicitacao_alteracao_model.dart';
+import 'package:cityconnect/models/tipo_combustivel_model.dart';
+import 'package:cityconnect/models/tipo_veiculo_model.dart';
 import 'package:cityconnect/models/veiculo_model.dart';
-import 'package:cityconnect/screen/veiculo_screen.dart';
+import 'package:cityconnect/screen/permissionario/new_veiculo_screen.dart';
+import 'package:cityconnect/screen/veiculo_edit_screen.dart';
+import 'package:cityconnect/services/cor_veiculo_service.dart';
+import 'package:cityconnect/services/marca_modelo_veiculo_service.dart';
+import 'package:cityconnect/services/solicitacao_alteracao_service.dart';
+import 'package:cityconnect/services/tipo_combustivel_service.dart';
+import 'package:cityconnect/services/tipo_veiculo_service.dart';
 import 'package:cityconnect/services/veiculo_service.dart';
-import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/util/error_handler_util.dart';
+import 'package:cityconnect/widgets/custom_autocomplete.dart';
 import 'package:cityconnect/widgets/snack_message.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -17,9 +26,15 @@ abstract class _VeiculoStore extends MainStore with Store {
   @observable
   bool loading = false;
 
-  Veiculo _veiculo;
+  Veiculo veiculo;
+  SolicitacaoDeAlteracao solicitacaoDeAlteracao;
 
   final _veiculoService = VeiculoService();
+  final _solicitacaoService = SolicitacaoDeAlteracaoService();
+  final _marcaModeloVeiculoService = MarcaModeloVeiculoService();
+  final _tipoCombustivelService = TipoCombustivelService();
+  final _corVeiculoService = CorVeiculoService();
+  final _tipoVeiculoService = TipoVeiculoService();
 
   String _lastSearch;
 
@@ -66,14 +81,64 @@ abstract class _VeiculoStore extends MainStore with Store {
     loading = false;
   }
 
+  ////////////////////////////////
+  /////////////// UPDATE VEICULO
+  ////////////////////////////////
+
   @action
-  Future<void> newCondutor({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> showVeiculo({@required Veiculo veiculo, @required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
+    try {
+      this.loading = true;
+
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+
+      this.veiculo = veiculo;
+
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoEditScreen(this.veiculo)));
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+    this.loading = false;
+  }
+
+  @action
+  Future<void> editVeiculo({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey, Widget screenToOpen}) async {
+    try {
+      print("---------------");
+      this.solicitacaoDeAlteracao = null; //zerando solicitacao
+      this.solicitacaoExistente = false; //zerando solicitacao
+
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => screenToOpen));
+
+      this.loading = true;
+
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+
+      //verificar se existe solicitacoes pendentes
+      List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
+          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_VEICULO, veiculo.id.toString(), true, super.usuario));
+
+      if (solicitacoesEmAberto.isNotEmpty) {
+        this.solicitacaoExistente = true;
+        this.solicitacaoDeAlteracao = solicitacoesEmAberto.last;
+      }
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+    this.loading = false;
+  }
+
+  ////////////////////////////////
+  ////////////////////////////////
+
+  @action
+  Future<void> newVeiculo({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
     try {
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
-      this._veiculo = Veiculo();
+      this.veiculo = Veiculo();
 
-      dynamic returnFromScreen = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoScreen(this._veiculo)));
+      dynamic returnFromScreen = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewVeiculoScreen()));
 
       if (returnFromScreen != null && returnFromScreen) {
         SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
@@ -84,6 +149,64 @@ abstract class _VeiculoStore extends MainStore with Store {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
   }
+
+
+
+  ////////////////////////////////
+  ////////////////////////////////
+
+  Future<List<Suggestion>> searchMarcaModelo(String search) async {
+    List<Suggestion> suggestionList = List();
+    try {
+      (await _marcaModeloVeiculoService.search(search, super.usuario)).forEach((element) {
+        suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
+      });
+
+      return suggestionList;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<Suggestion>> searchTipoCombustivel(String search) async {
+    List<Suggestion> suggestionList = List();
+    try {
+      (await _tipoCombustivelService.search(search, super.usuario)).forEach((element) {
+        suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
+      });
+
+      return suggestionList;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<Suggestion>> searchTipoVeiculo(String search) async {
+    List<Suggestion> suggestionList = List();
+    try {
+      (await _tipoVeiculoService.search(search, super.usuario)).forEach((element) {
+        suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
+      });
+
+      return suggestionList;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<Suggestion>> searchCorVeiculo(String search) async {
+    List<Suggestion> suggestionList = List();
+    try {
+      (await _corVeiculoService.search(search, super.usuario)).forEach((element) {
+        suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
+      });
+
+      return suggestionList;
+    } catch (e) {
+      print(e);
+    }
+  }
+
 //
 //  @action
 //  Future<void> editCondutor(

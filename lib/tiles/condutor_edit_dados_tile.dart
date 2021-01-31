@@ -59,11 +59,6 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     super.dispose();
 

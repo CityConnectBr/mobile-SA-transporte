@@ -91,13 +91,8 @@ abstract class _MonitorStore extends MainStore with Store {
 
       this.monitor = monitor;
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MonitorEditScreen(this.monitor))).then((returnFromScreen) => () {
-            if (returnFromScreen != null && returnFromScreen) {
-              SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MonitorEditScreen(this.monitor)));
 
-              this.pesquisar(scaffoldKey: scaffoldKey, context: context, search: this._lastSearch);
-            }
-          });
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
@@ -145,7 +140,6 @@ abstract class _MonitorStore extends MainStore with Store {
       List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
           (await _solicitacaoService.searchForSolicitacoes(tipoDaSolicitacao, monitor.id.toString(), true, super.usuario));
 
-      print(this.solicitacaoDeAlteracao != null);
       if (solicitacoesEmAberto.isNotEmpty) {
         this.solicitacaoExistente = true;
         this.solicitacaoDeAlteracao = solicitacoesEmAberto.last;
