@@ -1,7 +1,5 @@
-import 'package:cityconnect/models/marca_modelo_veiculo_model.dart';
+
 import 'package:cityconnect/models/solicitacao_alteracao_model.dart';
-import 'package:cityconnect/models/tipo_combustivel_model.dart';
-import 'package:cityconnect/models/tipo_veiculo_model.dart';
 import 'package:cityconnect/models/veiculo_model.dart';
 import 'package:cityconnect/screen/permissionario/new_veiculo_screen.dart';
 import 'package:cityconnect/screen/veiculo_edit_screen.dart';
@@ -14,6 +12,7 @@ import 'package:cityconnect/services/veiculo_service.dart';
 import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/util/error_handler_util.dart';
 import 'package:cityconnect/widgets/custom_autocomplete.dart';
+import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/snack_message.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -129,6 +128,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   }
 
   ////////////////////////////////
+  /////////////// NOVO VEICULO
   ////////////////////////////////
 
   @action
@@ -137,6 +137,9 @@ abstract class _VeiculoStore extends MainStore with Store {
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       this.veiculo = Veiculo();
+
+      this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
+      this.solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_VEICULO.toString();
 
       dynamic returnFromScreen = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewVeiculoScreen()));
 
@@ -150,7 +153,97 @@ abstract class _VeiculoStore extends MainStore with Store {
     }
   }
 
+  @action
+  Future<void> saveVeiculo(
+      {
+        String placa,
+        String renavam,
+        String chassi,
+        int anoDeFabricacao,
+        int anoDoModelo,
+        String capacidade,
+        String tipoDaCapacidade,
+        String observacaoDaCapacidade,
+        int anosDeVidaUtilDoVeiculo,
+        int marcaModeloVeiculoId,
+        int tipoCombustivelId,
+        int corId,
+        int tipoVeiculoId,
+        String documentoFoto,
+        BuildContext context,
+        GlobalKey<ScaffoldState> scaffoldKey}) async {
+    loading = true;
 
+    try {
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+
+      bool aux = true;
+      String msgError;
+      if (documentoFoto == null || documentoFoto.isEmpty) {
+        aux = false;
+        msgError = "Documento não pode estar vazio.";
+      }
+
+      if (marcaModeloVeiculoId == null) {
+        aux = false;
+        msgError += "\\nO campo Marca\\Modelo não pode estar vazio.";
+      }
+
+      if (tipoCombustivelId == null) {
+        aux = false;
+        msgError += "\\nO campo Tipo do Combustível não pode estar vazio.";
+      }
+
+      if (corId == null) {
+        aux = false;
+        msgError += "\\nO campo Cor não pode estar vazio.";
+      }
+
+      if (tipoVeiculoId == null) {
+        aux = false;
+        msgError += "\\nO campo Tipo do Veículo não pode estar vazio.";
+      }
+
+
+      if(!aux){
+        SnackMessages.showSnackBarError(context, scaffoldKey, msgError);
+      }
+
+      if (aux) {
+        this.solicitacaoDeAlteracao.campo1 = placa;
+        this.solicitacaoDeAlteracao.campo2 = renavam;
+        this.solicitacaoDeAlteracao.campo3 = marcaModeloVeiculoId.toString();
+        this.solicitacaoDeAlteracao.campo4 = chassi;
+        this.solicitacaoDeAlteracao.campo5 = tipoCombustivelId.toString();
+        this.solicitacaoDeAlteracao.campo6 = anoDeFabricacao.toString();
+        this.solicitacaoDeAlteracao.campo7 = anoDoModelo.toString();
+        this.solicitacaoDeAlteracao.campo8 = corId.toString();
+        this.solicitacaoDeAlteracao.campo9 = tipoVeiculoId.toString();
+        this.solicitacaoDeAlteracao.campo10 = capacidade;
+        this.solicitacaoDeAlteracao.campo11 = tipoDaCapacidade;
+        this.solicitacaoDeAlteracao.campo12 = observacaoDaCapacidade;
+        this.solicitacaoDeAlteracao.campo13 = anosDeVidaUtilDoVeiculo.toString();
+        this.solicitacaoDeAlteracao.arquivo1 = documentoFoto;
+
+        CustomDialog().showConfirmDialog(
+            context: context,
+            text: "Tem certeza que\ndeseja salvar?",
+            voidCallbackSim: () async {
+              try {
+                await this._solicitacaoService.createSolicitacao(this.solicitacaoDeAlteracao, super.usuario).then((_) => Navigator.of(context).pop(true));
+              } catch (e) {
+                SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser().toString());
+              }
+            },
+            voidCallbackNao: () {}
+        );
+      }
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+
+    loading = false;
+  }
 
   ////////////////////////////////
   ////////////////////////////////
@@ -207,150 +300,4 @@ abstract class _VeiculoStore extends MainStore with Store {
     }
   }
 
-//
-//  @action
-//  Future<void> editCondutor(
-//      {@required Condutor condutor,
-//      @required BuildContext context,
-//      @required GlobalKey<ScaffoldState> scaffoldKey}) async {
-//    try {
-//      assert(await Provider.of<UsuarioStore>(context, listen: false)
-//          .isLoggedInWithRedirect(
-//              context: context, redirectToHomeIfLogged: false));
-//
-//      this._condutor = condutor;
-//
-//      dynamic returnFromScreen = await Navigator.of(context).push(
-//          MaterialPageRoute(
-//              builder: (context) => CondutorScreen(this._condutor)));
-//
-//      if (returnFromScreen != null && returnFromScreen) {
-//        SnackMessages.showSnackBarSuccess(
-//            context, scaffoldKey, "Salvo com sucesso");
-//
-//        this.pesquisarCondutores(
-//            scaffoldKey: scaffoldKey,
-//            context: context,
-//            search: this._lastSearch);
-//      }
-//    } catch (e) {
-//      SnackMessages.showSnackBarError(
-//          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
-//    }
-//  }
-//
-//  @action
-//  Future<void> save(
-//      {String nome,
-//      String email,
-//      String cpf,
-//      String rg,
-//      String naturalidade,
-//      String nacionalidade,
-//      DateTime dataNascimento,
-//      String ddd,
-//      String telefone,
-//      String celular,
-//      String cnh,
-//      String categoriaCNH,
-//      DateTime vencimentoCNH,
-//      BuildContext context,
-//      GlobalKey<ScaffoldState> scaffoldKey}) async {
-//    loading = true;
-//
-//    try {
-//      assert(await Provider.of<UsuarioStore>(context, listen: false)
-//          .isLoggedInWithRedirect(
-//              context: context, redirectToHomeIfLogged: false));
-//
-//      bool aux = true;
-//      if (categoriaCNH == null || categoriaCNH.isEmpty) {
-//        aux = false;
-//        SnackMessages.showSnackBarError(
-//            context, scaffoldKey, "Categoria da CNH não pode estar vazio.");
-//      }
-//
-//      if (this._condutor.endereco == null ||
-//          this._condutor.endereco.cep == null) {
-//        SnackMessages.showSnackBarError(
-//            context, scaffoldKey, "Aba endereços esta vazia ou não esta salva");
-//      }
-//
-//      if (aux) {
-//        this._condutor.nome = nome;
-//        this._condutor.email = email;
-//        this._condutor.rg = rg;
-//        this._condutor.cpf = cpf;
-//        this._condutor.naturalidade = naturalidade;
-//        this._condutor.nacionalidade = nacionalidade;
-//        this._condutor.dataNascimento = dataNascimento;
-//        this._condutor.ddd = ddd;
-//        this._condutor.telefone = telefone;
-//        this._condutor.celular = celular;
-//        this._condutor.cnh = cnh;
-//        this._condutor.categoriaCNH = categoriaCNH;
-//        this._condutor.vencimentoCNH = vencimentoCNH;
-//
-//        await saveCondutor(context: context, scaffoldKey: scaffoldKey);
-//      }
-//    } catch (e) {
-//      SnackMessages.showSnackBarError(
-//          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
-//    }
-//
-//    loading = false;
-//  }
-//
-//  @action
-//  Future<void> saveEndereco(
-//      {String cep,
-//      String endereco,
-//      String numero,
-//      String complemento,
-//      String bairro,
-//      String municipio,
-//      String uf,
-//      BuildContext context,
-//      GlobalKey<ScaffoldState> scaffoldKey}) async {
-//    loading = true;
-//
-//    try {
-//      assert(await Provider.of<UsuarioStore>(context, listen: false)
-//          .isLoggedInWithRedirect(
-//              context: context, redirectToHomeIfLogged: false));
-//
-//      if (this._condutor.endereco == null) {
-//        this._condutor.endereco = Endereco();
-//      }
-//
-//      this._condutor.endereco.cep = cep;
-//      this._condutor.endereco.endereco = endereco;
-//      this._condutor.endereco.numero = numero;
-//      this._condutor.endereco.complemento = complemento;
-//      this._condutor.endereco.bairro = bairro;
-//      this._condutor.endereco.municipio = municipio;
-//      this._condutor.endereco.uf = uf;
-//
-//      await saveCondutor(context: context, scaffoldKey: scaffoldKey);
-//    } catch (e) {
-//      SnackMessages.showSnackBarError(
-//          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
-//    }
-//
-//    loading = false;
-//  }
-//
-//  Future<void> saveCondutor(
-//      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
-//    if (this._condutor.id == null || this._condutor.id.toString().isEmpty) {
-//      if ((await _condutorService.create(this._condutor.toMap()) != null)) {
-//        Navigator.of(context).pop(true);
-//      }
-//    } else {
-//      if (await _condutorService.update(
-//          this._condutor.id.toString(), this._condutor.toMap())) {
-//        Navigator.of(context).pop(true);
-//      }
-//    }
-//  }
 }

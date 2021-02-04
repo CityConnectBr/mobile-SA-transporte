@@ -1,11 +1,11 @@
 import 'package:cityconnect/stores/permissionario/veiculo_store.dart';
+import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_autocomplete.dart';
 import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_image_picker_field.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 
 class NewVeiculoScreen extends StatefulWidget {
@@ -79,6 +79,7 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                       controller: _placaController,
                       label: "PLACA",
                       type: TextInputType.text,
+                      validator: ValidatorsUtil.isNullOrIsEmpty,
                     ),
                     SizedBox(
                       height: 10.0,
@@ -94,7 +95,8 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                     CustomInputFieldGrey(
                       controller: _renavanController,
                       label: "RENAVAN",
-                      type: TextInputType.text,
+                      type: TextInputType.number,
+                      validator: ValidatorsUtil.isNullOrIsEmpty,
                     ),
                     SizedBox(
                       height: 10.0,
@@ -103,6 +105,7 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                       controller: _chassiController,
                       label: "CHASSI",
                       type: TextInputType.text,
+                      validator: ValidatorsUtil.isNullOrIsEmpty,
                     ),
                     SizedBox(
                       height: 10.0,
@@ -115,19 +118,29 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                     SizedBox(
                       height: 10.0,
                     ),
-                    CustomInputFieldGrey(
-                      controller: _anoDeFabricacaoController,
-                      label: "ANO DE FABRICACAO",
-                      type: TextInputType.text,
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    CustomInputFieldGrey(
-                      controller: _anoDoModeloController,
-                      label: "ANO DO MODELO",
-                      obscure: false,
-                      type: TextInputType.text,
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.43,
+                          child: CustomInputFieldGrey(
+                            controller: _anoDeFabricacaoController,
+                            label: "ANO DE FABRICACAO",
+                            type: TextInputType.number,
+                            validator: ValidatorsUtil.validateNumberAndNotIsEmpty,
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.43,
+                          child: CustomInputFieldGrey(
+                            controller: _anoDoModeloController,
+                            label: "ANO DO MODELO",
+                            obscure: false,
+                            type: TextInputType.number,
+                            validator: ValidatorsUtil.validateNumberAndNotIsEmpty,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 10.0,
@@ -145,24 +158,36 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                     SizedBox(
                       height: 10.0,
                     ),
-                    CustomInputFieldGrey(
-                      controller: _capacidadeController,
-                      label: "CAPACIDADE",
-                      obscure: false,
-                      type: TextInputType.text,
-                    ),
                     SizedBox(
                       height: 10.0,
                     ),
-                    CustomDropdown(
-                      dropdownValues: const <String>['A', 'AB', 'AC', 'AD', 'AE', 'B', 'C', 'D', 'E'],
-                      hint: Text("TIPO DA CAPACIDADE:"),
-                      value: this._tipoDaCapacidade,
-                      onChanged: (newValue) {
-                        setState(() {
-                          this._tipoDaCapacidade = newValue;
-                        });
-                      },
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.43,
+                          child: CustomInputFieldGrey(
+                            controller: _capacidadeController,
+                            label: "CAPACIDADE",
+                            obscure: false,
+                            type: TextInputType.text,
+                            validator: ValidatorsUtil.isNullOrIsEmpty,
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.43,
+                          child: CustomDropdown(
+                            dropdownValues: const <String>['Normal', 'Homologada', 'Modificada'],
+                            hint: Text("TIPO:", style: TextStyle(fontWeight: FontWeight.bold),),
+                            value: this._tipoDaCapacidade,
+                            onChanged: (newValue) {
+                              setState(() {
+                                this._tipoDaCapacidade = newValue;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 10.0,
@@ -180,7 +205,8 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                       controller: _anosDeVidaUtilDoVeiculoController,
                       label: "ANOS DE VIDA",
                       obscure: false,
-                      type: TextInputType.text,
+                      type: TextInputType.number,
+                      validator: ValidatorsUtil.validateNumberAndNotIsEmpty,
                     ),
                     SizedBox(
                       height: 32.0,
@@ -199,23 +225,23 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                         label: "Salvar",
                         func: () {
                           if (_formKey.currentState.validate()) {
-                            // condutorStore.saveAbaDadosNewCondutor(
-                            //     nome: this._nomeController.text,
-                            //     email: this._emailController.text,
-                            //     cpf: Util.clearString(this._cpfController.text),
-                            //     ddd: this._dddController.text,
-                            //     celular:
-                            //     Util.clearString(this._celController.text),
-                            //     rg: this._rgController.text,
-                            //     telefone: Util.clearString(
-                            //         this._phoneController.text),
-                            //     vencimentoCNH: Util.dateFormatddMMyyyy
-                            //         .parse(this._vencimentoCNHController.text),
-                            //     cnh: this._cnhController.text,
-                            //     categoriaCNH: this._categoriaCNH,
-                            //     imgComprovanteCNH: this._imageCNH,
-                            //     context: context,
-                            //     scaffoldKey: _scaffoldKey);
+                            _veiculoStore.saveVeiculo(
+                              anoDeFabricacao: int.parse(_anoDeFabricacaoController.text),
+                                anoDoModelo: int.parse(_anoDoModeloController.text),
+                                anosDeVidaUtilDoVeiculo: int.parse(_anosDeVidaUtilDoVeiculoController.text),
+                                capacidade: _capacidadeController.text,
+                                chassi: _chassiController.text,
+                                corId: int.parse(idCorSelectd),
+                                documentoFoto: _image,
+                                marcaModeloVeiculoId: int.parse(idMarcaModeloSelectd),
+                                observacaoDaCapacidade: _observacaoDaCapacidadeController.text,
+                                placa: _placaController.text,
+                                renavam: _renavanController.text,
+                                tipoCombustivelId: int.parse(idCorSelectd),
+                                tipoDaCapacidade: _tipoDaCapacidade,
+                                tipoVeiculoId: int.parse(idTipoSelectd),
+                                context: context,
+                                scaffoldKey: _scaffoldKey);
                           }
                         }),
                   ],

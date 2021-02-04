@@ -448,7 +448,8 @@ abstract class _MonitorStore extends MainStore with Store {
             SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser().toString().replaceAll("endereco.", ""));
           }
         },
-        voidCallbackNao: () {});
+        voidCallbackNao: () {}
+    );
   }
 
   void showDialogMessageAfterCreateSolicitacao(String startOfMessage, BuildContext context, VoidCallback voidCallback) {

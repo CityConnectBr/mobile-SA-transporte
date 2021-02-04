@@ -1,12 +1,11 @@
+
 import 'package:cityconnect/models/cor_veiculo_model.dart';
-import 'package:cityconnect/models/endereco_model.dart';
 import 'package:cityconnect/models/marca_modelo_carroceria_model.dart';
 import 'package:cityconnect/models/marca_modelo_chassi_model.dart';
 import 'package:cityconnect/models/marca_modelo_veiculo_model.dart';
 import 'package:cityconnect/models/permissionario_model.dart';
 import 'package:cityconnect/models/tipo_combustivel_model.dart';
 import 'package:cityconnect/models/tipo_veiculo_model.dart';
-import 'package:intl/intl.dart';
 
 class Veiculo {
   int id;
