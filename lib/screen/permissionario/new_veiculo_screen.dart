@@ -79,7 +79,7 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                       controller: _placaController,
                       label: "PLACA",
                       type: TextInputType.text,
-                      validator: ValidatorsUtil.isNullOrIsEmpty,
+                      validator: ValidatorsUtil.placaVeiculo,
                     ),
                     SizedBox(
                       height: 10.0,
@@ -96,7 +96,7 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                       controller: _renavanController,
                       label: "RENAVAN",
                       type: TextInputType.number,
-                      validator: ValidatorsUtil.isNullOrIsEmpty,
+                      validator: ValidatorsUtil.caracteres11,
                     ),
                     SizedBox(
                       height: 10.0,
@@ -152,9 +152,9 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                     ),
                     InputAutocomplete(
                         controller: _tipoVeiculoController,
-                        label: "TIPO DE VEICULO",
+                        label: "TIPO DO VEICULO",
                         searchCallback: _veiculoStore.searchTipoVeiculo,
-                        setSelected: (s) => print(s.id)),
+                        setSelected: (s) => idTipoSelectd = s.id),
                     SizedBox(
                       height: 10.0,
                     ),

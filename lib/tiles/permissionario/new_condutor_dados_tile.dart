@@ -261,7 +261,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                       controller: _cnhController,
                       label: "CNH",
                       type: TextInputType.number,
-                      validator: ValidatorsUtil.validateCNH,
+                      validator: ValidatorsUtil.caracteres11,
                       hint: "CNH",
                     ),
                     SizedBox(

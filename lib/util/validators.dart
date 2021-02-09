@@ -6,8 +6,9 @@ class ValidatorsUtil {
   static final Pattern min6CharacterPattern = "(?=.{6,})";
   static final Pattern min1CharacterPattern = "(?=.{1,})";
   static final Pattern phonePattern = "^[0-9]{2}([0-9]{9}|[0-9]{8})\$";
+  static final Pattern placaVeiculoPattern = "^[A-Z]{3}[0-9][0-9A-Z][0-9]{2}\$";
   static final Pattern cepPattern = "^\\d{5}-\\d{3}\$";
-  static final Pattern cnhPattern = "^(\\d{11})\$";
+  static final Pattern caracteres11Pattern = "^(\\d{11})\$";
   static final Pattern ufPattern = "^(AC|AL|AP|AM|BA|CE|DF|GO|ES|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SP|SC|SE|TO)\$";
   static final Pattern dateTimePattern = "^(\\d{4})-(\\d\\d)-(\\d\\d)T(\\d\\d):(\\d\\d):(\\d\\d).(\\d\\d\\d)Z\$";
   static final Pattern jwtPattern = "^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*\$";
@@ -48,6 +49,15 @@ class ValidatorsUtil {
       return null;
   }
 
+
+  static String placaVeiculo(String value) {
+    RegExp regex = new RegExp(placaVeiculoPattern);
+    if (!regex.hasMatch(value))
+      return 'Placa inválida';
+    else
+      return null;
+  }
+
   static String validateNumberAndNotIsEmpty(String value) {
     if (value == null || value.isEmpty || !RegExp(numericPattern).hasMatch(value))
       return 'Número inválido';
@@ -63,10 +73,10 @@ class ValidatorsUtil {
       return null;
   }
 
-  static String validateCNH(String value) {
-    RegExp regex = new RegExp(cnhPattern);
+  static String caracteres11(String value) {
+    RegExp regex = new RegExp(caracteres11Pattern);
     if (!regex.hasMatch(value))
-      return 'CNH inválido';
+      return 'Valor inválido';
     else
       return null;
   }

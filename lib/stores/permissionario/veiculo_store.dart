@@ -220,7 +220,7 @@ abstract class _VeiculoStore extends MainStore with Store {
         this.solicitacaoDeAlteracao.campo8 = corId.toString();
         this.solicitacaoDeAlteracao.campo9 = tipoVeiculoId.toString();
         this.solicitacaoDeAlteracao.campo10 = capacidade;
-        this.solicitacaoDeAlteracao.campo11 = tipoDaCapacidade;
+        this.solicitacaoDeAlteracao.campo11 = tipoDaCapacidade[0];
         this.solicitacaoDeAlteracao.campo12 = observacaoDaCapacidade;
         this.solicitacaoDeAlteracao.campo13 = anosDeVidaUtilDoVeiculo.toString();
         this.solicitacaoDeAlteracao.arquivo1 = documentoFoto;

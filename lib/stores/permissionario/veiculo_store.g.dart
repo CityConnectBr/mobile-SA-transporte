@@ -93,6 +93,45 @@ mixin _$VeiculoStore on _VeiculoStore, Store {
         () => super.newVeiculo(context: context, scaffoldKey: scaffoldKey));
   }
 
+  final _$saveVeiculoAsyncAction = AsyncAction('_VeiculoStore.saveVeiculo');
+
+  @override
+  Future<void> saveVeiculo(
+      {String placa,
+      String renavam,
+      String chassi,
+      int anoDeFabricacao,
+      int anoDoModelo,
+      String capacidade,
+      String tipoDaCapacidade,
+      String observacaoDaCapacidade,
+      int anosDeVidaUtilDoVeiculo,
+      int marcaModeloVeiculoId,
+      int tipoCombustivelId,
+      int corId,
+      int tipoVeiculoId,
+      String documentoFoto,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$saveVeiculoAsyncAction.run(() => super.saveVeiculo(
+        placa: placa,
+        renavam: renavam,
+        chassi: chassi,
+        anoDeFabricacao: anoDeFabricacao,
+        anoDoModelo: anoDoModelo,
+        capacidade: capacidade,
+        tipoDaCapacidade: tipoDaCapacidade,
+        observacaoDaCapacidade: observacaoDaCapacidade,
+        anosDeVidaUtilDoVeiculo: anosDeVidaUtilDoVeiculo,
+        marcaModeloVeiculoId: marcaModeloVeiculoId,
+        tipoCombustivelId: tipoCombustivelId,
+        corId: corId,
+        tipoVeiculoId: tipoVeiculoId,
+        documentoFoto: documentoFoto,
+        context: context,
+        scaffoldKey: scaffoldKey));
+  }
+
   @override
   String toString() {
     return '''
