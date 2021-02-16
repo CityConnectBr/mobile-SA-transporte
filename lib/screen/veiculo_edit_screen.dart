@@ -1,8 +1,8 @@
 import 'package:cityconnect/models/veiculo_model.dart';
+import 'package:cityconnect/screen/permissionario/veiculo_dados_screen.dart';
 import 'package:cityconnect/stores/permissionario/veiculo_store.dart';
 import 'package:cityconnect/tiles/card_edit_fields_tile.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
-import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,6 +59,7 @@ class _VeiculoEditScreenState extends State<VeiculoEditScreen> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
+    VeiculoStore _veiculoStore = Provider.of<VeiculoStore>(context);
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
@@ -88,11 +89,10 @@ class _VeiculoEditScreenState extends State<VeiculoEditScreen> with SingleTicker
             child: CardEditFieldsTile(
               title: 'Dados do Veículo',
               voidCallback: () {
-                // condutorStore.editCondutor(
-                //     context: context,
-                //     scaffoldKey: _scaffoldKey,
-                //     tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CONTATO,
-                //     screenToOpen: CondutorDadosContatoScreen());
+                _veiculoStore.editVeiculo(
+                    context: context,
+                    scaffoldKey: _scaffoldKey,
+                    screenToOpen: VeiculoDadosScreen());
               },
               child: Column(
                 children: <Widget>[

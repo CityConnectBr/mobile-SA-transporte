@@ -132,6 +132,42 @@ mixin _$VeiculoStore on _VeiculoStore, Store {
         scaffoldKey: scaffoldKey));
   }
 
+  final _$findMarcaModeloByIdAsyncAction =
+      AsyncAction('_VeiculoStore.findMarcaModeloById');
+
+  @override
+  Future<MarcaModeloVeiculo> findMarcaModeloById(String id) {
+    return _$findMarcaModeloByIdAsyncAction
+        .run(() => super.findMarcaModeloById(id));
+  }
+
+  final _$findTipoCombustivelByIdAsyncAction =
+      AsyncAction('_VeiculoStore.findTipoCombustivelById');
+
+  @override
+  Future<TipoCombustivel> findTipoCombustivelById(String id) {
+    return _$findTipoCombustivelByIdAsyncAction
+        .run(() => super.findTipoCombustivelById(id));
+  }
+
+  final _$findTipoVeiculoByIdAsyncAction =
+      AsyncAction('_VeiculoStore.findTipoVeiculoById');
+
+  @override
+  Future<TipoVeiculo> findTipoVeiculoById(String id) {
+    return _$findTipoVeiculoByIdAsyncAction
+        .run(() => super.findTipoVeiculoById(id));
+  }
+
+  final _$findCorVeiculoByIdAsyncAction =
+      AsyncAction('_VeiculoStore.findCorVeiculoById');
+
+  @override
+  Future<CorVeiculo> findCorVeiculoById(String id) {
+    return _$findCorVeiculoByIdAsyncAction
+        .run(() => super.findCorVeiculoById(id));
+  }
+
   @override
   String toString() {
     return '''

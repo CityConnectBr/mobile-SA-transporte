@@ -17,8 +17,7 @@ class Util {
     return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
-  static String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-      length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length))));
+  static String getRandomString(int length) => String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length))));
 
   static Map<String, dynamic> decodeJson(String string) {
     try {
@@ -38,6 +37,14 @@ class Util {
 
   static String convertddMMyyyyToyyyyMMdd(String value) {
     return dateFormatyyyyMMdd.format(dateFormatddMMyyyy.parse(value));
+  }
+
+  static String toStringIfIsNotNull(dynamic value) {
+    try {
+      return value != null ? value.toString() : null;
+    } catch (e) {
+      return null;
+    }
   }
 
   static List<String> get UFs {

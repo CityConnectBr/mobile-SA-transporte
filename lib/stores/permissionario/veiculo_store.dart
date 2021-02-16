@@ -1,5 +1,9 @@
 
+import 'package:cityconnect/models/cor_veiculo_model.dart';
+import 'package:cityconnect/models/marca_modelo_veiculo_model.dart';
 import 'package:cityconnect/models/solicitacao_alteracao_model.dart';
+import 'package:cityconnect/models/tipo_combustivel_model.dart';
+import 'package:cityconnect/models/tipo_veiculo_model.dart';
 import 'package:cityconnect/models/veiculo_model.dart';
 import 'package:cityconnect/screen/permissionario/new_veiculo_screen.dart';
 import 'package:cityconnect/screen/veiculo_edit_screen.dart';
@@ -121,6 +125,7 @@ abstract class _VeiculoStore extends MainStore with Store {
         this.solicitacaoExistente = true;
         this.solicitacaoDeAlteracao = solicitacoesEmAberto.last;
       }
+
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
@@ -137,9 +142,6 @@ abstract class _VeiculoStore extends MainStore with Store {
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       this.veiculo = Veiculo();
-
-      this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
-      this.solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_VEICULO.toString();
 
       dynamic returnFromScreen = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewVeiculoScreen()));
 
@@ -210,6 +212,13 @@ abstract class _VeiculoStore extends MainStore with Store {
       }
 
       if (aux) {
+        this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
+        this.solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_VEICULO.toString();
+
+        if(veiculo!=null && veiculo.id!=null) {
+          this.solicitacaoDeAlteracao.referenciaId = veiculo.id.toString();
+        }
+
         this.solicitacaoDeAlteracao.campo1 = placa;
         this.solicitacaoDeAlteracao.campo2 = renavam;
         this.solicitacaoDeAlteracao.campo3 = marcaModeloVeiculoId.toString();
@@ -239,6 +248,7 @@ abstract class _VeiculoStore extends MainStore with Store {
         );
       }
     } catch (e) {
+      print(e);
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
 
@@ -259,6 +269,18 @@ abstract class _VeiculoStore extends MainStore with Store {
     } catch (e) {
       print(e);
     }
+    loading = false;
+
+  }
+
+  @action
+  Future<MarcaModeloVeiculo> findMarcaModeloById(String id) async {
+    loading = true;
+    try {
+      return MarcaModeloVeiculo.fromJson(await _marcaModeloVeiculoService.get(int.parse(id), usuario));
+    } catch (e) {
+    }
+    loading = false;
   }
 
   Future<List<Suggestion>> searchTipoCombustivel(String search) async {
@@ -274,6 +296,16 @@ abstract class _VeiculoStore extends MainStore with Store {
     }
   }
 
+  @action
+  Future<TipoCombustivel> findTipoCombustivelById(String id) async {
+    loading = true;
+    try {
+      return TipoCombustivel.fromJson(await _tipoCombustivelService.get(int.parse(id), usuario));
+    } catch (e) {
+    }
+    loading = false;
+  }
+
   Future<List<Suggestion>> searchTipoVeiculo(String search) async {
     List<Suggestion> suggestionList = List();
     try {
@@ -287,6 +319,16 @@ abstract class _VeiculoStore extends MainStore with Store {
     }
   }
 
+  @action
+  Future<TipoVeiculo> findTipoVeiculoById(String id) async {
+    loading = true;
+    try {
+      return TipoVeiculo.fromJson(await _tipoVeiculoService.get(int.parse(id), usuario));
+    } catch (e) {
+    }
+    loading = false;
+  }
+
   Future<List<Suggestion>> searchCorVeiculo(String search) async {
     List<Suggestion> suggestionList = List();
     try {
@@ -298,6 +340,16 @@ abstract class _VeiculoStore extends MainStore with Store {
     } catch (e) {
       print(e);
     }
+  }
+
+  @action
+  Future<CorVeiculo> findCorVeiculoById(String id) async {
+    loading = true;
+    try {
+      return CorVeiculo.fromJson(await _corVeiculoService.get(int.parse(id), usuario));
+    } catch (e) {
+    }
+    loading = false;
   }
 
 }
