@@ -34,7 +34,7 @@ class CardCondutorTile extends StatelessWidget {
                     image: //_fotoStr != null
                         // ? FileImage(File(_fotoStr))
                         // :
-                        AssetImage("images/foto_motorista.png"))),
+                        AssetImage("images/photo-user.jpeg"))),
           ),
           SizedBox(
             width: 20.0,

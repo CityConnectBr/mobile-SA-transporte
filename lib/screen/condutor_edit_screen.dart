@@ -67,7 +67,7 @@ class _CondutorEditScreenState extends State<CondutorEditScreen> with SingleTick
       body: ListView(
         children: <Widget>[
           GestureDetector(
-            child: PhotoPersonTile(),
+            child: PhotoPersonTile(imagePath: _condutorStore.fotoCondutor,),
             onTap: (){
               _condutorStore.editFotoCondutor(context: context, scaffoldKey: _scaffoldKey);
             },

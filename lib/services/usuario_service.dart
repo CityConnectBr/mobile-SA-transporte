@@ -103,17 +103,9 @@ class UsuarioService extends MainService {
 
       File file = File(appDocDirectory.path + '/' + Util.getRandomString(20) + '.jpg');
 
-      Response response = await dio.get(
-        '/api/photouser',
-        //Received data with List<int>
-        options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            validateStatus: (status) {
-              return status < 500;
-            }),
-      );
-      if (response.statusCode == 200 && await file.exists()) {
+      await super.download(url: '/api/photouser', file: file);
+
+      if(await file.exists()){
         return file;
       }
     } catch (e) {

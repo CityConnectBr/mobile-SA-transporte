@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/util/preferences.dart';
 import 'package:cityconnect/util/validators.dart';
@@ -99,6 +101,23 @@ class MainService {
 
   Future<dynamic> create(json, Usuario userLogged) async {
     return await dio.post(makeEndPoint(usuario: userLogged), data: json);
+  }
+
+  Future download({String url, File file}) async {
+      Response response = await dio.get(
+        url,
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            }),
+      );
+      //print(response.headers);
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
   }
 
   Future<bool> update(String id, json, Usuario userLogged) async {
