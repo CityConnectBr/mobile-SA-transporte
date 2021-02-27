@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/screen/home_screen.dart';
 import 'package:cityconnect/screen/login_screen.dart';
-import 'package:cityconnect/screen/user_screen.dart';
+import 'package:cityconnect/screen/permissionario/permissionario_user_screen.dart';
 import 'package:cityconnect/services/usuario_service.dart';
 import 'package:cityconnect/util/error_handler_util.dart';
 import 'package:cityconnect/util/preferences.dart';
@@ -171,7 +171,7 @@ abstract class _MainStore with Store {
     if (await this.isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false)) {
       this._reloadUser();
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserScreen()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => PermissionarioUserScreen()));
     }
   }
 

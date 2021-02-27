@@ -59,9 +59,9 @@ class _LoadingScreenState extends State<LoadingStartScreen>
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: height * 0.30, bottom: 10),
+                  padding: EdgeInsets.only(top: height * 0.25, bottom: 10),
                   child: Container(
-                    width: 220,
+                    width: 170,
                     child: Image.asset(
                       "images/logo.png",
                       fit: BoxFit.contain,

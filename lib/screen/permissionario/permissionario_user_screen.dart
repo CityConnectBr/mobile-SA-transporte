@@ -1,18 +1,18 @@
-import 'package:cityconnect/tiles/usuario_edit_dados_tile.dart';
-import 'package:cityconnect/tiles/usuario_edit_endereco_tile.dart';
-import 'package:cityconnect/tiles/usuario_edit_password_tile.dart';
+import 'package:cityconnect/tiles/permissionario/usuario_edit_dados_tile.dart';
+import 'package:cityconnect/tiles/permissionario/usuario_edit_endereco_tile.dart';
+import 'package:cityconnect/tiles/permissionario/usuario_edit_password_tile.dart';
 import 'package:cityconnect/util/style_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-class UserScreen extends StatefulWidget {
+class PermissionarioUserScreen extends StatefulWidget {
   @override
-  _UserScreenState createState() => _UserScreenState();
+  _PermissionarioUserScreenState createState() => _PermissionarioUserScreenState();
 }
 
-class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateMixin {
+class _PermissionarioUserScreenState extends State<PermissionarioUserScreen> with SingleTickerProviderStateMixin {
 
   TabController _tabController;
 
