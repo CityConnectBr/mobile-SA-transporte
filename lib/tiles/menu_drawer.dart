@@ -59,13 +59,13 @@ class MenuDrawerTile extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
         },
       ),
-      SizedBox(height: heightSpace),
-      CustomListTile(
-        title: "BOLETOS",
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => BoletosScreen()));
-        },
-      ),
+      //SizedBox(height: heightSpace),
+      // CustomListTile(
+      //   title: "BOLETOS",
+      //   onTap: () {
+      //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => BoletosScreen()));
+      //   },
+      // ),
       SizedBox(height: heightSpace),
       CustomListTile(
         title: "SOLICITAÇÕES",

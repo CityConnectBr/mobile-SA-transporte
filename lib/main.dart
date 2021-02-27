@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           Provider<SolicitacaoStore>(create: (_) => SolicitacaoStore()),
         ],
         child: MaterialApp(
-          title: 'SA TRANS',
+          title: 'SA TRANSPORTES',
           theme: ThemeData(
             // Define the default brightness and colors.
             brightness: Brightness.light,
