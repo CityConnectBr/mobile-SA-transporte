@@ -7,6 +7,7 @@ import 'package:cityconnect/screen/permissionario/permissionario_user_screen.dar
 import 'package:cityconnect/services/usuario_service.dart';
 import 'package:cityconnect/util/error_handler_util.dart';
 import 'package:cityconnect/util/preferences.dart';
+import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/snack_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -171,7 +172,13 @@ abstract class _MainStore with Store {
     if (await this.isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false)) {
       this._reloadUser();
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => PermissionarioUserScreen()));
+      if(usuario.permissionario!=null){
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => PermissionarioUserScreen()));
+      }else if(usuario.condutor!=null){
+
+      }else if(usuario.fiscal!=null){
+
+      }
     }
   }
 
@@ -327,9 +334,10 @@ abstract class _MainStore with Store {
   }
 
   @action
-  Future<void> loadPhotoUser() async {
+  Future<File> loadPhotoUser() async {
     try {
-      if(this.photoUser==null) {
+      if(this.photoUser==null || !this.photoUser.existsSync()) {
+
         final lastPhoto = await this._prefs.get(Preferences.KEY_LAST_PHOTO);
 
         if(lastPhoto!=null){
@@ -343,10 +351,26 @@ abstract class _MainStore with Store {
         print(photoUser);
         this._prefs.save(Preferences.KEY_LAST_PHOTO, this.photoUser.path);
       }
+      else{
+        print("ELSEEEEEEEE");
+        print(this.photoUser);
+        print(this.photoUser.existsSync());
+      }
 
     } catch (e) {
       this.photoUser = null;
     }
+  }
+
+  void showDialogMessageAfterCreateSolicitacao(String startOfMessage, BuildContext context, VoidCallback voidCallback) {
+    CustomDialog().showMessegeDialog(
+        context: context,
+        barrierDismissible: true,
+        imageAsset: "images/check-dialog.png",
+        height: 340.0,
+        text:
+        startOfMessage + " Os dados foram enviados para aprovação. É possível visualizar suas solitações pendentes clicando no botão do menu Solicitações",
+        voidCallback: voidCallback);
   }
 
   Future<bool> isLoggedIn(BuildContext context) async {

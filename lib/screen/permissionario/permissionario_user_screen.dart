@@ -1,11 +1,13 @@
+import 'package:cityconnect/stores/main_store.dart';
+import 'package:cityconnect/stores/permissionario/permissionario_store.dart';
 import 'package:cityconnect/tiles/permissionario/usuario_edit_dados_tile.dart';
 import 'package:cityconnect/tiles/permissionario/usuario_edit_endereco_tile.dart';
 import 'package:cityconnect/tiles/permissionario/usuario_edit_password_tile.dart';
+import 'package:cityconnect/tiles/photo_person_tile.dart';
 import 'package:cityconnect/util/style_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cityconnect/util/util.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class PermissionarioUserScreen extends StatefulWidget {
   @override
@@ -39,6 +41,9 @@ class _PermissionarioUserScreenState extends State<PermissionarioUserScreen> wit
 
   @override
   Widget build(BuildContext context) {
+    PermissionarioStore _permissionarioStore = Provider.of<PermissionarioStore>(context);
+    MainStore _mainStore = Provider.of<MainStore>(context);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -49,52 +54,12 @@ class _PermissionarioUserScreenState extends State<PermissionarioUserScreen> wit
       ),
       body: ListView(
         children: <Widget>[
-          Container(
-            color: Util.hexToColor("#2D9CDB"),
-            height: 160.0,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      width: 120.0,
-                      height: 120.0,
-                      child: Observer(builder: (_) {
-                        return Container(
-                          width: 120.0,
-                          height: 120.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: //_fotoStr != null
-                              // ? FileImage(File(_fotoStr))
-                              // :
-                              AssetImage("images/photo-user.jpeg"),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                    Positioned(
-                      top: -5.0,
-                      right: -10.0,
-                      child: GestureDetector(
-                        child: Image.asset(
-                          "images/icon-cam.png",
-                          height: 50,
-                          fit: BoxFit.contain,
-                        ),
-                        onTap: () {},
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
+          GestureDetector(
+            child: PhotoPersonTile(imagePath: _mainStore.photoUser != null ? _mainStore.photoUser.path : null),
+            onTap: () {
+              _permissionarioStore.editFoto(context: context, scaffoldKey: _scaffoldKey);
+            },
           ),
-
           TabBar(
             controller: _tabController,
             labelColor: Colors.redAccent,
@@ -119,7 +84,9 @@ class _PermissionarioUserScreenState extends State<PermissionarioUserScreen> wit
               ),
             ],
             indicatorWeight: 5.0,
-            indicatorColor: Theme.of(context).primaryColor,
+            indicatorColor: Theme
+                .of(context)
+                .primaryColor,
           ),
           Center(
             child: [

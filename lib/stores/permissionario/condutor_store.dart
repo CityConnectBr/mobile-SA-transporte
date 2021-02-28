@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:cityconnect/models/condutor_model.dart';
 import 'package:cityconnect/models/solicitacao_alteracao_model.dart';
 import 'package:cityconnect/screen/condutor_edit_screen.dart';
-import 'package:cityconnect/screen/permissionario/condutor_dados_contato_edit_screen.dart';
-import 'package:cityconnect/screen/permissionario/condutor_dados_endereco_edit_screen.dart';
 import 'package:cityconnect/screen/permissionario/condutor_foto_edit_screen.dart';
 import 'package:cityconnect/screen/permissionario/new_condutor_screen.dart';
 import 'package:cityconnect/services/condutor_service.dart';
@@ -512,17 +510,6 @@ abstract class _CondutorStore extends MainStore with Store {
           }
         },
         voidCallbackNao: () {});
-  }
-
-  void showDialogMessageAfterCreateSolicitacao(String startOfMessage, BuildContext context, VoidCallback voidCallback) {
-    CustomDialog().showMessegeDialog(
-        context: context,
-        barrierDismissible: true,
-        imageAsset: "images/check-dialog.png",
-        height: 340.0,
-        text:
-            startOfMessage + " Os dados foram enviados para aprovação. É possível visualizar suas solitações pendentes clicando no botão do menu Solicitações",
-        voidCallback: voidCallback);
   }
 
   @action

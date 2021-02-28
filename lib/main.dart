@@ -1,6 +1,7 @@
 import 'package:cityconnect/screen/loading_screen.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/stores/permissionario/monitor_store.dart';
+import 'package:cityconnect/stores/permissionario/permissionario_store.dart';
 import 'package:cityconnect/stores/permissionario/solicitacao_store.dart';
 import 'package:cityconnect/stores/permissionario/veiculo_store.dart';
 import 'package:cityconnect/stores/main_store.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
           Provider<MonitorStore>(create: (_) => MonitorStore()),
           Provider<VeiculoStore>(create: (_) => VeiculoStore()),
           Provider<SolicitacaoStore>(create: (_) => SolicitacaoStore()),
+          Provider<PermissionarioStore>(create: (_) => PermissionarioStore()),
         ],
         child: MaterialApp(
           title: 'SA TRANSPORTES',

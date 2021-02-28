@@ -14,6 +14,7 @@ class PhotoPersonTile extends StatefulWidget {
   int typeButton;
 
   PhotoPersonTile({String imagePath = null, Function callBack, double size = 120.0, int typeButton = 0}) {
+
     if(imagePath!=null && imagePath.length>0){
       this._imagePath = imagePath;
     }

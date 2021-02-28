@@ -304,7 +304,7 @@ mixin _$MainStore on _MainStore, Store {
   final _$loadPhotoUserAsyncAction = AsyncAction('_MainStore.loadPhotoUser');
 
   @override
-  Future<void> loadPhotoUser() {
+  Future<File> loadPhotoUser() {
     return _$loadPhotoUserAsyncAction.run(() => super.loadPhotoUser());
   }
 
