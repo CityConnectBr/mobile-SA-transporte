@@ -12,20 +12,20 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class EditAddressTile extends StatefulWidget {
+class PermissionarioEditEnderecoTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
 
-  EditAddressTile(this._globalKey);
+  PermissionarioEditEnderecoTile(this._globalKey);
 
   @override
-  _EditAddressTileState createState() => _EditAddressTileState(_globalKey);
+  _PermissionarioEditEnderecoTileState createState() => _PermissionarioEditEnderecoTileState(_globalKey);
 }
 
-class _EditAddressTileState extends State<EditAddressTile> {
+class _PermissionarioEditEnderecoTileState extends State<PermissionarioEditEnderecoTile> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
-  _EditAddressTileState(this._scaffoldKey);
+  _PermissionarioEditEnderecoTileState(this._scaffoldKey);
 
   final _cepController = MaskedTextController(mask: MaskUtil.cepMask);
   final _addressController = TextEditingController();

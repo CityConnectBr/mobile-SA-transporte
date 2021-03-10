@@ -9,20 +9,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class EditPasswordTile extends StatefulWidget {
+class PermissionarioEditPasswordTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
 
-  EditPasswordTile(this._globalKey);
+  PermissionarioEditPasswordTile(this._globalKey);
 
   @override
-  _EditPasswordTileState createState() => _EditPasswordTileState(_globalKey);
+  _PermissionarioEditPasswordTileState createState() => _PermissionarioEditPasswordTileState(_globalKey);
 }
 
-class _EditPasswordTileState extends State<EditPasswordTile> {
+class _PermissionarioEditPasswordTileState extends State<PermissionarioEditPasswordTile> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
-  _EditPasswordTileState(this._scaffoldKey);
+  _PermissionarioEditPasswordTileState(this._scaffoldKey);
 
   final _passwordActualController = TextEditingController();
   final _passwordController = TextEditingController();

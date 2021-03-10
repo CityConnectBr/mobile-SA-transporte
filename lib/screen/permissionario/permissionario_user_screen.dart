@@ -1,8 +1,8 @@
 import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/stores/permissionario/permissionario_store.dart';
-import 'package:cityconnect/tiles/permissionario/usuario_edit_dados_tile.dart';
-import 'package:cityconnect/tiles/permissionario/usuario_edit_endereco_tile.dart';
-import 'package:cityconnect/tiles/permissionario/usuario_edit_password_tile.dart';
+import 'package:cityconnect/tiles/permissionario/permissionario_edit_dados_tile.dart';
+import 'package:cityconnect/tiles/permissionario/permissionario_edit_endereco_tile.dart';
+import 'package:cityconnect/tiles/permissionario/permissionario_edit_password_tile.dart';
 import 'package:cityconnect/tiles/photo_person_tile.dart';
 import 'package:cityconnect/util/style_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -90,9 +90,9 @@ class _PermissionarioUserScreenState extends State<PermissionarioUserScreen> wit
           ),
           Center(
             child: [
-              EditInformationTile(_scaffoldKey),
-              EditAddressTile(_scaffoldKey),
-              EditPasswordTile(_scaffoldKey)
+              PermissionarioEditDadosTile(_scaffoldKey),
+              PermissionarioEditEnderecoTile(_scaffoldKey),
+              PermissionarioEditPasswordTile(_scaffoldKey)
             ][_tabController.index],
           ),
         ],
