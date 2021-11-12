@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/stores/permissionario/condutor_store.dart';
+import 'package:cityconnect/stores/permissionario/monitor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
+import 'package:cityconnect/widgets/custom_alert_message.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
+import 'package:cityconnect/widgets/custom_image_picker_field.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
@@ -14,30 +15,21 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class CondutorDadoIdentidadeScreen extends StatefulWidget {
-  final Condutor _condutor;
-
-  CondutorDadoIdentidadeScreen(this._condutor);
-
+class MonitorDadoIsdentidadeScreen extends StatefulWidget {
   @override
-  _CondutorDadoIdentidadeScreenState createState() =>
-      _CondutorDadoIdentidadeScreenState(this._condutor);
+  _MonitorDadoIsdentidadeScreenState createState() => _MonitorDadoIsdentidadeScreenState();
 }
 
-class _CondutorDadoIdentidadeScreenState
-    extends State<CondutorDadoIdentidadeScreen> {
+class _MonitorDadoIsdentidadeScreenState extends State<MonitorDadoIsdentidadeScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _image;
   final picker = ImagePicker();
-  final Condutor _condutor;
-
-  _CondutorDadoIdentidadeScreenState(this._condutor);
 
   final _nomeController = TextEditingController();
-  TextEditingController _cpfController =
-      MaskedTextController(mask: MaskUtil.cpfMask);
+  TextEditingController _cpfController = MaskedTextController(mask: MaskUtil.cpfMask);
   final _rgController = TextEditingController();
+  final _dataNascController = MaskedTextController(mask: MaskUtil.dateMask);
 
   final _dateFormat = Util.dateFormatddMMyyyy;
 
@@ -55,28 +47,18 @@ class _CondutorDadoIdentidadeScreenState
     _nomeController.dispose();
     _cpfController.dispose();
     _rgController.dispose();
+    _dataNascController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    CondutorStore condutorStore = Provider.of<CondutorStore>(context);
-
-    if (!this._flagIsLoad) {
-      this._flagIsLoad = true;
-      _nomeController.text = this._condutor.nome;
-      _cpfController.text = Util.clearString(this._condutor.cpf);
-      _rgController.text = this._condutor.rg;
-    }
+    MonitorStore monitorStore = Provider.of<MonitorStore>(context);
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           "Dados Identidade",
-          style: TextStyle(
-            fontFamily: "InterBold",
-            fontSize: 20.0,
-          ),
         ),
         centerTitle: true,
       ),
@@ -84,7 +66,7 @@ class _CondutorDadoIdentidadeScreenState
         children: <Widget>[
           Container(
             child: Observer(builder: (_) {
-              if (condutorStore.loading)
+              if (monitorStore.loading)
                 return Container(
                   margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
                   child: Center(
@@ -92,12 +74,38 @@ class _CondutorDadoIdentidadeScreenState
                   ),
                 );
 
+              //Setando dados carregados após loader
+              if (!this._flagIsLoad) {
+                this._flagIsLoad = true;
+                if (monitorStore.solicitacaoExistente) {
+                  _nomeController.text = monitorStore.solicitacaoDeAlteracao.campo1;
+                  _cpfController.text = monitorStore.solicitacaoDeAlteracao.campo2;
+                  _rgController.text = monitorStore.solicitacaoDeAlteracao.campo3;
+                  _dataNascController.text =
+                  monitorStore.solicitacaoDeAlteracao.campo4 != null ? Util.convertyyyyMMddToddMMyyyy(monitorStore.solicitacaoDeAlteracao.campo4) : "";
+                } else {
+                  _nomeController.text = monitorStore.monitor.nome;
+                  _cpfController.text = monitorStore.monitor.cpf;
+                  _rgController.text = monitorStore.monitor.rg;
+                  _dataNascController.text = monitorStore.monitor.dataNascimento != null ? Util.dateFormatddMMyyyy.format(monitorStore.monitor.dataNascimento) : "";
+                }
+              }
+
               return Container(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    monitorStore.solicitacaoExistente
+                        ? CustomAlertMessage(
+                      type: CustomAlertMessage.WANNING,
+                      message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                    )
+                        : Container(),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Form(
                       key: _formKey,
                       child: Column(
@@ -155,43 +163,25 @@ class _CondutorDadoIdentidadeScreenState
                           SizedBox(
                             height: 16.0,
                           ),
-                          SizedBox(
-                            height: 30.0,
+                          CustomInputFieldGrey(
+                            controller: _dataNascController,
+                            label: "DATA NASC.",
+                            type: TextInputType.text,
+                            hint: "DATA NASCIMENTO",
+                            validator: ValidatorsUtil.validateDate,
                           ),
-                          GestureDetector(
-                            child: Container(
-                              alignment: Alignment.topLeft,
-                              child: _image != null
-                                  ? Image.asset(
-                                      "${_image}",
-                                      height: 140,
-                                      fit: BoxFit.contain,
-                                    )
-                                  : Text(
-                                      "Nenhuma imagem selecionada",
-                                      style: TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
-                                    ),
-                            ),
-                            onTap: () async {
-                              final pickedFile = await picker.getImage(
-                                  source: ImageSource.camera);
-
-                              setState(() {
-                                if (pickedFile != null) {
-                                  print(pickedFile.path);
-                                  _image = pickedFile.path;
-                                  print(_image);
-                                } else {
-                                  print('No image selected.');
-                                }
-                              });
+                          SizedBox(
+                            height: 32.0,
+                          ),
+                          CustomImagePickerField(
+                            imagePath: this._image,
+                            text: "Foto da Identidade",
+                            callBack: (String imgPath) {
+                              this._image = imgPath;
                             },
                           ),
                           SizedBox(
-                            height: 30.0,
+                            height: 32.0,
                           ),
                           CustomRaisedButtonBlue(
                               label: "Salvar",
@@ -201,13 +191,14 @@ class _CondutorDadoIdentidadeScreenState
                                       context: context,
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
-//                                        condutorStore.save(
-//                                            nome: this._nomeController.text,
-//                                            cpf: Util.clearString(
-//                                                this._cpfController.text),
-//                                            rg: this._rgController.text,
-//                                            context: context,
-//                                            scaffoldKey: _scaffoldKey);
+                                        monitorStore.saveIdentidadeMonitor(
+                                            nome: this._nomeController.text,
+                                            cpf: Util.clearString(this._cpfController.text),
+                                            rg: this._rgController.text,
+                                            dataNasc: Util.dateFormatddMMyyyy.parse(this._dataNascController.text),
+                                            imgComprovante: this._image,
+                                            context: context,
+                                            scaffoldKey: _scaffoldKey);
                                       },
                                       voidCallbackNao: () {});
                                 }

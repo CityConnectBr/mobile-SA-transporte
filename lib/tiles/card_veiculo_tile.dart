@@ -13,7 +13,7 @@ class CardVeiculoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         border: Border.all(color: Util.hexToColor("#D5DDE0")),
         borderRadius: BorderRadius.only(

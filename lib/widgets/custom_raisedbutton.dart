@@ -7,7 +7,7 @@ class CustomRaisedButtonWhite extends StatelessWidget {
   final VoidCallback func;
 
   CustomRaisedButtonWhite(
-      {@required this.icon, @required this.label, this.func});
+      {@required this.icon, @required this.label = "", this.func});
 
   @override
   Widget build(BuildContext context) {

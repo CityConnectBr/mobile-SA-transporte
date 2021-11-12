@@ -1,5 +1,5 @@
 import 'package:cityconnect/screen/recuperacao_senha_screen.dart';
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
@@ -42,12 +42,12 @@ class _LoginTileState extends State<LoginTile> {
 
   @override
   Widget build(BuildContext context) {
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    MainStore mainStore = Provider.of<MainStore>(context);
 
     return Container(
       padding: EdgeInsets.all(20.0),
       child: Observer(builder: (_) {
-        if (usuarioStore.loading)
+        if (mainStore.loading)
           return Center(
             child: CircularProgressIndicator(),
           );
@@ -104,7 +104,7 @@ class _LoginTileState extends State<LoginTile> {
                       label: "Login",
                       func: () {
                         if (_formKey.currentState.validate()) {
-                          usuarioStore.login(
+                          mainStore.login(
                               email: _emailController.text,
                               senha: _senhaController.text,
                               context: context,

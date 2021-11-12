@@ -3,8 +3,10 @@ import 'package:cityconnect/stores/permissionario/condutor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
+import 'package:cityconnect/widgets/custom_alert_message.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_dropdown.dart';
+import 'package:cityconnect/widgets/custom_image_picker_field.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
@@ -13,28 +15,19 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class CondutorDadoCnhScreen extends StatefulWidget {
-  final Condutor _condutor;
-
-  CondutorDadoCnhScreen(this._condutor);
-
+class CondutorDadosCnhScreen extends StatefulWidget {
   @override
-  _CondutorDadoCnhScreenState createState() =>
-      _CondutorDadoCnhScreenState(this._condutor);
+  _CondutorDadosCnhScreenState createState() => _CondutorDadosCnhScreenState();
 }
 
-class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
+class _CondutorDadosCnhScreenState extends State<CondutorDadosCnhScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final Condutor _condutor;
   String _image;
   final picker = ImagePicker();
 
-  _CondutorDadoCnhScreenState(this._condutor);
-
   final _cnhController = TextEditingController();
-  final _vencimentoCNHController =
-      MaskedTextController(mask: MaskUtil.dateMask);
+  final _vencimentoCNHController = MaskedTextController(mask: MaskUtil.dateMask);
   String _categoriaCNH;
 
   final _dateFormat = Util.dateFormatddMMyyyy;
@@ -60,11 +53,19 @@ class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
-      _cnhController.text = this._condutor.cnh;
-      _categoriaCNH = this._condutor.categoriaCNH;
-      _vencimentoCNHController.text = this._condutor.vencimentoCNH != null
-          ? this._dateFormat.format(this._condutor.vencimentoCNH)
-          : null;
+      if (condutorStore.solicitacaoExistente) {
+        print(".......");
+        print(condutorStore.solicitacaoDeAlteracao.toMap());
+        _cnhController.text = condutorStore.solicitacaoDeAlteracao.campo1;
+        _categoriaCNH = condutorStore.solicitacaoDeAlteracao.campo2;
+        _vencimentoCNHController.text =
+            condutorStore.solicitacaoDeAlteracao.campo3 != null ? Util.convertyyyyMMddToddMMyyyy(condutorStore.solicitacaoDeAlteracao.campo3) : "";
+      } else {
+        _cnhController.text = condutorStore.condutor.cnh;
+        _categoriaCNH = condutorStore.condutor.categoriaCNH;
+        _vencimentoCNHController.text =
+            condutorStore.condutor.vencimentoCNH != null ? Util.dateFormatddMMyyyy.format(condutorStore.condutor.vencimentoCNH) : "";
+      }
     }
 
     return Scaffold(
@@ -72,10 +73,6 @@ class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
       appBar: AppBar(
         title: Text(
           "Dados CNH",
-          style: TextStyle(
-            fontFamily: "InterBold",
-            fontSize: 20.0,
-          ),
         ),
         centerTitle: true,
       ),
@@ -97,6 +94,15 @@ class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    condutorStore.solicitacaoExistente
+                        ? CustomAlertMessage(
+                      type: CustomAlertMessage.WANNING,
+                      message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                    )
+                        : Container(),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Form(
                       key: _formKey,
                       child: Column(
@@ -120,8 +126,7 @@ class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
                             controller: _cnhController,
                             label: "CNH",
                             type: TextInputType.number,
-                            validator:
-                                ValidatorsUtil.validateNumberAndNotIsEmpty,
+                            validator: ValidatorsUtil.validateNumberAndNotIsEmpty,
                             hint: "CNH",
                           ),
                           SizedBox(
@@ -132,19 +137,9 @@ class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.43,
                                 child: CustomDropdown(
-                                  dropdownValues: const <String>[
-                                    'A',
-                                    'AB',
-                                    'AC',
-                                    'AD',
-                                    'AE',
-                                    'B',
-                                    'C',
-                                    'D',
-                                    'E'
-                                  ],
+                                  dropdownValues: const <String>['A', 'AB', 'AC', 'AD', 'AE', 'B', 'C', 'D', 'E'],
                                   hint: Text("CATEGORIA"),
-                                  value: this._categoriaCNH,
+                                  value: this._categoriaCNH != null ? this._categoriaCNH : "",
                                   onChanged: (newValue) {
                                     setState(() {
                                       this._categoriaCNH = newValue;
@@ -157,51 +152,26 @@ class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
                                 width: MediaQuery.of(context).size.width * 0.43,
                                 child: CustomInputFieldGrey(
                                   controller: _vencimentoCNHController,
-                                  label: "VENCIMENTO",
+                                  label: "VALIDADE",
                                   type: TextInputType.text,
-                                  hint: "VENCIMENTO",
+                                  hint: "VALIDADE",
                                   validator: ValidatorsUtil.validateDate,
                                 ),
                               ),
                             ],
                           ),
                           SizedBox(
-                            height: 30.0,
+                            height: 32.0,
                           ),
-                          GestureDetector(
-                            child: Container(
-                              alignment: Alignment.topLeft,
-                              child: _image != null ?
-
-                              Image.asset(
-                                "${_image}",
-                                height: 140,
-                                fit: BoxFit.contain,
-                              ) : Text(
-                                "Nenhuma imagem selecionada",
-                                style: TextStyle(
-                                    fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
-                              ),
-                            ),
-                            onTap: () async {
-                              final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-
-
-                              setState(() {
-
-                                if (pickedFile != null) {
-                                  print(pickedFile.path);
-                                  _image = pickedFile.path;
-                                  print(_image);
-                                } else {
-                                  print('No image selected.');
-                                }
-                              });
+                          CustomImagePickerField(
+                            imagePath: this._image,
+                            text: "Foto CNH",
+                            callBack: (String imgPath) {
+                              this._image = imgPath;
                             },
                           ),
                           SizedBox(
-                            height: 30.0,
+                            height: 32.0,
                           ),
                           CustomRaisedButtonBlue(
                               label: "Salvar",
@@ -211,16 +181,13 @@ class _CondutorDadoCnhScreenState extends State<CondutorDadoCnhScreen> {
                                       context: context,
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
-//                                        condutorStore.save(
-//                                            vencimentoCNH: this
-//                                                ._dateFormat
-//                                                .parse(this
-//                                                    ._vencimentoCNHController
-//                                                    .text),
-//                                            cnh: this._cnhController.text,
-//                                            categoriaCNH: this._categoriaCNH,
-//                                            context: context,
-//                                            scaffoldKey: _scaffoldKey);
+                                        condutorStore.saveCNHCondutor(
+                                            cnh: this._cnhController.text,
+                                            categoria: this._categoriaCNH,
+                                            validade: Util.dateFormatddMMyyyy.parse(this._vencimentoCNHController.text),
+                                            imgComprovante: this._image,
+                                            context: context,
+                                            scaffoldKey: _scaffoldKey);
                                       },
                                       voidCallbackNao: () {});
                                 }

@@ -1,4 +1,4 @@
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
@@ -38,7 +38,7 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    MainStore mainStore = Provider.of<MainStore>(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -48,7 +48,7 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
       body: Container(
         padding: EdgeInsets.all(20.0),
         child: Observer(builder: (_) {
-          if (usuarioStore.loading)
+          if (mainStore.loading)
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -69,7 +69,7 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
                       validator: ValidatorsUtil.validateEmail,
                       hint: "Seu endereço de e-mail aqui",
                     ),
-                    usuarioStore.showRecoverCodeField
+                    mainStore.showRecoverCodeField
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -96,7 +96,7 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
                             ],
                           )
                         : Container(),
-                    usuarioStore.showRecoverPasswordField
+                    mainStore.showRecoverPasswordField
                         ? Column(
                             children: <Widget>[
                               SizedBox(
@@ -149,24 +149,24 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
                     SizedBox(
                       height: 26.0,
                     ),
-                    !usuarioStore.showRecoverCodeField
+                    !mainStore.showRecoverCodeField
                         ? CustomRaisedButtonBlue(
                             label: "Enviar",
                             func: () {
                               if (_formKey.currentState.validate()) {
-                                usuarioStore.initPasswordRecovery(
+                                mainStore.initPasswordRecovery(
                                     email: _emailController.text,
                                     context: context,
                                     scaffoldKey: _scaffoldKey);
                               }
                             })
                         : Container(),
-                    usuarioStore.showRecoverCodeField && !usuarioStore.showRecoverPasswordField
+                    mainStore.showRecoverCodeField && !mainStore.showRecoverPasswordField
                         ? CustomRaisedButtonBlue(
                         label: "Validar Código",
                         func: () {
                           if (_formKey.currentState.validate()) {
-                            usuarioStore.validateRecoveryCode(
+                            mainStore.validateRecoveryCode(
                                 email: _emailController.text,
                                 code: _codeController.text,
                                 context: context,
@@ -174,12 +174,12 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
                           }
                         })
                         : Container(),
-                    usuarioStore.showRecoverCodeField && usuarioStore.showRecoverPasswordField
+                    mainStore.showRecoverCodeField && mainStore.showRecoverPasswordField
                         ? CustomRaisedButtonBlue(
                         label: "Salvar",
                         func: () {
                           if (_formKey.currentState.validate()) {
-                            usuarioStore.recoveryPassword(
+                            mainStore.recoveryPassword(
                                 email: _emailController.text,
                                 code: _codeController.text,
                                 senha: _senhaController.text,

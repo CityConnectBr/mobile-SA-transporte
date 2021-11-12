@@ -12,7 +12,7 @@ class CardCondutorTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         border: Border.all(color: Util.hexToColor("#D5DDE0")),
         borderRadius: BorderRadius.only(
@@ -25,8 +25,8 @@ class CardCondutorTile extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            width: 100.0,
-            height: 100.0,
+            width: 70.0,
+            height: 70.0,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
@@ -34,7 +34,7 @@ class CardCondutorTile extends StatelessWidget {
                     image: //_fotoStr != null
                         // ? FileImage(File(_fotoStr))
                         // :
-                        AssetImage("images/foto_motorista.png"))),
+                        AssetImage("images/photo-user.jpeg"))),
           ),
           SizedBox(
             width: 20.0,

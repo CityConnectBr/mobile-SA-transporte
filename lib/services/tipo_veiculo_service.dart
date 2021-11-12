@@ -4,6 +4,7 @@ import 'package:cityconnect/services/main_service.dart';
 
 class TipoVeiculoService extends MainService {
   TipoVeiculoService() {
-    super.url = '/api/permissionarios/tiposveiculos';
+    super.endPoint = '/tiposveiculos';
+    super.endPointVersion = 1;
   }
 }

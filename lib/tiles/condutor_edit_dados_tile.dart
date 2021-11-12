@@ -1,16 +1,13 @@
 import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/screen/permissionario/condutor_dado_cnh_edit_screen.dart';
-import 'package:cityconnect/screen/permissionario/condutor_dado_identidade_edit_screen.dart';
+import 'package:cityconnect/screen/permissionario/condutor_dados_cnh_edit_screen.dart';
+import 'package:cityconnect/screen/permissionario/condutor_dados_identidade_edit_screen.dart';
+import 'package:cityconnect/services/solicitacao_alteracao_service.dart';
 import 'package:cityconnect/stores/permissionario/condutor_store.dart';
-import 'package:cityconnect/screen/permissionario/condutor_dado_contato_edit_screen.dart';
+import 'package:cityconnect/screen/permissionario/condutor_dados_contato_edit_screen.dart';
 import 'package:cityconnect/tiles/card_edit_fields_tile.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
-import 'package:cityconnect/util/validators.dart';
-import 'package:cityconnect/widgets/custom_dialog.dart';
-import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
-import 'package:cityconnect/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -59,11 +56,6 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
         _celController = MaskUtil.getMaskControllerWithValue(mask: MaskUtil.telefone8Mask, value: valor);
       });
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -123,7 +115,11 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                     CardEditFieldsTile(
                       title: 'Dados de Contato',
                       voidCallback: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorDadoIdentidadeScreen(Condutor())));
+                        condutorStore.editCondutor(
+                            context: context,
+                            scaffoldKey: _scaffoldKey,
+                            tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CONTATO,
+                            screenToOpen: CondutorDadosContatoScreen());
                       },
                       child: Column(
                         children: [
@@ -178,7 +174,11 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                     CardEditFieldsTile(
                       title: "Dados de Identidade",
                       voidCallback: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorDadoIdentidadeScreen(Condutor())));
+                        condutorStore.editCondutor(
+                            context: context,
+                            scaffoldKey: _scaffoldKey,
+                            tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_IDENTIDADE,
+                            screenToOpen: CondutorDadoIsdentidadeScreen());
                       },
                       child: Column(
                         children: [
@@ -223,7 +223,11 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                     CardEditFieldsTile(
                       title: "Dados de CNH",
                       voidCallback: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorDadoIdentidadeScreen(Condutor())));
+                        condutorStore.editCondutor(
+                            context: context,
+                            scaffoldKey: _scaffoldKey,
+                            tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_CNH,
+                            screenToOpen: CondutorDadosCnhScreen());
                       },
                       child: Column(
                         children: [

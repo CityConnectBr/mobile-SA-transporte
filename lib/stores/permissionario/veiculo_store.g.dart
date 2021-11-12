@@ -59,14 +59,113 @@ mixin _$VeiculoStore on _VeiculoStore, Store {
         () => super.firstLoadList(context: context, scaffoldKey: scaffoldKey));
   }
 
-  final _$newCondutorAsyncAction = AsyncAction('_VeiculoStore.newCondutor');
+  final _$showVeiculoAsyncAction = AsyncAction('_VeiculoStore.showVeiculo');
 
   @override
-  Future<void> newCondutor(
+  Future<void> showVeiculo(
+      {@required Veiculo veiculo,
+      @required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$showVeiculoAsyncAction.run(() => super.showVeiculo(
+        veiculo: veiculo, context: context, scaffoldKey: scaffoldKey));
+  }
+
+  final _$editVeiculoAsyncAction = AsyncAction('_VeiculoStore.editVeiculo');
+
+  @override
+  Future<void> editVeiculo(
+      {@required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey,
+      Widget screenToOpen}) {
+    return _$editVeiculoAsyncAction.run(() => super.editVeiculo(
+        context: context,
+        scaffoldKey: scaffoldKey,
+        screenToOpen: screenToOpen));
+  }
+
+  final _$newVeiculoAsyncAction = AsyncAction('_VeiculoStore.newVeiculo');
+
+  @override
+  Future<void> newVeiculo(
       {@required BuildContext context,
       @required GlobalKey<ScaffoldState> scaffoldKey}) {
-    return _$newCondutorAsyncAction.run(
-        () => super.newCondutor(context: context, scaffoldKey: scaffoldKey));
+    return _$newVeiculoAsyncAction.run(
+        () => super.newVeiculo(context: context, scaffoldKey: scaffoldKey));
+  }
+
+  final _$saveVeiculoAsyncAction = AsyncAction('_VeiculoStore.saveVeiculo');
+
+  @override
+  Future<void> saveVeiculo(
+      {String placa,
+      String renavam,
+      String chassi,
+      int anoDeFabricacao,
+      int anoDoModelo,
+      String capacidade,
+      String tipoDaCapacidade,
+      String observacaoDaCapacidade,
+      int anosDeVidaUtilDoVeiculo,
+      int marcaModeloVeiculoId,
+      int tipoCombustivelId,
+      int corId,
+      int tipoVeiculoId,
+      String documentoFoto,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$saveVeiculoAsyncAction.run(() => super.saveVeiculo(
+        placa: placa,
+        renavam: renavam,
+        chassi: chassi,
+        anoDeFabricacao: anoDeFabricacao,
+        anoDoModelo: anoDoModelo,
+        capacidade: capacidade,
+        tipoDaCapacidade: tipoDaCapacidade,
+        observacaoDaCapacidade: observacaoDaCapacidade,
+        anosDeVidaUtilDoVeiculo: anosDeVidaUtilDoVeiculo,
+        marcaModeloVeiculoId: marcaModeloVeiculoId,
+        tipoCombustivelId: tipoCombustivelId,
+        corId: corId,
+        tipoVeiculoId: tipoVeiculoId,
+        documentoFoto: documentoFoto,
+        context: context,
+        scaffoldKey: scaffoldKey));
+  }
+
+  final _$findMarcaModeloByIdAsyncAction =
+      AsyncAction('_VeiculoStore.findMarcaModeloById');
+
+  @override
+  Future<MarcaModeloVeiculo> findMarcaModeloById(String id) {
+    return _$findMarcaModeloByIdAsyncAction
+        .run(() => super.findMarcaModeloById(id));
+  }
+
+  final _$findTipoCombustivelByIdAsyncAction =
+      AsyncAction('_VeiculoStore.findTipoCombustivelById');
+
+  @override
+  Future<TipoCombustivel> findTipoCombustivelById(String id) {
+    return _$findTipoCombustivelByIdAsyncAction
+        .run(() => super.findTipoCombustivelById(id));
+  }
+
+  final _$findTipoVeiculoByIdAsyncAction =
+      AsyncAction('_VeiculoStore.findTipoVeiculoById');
+
+  @override
+  Future<TipoVeiculo> findTipoVeiculoById(String id) {
+    return _$findTipoVeiculoByIdAsyncAction
+        .run(() => super.findTipoVeiculoById(id));
+  }
+
+  final _$findCorVeiculoByIdAsyncAction =
+      AsyncAction('_VeiculoStore.findCorVeiculoById');
+
+  @override
+  Future<CorVeiculo> findCorVeiculoById(String id) {
+    return _$findCorVeiculoByIdAsyncAction
+        .run(() => super.findCorVeiculoById(id));
   }
 
   @override

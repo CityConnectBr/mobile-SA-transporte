@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
   static const String KEY_LAST_JWT = "last_jwt";
+  static const String KEY_LAST_PHOTO = "last_photo";
 
   Future<Null> save(String key, String value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

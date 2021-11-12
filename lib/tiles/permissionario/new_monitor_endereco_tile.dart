@@ -1,34 +1,31 @@
-import 'package:cityconnect/screen/home_screen.dart';
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/permissionario/monitor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
-import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
+import 'package:cityconnect/widgets/custom_image_picker_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
-import 'package:cpf_cnpj_validator/cnpj_validator.dart';
-import 'package:cpf_cnpj_validator/cpf_validator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class EditAddressTile extends StatefulWidget {
+class NewMonitorEnderecoTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
 
-  EditAddressTile(this._globalKey);
+  NewMonitorEnderecoTile(this._globalKey);
 
   @override
-  _EditAddressTileState createState() => _EditAddressTileState(_globalKey);
+  _NewMonitorEnderecoTileState createState() =>
+      _NewMonitorEnderecoTileState(_globalKey);
 }
 
-class _EditAddressTileState extends State<EditAddressTile> {
+class _NewMonitorEnderecoTileState extends State<NewMonitorEnderecoTile> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
-  _EditAddressTileState(this._scaffoldKey);
+  _NewMonitorEnderecoTileState(this._scaffoldKey);
 
   final _cepController = MaskedTextController(mask: MaskUtil.cepMask);
   final _addressController = TextEditingController();
@@ -37,6 +34,7 @@ class _EditAddressTileState extends State<EditAddressTile> {
   final _bairroController = TextEditingController();
   final _municipioController = TextEditingController();
   String _uf;
+  String _image;
 
   @override
   void initState() {
@@ -59,27 +57,24 @@ class _EditAddressTileState extends State<EditAddressTile> {
 
   @override
   Widget build(BuildContext context) {
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    MonitorStore monitorStore = Provider.of<MonitorStore>(context);
 
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
 
-      _cepController.text = usuarioStore.usuario.permissionario.endereco.cep;
-      _addressController.text =
-          usuarioStore.usuario.permissionario.endereco.endereco;
-      _numController.text = usuarioStore.usuario.permissionario.endereco.numero;
-      _complementController.text =
-          usuarioStore.usuario.permissionario.endereco.complemento;
-      _bairroController.text =
-          usuarioStore.usuario.permissionario.endereco.bairro;
-      _municipioController.text =
-          usuarioStore.usuario.permissionario.endereco.municipio;
-      _uf = usuarioStore.usuario.permissionario.endereco.uf;
+      _cepController.text = monitorStore.solicitacaoDeAlteracao.campo3;
+      _addressController.text = monitorStore.solicitacaoDeAlteracao.campo4;
+      _numController.text = monitorStore.solicitacaoDeAlteracao.campo5;
+      _complementController.text = monitorStore.solicitacaoDeAlteracao.campo6;
+      _bairroController.text = monitorStore.solicitacaoDeAlteracao.campo7;
+      _municipioController.text = monitorStore.solicitacaoDeAlteracao.campo8;
+      _uf = monitorStore.solicitacaoDeAlteracao.campo9;
+      _image = monitorStore.solicitacaoDeAlteracao.arquivo2;
     }
 
     return Container(
       child: Observer(builder: (_) {
-        if (usuarioStore.loading)
+        if (monitorStore.loading)
           return Container(
             margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
             child: Center(
@@ -190,30 +185,33 @@ class _EditAddressTileState extends State<EditAddressTile> {
                       ],
                     ),
                     SizedBox(
-                      height: 26.0,
+                      height: 32.0,
+                    ),
+                    CustomImagePickerField(
+                      imagePath: this._image,
+                      text: "Comprovante do Endereço",
+                      callBack: (String imgPath) {
+                        this._image = imgPath;
+                      },
+                    ),
+                    SizedBox(
+                      height: 30.0,
                     ),
                     CustomRaisedButtonBlue(
                         label: "Salvar",
                         func: () {
                           if (_formKey.currentState.validate()) {
-                            CustomDialog().showConfirmDialog(
+                            monitorStore.saveAbaEnderecoNewMonitor(
+                                cep: Util.clearString(this._cepController.text),
+                                endereco: this._addressController.text,
+                                complemento: this._complementController.text,
+                                bairro: this._bairroController.text,
+                                numero: this._numController.text,
+                                municipio: this._municipioController.text,
+                                uf: this._uf,
+                                imgComprovanteEndereco: this._image,
                                 context: context,
-                                text: "Tem certeza que\ndeseja salvar?",
-                                voidCallbackSim: () {
-                                  usuarioStore.saveEndereco(
-                                      cep: Util.clearString(
-                                          this._cepController.text),
-                                      endereco: this._addressController.text,
-                                      complemento:
-                                          this._complementController.text,
-                                      bairro: this._bairroController.text,
-                                      numero: this._numController.text,
-                                      municipio: this._municipioController.text,
-                                      uf: this._uf,
-                                      context: context,
-                                      scaffoldKey: _scaffoldKey);
-                                },
-                                voidCallbackNao: () {});
+                                scaffoldKey: _scaffoldKey);
                           }
                         }),
                   ],

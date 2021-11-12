@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/services/main_service.dart';
+import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UsuarioService extends MainService {
   Future<String> login(String email, String senha) async {
@@ -31,13 +34,8 @@ class UsuarioService extends MainService {
     return true;
   }
 
-  Future<bool> signin(
-      {String nome,
-      String email,
-      String cpfCnj,
-      String cnh,
-      String senha}) async {
-    await simpleDio.post('/auth/signin', data: {
+  Future<bool> signin({String nome, String email, String cpfCnj, String cnh, String senha}) async {
+    await simpleDio.post('/api/auth/signin', data: {
       "nome": nome,
       "email": email,
       "cpf_cnpj": cpfCnj,
@@ -57,8 +55,7 @@ class UsuarioService extends MainService {
     return true;
   }
 
-  Future<bool> updatePassword(
-      {@required String senhaAtual, @required String novaSenha}) async {
+  Future<bool> updatePassword({@required String senhaAtual, @required String novaSenha}) async {
     await dio.patch(
       '/api/password',
       data: {"password": senhaAtual, "new_password": novaSenha},
@@ -87,8 +84,7 @@ class UsuarioService extends MainService {
     return true;
   }
 
-  Future<bool> recoverPassword(
-      String email, String code, String password) async {
+  Future<bool> recoverPassword(String email, String code, String password) async {
     await dio.post(
       '/auth/recoverypassword',
       data: {
@@ -99,5 +95,21 @@ class UsuarioService extends MainService {
     );
 
     return true;
+  }
+
+  Future<File> downloadPhotoUser() async {
+    try {
+      Directory appDocDirectory = await getApplicationDocumentsDirectory();
+
+      File file = File(appDocDirectory.path + '/' + Util.getRandomString(20) + '.jpg');
+
+      await super.download(url: '/api/photouser', file: file);
+
+      if(await file.exists()){
+        return file;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

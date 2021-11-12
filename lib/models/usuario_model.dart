@@ -1,4 +1,6 @@
 
+import 'package:cityconnect/models/condutor_model.dart';
+import 'package:cityconnect/models/fiscal_model.dart';
 import 'package:cityconnect/models/permissionario_model.dart';
 
 class Usuario {
@@ -11,6 +13,8 @@ class Usuario {
   String password;
   TipoDoUsuario tipo;
   Permissionario permissionario;
+  Condutor condutor;
+  Fiscal fiscal;
 
   Usuario({int id, String nome, String email, String cpf, String cnh, String password}){
     this.id = id;
@@ -29,6 +33,8 @@ class Usuario {
     this.cnh = parsedJson["cnh"];
     this.tipo = TipoDoUsuario.fromJson(parsedJson["tipo"]);
     this.permissionario = parsedJson["permissionario"]!=null?Permissionario.fromJson(parsedJson["permissionario"]):null;
+    this.fiscal = parsedJson["fiscal"]!=null?Fiscal.fromJson(parsedJson["fiscal"]):null;
+    this.condutor = parsedJson["condutor"]!=null?Condutor.fromJson(parsedJson["condutor"]):null;
   }
 
   Map<String, dynamic> toMap(){
@@ -39,7 +45,9 @@ class Usuario {
       "email": email,
       "cpf_cnpj": cpfCnpj,
       "cnh": cnh,
-      "permissionario": this.permissionario.toMap(),
+      "permissionario": this.permissionario!=null?this.permissionario.toMap():null,
+      "fiscal": this.fiscal!=null?this.fiscal.toMap():null,
+      "condutor": this.condutor!=null?this.condutor.toMap():null,
     };
   }
 

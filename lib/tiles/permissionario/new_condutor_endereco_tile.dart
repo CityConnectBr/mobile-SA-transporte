@@ -6,29 +6,28 @@ import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
-import 'package:cityconnect/widgets/custom_picked_field.dart';
+import 'package:cityconnect/widgets/custom_image_picker_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class NewCondutorAddressTile extends StatefulWidget {
+class NewCondutorEnderecoTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
 
-  NewCondutorAddressTile(this._globalKey);
+  NewCondutorEnderecoTile(this._globalKey);
 
   @override
-  _NewCondutorAddressTileState createState() =>
-      _NewCondutorAddressTileState(_globalKey);
+  _NewCondutorEnderecoTileState createState() =>
+      _NewCondutorEnderecoTileState(_globalKey);
 }
 
-class _NewCondutorAddressTileState extends State<NewCondutorAddressTile> {
+class _NewCondutorEnderecoTileState extends State<NewCondutorEnderecoTile> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
-  _NewCondutorAddressTileState(this._scaffoldKey);
+  _NewCondutorEnderecoTileState(this._scaffoldKey);
 
   final _cepController = MaskedTextController(mask: MaskUtil.cepMask);
   final _addressController = TextEditingController();
@@ -190,7 +189,7 @@ class _NewCondutorAddressTileState extends State<NewCondutorAddressTile> {
                     SizedBox(
                       height: 32.0,
                     ),
-                    CustomPickedField(
+                    CustomImagePickerField(
                       imagePath: this._image,
                       text: "Comprovante do Endereço",
                       callBack: (String imgPath) {

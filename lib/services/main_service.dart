@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cityconnect/models/usuario_model.dart';
 import 'package:cityconnect/util/preferences.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:dio/dio.dart';
@@ -8,13 +11,17 @@ class MainService {
   final dio = Dio();
   final simpleDio = Dio();
 
-  String url;
+  String endPoint = "";
+  int endPointVersion = 1;
+
+  static String get URLApi {
+    return DotEnv().env['URL_API'];
+  }
 
   MainService() {
-    dio.options.baseUrl = DotEnv().env['URL_API'];
-    simpleDio.options.baseUrl = DotEnv().env['URL_API'];
-    dio.interceptors
-        .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+    dio.options.baseUrl = MainService.URLApi;
+    simpleDio.options.baseUrl = MainService.URLApi;
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       final token = await getToken();
       if (token != null && token.isNotEmpty) {
         options.headers['Authorization'] = "Bearer " + token;
@@ -32,8 +39,7 @@ class MainService {
           print("refresh token");
           print(d.data['newToken']);
           //update token
-          if (new RegExp(ValidatorsUtil.jwtPattern)
-              .hasMatch(d.data['newToken'])) {
+          if (new RegExp(ValidatorsUtil.jwtPattern).hasMatch(d.data['newToken'])) {
             setToken(d.data['newToken']);
             options.headers['Authorization'] = "Bearer " + d.data['newToken'];
           }
@@ -51,6 +57,28 @@ class MainService {
     }));
   }
 
+  String makeEndPoint({String endPoint, Usuario usuario, int endPointVersion}) {
+    String endPointAux = "/api";
+
+    if (usuario != null) {
+      switch (usuario.tipo.id) {
+        case 1:
+          endPointAux += "/permissionarios";
+          break;
+        case 2:
+          endPointAux += "/condutores";
+          break;
+        case 3:
+          endPointAux += "/fiscais";
+          break;
+      }
+    }
+
+    endPointAux += endPointVersion != null ? "/v${endPointVersion}" : "/v${this.endPointVersion}"; //setando versao
+
+    return endPointAux + (endPoint != null ? endPoint : this.endPoint);
+  }
+
   @protected
   Future<String> getToken() async {
     return await Preferences().get(Preferences.KEY_LAST_JWT);
@@ -61,29 +89,49 @@ class MainService {
     await Preferences().save(Preferences.KEY_LAST_JWT, token);
   }
 
+  Future<Map<String, String>> getHeaderWithAuthToken() async {
+    return {"Authorization": "Bearer " + (await this.getToken())};
+  }
+
   ///////////////////////////////////
 
-  Future<List<dynamic>> search(String search) async {
-    return (await dio.get(url, queryParameters: {"search": search}))
-        .data['data'];
+  Future<List<dynamic>> search(String search, Usuario userLogged) async {
+    return (await dio.get(makeEndPoint(usuario: userLogged), queryParameters: {"search": search})).data['data'];
   }
 
-  Future<dynamic> create(json) async {
-    return await dio.post(url, data: json);
+  Future<dynamic> create(json, Usuario userLogged) async {
+    return await dio.post(makeEndPoint(usuario: userLogged), data: json);
   }
 
-  Future<bool> update(String id, json) async {
+  Future download({String url, File file}) async {
+      Response response = await dio.get(
+        url,
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            }),
+      );
+      //print(response.headers);
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
+  }
+
+  Future<bool> update(String id, json, Usuario userLogged) async {
     await dio.put(
-      url + "/${id}",
+      makeEndPoint(usuario: userLogged) + "/${id}",
       data: json,
     );
 
     return true;
   }
 
-  Future<dynamic> get(int id) async {
+  Future<dynamic> get(int id, Usuario userLogged) async {
     return (await dio.get(
-      url + "/${id}",
+      makeEndPoint(usuario: userLogged) + "/${id}",
     ))
         .data;
   }

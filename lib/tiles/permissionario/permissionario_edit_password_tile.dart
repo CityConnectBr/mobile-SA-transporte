@@ -1,34 +1,28 @@
-import 'package:cityconnect/screen/home_screen.dart';
-import 'package:cityconnect/stores/usuario_store.dart';
-import 'package:cityconnect/util/mask_util.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
-import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
-import 'package:cpf_cnpj_validator/cnpj_validator.dart';
-import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class EditPasswordTile extends StatefulWidget {
+class PermissionarioEditPasswordTile extends StatefulWidget {
   final GlobalKey<ScaffoldState> _globalKey;
 
-  EditPasswordTile(this._globalKey);
+  PermissionarioEditPasswordTile(this._globalKey);
 
   @override
-  _EditPasswordTileState createState() => _EditPasswordTileState(_globalKey);
+  _PermissionarioEditPasswordTileState createState() => _PermissionarioEditPasswordTileState(_globalKey);
 }
 
-class _EditPasswordTileState extends State<EditPasswordTile> {
+class _PermissionarioEditPasswordTileState extends State<PermissionarioEditPasswordTile> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
-  _EditPasswordTileState(this._scaffoldKey);
+  _PermissionarioEditPasswordTileState(this._scaffoldKey);
 
   final _passwordActualController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -54,11 +48,11 @@ class _EditPasswordTileState extends State<EditPasswordTile> {
 
   @override
   Widget build(BuildContext context) {
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    MainStore mainStore = Provider.of<MainStore>(context);
 
     return Container(
       child: Observer(builder: (_) {
-        if (usuarioStore.loading)
+        if (mainStore.loading)
           return Container(
             margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
             child: Center(
@@ -151,7 +145,7 @@ class _EditPasswordTileState extends State<EditPasswordTile> {
                                 text:
                                     "Tem certeza que\ndeseja alterar sua senha?",
                                 voidCallbackSim: () {
-                                  usuarioStore.savePassword(
+                                  mainStore.savePassword(
                                       senhaAtual: Util.clearString(
                                           this._passwordActualController.text),
                                       senha: Util.clearString(

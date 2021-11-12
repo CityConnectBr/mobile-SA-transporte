@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CustomPickedField extends StatefulWidget {
+class CustomImagePickerField extends StatefulWidget {
   String _imagePath;
   String _text;
   Function _callBack;
 
-  CustomPickedField({String imagePath, String text, Function callBack}) {
+  CustomImagePickerField({String imagePath, String text, Function callBack}) {
     this._imagePath = imagePath;
     this._text = text;
     this._callBack = callBack;
   }
 
   @override
-  _CustomPickedFieldState createState() =>
-      _CustomPickedFieldState(this._imagePath, this._text, this._callBack);
+  _CustomImagePickerFieldState createState() =>
+      _CustomImagePickerFieldState(this._imagePath, this._text, this._callBack);
 }
 
-class _CustomPickedFieldState extends State<CustomPickedField> {
+class _CustomImagePickerFieldState extends State<CustomImagePickerField> {
   final _picker = ImagePicker();
   String _imagePath;
   String _text;
   Function _callBack;
 
-  _CustomPickedFieldState(String image, String text, Function callBack) {
+  _CustomImagePickerFieldState(String image, String text, Function callBack) {
     this._imagePath = image;
     this._text = text;
     this._callBack = callBack;

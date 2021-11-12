@@ -13,6 +13,8 @@ class Condutor {
   String cnh;
   String categoriaCNH; //categoria_cnh
   DateTime vencimentoCNH; //vencimento_cnh
+  int statusFoto;
+  String fotoUrl;
   Endereco endereco;
 
   final dateFormat = new DateFormat("yyyy-MM-dd");
@@ -30,24 +32,28 @@ class Condutor {
     this.email = parsedJson["email"];
     this.cnh = parsedJson["cnh"];
     this.categoriaCNH = parsedJson["categoria_cnh"];
-    this.vencimentoCNH = parsedJson["vencimento_cnh"]!=null?dateFormat.parse(parsedJson["vencimento_cnh"]):null;
-    this.endereco = parsedJson["endereco"]!=null?Endereco.fromJson(parsedJson["endereco"]):null;
+    this.vencimentoCNH = parsedJson["vencimento_cnh"] != null ? dateFormat.parse(parsedJson["vencimento_cnh"]) : null;
+    this.statusFoto = parsedJson["status_foto"];
+    this.fotoUrl = parsedJson["foto_url"];
+    this.endereco = parsedJson["endereco"] != null ? Endereco.fromJson(parsedJson["endereco"]) : null;
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "id": id,
-      "nome": nome,
-      "cpf": cpf,
-      "rg": rg,
-      "ddd": ddd,
-      "telefone": telefone,
-      "celular": celular,
-      "email": email,
-      "cnh": cnh,
-      "categoria_cnh": categoriaCNH,
-      "vencimento_cnh": vencimentoCNH!=null?dateFormat.format(vencimentoCNH):null,
-      "endereco": endereco!=null?endereco.toMap():null,
+    "id": id,
+    "nome": nome,
+    "cpf": cpf,
+    "rg": rg,
+    "ddd": ddd,
+    "telefone": telefone,
+    "celular": celular,
+    "email": email,
+    "cnh": cnh,
+    "categoria_cnh": categoriaCNH,
+    "vencimento_cnh": vencimentoCNH!=null?dateFormat.format(vencimentoCNH):null,
+    "status_foto": statusFoto,
+    "foto_url": fotoUrl,
+    "endereco": endereco!=null?endereco.toMap():null,
     };
   }
 }

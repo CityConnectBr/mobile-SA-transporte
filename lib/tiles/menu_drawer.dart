@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:cityconnect/screen/condutor/alvara_digital_screen.dart';
 import 'package:cityconnect/screen/condutor_search_screen.dart';
 import 'package:cityconnect/screen/fiscal/emissao_multa_screen.dart';
+import 'package:cityconnect/screen/permissionario/alvara_digital_screen.dart';
+import 'package:cityconnect/screen/permissionario/boletos_screen.dart';
+import 'package:cityconnect/screen/permissionario/monitor_search_screen.dart';
+import 'package:cityconnect/screen/solicitacao_search_screen.dart';
 import 'package:cityconnect/screen/veiculo_search_screen.dart';
-import 'package:cityconnect/stores/usuario_store.dart';
+import 'package:cityconnect/stores/main_store.dart';
 import 'package:cityconnect/tiles/custom_list_tile.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:flutter/material.dart';
@@ -10,41 +16,64 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:cityconnect/util/extensions.dart';
 
-class CustomDrawerTile extends StatelessWidget {
+class MenuDrawerTile extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  CustomDrawerTile(this.scaffoldKey);
+  MenuDrawerTile(this.scaffoldKey);
+
+  final double heightSpace = 18.0;
 
   @override
   Widget build(BuildContext context) {
-    UsuarioStore usuarioStore = Provider.of<UsuarioStore>(context);
+    double height = MediaQuery.of(context).size.height;
 
+    MainStore mainStore = Provider.of<MainStore>(context);
+
+    mainStore.loadPhotoUser();
+    
     final acoesPermissionarioMap = [
-      CustomListTile(
-        title: "ALVARÁ DE PERMISSÃO",
-      ),
-      SizedBox(height: 24.0),
       CustomListTile(
         title: "ALVARÁ DIGITAL",
         onTap: () {
-//          Navigator.of(context).push(
-//              MaterialPageRoute(builder: (context) => SearchCondutorScreen()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlvaraDigitalPermissionarioScreen()));
         },
       ),
-      SizedBox(height: 24.0),
+      SizedBox(height: heightSpace),
       CustomListTile(
         title: "CONDUTORES",
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchCondutorScreen()));
         },
       ),
-      SizedBox(height: 24.0),
+      SizedBox(height: heightSpace),
+      CustomListTile(
+        title: "MONITORES",
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchMonitorScreen()));
+        },
+      ),
+      SizedBox(height: heightSpace),
       CustomListTile(
         title: "VEÍCULOS",
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
         },
       ),
+      //SizedBox(height: heightSpace),
+      // CustomListTile(
+      //   title: "BOLETOS",
+      //   onTap: () {
+      //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => BoletosScreen()));
+      //   },
+      // ),
+      SizedBox(height: heightSpace),
+      CustomListTile(
+        title: "SOLICITAÇÕES",
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SolicitacaoScreen()));
+        },
+      ),
+      SizedBox(height: height * .05),
     ];
 
     final acoesCondutorMap = [
@@ -54,6 +83,7 @@ class CustomDrawerTile extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlvaraDigitalScreen()));
         },
       ),
+      SizedBox(height: height * .35),
     ];
 
     final acoesFiscalMap = [
@@ -62,12 +92,13 @@ class CustomDrawerTile extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
           }),
-      SizedBox(height: 24.0),
+      SizedBox(height: heightSpace),
       CustomListTile(
           title: "EMISSÃO DE MULTAS",
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => EmissaoDeMultaScreen()));
           }),
+      SizedBox(height: height * .30),
     ];
 
     return Drawer(
@@ -80,44 +111,41 @@ class CustomDrawerTile extends StatelessWidget {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                          width: 80.0,
-                          height: 80.0,
-                          child: Observer(builder: (_) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        //_fotoStr != null
-                                        // ? FileImage(File(_fotoStr))
-                                        // :
-                                        AssetImage("images/photo-user.png"),
-                                  )),
-                            );
-                          })),
-                      Positioned(
-                        right: -15.0,
-                        top: -10.0,
-                        child: GestureDetector(
-                          child: Image.asset(
-                            "images/ic_edit.png",
-                            fit: BoxFit.contain,
-                          ),
-                          onTap: () {
-                            usuarioStore.editUser(context: context, scaffoldKey: scaffoldKey);
-                          },
-                        ),
-                      ),
-                    ],
+                  GestureDetector(
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                            width: 80.0,
+                            height: 80.0,
+                            child: Observer(builder: (_) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: mainStore.photoUser==null
+                                          ? AssetImage("images/photo-user.jpeg")
+                                          : FileImage(mainStore.photoUser),
+                                    )),
+                              );
+                            })),
+                        Positioned(
+                            right: -20.0,
+                            top: -15.0,
+                            child: Image.asset(
+                              "images/ic_edit.png",
+                              fit: BoxFit.contain,
+                            )),
+                      ],
+                    ),
+                    onTap: () {
+                      mainStore.editUser(context: context, scaffoldKey: scaffoldKey);
+                    },
                   ),
                   Spacer(),
                   Observer(builder: (_) {
                     return Text(
-                      usuarioStore.usuario.nome.capitalize(),
+                      mainStore.usuario.nome.capitalize(),
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: "InterBold",
@@ -128,7 +156,7 @@ class CustomDrawerTile extends StatelessWidget {
                   }),
                   Observer(builder: (_) {
                     return Text(
-                      usuarioStore.usuario.tipo.nome.capitalize(),
+                      mainStore.usuario.tipo.nome.capitalize(),
                       style: TextStyle(
                         fontFamily: "InterRegular",
                         fontSize: 14.0,
@@ -142,15 +170,15 @@ class CustomDrawerTile extends StatelessWidget {
           ),
           SizedBox(height: 40.0),
           Observer(builder: (_) {
-            if (usuarioStore.usuario.tipo.id == 1) {
+            if (mainStore.usuario.tipo.id == 1) {
               return Column(
                 children: acoesPermissionarioMap,
               );
-            } else if (usuarioStore.usuario.tipo.id == 2) {
+            } else if (mainStore.usuario.tipo.id == 2) {
               return Column(
                 children: acoesCondutorMap,
               );
-            } else if (usuarioStore.usuario.tipo.id == 3) {
+            } else if (mainStore.usuario.tipo.id == 3) {
               return Column(
                 children: acoesFiscalMap,
               );
@@ -160,7 +188,7 @@ class CustomDrawerTile extends StatelessWidget {
           }),
           Container(
             margin: EdgeInsets.only(
-              top: 120.0,
+              top: 20.0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -169,7 +197,7 @@ class CustomDrawerTile extends StatelessWidget {
                 CustomListTile(
                   title: "SAIR",
                   onTap: () {
-                    usuarioStore.logout(context: context);
+                    mainStore.logout(context: context);
                   },
                 ),
                 Container(

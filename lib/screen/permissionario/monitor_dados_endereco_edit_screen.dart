@@ -1,38 +1,27 @@
-import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/stores/permissionario/condutor_store.dart';
+import 'package:cityconnect/stores/permissionario/monitor_store.dart';
 import 'package:cityconnect/util/mask_util.dart';
 import 'package:cityconnect/util/util.dart';
 import 'package:cityconnect/util/validators.dart';
+import 'package:cityconnect/widgets/custom_alert_message.dart';
 import 'package:cityconnect/widgets/custom_dialog.dart';
 import 'package:cityconnect/widgets/custom_dropdown.dart';
 import 'package:cityconnect/widgets/custom_input_field.dart';
+import 'package:cityconnect/widgets/custom_image_picker_field.dart';
 import 'package:cityconnect/widgets/custom_raisedbutton.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class CondutorDadoEnderecoScreen extends StatefulWidget {
-  final Condutor _condutor;
-
-  CondutorDadoEnderecoScreen(this._condutor);
-
+class MonitorDadosEnderecoScreen extends StatefulWidget {
   @override
-  _CondutorDadoEnderecoScreenState createState() =>
-      _CondutorDadoEnderecoScreenState(this._condutor);
+  _MonitorDadosEnderecoScreenState createState() => _MonitorDadosEnderecoScreenState();
 }
 
-class _CondutorDadoEnderecoScreenState
-    extends State<CondutorDadoEnderecoScreen> {
+class _MonitorDadosEnderecoScreenState extends State<MonitorDadosEnderecoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final Condutor _condutor;
   String _image;
-  final picker = ImagePicker();
-
-  _CondutorDadoEnderecoScreenState(this._condutor);
 
   final _cepController = MaskedTextController(mask: MaskUtil.cepMask);
   final _addressController = TextEditingController();
@@ -63,29 +52,13 @@ class _CondutorDadoEnderecoScreenState
 
   @override
   Widget build(BuildContext context) {
-    CondutorStore condutorStore = Provider.of<CondutorStore>(context);
-
-    if (!this._flagIsLoad && this._condutor.endereco != null) {
-      this._flagIsLoad = true;
-
-      _cepController.text = this._condutor.endereco.cep;
-      _addressController.text = this._condutor.endereco.endereco;
-      _numController.text = this._condutor.endereco.numero;
-      _complementController.text = this._condutor.endereco.complemento;
-      _bairroController.text = this._condutor.endereco.bairro;
-      _municipioController.text = this._condutor.endereco.municipio;
-      _uf = this._condutor.endereco.uf;
-    }
+    MonitorStore monitorStore = Provider.of<MonitorStore>(context);
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           "Dados Endereço",
-          style: TextStyle(
-            fontFamily: "InterBold",
-            fontSize: 20.0,
-          ),
         ),
         centerTitle: true,
       ),
@@ -93,7 +66,7 @@ class _CondutorDadoEnderecoScreenState
         children: <Widget>[
           Container(
             child: Observer(builder: (_) {
-              if (condutorStore.loading)
+              if (monitorStore.loading)
                 return Container(
                   margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
                   child: Center(
@@ -101,12 +74,43 @@ class _CondutorDadoEnderecoScreenState
                   ),
                 );
 
+              //Setando dados carregados após loader
+              if (!this._flagIsLoad) {
+                this._flagIsLoad = true;
+                if (monitorStore.solicitacaoExistente) {
+                  _cepController.text = monitorStore.solicitacaoDeAlteracao.campo1;
+                  _addressController.text = monitorStore.solicitacaoDeAlteracao.campo2;
+                  _numController.text = monitorStore.solicitacaoDeAlteracao.campo3;
+                  _complementController.text = monitorStore.solicitacaoDeAlteracao.campo4;
+                  _bairroController.text = monitorStore.solicitacaoDeAlteracao.campo5;
+                  _municipioController.text = monitorStore.solicitacaoDeAlteracao.campo6;
+                  _uf = monitorStore.solicitacaoDeAlteracao.campo7;
+                } else {
+                  _cepController.text = monitorStore.monitor.endereco.cep;
+                  _addressController.text = monitorStore.monitor.endereco.endereco;
+                  _numController.text = monitorStore.monitor.endereco.numero;
+                  _complementController.text = monitorStore.monitor.endereco.complemento;
+                  _bairroController.text = monitorStore.monitor.endereco.bairro;
+                  _municipioController.text = monitorStore.monitor.endereco.municipio;
+                  _uf = monitorStore.monitor.endereco.uf;
+                }
+              }
+
               return Container(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    monitorStore.solicitacaoExistente
+                        ? CustomAlertMessage(
+                            type: CustomAlertMessage.WANNING,
+                            message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                          )
+                        : Container(),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Form(
                       key: _formKey,
                       child: Column(
@@ -205,8 +209,7 @@ class _CondutorDadoEnderecoScreenState
                               ),
                               Spacer(),
                               Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.43,
+                                  width: MediaQuery.of(context).size.width * 0.43,
                                   child: CustomDropdown(
                                     dropdownValues: Util.UFs,
                                     hint: Text("UF"),
@@ -222,36 +225,11 @@ class _CondutorDadoEnderecoScreenState
                           SizedBox(
                             height: 32.0,
                           ),
-                          GestureDetector(
-                            child: Container(
-                              alignment: Alignment.topLeft,
-                              child: _image != null ?
-
-                              Image.asset(
-                                "${_image}",
-                                height: 140,
-                                fit: BoxFit.contain,
-                              ) : Text(
-                                "Nenhuma imagem selecionada",
-                                style: TextStyle(
-                                    fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
-                              ),
-                            ),
-                            onTap: () async {
-                              final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-
-
-                              setState(() {
-
-                                if (pickedFile != null) {
-                                  print(pickedFile.path);
-                                  _image = pickedFile.path;
-                                  print(_image);
-                                } else {
-                                  print('No image selected.');
-                                }
-                              });
+                          CustomImagePickerField(
+                            imagePath: this._image,
+                            text: "Comprovante de Endereço",
+                            callBack: (String imgPath) {
+                              this._image = imgPath;
                             },
                           ),
                           SizedBox(
@@ -265,20 +243,17 @@ class _CondutorDadoEnderecoScreenState
                                       context: context,
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
-//                                        condutorStore.saveEndereco(
-//                                            cep: Util.clearString(
-//                                                this._cepController.text),
-//                                            endereco:
-//                                                this._addressController.text,
-//                                            complemento:
-//                                                this._complementController.text,
-//                                            bairro: this._bairroController.text,
-//                                            numero: this._numController.text,
-//                                            municipio:
-//                                                this._municipioController.text,
-//                                            uf: this._uf,
-//                                            context: context,
-//                                            scaffoldKey: _scaffoldKey);
+                                        monitorStore.saveEnderecoMonitor(
+                                            cep: Util.clearString(this._cepController.text),
+                                            endereco: this._addressController.text,
+                                            complemento: this._complementController.text,
+                                            bairro: this._bairroController.text,
+                                            numero: this._numController.text,
+                                            municipio: this._municipioController.text,
+                                            uf: this._uf,
+                                            imgComprovanteEndereco: this._image,
+                                            context: context,
+                                            scaffoldKey: _scaffoldKey);
                                       },
                                       voidCallbackNao: () {});
                                 }
