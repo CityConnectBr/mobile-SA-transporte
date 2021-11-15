@@ -21,6 +21,54 @@ class MainService {
   MainService() {
     dio.options.baseUrl = MainService.URLApi;
     simpleDio.options.baseUrl = MainService.URLApi;
+
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (request, handler) async {
+        final token = await getToken();
+        if (token != null && token.isNotEmpty) {
+          request.headers['Authorization'] = "Bearer " + token;
+          request.headers['Content-Type'] = "application/json";
+        }
+        return handler.next(request);
+      },
+      onError: (error, handler) async {
+        if (error.response?.statusCode == 401) {
+          final options = error.response.requestOptions;
+          // Lock to block the incoming request until the token updated
+          dio.lock();
+          dio.interceptors.responseLock.lock();
+          dio.interceptors.errorLock.lock();
+          final request = await simpleDio.get("/auth/refresh", options: Options(headers: options.headers));
+          if (new RegExp(ValidatorsUtil.jwtPattern).hasMatch(request.data['newToken'])) {
+            setToken(request.data['newToken']);
+            options.headers['Authorization'] = "Bearer " + request.data['newToken'];
+          }
+          dio.unlock();
+          dio.interceptors.responseLock.unlock();
+          dio.interceptors.errorLock.unlock();
+          /*simpleDio
+              .get("/auth/refresh", options: Options(headers: options.headers))
+              .then((request) => {
+                    if (new RegExp(ValidatorsUtil.jwtPattern).hasMatch(request.data['newToken']))
+                      {
+                        setToken(request.data['newToken']),
+                        options.headers['Authorization'] = "Bearer " + request.data['newToken']
+                      }
+                  })
+              .whenComplete(() => {
+                    dio.unlock(),
+                    dio.interceptors.responseLock.unlock(),
+                    dio.interceptors.errorLock.unlock(),
+                  })
+              .then((_) => {
+                    dio.request(options.path, options: Options(headers: options.headers)),
+                  });*/
+
+          return handler.next(error);
+        }
+      },
+    ));
+
     /*dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       final token = await getToken();
       if (token != null && token.isNotEmpty) {

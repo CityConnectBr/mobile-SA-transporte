@@ -11,6 +11,10 @@ import 'package:path_provider/path_provider.dart';
 
 class UsuarioService extends MainService {
   Future<String> login(String email, String senha) async {
+    print({
+      "email": email,
+      "password": senha,
+    });
     Response response = await simpleDio.post('/auth/login', data: {
       "email": email,
       "password": senha,
