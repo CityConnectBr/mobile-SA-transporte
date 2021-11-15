@@ -49,9 +49,9 @@ mixin _$CondutorStore on _CondutorStore, Store {
 
   @override
   Future<void> showCondutor(
-      {@required Condutor condutor,
-      @required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+      {Condutor condutor,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$showCondutorAsyncAction.run(() => super.showCondutor(
         condutor: condutor, context: context, scaffoldKey: scaffoldKey));
   }
@@ -61,8 +61,7 @@ mixin _$CondutorStore on _CondutorStore, Store {
 
   @override
   Future<void> editFotoCondutor(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$editFotoCondutorAsyncAction.run(() =>
         super.editFotoCondutor(context: context, scaffoldKey: scaffoldKey));
   }
@@ -71,9 +70,9 @@ mixin _$CondutorStore on _CondutorStore, Store {
 
   @override
   Future<void> editCondutor(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey,
-      @required int tipoDaSolicitacao,
+      {BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey,
+      int tipoDaSolicitacao,
       Widget screenToOpen}) {
     return _$editCondutorAsyncAction.run(() => super.editCondutor(
         context: context,
@@ -188,8 +187,7 @@ mixin _$CondutorStore on _CondutorStore, Store {
 
   @override
   Future<void> newCondutor(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$newCondutorAsyncAction.run(
         () => super.newCondutor(context: context, scaffoldKey: scaffoldKey));
   }

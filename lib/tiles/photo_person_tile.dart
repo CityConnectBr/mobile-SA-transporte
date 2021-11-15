@@ -1,5 +1,5 @@
-import 'package:cityconnect/util/util.dart';
-import 'package:cityconnect/widgets/custom_raisedbutton.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
+import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io' show File;

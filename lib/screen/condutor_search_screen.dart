@@ -1,10 +1,10 @@
-import 'package:cityconnect/stores/permissionario/condutor_store.dart';
-import 'package:cityconnect/tiles/permissionario/card_condutor_tile.dart';
-import 'package:cityconnect/tiles/condutor_search_tile.dart';
-import 'package:cityconnect/util/style_util.dart';
-import 'package:cityconnect/widgets/box_rounded.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
+import 'package:sa_transportes_mobile/tiles/permissionario/card_condutor_tile.dart';
+import 'package:sa_transportes_mobile/tiles/condutor_search_tile.dart';
+import 'package:sa_transportes_mobile/util/style_util.dart';
+import 'package:sa_transportes_mobile/widgets/box_rounded.dart';
 import 'package:flutter/material.dart';
-import 'package:cityconnect/util/util.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 

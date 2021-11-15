@@ -1,11 +1,11 @@
-import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/stores/permissionario/condutor_store.dart';
-import 'package:cityconnect/tiles/condutor_edit_dados_tile.dart';
-import 'package:cityconnect/tiles/condutor_edit_endereco_tile.dart';
-import 'package:cityconnect/tiles/photo_person_tile.dart';
+import 'package:sa_transportes_mobile/models/condutor_model.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
+import 'package:sa_transportes_mobile/tiles/condutor_edit_dados_tile.dart';
+import 'package:sa_transportes_mobile/tiles/condutor_edit_endereco_tile.dart';
+import 'package:sa_transportes_mobile/tiles/photo_person_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cityconnect/util/util.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:provider/provider.dart';
 
 class CondutorEditScreen extends StatefulWidget {

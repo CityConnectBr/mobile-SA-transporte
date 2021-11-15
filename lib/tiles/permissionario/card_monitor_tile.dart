@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:cityconnect/models/monitor_model.dart';
-import 'package:cityconnect/stores/permissionario/monitor_store.dart';
-import 'package:cityconnect/util/style_util.dart';
-import 'package:cityconnect/util/util.dart';
-import 'package:cityconnect/widgets/custom_text_search_result.dart';
+import 'package:sa_transportes_mobile/models/monitor_model.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
+import 'package:sa_transportes_mobile/util/style_util.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
+import 'package:sa_transportes_mobile/widgets/custom_text_search_result.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

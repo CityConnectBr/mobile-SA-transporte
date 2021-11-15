@@ -1,9 +1,9 @@
-import 'package:cityconnect/stores/permissionario/monitor_store.dart';
-import 'package:cityconnect/tiles/permissionario/new_monitor_dados_tile.dart';
-import 'package:cityconnect/tiles/permissionario/new_monitor_endereco_tile.dart';
-import 'package:cityconnect/tiles/photo_person_tile.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
+import 'package:sa_transportes_mobile/tiles/permissionario/new_monitor_dados_tile.dart';
+import 'package:sa_transportes_mobile/tiles/permissionario/new_monitor_endereco_tile.dart';
+import 'package:sa_transportes_mobile/tiles/photo_person_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:cityconnect/util/util.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:provider/provider.dart';
 
 class NewMonitorScreen extends StatefulWidget {

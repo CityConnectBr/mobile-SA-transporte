@@ -1,4 +1,4 @@
-import 'package:cityconnect/stores/main_store.dart';
+import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

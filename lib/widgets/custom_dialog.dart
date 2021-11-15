@@ -1,4 +1,4 @@
-import 'package:cityconnect/util/util.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialog {

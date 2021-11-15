@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cityconnect/util/util.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
 
 class SnackMessages{
 

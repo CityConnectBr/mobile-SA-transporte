@@ -1,10 +1,10 @@
-import 'package:cityconnect/models/monitor_model.dart';
-import 'package:cityconnect/stores/permissionario/monitor_store.dart';
-import 'package:cityconnect/tiles/monitor_edit_dados_tile.dart';
-import 'package:cityconnect/tiles/monitor_edit_endereco_tile.dart';
-import 'package:cityconnect/tiles/photo_person_tile.dart';
+import 'package:sa_transportes_mobile/models/monitor_model.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
+import 'package:sa_transportes_mobile/tiles/monitor_edit_dados_tile.dart';
+import 'package:sa_transportes_mobile/tiles/monitor_edit_endereco_tile.dart';
+import 'package:sa_transportes_mobile/tiles/photo_person_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:cityconnect/util/util.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:provider/provider.dart';
 
 class MonitorEditScreen extends StatefulWidget {

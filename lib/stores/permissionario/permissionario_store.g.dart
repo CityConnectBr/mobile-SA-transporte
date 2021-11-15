@@ -14,9 +14,9 @@ mixin _$PermissionarioStore on _PermissionarioStore, Store {
 
   @override
   Future<void> editPermissionario(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey,
-      @required int tipoDaSolicitacao,
+      {BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey,
+      int tipoDaSolicitacao,
       Widget screenToOpen}) {
     return _$editPermissionarioAsyncAction.run(() => super.editPermissionario(
         context: context,
@@ -29,8 +29,7 @@ mixin _$PermissionarioStore on _PermissionarioStore, Store {
 
   @override
   Future<void> editFoto(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$editFotoAsyncAction
         .run(() => super.editFoto(context: context, scaffoldKey: scaffoldKey));
   }

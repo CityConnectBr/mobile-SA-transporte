@@ -48,9 +48,9 @@ mixin _$MonitorStore on _MonitorStore, Store {
 
   @override
   Future<void> showMonitor(
-      {@required Monitor monitor,
-      @required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+      {Monitor monitor,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$showMonitorAsyncAction.run(() => super.showMonitor(
         monitor: monitor, context: context, scaffoldKey: scaffoldKey));
   }
@@ -60,8 +60,7 @@ mixin _$MonitorStore on _MonitorStore, Store {
 
   @override
   Future<void> editFotoMonitor(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$editFotoMonitorAsyncAction.run(() =>
         super.editFotoMonitor(context: context, scaffoldKey: scaffoldKey));
   }
@@ -70,9 +69,9 @@ mixin _$MonitorStore on _MonitorStore, Store {
 
   @override
   Future<void> editMonitor(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey,
-      @required int tipoDaSolicitacao,
+      {BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey,
+      int tipoDaSolicitacao,
       Widget screenToOpen}) {
     return _$editMonitorAsyncAction.run(() => super.editMonitor(
         context: context,
@@ -164,8 +163,7 @@ mixin _$MonitorStore on _MonitorStore, Store {
 
   @override
   Future<void> newMonitor(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$newMonitorAsyncAction.run(
         () => super.newMonitor(context: context, scaffoldKey: scaffoldKey));
   }

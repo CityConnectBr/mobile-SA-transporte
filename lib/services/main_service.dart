@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:cityconnect/models/usuario_model.dart';
-import 'package:cityconnect/util/preferences.dart';
-import 'package:cityconnect/util/validators.dart';
+import 'package:sa_transportes_mobile/models/usuario_model.dart';
+import 'package:sa_transportes_mobile/util/preferences.dart';
+import 'package:sa_transportes_mobile/util/validators.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -21,7 +21,7 @@ class MainService {
   MainService() {
     dio.options.baseUrl = MainService.URLApi;
     simpleDio.options.baseUrl = MainService.URLApi;
-    dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+    /*dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       final token = await getToken();
       if (token != null && token.isNotEmpty) {
         options.headers['Authorization'] = "Bearer " + token;
@@ -54,7 +54,7 @@ class MainService {
       }
       print(error);
       return error;
-    }));
+    }));*/
   }
 
   String makeEndPoint({String endPoint, Usuario usuario, int endPointVersion}) {

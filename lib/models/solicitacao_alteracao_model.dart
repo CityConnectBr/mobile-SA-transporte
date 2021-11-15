@@ -1,6 +1,6 @@
-import 'package:cityconnect/models/endereco_model.dart';
-import 'package:cityconnect/models/tipo_solicitacao_model.dart';
-import 'package:cityconnect/util/util.dart';
+import 'package:sa_transportes_mobile/models/endereco_model.dart';
+import 'package:sa_transportes_mobile/models/tipo_solicitacao_model.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:intl/intl.dart';
 
 class SolicitacaoDeAlteracao {

@@ -288,7 +288,7 @@ mixin _$MainStore on _MainStore, Store {
 
   @override
   Future<bool> isLoggedInWithRedirect(
-      {@required BuildContext context, bool redirectToHomeIfLogged = true}) {
+      {BuildContext context, bool redirectToHomeIfLogged = true}) {
     return _$isLoggedInWithRedirectAsyncAction.run(() => super
         .isLoggedInWithRedirect(
             context: context, redirectToHomeIfLogged: redirectToHomeIfLogged));

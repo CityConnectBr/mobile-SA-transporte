@@ -1,4 +1,4 @@
-import 'package:cityconnect/models/endereco_model.dart';
+import 'package:sa_transportes_mobile/models/endereco_model.dart';
 import 'package:intl/intl.dart';
 
 class Fiscal {

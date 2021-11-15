@@ -1,7 +1,7 @@
 
-import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/models/fiscal_model.dart';
-import 'package:cityconnect/models/permissionario_model.dart';
+import 'package:sa_transportes_mobile/models/condutor_model.dart';
+import 'package:sa_transportes_mobile/models/fiscal_model.dart';
+import 'package:sa_transportes_mobile/models/permissionario_model.dart';
 
 class Usuario {
 
