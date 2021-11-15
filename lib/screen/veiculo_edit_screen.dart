@@ -1,8 +1,8 @@
-import 'package:cityconnect/models/veiculo_model.dart';
-import 'package:cityconnect/screen/permissionario/veiculo_dados_screen.dart';
-import 'package:cityconnect/stores/permissionario/veiculo_store.dart';
-import 'package:cityconnect/tiles/card_edit_fields_tile.dart';
-import 'package:cityconnect/widgets/custom_input_field.dart';
+import 'package:sa_transportes_mobile/models/veiculo_model.dart';
+import 'package:sa_transportes_mobile/screen/permissionario/veiculo_dados_screen.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/veiculo_store.dart';
+import 'package:sa_transportes_mobile/tiles/card_edit_fields_tile.dart';
+import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

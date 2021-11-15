@@ -1,5 +1,5 @@
-import 'package:cityconnect/stores/permissionario/veiculo_store.dart';
-import 'package:cityconnect/widgets/custom_search.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/veiculo_store.dart';
+import 'package:sa_transportes_mobile/widgets/custom_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

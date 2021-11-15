@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cityconnect/screen/login_screen.dart';
-import 'package:cityconnect/util/util.dart';
-import 'package:cityconnect/widgets/custom_raisedbutton.dart';
+import 'package:sa_transportes_mobile/screen/login_screen.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
+import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
 
 class LoadingStartScreen extends StatefulWidget {

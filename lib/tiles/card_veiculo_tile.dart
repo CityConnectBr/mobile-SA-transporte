@@ -1,7 +1,7 @@
-import 'package:cityconnect/models/veiculo_model.dart';
-import 'package:cityconnect/tiles/fiscal/card_permissionario_tile.dart';
-import 'package:cityconnect/util/util.dart';
-import 'package:cityconnect/widgets/custom_raisedbutton.dart';
+import 'package:sa_transportes_mobile/models/veiculo_model.dart';
+import 'package:sa_transportes_mobile/tiles/fiscal/card_permissionario_tile.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
+import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 

@@ -1,11 +1,11 @@
 
-import 'package:cityconnect/models/cor_veiculo_model.dart';
-import 'package:cityconnect/models/marca_modelo_carroceria_model.dart';
-import 'package:cityconnect/models/marca_modelo_chassi_model.dart';
-import 'package:cityconnect/models/marca_modelo_veiculo_model.dart';
-import 'package:cityconnect/models/permissionario_model.dart';
-import 'package:cityconnect/models/tipo_combustivel_model.dart';
-import 'package:cityconnect/models/tipo_veiculo_model.dart';
+import 'package:sa_transportes_mobile/models/cor_veiculo_model.dart';
+import 'package:sa_transportes_mobile/models/marca_modelo_carroceria_model.dart';
+import 'package:sa_transportes_mobile/models/marca_modelo_chassi_model.dart';
+import 'package:sa_transportes_mobile/models/marca_modelo_veiculo_model.dart';
+import 'package:sa_transportes_mobile/models/permissionario_model.dart';
+import 'package:sa_transportes_mobile/models/tipo_combustivel_model.dart';
+import 'package:sa_transportes_mobile/models/tipo_veiculo_model.dart';
 
 class Veiculo {
   int id;

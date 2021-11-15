@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cityconnect/services/main_service.dart';
+import 'package:sa_transportes_mobile/services/main_service.dart';
 
 class TipoVeiculoService extends MainService {
   TipoVeiculoService() {

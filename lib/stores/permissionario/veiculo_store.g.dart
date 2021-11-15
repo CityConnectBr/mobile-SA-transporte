@@ -63,9 +63,9 @@ mixin _$VeiculoStore on _VeiculoStore, Store {
 
   @override
   Future<void> showVeiculo(
-      {@required Veiculo veiculo,
-      @required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+      {Veiculo veiculo,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$showVeiculoAsyncAction.run(() => super.showVeiculo(
         veiculo: veiculo, context: context, scaffoldKey: scaffoldKey));
   }
@@ -74,8 +74,8 @@ mixin _$VeiculoStore on _VeiculoStore, Store {
 
   @override
   Future<void> editVeiculo(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey,
+      {BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey,
       Widget screenToOpen}) {
     return _$editVeiculoAsyncAction.run(() => super.editVeiculo(
         context: context,
@@ -87,8 +87,7 @@ mixin _$VeiculoStore on _VeiculoStore, Store {
 
   @override
   Future<void> newVeiculo(
-      {@required BuildContext context,
-      @required GlobalKey<ScaffoldState> scaffoldKey}) {
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$newVeiculoAsyncAction.run(
         () => super.newVeiculo(context: context, scaffoldKey: scaffoldKey));
   }

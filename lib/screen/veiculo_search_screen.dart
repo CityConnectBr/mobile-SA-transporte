@@ -1,10 +1,10 @@
-import 'package:cityconnect/stores/permissionario/veiculo_store.dart';
-import 'package:cityconnect/tiles/card_veiculo_tile.dart';
-import 'package:cityconnect/util/style_util.dart';
-import 'package:cityconnect/widgets/box_rounded.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/veiculo_store.dart';
+import 'package:sa_transportes_mobile/tiles/card_veiculo_tile.dart';
+import 'package:sa_transportes_mobile/util/style_util.dart';
+import 'package:sa_transportes_mobile/widgets/box_rounded.dart';
 import 'package:flutter/material.dart';
-import 'package:cityconnect/util/util.dart';
-import 'package:cityconnect/tiles/veiculo_search_tile.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
+import 'package:sa_transportes_mobile/tiles/veiculo_search_tile.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 

@@ -21,10 +21,10 @@ class ErrorHandlerUtil {
 
         if (exception.runtimeType == DioError) {
           DioError dioError = exception;
-          if (DioErrorType.RECEIVE_TIMEOUT == dioError.type ||
-              DioErrorType.CONNECT_TIMEOUT == dioError.type) {
+          if (DioErrorType.receiveTimeout == dioError.type ||
+              DioErrorType.connectTimeout == dioError.type) {
             return "Servidor não encontrado. Verifique sua internet por favor.";
-          } else if (DioErrorType.RESPONSE == dioError.type) {
+          } else if (DioErrorType.response == dioError.type) {
             final Map<String, dynamic> jsonData = json.decode(dioError.response.toString().replaceFirst("Exception: ", ""));
             if (jsonData.containsKey("message")) {
               dynamic jsonAuxData = jsonData['message']!=null?jsonData['message']:jsonData['messages'];

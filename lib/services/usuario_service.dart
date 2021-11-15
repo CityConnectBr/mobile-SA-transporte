@@ -1,16 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cityconnect/models/usuario_model.dart';
-import 'package:cityconnect/services/main_service.dart';
-import 'package:cityconnect/util/util.dart';
-import 'package:cityconnect/util/validators.dart';
+import 'package:sa_transportes_mobile/models/usuario_model.dart';
+import 'package:sa_transportes_mobile/services/main_service.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
+import 'package:sa_transportes_mobile/util/validators.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
 class UsuarioService extends MainService {
   Future<String> login(String email, String senha) async {
+    print({
+      "email": email,
+      "password": senha,
+    });
     Response response = await simpleDio.post('/auth/login', data: {
       "email": email,
       "password": senha,

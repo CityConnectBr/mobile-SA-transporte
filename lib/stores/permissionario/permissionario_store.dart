@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:cityconnect/models/solicitacao_alteracao_model.dart';
-import 'package:cityconnect/screen/permissionario/permissionario_foto_edit_screen.dart';
-import 'package:cityconnect/services/permissionario_service.dart';
-import 'package:cityconnect/services/solicitacao_alteracao_service.dart';
-import 'package:cityconnect/stores/main_store.dart';
-import 'package:cityconnect/util/error_handler_util.dart';
-import 'package:cityconnect/widgets/snack_message.dart';
+import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
+import 'package:sa_transportes_mobile/screen/permissionario/permissionario_foto_edit_screen.dart';
+import 'package:sa_transportes_mobile/services/permissionario_service.dart';
+import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
+import 'package:sa_transportes_mobile/stores/main_store.dart';
+import 'package:sa_transportes_mobile/util/error_handler_util.dart';
+import 'package:sa_transportes_mobile/widgets/snack_message.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 

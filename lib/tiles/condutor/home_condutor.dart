@@ -1,5 +1,5 @@
-import 'package:cityconnect/screen/condutor/alvara_digital_screen.dart';
-import 'package:cityconnect/widgets/box_item.dart';
+import 'package:sa_transportes_mobile/screen/condutor/alvara_digital_screen.dart';
+import 'package:sa_transportes_mobile/widgets/box_item.dart';
 import 'package:flutter/material.dart';
 
 class HomeCondutorTile extends StatefulWidget {

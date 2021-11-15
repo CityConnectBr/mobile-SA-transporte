@@ -1,10 +1,10 @@
-import 'package:cityconnect/stores/permissionario/veiculo_store.dart';
-import 'package:cityconnect/util/validators.dart';
-import 'package:cityconnect/widgets/custom_autocomplete.dart';
-import 'package:cityconnect/widgets/custom_dropdown.dart';
-import 'package:cityconnect/widgets/custom_image_picker_field.dart';
-import 'package:cityconnect/widgets/custom_input_field.dart';
-import 'package:cityconnect/widgets/custom_raisedbutton.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/veiculo_store.dart';
+import 'package:sa_transportes_mobile/util/validators.dart';
+import 'package:sa_transportes_mobile/widgets/custom_autocomplete.dart';
+import 'package:sa_transportes_mobile/widgets/custom_dropdown.dart';
+import 'package:sa_transportes_mobile/widgets/custom_image_picker_field.dart';
+import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
+import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,8 +1,8 @@
-import 'package:cityconnect/models/permissionario_model.dart';
-import 'package:cityconnect/tiles/identity_tile.dart';
-import 'package:cityconnect/util/style_util.dart';
-import 'package:cityconnect/util/util.dart';
-import 'package:cityconnect/widgets/custom_text_search_result.dart';
+import 'package:sa_transportes_mobile/models/permissionario_model.dart';
+import 'package:sa_transportes_mobile/tiles/identity_tile.dart';
+import 'package:sa_transportes_mobile/util/style_util.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
+import 'package:sa_transportes_mobile/widgets/custom_text_search_result.dart';
 import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:flutter/material.dart';
 

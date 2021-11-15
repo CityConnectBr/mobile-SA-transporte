@@ -1,10 +1,10 @@
-import 'package:cityconnect/models/monitor_model.dart';
-import 'package:cityconnect/screen/permissionario/monitor_dados_endereco_edit_screen.dart';
-import 'package:cityconnect/services/solicitacao_alteracao_service.dart';
-import 'package:cityconnect/stores/permissionario/monitor_store.dart';
-import 'package:cityconnect/tiles/card_edit_fields_tile.dart';
-import 'package:cityconnect/util/mask_util.dart';
-import 'package:cityconnect/widgets/custom_input_field.dart';
+import 'package:sa_transportes_mobile/models/monitor_model.dart';
+import 'package:sa_transportes_mobile/screen/permissionario/monitor_dados_endereco_edit_screen.dart';
+import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
+import 'package:sa_transportes_mobile/tiles/card_edit_fields_tile.dart';
+import 'package:sa_transportes_mobile/util/mask_util.dart';
+import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';

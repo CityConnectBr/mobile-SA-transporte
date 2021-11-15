@@ -1,8 +1,8 @@
 
-import 'package:cityconnect/stores/permissionario/permissionario_store.dart';
-import 'package:cityconnect/tiles/photo_person_tile.dart';
-import 'package:cityconnect/widgets/custom_alert_message.dart';
-import 'package:cityconnect/widgets/custom_raisedbutton.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
+import 'package:sa_transportes_mobile/tiles/photo_person_tile.dart';
+import 'package:sa_transportes_mobile/widgets/custom_alert_message.dart';
+import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';

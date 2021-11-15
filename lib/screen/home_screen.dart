@@ -1,11 +1,11 @@
-import 'package:cityconnect/stores/main_store.dart';
-import 'package:cityconnect/tiles/condutor/home_condutor.dart';
-import 'package:cityconnect/tiles/menu_drawer.dart';
-import 'package:cityconnect/tiles/fiscal/home_fiscal.dart';
-import 'package:cityconnect/tiles/permissionario/home_permissionario.dart';
+import 'package:sa_transportes_mobile/stores/main_store.dart';
+import 'package:sa_transportes_mobile/tiles/condutor/home_condutor.dart';
+import 'package:sa_transportes_mobile/tiles/menu_drawer.dart';
+import 'package:sa_transportes_mobile/tiles/fiscal/home_fiscal.dart';
+import 'package:sa_transportes_mobile/tiles/permissionario/home_permissionario.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cityconnect/widgets/snack_message.dart';
+import 'package:sa_transportes_mobile/widgets/snack_message.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 

@@ -1,8 +1,8 @@
-import 'package:cityconnect/screen/cadastro_usuario_screen.dart';
-import 'package:cityconnect/stores/main_store.dart';
-import 'package:cityconnect/tiles/login_tile.dart';
+import 'package:sa_transportes_mobile/screen/cadastro_usuario_screen.dart';
+import 'package:sa_transportes_mobile/stores/main_store.dart';
+import 'package:sa_transportes_mobile/tiles/login_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:cityconnect/util/util.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

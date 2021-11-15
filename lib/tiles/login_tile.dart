@@ -1,8 +1,8 @@
-import 'package:cityconnect/screen/recuperacao_senha_screen.dart';
-import 'package:cityconnect/stores/main_store.dart';
-import 'package:cityconnect/util/validators.dart';
-import 'package:cityconnect/widgets/custom_input_field.dart';
-import 'package:cityconnect/widgets/custom_raisedbutton.dart';
+import 'package:sa_transportes_mobile/screen/recuperacao_senha_screen.dart';
+import 'package:sa_transportes_mobile/stores/main_store.dart';
+import 'package:sa_transportes_mobile/util/validators.dart';
+import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
+import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';

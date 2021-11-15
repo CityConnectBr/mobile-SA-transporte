@@ -1,5 +1,5 @@
 
-import 'package:cityconnect/widgets/custom_input_field.dart';
+import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
 
 class CustomSearch extends StatefulWidget {

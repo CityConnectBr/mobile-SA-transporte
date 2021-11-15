@@ -1,10 +1,10 @@
-import 'package:cityconnect/stores/main_store.dart';
-import 'package:cityconnect/stores/permissionario/permissionario_store.dart';
-import 'package:cityconnect/tiles/permissionario/permissionario_edit_dados_tile.dart';
-import 'package:cityconnect/tiles/permissionario/permissionario_edit_endereco_tile.dart';
-import 'package:cityconnect/tiles/permissionario/permissionario_edit_password_tile.dart';
-import 'package:cityconnect/tiles/photo_person_tile.dart';
-import 'package:cityconnect/util/style_util.dart';
+import 'package:sa_transportes_mobile/stores/main_store.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
+import 'package:sa_transportes_mobile/tiles/permissionario/permissionario_edit_dados_tile.dart';
+import 'package:sa_transportes_mobile/tiles/permissionario/permissionario_edit_endereco_tile.dart';
+import 'package:sa_transportes_mobile/tiles/permissionario/permissionario_edit_password_tile.dart';
+import 'package:sa_transportes_mobile/tiles/photo_person_tile.dart';
+import 'package:sa_transportes_mobile/util/style_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

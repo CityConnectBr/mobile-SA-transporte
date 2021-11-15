@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cityconnect/models/condutor_model.dart';
-import 'package:cityconnect/models/solicitacao_alteracao_model.dart';
-import 'package:cityconnect/models/usuario_model.dart';
-import 'package:cityconnect/services/main_service.dart';
+import 'package:sa_transportes_mobile/models/condutor_model.dart';
+import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
+import 'package:sa_transportes_mobile/models/usuario_model.dart';
+import 'package:sa_transportes_mobile/services/main_service.dart';
 import 'package:dio/dio.dart';
 
 class SolicitacaoDeAlteracaoService extends MainService {

@@ -1,4 +1,4 @@
-import 'package:cityconnect/util/security_util.dart';
+import 'package:sa_transportes_mobile/util/security_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
