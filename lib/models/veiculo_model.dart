@@ -6,6 +6,7 @@ import 'package:sa_transportes_mobile/models/marca_modelo_veiculo_model.dart';
 import 'package:sa_transportes_mobile/models/permissionario_model.dart';
 import 'package:sa_transportes_mobile/models/tipo_combustivel_model.dart';
 import 'package:sa_transportes_mobile/models/tipo_veiculo_model.dart';
+import 'dart:developer' as dev;
 
 class Veiculo {
   int id;
@@ -18,6 +19,7 @@ class Veiculo {
   String tipoDaCapacidade;
   String observacaoDaCapacidade;
   int anosDeVidaUtilDoVeiculo;
+  String descricao;
   //String prefixo;
   int categoriaId;
   //int marcaModeloCarroceriaId;
@@ -39,7 +41,7 @@ class Veiculo {
   Veiculo();
 
   Veiculo.fromJson(Map<String, dynamic> parsedJson) {
-
+     // dev.debugger();
     this.id = parsedJson["id"];
     this.placa = parsedJson["placa"];
     this.renavam = parsedJson["cod_renavam"];

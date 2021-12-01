@@ -336,7 +336,7 @@ abstract class _MainStore with Store {
   @action
   Future<File> loadPhotoUser() async {
     try {
-      if(this.photoUser==null || !this.photoUser.existsSync()) {
+      if(!this.photoUser.existsSync()) {
 
         final lastPhoto = await this._prefs.get(Preferences.KEY_LAST_PHOTO);
 
@@ -352,13 +352,16 @@ abstract class _MainStore with Store {
         this._prefs.save(Preferences.KEY_LAST_PHOTO, this.photoUser.path);
       }
       else{
-        print("ELSEEEEEEEE");
-        print(this.photoUser);
-        print(this.photoUser.existsSync());
+        this.photoUser =  null;
+        // print("ELSEEEEEEEE");
+        // print(this.photoUser);
+        // print(this.photoUser.existsSync());
+
       }
 
     } catch (e) {
       this.photoUser = null;
+      print('exception');print(e);
     }
   }
 

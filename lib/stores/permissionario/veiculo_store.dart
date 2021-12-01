@@ -20,6 +20,7 @@ import 'package:sa_transportes_mobile/widgets/custom_dialog.dart';
 import 'package:sa_transportes_mobile/widgets/snack_message.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'dart:developer' as dev;
 
 part 'veiculo_store.g.dart';
 
@@ -74,9 +75,11 @@ abstract class _VeiculoStore extends MainStore with Store {
     try {
       this._lastSearch = null;
 
+      // dev.debugger();
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       this.veiculos = (await this._veiculoService.search("", super.usuario)).map((model) => Veiculo.fromJson(model)).toList();
+
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }

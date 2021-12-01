@@ -60,7 +60,7 @@ class _PhotoPersonTileState extends State<PhotoPersonTile> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: _imagePath != null ? FileImage(File(_imagePath)) : AssetImage("images/photo-user.jpeg"),
+                  image: _imagePath != null ? FileImage(File(_imagePath)) : const AssetImage("images/photo-user.jpeg"),
                 ),
               ),
             ),

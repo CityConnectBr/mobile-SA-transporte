@@ -57,7 +57,7 @@ class CardVeiculoTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        this._veiculo.marcaModeloVeiculo.descricao,
+                        "Modelo: ${this._veiculo.marcaModeloVeiculo.descricao}",
                         style: TextStyle(
                           fontSize: 20.0,
                           fontFamily: 'InterBold',
