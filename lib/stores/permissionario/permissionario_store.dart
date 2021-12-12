@@ -120,6 +120,7 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
     loading = true;
     try {
+      //dev.debugger();
       this._lastSearch = null;
 
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sa_transportes_mobile/models/permissionario_model.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
 import 'package:sa_transportes_mobile/tiles/permissionario/card_condutor_tile.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -68,9 +69,9 @@ class _AlvaraDigitalScreenState extends State<AlvaraDigitalScreen> {
   @override
   Widget build(BuildContext context) {
 
-    PermissionarioStore _permissionarioStore = Provider.of<PermissionarioStore>(context);
+    CondutorStore _condutorStore = Provider.of<CondutorStore>(context);
 
-    _permissionarioStore.showAlvara(context: context, scaffoldKey: _scaffoldKey);
+    _condutorStore.showAlvara(context: context, scaffoldKey: _scaffoldKey);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -91,7 +92,7 @@ class _AlvaraDigitalScreenState extends State<AlvaraDigitalScreen> {
           child: ListView(
             children: <Widget>[
               Observer(builder: (_) {
-                if (_permissionarioStore.loading)
+                if (_condutorStore.loading)
                   return Container(
                     margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
                     child: Center(
@@ -101,25 +102,25 @@ class _AlvaraDigitalScreenState extends State<AlvaraDigitalScreen> {
 
                 if (!this._flagIsLoad) {
                   this._flagIsLoad = true;
-                  if(_permissionarioStore.permissionarios !=null && _permissionarioStore.permissionarios.isNotEmpty){
-                    final perm = _permissionarioStore.permissionarios.first;
-
+                  if(_condutorStore.condutores !=null && _condutorStore.condutores.isNotEmpty){
+                    final perm = _condutorStore.condutores.first;
+                    print (perm);
                     _nomeController.text = perm?.nome;
-                    _cpfController.text = perm?.cpfCnpj;
+                    _cpfController.text = perm?.cpf;
                     _cnhController.text = perm?.cnh;
-                    _veiculoController.text = perm?.veiculo?.marcaModeloVeiculo?.descricao;
-                    _placaController.text = perm?.veiculo?.placa;
-                    _prefixoController.text = perm?.prefixo;
+                    _veiculoController.text = null;//perm?.veiculo?.marcaModeloVeiculo?.descricao;
+                    _placaController.text = null; //perm?.veiculo?.placa;
+                    _prefixoController.text = null;// perm?.prefixo;
                     _localController.text = perm?.endereco?.endereco;
                     _image = perm?.fotoUrl;
-
+                   // this._flagIsLoad = false;
                   }
                   // _nomeController.text = _permissionarioStore.permissionario.nome;
                 }
                 return Container(
                     padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-                    child: (_permissionarioStore.permissionarios != null &&
-                        _permissionarioStore.permissionarios.isNotEmpty)
+                    child: (_condutorStore.condutores != null &&
+                        _condutorStore.condutores.isNotEmpty)
                         ?
 
                     Row(

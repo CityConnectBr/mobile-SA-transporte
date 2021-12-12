@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:sa_transportes_mobile/models/usuario_model.dart';
+import 'package:sa_transportes_mobile/screen/condutor/condutor_user_screen.dart';
 import 'package:sa_transportes_mobile/screen/home_screen.dart';
 import 'package:sa_transportes_mobile/screen/login_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/permissionario_user_screen.dart';
@@ -89,18 +90,19 @@ abstract class _MainStore with Store {
     if (aux) {
       try {
         if (await _usuarioService.signin(nome: nome, email: email, cpfCnj: cpfCnpj, cnh: cnh, senha: senha)) {
-          String token = await await _usuarioService.login(email, senha);
+          // String token = await _usuarioService.login(email, senha);
+          //
+          // if (token == null) {
+          //   throw Exception("Token inválido");
+          // }
+          //
+          // //armazenando token gerado
+          // await _prefs.save(Preferences.KEY_LAST_JWT, token);
+          //
+          // usuario = await _usuarioService.getUser();
 
-          if (token == null) {
-            throw Exception("Token inválido");
-          }
-
-          //armazenando token gerado
-          await _prefs.save(Preferences.KEY_LAST_JWT, token);
-
-          usuario = await _usuarioService.getUser();
-
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+          //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
         }
       } catch (e) {
         SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
@@ -175,7 +177,7 @@ abstract class _MainStore with Store {
       if(usuario.permissionario!=null){
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => PermissionarioUserScreen()));
       }else if(usuario.condutor!=null){
-
+       // Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorUserScreen()));
       }else if(usuario.fiscal!=null){
 
       }

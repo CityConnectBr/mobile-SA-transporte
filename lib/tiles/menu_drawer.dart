@@ -129,7 +129,8 @@ class MenuDrawerTile extends StatelessWidget {
                                     )),
                               );
                             })),
-                        Positioned(
+    if (mainStore.usuario.tipo.id == 1)
+                            Positioned(
                             right: -20.0,
                             top: -15.0,
                             child: Image.asset(

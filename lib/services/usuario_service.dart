@@ -15,6 +15,7 @@ class UsuarioService extends MainService {
       "email": email,
       "password": senha,
     });
+    try{
     Response response = await simpleDio.post('/auth/login', data: {
       "email": email,
       "password": senha,
@@ -25,6 +26,11 @@ class UsuarioService extends MainService {
       super.setToken(jsonMap['token']);
       return jsonMap['token'];
     }
+    } catch (e) {
+      print ('catch');
+      print(e);
+    }
+
   }
 
   Future<Usuario> getUser() async {
@@ -39,7 +45,7 @@ class UsuarioService extends MainService {
   }
 
   Future<bool> signin({String nome, String email, String cpfCnj, String cnh, String senha}) async {
-    await simpleDio.post('/api/auth/signin', data: {
+    await simpleDio.post('/auth/signin', data: {
       "nome": nome,
       "email": email,
       "cpf_cnpj": cpfCnj,
