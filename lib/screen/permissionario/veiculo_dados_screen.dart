@@ -74,7 +74,7 @@ class _VeiculoDadosScreenState extends State<VeiculoDadosScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          "Dados Contato",
+          "Dados Veículo",
           style: TextStyle(
             fontFamily: "InterBold",
             fontSize: 20.0,
@@ -129,6 +129,7 @@ class _VeiculoDadosScreenState extends State<VeiculoDadosScreen> {
 
                 //setando itens do autocomplete
                 if(idMarcaModeloSelectd!=null && idMarcaModeloSelectd.isNotEmpty) {
+                 print('idmarcamodeloselected'); print(idMarcaModeloSelectd);
                   _veiculoStore
                       .findMarcaModeloById(idMarcaModeloSelectd)
                       .then((value) =>
@@ -208,8 +209,8 @@ class _VeiculoDadosScreenState extends State<VeiculoDadosScreen> {
                           InputAutocomplete(
                               controller: _marcaModeloVeiculoController,
                               label: "MARCA/MODELO",
-                              //searchCallback: _veiculoStore.searchMarcaModelo,
-                              //setSelected: (s) => idMarcaModeloSelectd = s.id,
+                              searchCallback: _veiculoStore.searchMarcaModelo,
+                              setSelected: (s) => idMarcaModeloSelectd = s.id,
                           ),
                           SizedBox(
                             height: 10.0,

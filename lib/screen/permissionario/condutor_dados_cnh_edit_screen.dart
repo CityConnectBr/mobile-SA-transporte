@@ -29,7 +29,7 @@ class _CondutorDadosCnhScreenState extends State<CondutorDadosCnhScreen> {
   final _cnhController = TextEditingController();
   final _vencimentoCNHController = MaskedTextController(mask: MaskUtil.dateMask);
   String _categoriaCNH;
-
+  String _selectedCategory;
   final _dateFormat = Util.dateFormatddMMyyyy;
 
   bool _flagIsLoad = false;
@@ -137,12 +137,14 @@ class _CondutorDadosCnhScreenState extends State<CondutorDadosCnhScreen> {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.43,
                                 child: CustomDropdown(
-                                  dropdownValues: const <String>['A', 'AB', 'AC', 'AD', 'AE', 'B', 'C', 'D', 'E'],
+                                  dropdownValues:  <String>['A', 'AB', 'AC', 'AD', 'AE', 'B', 'C', 'D', 'E'],
                                   hint: Text("CATEGORIA"),
-                                  value: this._categoriaCNH != null ? this._categoriaCNH : "",
+                                  value: this._categoriaCNH,//this._categoriaCNH ?? "A", //!= null ? this._categoriaCNH : "",
                                   onChanged: (newValue) {
                                     setState(() {
+                                      print(newValue);
                                       this._categoriaCNH = newValue;
+                                      //this._selectedCategory = newValue;
                                     });
                                   },
                                 ),

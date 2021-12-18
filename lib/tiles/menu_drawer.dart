@@ -8,6 +8,7 @@ import 'package:sa_transportes_mobile/screen/permissionario/boletos_screen.dart'
 import 'package:sa_transportes_mobile/screen/permissionario/monitor_search_screen.dart';
 import 'package:sa_transportes_mobile/screen/solicitacao_search_screen.dart';
 import 'package:sa_transportes_mobile/screen/veiculo_search_screen.dart';
+import 'package:sa_transportes_mobile/screen/veiculo_show_screen.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/tiles/custom_list_tile.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -83,7 +84,15 @@ class MenuDrawerTile extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlvaraDigitalScreen()));
         },
       ),
+      SizedBox(height: heightSpace),
+      CustomListTile(
+        title: "VEÍCULOS",
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoShowScreen()));
+        },
+      ),
       SizedBox(height: height * .35),
+
     ];
 
     final acoesFiscalMap = [
@@ -129,7 +138,7 @@ class MenuDrawerTile extends StatelessWidget {
                                     )),
                               );
                             })),
-    if (mainStore.usuario.tipo.id == 1)
+    if (mainStore.usuario.tipo.id == 4)
                             Positioned(
                             right: -20.0,
                             top: -15.0,

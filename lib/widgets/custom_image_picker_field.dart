@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -49,13 +51,13 @@ class _CustomImagePickerFieldState extends State<CustomImagePickerField> {
           child: Container(
             alignment: Alignment.topLeft,
             child: _imagePath != null
-                ? Image.asset(
-                    _imagePath,
+                ? Image.file(
+                    File(_imagePath),
                     height: 140,
                     fit: BoxFit.contain,
                   )
                 : Text(
-                    "Nenhuma imagem selecionada",
+                    "Nenhuma imagem selecionada \nClique para selecionar",
                     style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -64,10 +66,10 @@ class _CustomImagePickerFieldState extends State<CustomImagePickerField> {
           ),
           onTap: () async {
             final pickedFile =
-                await _picker.getImage(source: ImageSource.camera);
+                await _picker.pickImage(source: ImageSource.camera);
 
             if (pickedFile != null) {
-              //print(pickedFile.path);
+              print(pickedFile.path);
               setState(() {
                 _imagePath = pickedFile.path;
               });

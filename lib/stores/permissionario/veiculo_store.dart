@@ -263,7 +263,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   ////////////////////////////////
 
   Future<List<Suggestion>> searchMarcaModelo(String search) async {
-    List<Suggestion> suggestionList = List();
+    List<Suggestion> suggestionList = [];
     try {
       (await _marcaModeloVeiculoService.search(search, super.usuario)).forEach((element) {
         suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));

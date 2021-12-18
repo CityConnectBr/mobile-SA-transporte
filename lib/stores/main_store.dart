@@ -13,6 +13,7 @@ import 'package:sa_transportes_mobile/widgets/snack_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'dart:async';
 
 part 'main_store.g.dart';
 
@@ -52,7 +53,7 @@ abstract class _MainStore with Store {
       //armazenando token gerado
       await _prefs.save(Preferences.KEY_LAST_JWT, token);
 
-      usuario = await _usuarioService.getUser();
+      usuario = await Future.value(_usuarioService.getUser()).timeout(const Duration(seconds:5));
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
     } catch (e) {
@@ -175,7 +176,7 @@ abstract class _MainStore with Store {
       this._reloadUser();
 
       if(usuario.permissionario!=null){
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => PermissionarioUserScreen()));
+        //Navigator.of(context).push(MaterialPageRoute(builder: (context) => PermissionarioUserScreen()));
       }else if(usuario.condutor!=null){
        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorUserScreen()));
       }else if(usuario.fiscal!=null){
@@ -338,28 +339,28 @@ abstract class _MainStore with Store {
   @action
   Future<File> loadPhotoUser() async {
     try {
-      if(!this.photoUser.existsSync()) {
-
-        final lastPhoto = await this._prefs.get(Preferences.KEY_LAST_PHOTO);
-
-        if(lastPhoto!=null){
-          final photo = File(lastPhoto);
-          if(await photo.exists()){
-            photo.delete();
-          }
-        }
-        this.photoUser = await this._usuarioService.downloadPhotoUser();
-
-        print(photoUser);
-        this._prefs.save(Preferences.KEY_LAST_PHOTO, this.photoUser.path);
-      }
-      else{
+      // if(!this.photoUser.existsSync()) {
+      //
+      //   final lastPhoto = await this._prefs.get(Preferences.KEY_LAST_PHOTO);
+      //
+      //   if(lastPhoto!=null){
+      //     final photo = File(lastPhoto);
+      //     if(await photo.exists()){
+      //       photo.delete();
+      //     }
+      //   }
+      //   this.photoUser = await this._usuarioService.downloadPhotoUser();
+      //
+      //   print(photoUser);
+      //   this._prefs.save(Preferences.KEY_LAST_PHOTO, this.photoUser.path);
+      // }
+      // else{
         this.photoUser =  null;
         // print("ELSEEEEEEEE");
         // print(this.photoUser);
         // print(this.photoUser.existsSync());
 
-      }
+      //}
 
     } catch (e) {
       this.photoUser = null;
