@@ -69,8 +69,8 @@ class _AlvaraDigitalPermissionarioScreenState extends State<AlvaraDigitalPermiss
   Widget build(BuildContext context) {
 
     PermissionarioStore _permissionarioStore = Provider.of<PermissionarioStore>(context);
-
-    _permissionarioStore.showAlvara(context: context, scaffoldKey: _scaffoldKey);
+    _permissionarioStore.loadUsuario();
+    //Permissionario permissionario = _permissionarioStore.usuario.permissionario;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -91,35 +91,34 @@ class _AlvaraDigitalPermissionarioScreenState extends State<AlvaraDigitalPermiss
           child: ListView(
             children: <Widget>[
               Observer(builder: (_) {
-                if (_permissionarioStore.loading)
+                /*if (_permissionarioStore.loading)
                   return Container(
                     margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
-                  );
+                  );*/
 
                 if (!this._flagIsLoad) {
-                  this._flagIsLoad = true;
-                  if(_permissionarioStore.permissionarios !=null && _permissionarioStore.permissionarios.isNotEmpty){
+                  //this._flagIsLoad = true;
+                  /*if(_permissionarioStore.permissionarios !=null && _permissionarioStore.permissionarios.isNotEmpty){
                     final perm = _permissionarioStore.permissionarios.first;
 
                     _nomeController.text = perm?.nome;
                     _cpfController.text = perm?.cpfCnpj;
                     _cnhController.text = perm?.cnh;
-                    _veiculoController.text = perm?.veiculo?.marcaModeloVeiculo?.descricao;
-                    _placaController.text = perm?.veiculo?.placa;
+                    //_veiculoController.text = perm?.veiculo?.marcaModeloVeiculo?.descricao;
+                    //_placaController.text = perm?.veiculo?.placa;
                     _prefixoController.text = perm?.prefixo;
                     _localController.text = perm?.endereco?.endereco;
                     _image = perm?.fotoUrl;
 
-                  }
+                  }*/
                   // _nomeController.text = _permissionarioStore.permissionario.nome;
                 }
                 return Container(
                     padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-                    child: (_permissionarioStore.permissionarios != null &&
-                        _permissionarioStore.permissionarios.isNotEmpty)
+                    child: (_permissionarioStore.usuarioLogado!=null && _permissionarioStore.usuarioLogado.permissionario != null)
                         ?
 
                     Row(
@@ -162,7 +161,7 @@ class _AlvaraDigitalPermissionarioScreenState extends State<AlvaraDigitalPermiss
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              /*SizedBox(
                                 height: 10.0,
                               ),
                               CustomInputFieldGrey(
@@ -202,7 +201,7 @@ class _AlvaraDigitalPermissionarioScreenState extends State<AlvaraDigitalPermiss
                               ),
                               SizedBox(
                                 height: 10.0,
-                              ),
+                              ),*/
                               CustomInputFieldGrey(
                                 controller: _localController,
                                 label: "Local",

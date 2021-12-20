@@ -17,6 +17,7 @@ class Permissionario {
   DateTime dataNascimento;
   String naturalidade;
   String nacionalidade;
+  String prefixo;
   String cnh;
   String prefixo;
   String categoriaCNH; //categoria_cnh
@@ -45,6 +46,7 @@ class Permissionario {
     this.dataNascimento = parsedJson["data_nascimento"]!=null?dateFormat.parse(parsedJson["data_nascimento"]):null;
     this.naturalidade = parsedJson["naturalidade"];
     this.nacionalidade = parsedJson["nacionalidade"];
+    this.prefixo = parsedJson["prefixo"];
     this.cnh = parsedJson["cnh"];
     this.categoriaCNH = parsedJson["categoria_cnh"];
     this.vencimentoCNH = parsedJson["vencimento_cnh"]!=null?dateFormat.parse(parsedJson["vencimento_cnh"]):null;

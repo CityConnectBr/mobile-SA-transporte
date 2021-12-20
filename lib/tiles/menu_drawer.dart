@@ -30,6 +30,8 @@ class MenuDrawerTile extends StatelessWidget {
 
     MainStore mainStore = Provider.of<MainStore>(context);
 
+    mainStore.loadUsuario();
+
     mainStore.loadPhotoUser();
     
     final acoesPermissionarioMap = [
@@ -155,7 +157,7 @@ class MenuDrawerTile extends StatelessWidget {
                   Spacer(),
                   Observer(builder: (_) {
                     return Text(
-                      mainStore.usuario.nome.capitalize(),
+                      mainStore.usuarioLogado.nome.capitalize(),
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: "InterBold",
@@ -166,7 +168,7 @@ class MenuDrawerTile extends StatelessWidget {
                   }),
                   Observer(builder: (_) {
                     return Text(
-                      mainStore.usuario.tipo.nome.capitalize(),
+                      mainStore.usuarioLogado.tipo.nome.capitalize(),
                       style: TextStyle(
                         fontFamily: "InterRegular",
                         fontSize: 14.0,
@@ -180,15 +182,15 @@ class MenuDrawerTile extends StatelessWidget {
           ),
           SizedBox(height: 40.0),
           Observer(builder: (_) {
-            if (mainStore.usuario.tipo.id == 1) {
+            if (mainStore.usuarioLogado.tipo.id == 1) {
               return Column(
                 children: acoesPermissionarioMap,
               );
-            } else if (mainStore.usuario.tipo.id == 2) {
+            } else if (mainStore.usuarioLogado.tipo.id == 2) {
               return Column(
                 children: acoesCondutorMap,
               );
-            } else if (mainStore.usuario.tipo.id == 3) {
+            } else if (mainStore.usuarioLogado.tipo.id == 3) {
               return Column(
                 children: acoesFiscalMap,
               );

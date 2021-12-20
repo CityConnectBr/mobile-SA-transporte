@@ -88,7 +88,7 @@ class _SearchVeiculoScreenState extends State<SearchVeiculoScreen> {
                           )
                         : Center(
                             child: Text(
-                              "Nenhum condutor encontrado!",
+                              "Nenhum veículo encontrado!",
                               style: StyleUtil.textBlueBoldSize20,
                             ),
                           ));

@@ -12,6 +12,7 @@ class Usuario {
   String cnh;
   String password;
   TipoDoUsuario tipo;
+  int tipoId;
   Permissionario permissionario;
   Condutor condutor;
   Fiscal fiscal;
@@ -28,6 +29,7 @@ class Usuario {
   Usuario.fromJson(Map<String, dynamic> parsedJson){
     this.id = parsedJson["id"];
     this.nome = parsedJson["nome"];
+    this.tipoId = parsedJson["tipo_id"];
     this.email = parsedJson["email"];
     this.cpfCnpj = parsedJson["cpf_cnpj"];
     this.cnh = parsedJson["cnh"];

@@ -55,7 +55,7 @@ class _CardMonitorTileState extends State<CardMonitorTile> {
             height: 70.0,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                image: DecorationImage(fit: BoxFit.cover, image: foto != null ? FileImage(foto) : AssetImage("images/photo-user.jpeg"))),
+                image: DecorationImage(fit: BoxFit.cover, image: foto != null ? FileImage(foto) : const AssetImage("images/photo-user.jpeg"))),
           ),
           SizedBox(
             width: 20.0,

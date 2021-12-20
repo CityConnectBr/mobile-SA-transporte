@@ -75,7 +75,7 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
   @override
   Widget build(BuildContext context) {
     CondutorStore condutorStore = Provider.of<CondutorStore>(context);
-
+    condutorStore.loadUsuario();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -105,12 +105,12 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
                   _phoneController.text = condutorStore.solicitacaoDeAlteracao.campo3;
                   _phone2Controller.text = condutorStore.solicitacaoDeAlteracao.campo4;
                   _celController.text = condutorStore.solicitacaoDeAlteracao.campo5;
-                } else {
-                  _dddController.text = condutorStore.usuario.permissionario.ddd;
-                  _phoneController.text = condutorStore.usuario.permissionario.telefone;
-                  _phone2Controller.text = condutorStore.usuario.permissionario.telefone2;
-                  _celController.text = condutorStore.usuario.permissionario.celular;
-                  _emailController.text = condutorStore.usuario.permissionario.email;
+                } else if(condutorStore.usuarioLogado!=null){
+                  _dddController.text = condutorStore.usuarioLogado.permissionario.ddd;
+                  _phoneController.text = condutorStore.usuarioLogado.permissionario.telefone;
+                  _phone2Controller.text = condutorStore.usuarioLogado.permissionario.telefone2;
+                  _celController.text = condutorStore.usuarioLogado.permissionario.celular;
+                  _emailController.text = condutorStore.usuarioLogado.permissionario.email;
                 }
               }
 

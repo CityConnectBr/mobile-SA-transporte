@@ -6,18 +6,21 @@ import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 
 class VeiculoEditScreen extends StatefulWidget {
   final Veiculo _veiculo;
+  final int mode; //0=visualizacao,1=edicao,2=multa
 
-  VeiculoEditScreen(this._veiculo);
+  VeiculoEditScreen(this._veiculo, this.mode);
 
   @override
-  _VeiculoEditScreenState createState() => _VeiculoEditScreenState(this._veiculo);
+  _VeiculoEditScreenState createState() =>
+      _VeiculoEditScreenState(this._veiculo, this.mode);
 }
 
-class _VeiculoEditScreenState extends State<VeiculoEditScreen> with SingleTickerProviderStateMixin {
-
+class _VeiculoEditScreenState extends State<VeiculoEditScreen>
+    with SingleTickerProviderStateMixin {
   final _placaController = TextEditingController();
   final _renavanController = TextEditingController();
   final _chassiController = TextEditingController();
@@ -32,8 +35,9 @@ class _VeiculoEditScreenState extends State<VeiculoEditScreen> with SingleTicker
   final _corController = TextEditingController();
 
   final Veiculo _veiculo;
+  final int mode;
 
-  _VeiculoEditScreenState(this._veiculo);
+  _VeiculoEditScreenState(this._veiculo, this.mode);
 
   bool _flagIsLoad = false;
 
@@ -66,21 +70,38 @@ class _VeiculoEditScreenState extends State<VeiculoEditScreen> with SingleTicker
       _placaController.text = this._veiculo.placa;
       _renavanController.text = this._veiculo.renavam;
       _chassiController.text = this._veiculo.chassi;
-      _anoDeFabricacaoController.text = this._veiculo.anoDeFabricacao!=null?this._veiculo.anoDeFabricacao.toString():"";
-      _anoDoModeloController.text = this._veiculo.anoDoModelo!=null?this._veiculo.anoDoModelo.toString():"";
+      _anoDeFabricacaoController.text = this._veiculo.anoDeFabricacao != null
+          ? this._veiculo.anoDeFabricacao.toString()
+          : "";
+      _anoDoModeloController.text = this._veiculo.anoDoModelo != null
+          ? this._veiculo.anoDoModelo.toString()
+          : "";
       _capacidadeController.text = this._veiculo.capacidade;
       _tipoDaCapacidadeController.text = this._veiculo.tipoDaCapacidade;
-      _observacaoDaCapacidadeController.text = this._veiculo.observacaoDaCapacidade;
-      _anosDeVidaUtilDoVeiculoController.text = this._veiculo.anosDeVidaUtilDoVeiculo!=null?this._veiculo.anosDeVidaUtilDoVeiculo.toString():"";
-      _marcaModeloVeiculoController.text = this._veiculo.marcaModeloVeiculo!=null?this._veiculo.marcaModeloVeiculo.descricao:"";
-      _tipoCombustivelController.text = this._veiculo.tipoCombustivel!=null?this._veiculo.tipoCombustivel.descricao:"";
-      _corController.text = this._veiculo.corVeiculo!=null?this._veiculo.corVeiculo.descricao:"";
+      _observacaoDaCapacidadeController.text =
+          this._veiculo.observacaoDaCapacidade;
+      _anosDeVidaUtilDoVeiculoController.text =
+          this._veiculo.anosDeVidaUtilDoVeiculo != null
+              ? this._veiculo.anosDeVidaUtilDoVeiculo.toString()
+              : "";
+      _marcaModeloVeiculoController.text =
+          this._veiculo.marcaModeloVeiculo != null
+              ? this._veiculo.marcaModeloVeiculo.descricao
+              : "";
+      _tipoCombustivelController.text = this._veiculo.tipoCombustivel != null
+          ? this._veiculo.tipoCombustivel.descricao
+          : "";
+      _corController.text = this._veiculo.corVeiculo != null
+          ? this._veiculo.corVeiculo.descricao
+          : "";
     }
 
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Text('Veículo',),
+          title: Text(
+            'Veículo',
+          ),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -88,12 +109,14 @@ class _VeiculoEditScreenState extends State<VeiculoEditScreen> with SingleTicker
             padding: EdgeInsets.all(20.0),
             child: CardEditFieldsTile(
               title: 'Dados do Veículo',
-              voidCallback: () {
-                _veiculoStore.editVeiculo(
-                    context: context,
-                    scaffoldKey: _scaffoldKey,
-                    screenToOpen: VeiculoDadosScreen());
-              },
+              voidCallback: this.mode == 1
+                  ? () {
+                      _veiculoStore.editVeiculo(
+                          context: context,
+                          scaffoldKey: _scaffoldKey,
+                          screenToOpen: VeiculoDadosScreen());
+                    }
+                  : () {},
               child: Column(
                 children: <Widget>[
                   CustomInputFieldGrey(
@@ -204,6 +227,8 @@ class _VeiculoEditScreenState extends State<VeiculoEditScreen> with SingleTicker
                   SizedBox(
                     height: 20.0,
                   ),
+                  if (this.mode == 2)
+                    CustomRaisedButtonBlue(label: "Multar", func: () {}),
                 ],
               ),
             ),

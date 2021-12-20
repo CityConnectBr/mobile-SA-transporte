@@ -90,18 +90,18 @@ mixin _$MainStore on _MainStore, Store {
     });
   }
 
-  final _$usuarioAtom = Atom(name: '_MainStore.usuario');
+  final _$usuarioLogadoAtom = Atom(name: '_MainStore.usuarioLogado');
 
   @override
-  Usuario get usuario {
-    _$usuarioAtom.reportRead();
-    return super.usuario;
+  Usuario get usuarioLogado {
+    _$usuarioLogadoAtom.reportRead();
+    return super.usuarioLogado;
   }
 
   @override
-  set usuario(Usuario value) {
-    _$usuarioAtom.reportWrite(value, super.usuario, () {
-      super.usuario = value;
+  set usuarioLogado(Usuario value) {
+    _$usuarioLogadoAtom.reportWrite(value, super.usuarioLogado, () {
+      super.usuarioLogado = value;
     });
   }
 
@@ -118,6 +118,13 @@ mixin _$MainStore on _MainStore, Store {
         senha: senha,
         context: context,
         scaffoldKey: scaffoldKey));
+  }
+
+  final _$loadUsuarioAsyncAction = AsyncAction('_MainStore.loadUsuario');
+
+  @override
+  Future<void> loadUsuario() {
+    return _$loadUsuarioAsyncAction.run(() => super.loadUsuario());
   }
 
   final _$signinAsyncAction = AsyncAction('_MainStore.signin');
@@ -316,7 +323,7 @@ solicitacaoExistente: ${solicitacaoExistente},
 showRecoverCodeField: ${showRecoverCodeField},
 showRecoverPasswordField: ${showRecoverPasswordField},
 photoUser: ${photoUser},
-usuario: ${usuario}
+usuarioLogado: ${usuarioLogado}
     ''';
   }
 }

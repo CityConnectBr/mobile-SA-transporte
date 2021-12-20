@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:sa_transportes_mobile/models/usuario_model.dart';
-import 'package:sa_transportes_mobile/screen/condutor/condutor_user_screen.dart';
 import 'package:sa_transportes_mobile/screen/home_screen.dart';
 import 'package:sa_transportes_mobile/screen/login_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/permissionario_user_screen.dart';
@@ -13,7 +12,6 @@ import 'package:sa_transportes_mobile/widgets/snack_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'dart:async';
 
 part 'main_store.g.dart';
 
@@ -32,12 +30,12 @@ abstract class _MainStore with Store {
   @observable
   File photoUser;
 
+  @observable
+  Usuario usuarioLogado = null;
+
   final _usuarioService = UsuarioService();
 
   final _prefs = Preferences();
-
-  @observable
-  Usuario usuario;
 
   @action
   Future<void> login({String email, String senha, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
@@ -53,8 +51,7 @@ abstract class _MainStore with Store {
       //armazenando token gerado
       await _prefs.save(Preferences.KEY_LAST_JWT, token);
 
-      usuario = await Future.value(_usuarioService.getUser()).timeout(const Duration(seconds:5));
-
+      final usuario = await _usuarioService.getUser();
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
     } catch (e) {
       print(e);
@@ -62,6 +59,11 @@ abstract class _MainStore with Store {
     }
 
     loading = false;
+  }
+
+  @action
+  Future<void> loadUsuario() async {
+    this.usuarioLogado = await _usuarioService.getUser();
   }
 
   @action
@@ -91,19 +93,16 @@ abstract class _MainStore with Store {
     if (aux) {
       try {
         if (await _usuarioService.signin(nome: nome, email: email, cpfCnj: cpfCnpj, cnh: cnh, senha: senha)) {
-          // String token = await _usuarioService.login(email, senha);
-          //
-          // if (token == null) {
-          //   throw Exception("Token inválido");
-          // }
-          //
-          // //armazenando token gerado
-          // await _prefs.save(Preferences.KEY_LAST_JWT, token);
-          //
-          // usuario = await _usuarioService.getUser();
+          String token = await await _usuarioService.login(email, senha);
 
-          //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+          if (token == null) {
+            throw Exception("Token inválido");
+          }
+
+          //armazenando token gerado
+          await _prefs.save(Preferences.KEY_LAST_JWT, token);
+
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
         }
       } catch (e) {
         SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
@@ -173,12 +172,12 @@ abstract class _MainStore with Store {
   @action
   Future<void> editUser({BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
     if (await this.isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false)) {
-      this._reloadUser();
+      Usuario usuario = await _usuarioService.getUser();
 
       if(usuario.permissionario!=null){
-        //Navigator.of(context).push(MaterialPageRoute(builder: (context) => PermissionarioUserScreen()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => PermissionarioUserScreen()));
       }else if(usuario.condutor!=null){
-       // Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorUserScreen()));
+
       }else if(usuario.fiscal!=null){
 
       }
@@ -210,23 +209,24 @@ abstract class _MainStore with Store {
         aux = false;
         SnackMessages.showSnackBarError(context, scaffoldKey, "Categoria da CNH não pode estar vazio.");
       }
-      if (aux && await this.isLoggedIn(context)) {
-        this.usuario.nome = nome;
-        this.usuario.permissionario.rg = rg;
-        this.usuario.permissionario.naturalidade = naturalidade;
-        this.usuario.permissionario.nacionalidade = nacionalidade;
-        this.usuario.permissionario.inscricaoMunicipal = inscricaoMunicipal;
-        this.usuario.permissionario.dataNascimento = dataNascimento;
-        this.usuario.permissionario.ddd = ddd;
-        this.usuario.permissionario.telefone = telefone;
-        this.usuario.permissionario.telefone2 = telefone2;
-        this.usuario.permissionario.celular = celular;
-        this.usuario.permissionario.cnh = cnh;
-        this.usuario.permissionario.categoriaCNH = categoriaCNH;
-        this.usuario.permissionario.vencimentoCNH = vencimentoCNH;
 
-        if (await _usuarioService.updateUser(this.usuario)) {
-          this._reloadUser();
+      Usuario usuario = await _usuarioService.getUser();
+      if (aux && usuario!=null) {
+        usuario.nome = nome;
+        usuario.permissionario.rg = rg;
+        usuario.permissionario.naturalidade = naturalidade;
+        usuario.permissionario.nacionalidade = nacionalidade;
+        usuario.permissionario.inscricaoMunicipal = inscricaoMunicipal;
+        usuario.permissionario.dataNascimento = dataNascimento;
+        usuario.permissionario.ddd = ddd;
+        usuario.permissionario.telefone = telefone;
+        usuario.permissionario.telefone2 = telefone2;
+        usuario.permissionario.celular = celular;
+        usuario.permissionario.cnh = cnh;
+        usuario.permissionario.categoriaCNH = categoriaCNH;
+        usuario.permissionario.vencimentoCNH = vencimentoCNH;
+
+        if (await _usuarioService.updateUser(usuario)) {
           SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
         }
       }
@@ -251,17 +251,17 @@ abstract class _MainStore with Store {
     loading = true;
 
     try {
-      if (await this.isLoggedIn(context)) {
-        this.usuario.permissionario.endereco.cep = cep;
-        this.usuario.permissionario.endereco.endereco = endereco;
-        this.usuario.permissionario.endereco.numero = numero;
-        this.usuario.permissionario.endereco.complemento = complemento;
-        this.usuario.permissionario.endereco.bairro = bairro;
-        this.usuario.permissionario.endereco.municipio = municipio;
-        this.usuario.permissionario.endereco.uf = uf;
+      Usuario usuario = await _usuarioService.getUser();
+      if (usuario!=null) {
+        usuario.permissionario.endereco.cep = cep;
+        usuario.permissionario.endereco.endereco = endereco;
+        usuario.permissionario.endereco.numero = numero;
+        usuario.permissionario.endereco.complemento = complemento;
+        usuario.permissionario.endereco.bairro = bairro;
+        usuario.permissionario.endereco.municipio = municipio;
+        usuario.permissionario.endereco.uf = uf;
 
-        if (await _usuarioService.updateUser(this.usuario)) {
-          this._reloadUser();
+        if (await _usuarioService.updateUser(usuario)) {
           SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
         }
       }
@@ -287,7 +287,6 @@ abstract class _MainStore with Store {
       if (aux) {
         if (await this.isLoggedIn(context)) {
           if (await _usuarioService.updatePassword(senhaAtual: senhaAtual, novaSenha: senha)) {
-            this._reloadUser();
             SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
           }
         }
@@ -339,32 +338,29 @@ abstract class _MainStore with Store {
   @action
   Future<File> loadPhotoUser() async {
     try {
-      // if(!this.photoUser.existsSync()) {
-      //
-      //   final lastPhoto = await this._prefs.get(Preferences.KEY_LAST_PHOTO);
-      //
-      //   if(lastPhoto!=null){
-      //     final photo = File(lastPhoto);
-      //     if(await photo.exists()){
-      //       photo.delete();
-      //     }
-      //   }
-      //   this.photoUser = await this._usuarioService.downloadPhotoUser();
-      //
-      //   print(photoUser);
-      //   this._prefs.save(Preferences.KEY_LAST_PHOTO, this.photoUser.path);
-      // }
-      // else{
-        this.photoUser =  null;
-        // print("ELSEEEEEEEE");
-        // print(this.photoUser);
-        // print(this.photoUser.existsSync());
+      if(this.photoUser==null || !this.photoUser.existsSync()) {
 
-      //}
+        final lastPhoto = await this._prefs.get(Preferences.KEY_LAST_PHOTO);
+
+        if(lastPhoto!=null){
+          final photo = File(lastPhoto);
+          if(await photo.exists()){
+            photo.delete();
+          }
+        }
+        this.photoUser = await this._usuarioService.downloadPhotoUser();
+
+        print(photoUser);
+        this._prefs.save(Preferences.KEY_LAST_PHOTO, this.photoUser.path);
+      }
+      else{
+        print("ELSEEEEEEEE");
+        print(this.photoUser);
+        print(this.photoUser.existsSync());
+      }
 
     } catch (e) {
       this.photoUser = null;
-      print('exception');print(e);
     }
   }
 
@@ -380,11 +376,6 @@ abstract class _MainStore with Store {
   }
 
   Future<bool> isLoggedIn(BuildContext context) async {
-    this.usuario = await this._usuarioService.getUser();
-    return this.usuario != null;
-  }
-
-  Future<void> _reloadUser() async {
-    this.usuario = await this._usuarioService.getUser();
+    return await _usuarioService.getUser() != null;
   }
 }

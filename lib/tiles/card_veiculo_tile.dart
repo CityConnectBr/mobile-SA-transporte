@@ -49,20 +49,18 @@ class CardVeiculoTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
                 Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        "Modelo: ${this._veiculo.marcaModeloVeiculo.descricao}",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'InterBold',
+                      if (this._veiculo.marcaModeloVeiculo != null)
+                        Text(
+                          this._veiculo.marcaModeloVeiculo.descricao,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: 'InterBold',
+                          ),
                         ),
-                      ),
                       Text(
                         "Cor: ${this._veiculo.corVeiculo.descricao} / Ano: ${this._veiculo.anoDoModelo}",
                         style: TextStyle(

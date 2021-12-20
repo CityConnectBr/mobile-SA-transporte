@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     MainStore mainStore = Provider.of<MainStore>(context);
-
+    mainStore.loadUsuario();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -64,11 +64,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   padding: EdgeInsets.all(20.0),
                   child: Observer(builder: (_) {
-                    if (mainStore.usuario.tipo.id == 1) {
+                    if (mainStore.usuarioLogado!=null && mainStore.usuarioLogado.tipo.id == 1) {
                       return HomePermissionarioTile();
-                    } else if (mainStore.usuario.tipo.id == 2) {
+                    } else if (mainStore.usuarioLogado!=null && mainStore.usuarioLogado.tipo.id == 2) {
                       return HomeCondutorTile();
-                    } else if (mainStore.usuario.tipo.id == 3) {
+                    } else if (mainStore.usuarioLogado!=null && mainStore.usuarioLogado.tipo.id == 3) {
                       return HomeFiscalTile();
                     }
 

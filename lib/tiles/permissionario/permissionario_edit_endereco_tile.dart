@@ -61,17 +61,15 @@ class _PermissionarioEditEnderecoTileState extends State<PermissionarioEditEnder
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
 
-      _cepController.text = mainStore.usuario.permissionario.endereco.cep;
-      _addressController.text =
-          mainStore.usuario.permissionario.endereco.endereco;
-      _numController.text = mainStore.usuario.permissionario.endereco.numero;
-      _complementController.text =
-          mainStore.usuario.permissionario.endereco.complemento;
-      _bairroController.text =
-          mainStore.usuario.permissionario.endereco.bairro;
-      _municipioController.text =
-          mainStore.usuario.permissionario.endereco.municipio;
-      _uf = mainStore.usuario.permissionario.endereco.uf;
+      mainStore.loadUsuario().then((_) => {
+            _cepController.text = mainStore.usuarioLogado.permissionario.endereco.cep,
+            _addressController.text = mainStore.usuarioLogado.permissionario.endereco.endereco,
+            _numController.text = mainStore.usuarioLogado.permissionario.endereco.numero,
+            _complementController.text = mainStore.usuarioLogado.permissionario.endereco.complemento,
+            _bairroController.text = mainStore.usuarioLogado.permissionario.endereco.bairro,
+            _municipioController.text = mainStore.usuarioLogado.permissionario.endereco.municipio,
+            _uf = mainStore.usuarioLogado.permissionario.endereco.uf,
+          });
     }
 
     return Container(
@@ -198,11 +196,9 @@ class _PermissionarioEditEnderecoTileState extends State<PermissionarioEditEnder
                                 text: "Tem certeza que\ndeseja salvar?",
                                 voidCallbackSim: () {
                                   mainStore.saveEndereco(
-                                      cep: Util.clearString(
-                                          this._cepController.text),
+                                      cep: Util.clearString(this._cepController.text),
                                       endereco: this._addressController.text,
-                                      complemento:
-                                          this._complementController.text,
+                                      complemento: this._complementController.text,
                                       bairro: this._bairroController.text,
                                       numero: this._numController.text,
                                       municipio: this._municipioController.text,

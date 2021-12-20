@@ -45,7 +45,7 @@ class _CondutorUserScreenState extends State<CondutorUserScreen> with SingleTick
    // dev.debugger();
     CondutorStore _condutorStore = Provider.of<CondutorStore>(context);
     MainStore _mainStore = Provider.of<MainStore>(context);
-
+    _mainStore.loadUsuario();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -92,8 +92,8 @@ class _CondutorUserScreenState extends State<CondutorUserScreen> with SingleTick
           ),
           Center(
             child: [
-              CondutorEditDadosTile(_scaffoldKey, _mainStore.usuario.condutor),
-              CondutorEditEnderecoTile(_scaffoldKey, _mainStore.usuario.condutor),
+              CondutorEditDadosTile(_scaffoldKey, _mainStore.usuarioLogado!=null?_mainStore.usuarioLogado.condutor:""),
+              CondutorEditEnderecoTile(_scaffoldKey, _mainStore.usuarioLogado!=null?_mainStore.usuarioLogado.condutor:""),
               PermissionarioEditPasswordTile(_scaffoldKey)
             ][_tabController.index],
           ),

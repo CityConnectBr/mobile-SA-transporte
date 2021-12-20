@@ -6,6 +6,7 @@ import 'package:sa_transportes_mobile/screen/permissionario/permissionario_foto_
 import 'package:sa_transportes_mobile/screen/permissionario/alvara_digital_screen.dart';
 import 'package:sa_transportes_mobile/services/permissionario_service.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
+import 'package:sa_transportes_mobile/services/usuario_service.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/util/error_handler_util.dart';
 import 'package:sa_transportes_mobile/widgets/snack_message.dart';
@@ -23,6 +24,7 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
   final _permissionarioService = PermissionarioService();
   final _solicitacaoService = SolicitacaoDeAlteracaoService();
+  final _usuarioService = UsuarioService();
 
   String _lastSearch;
   String fotoCondutor;
@@ -75,8 +77,9 @@ abstract class _PermissionarioStore extends MainStore with Store {
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       //verificar se existe solicitacoes pendentes
+      final usuario = await _usuarioService.getUser();
       List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
-      (await _solicitacaoService.searchForSolicitacoes(tipoDaSolicitacao, super.usuario.permissionario.id.toString(), true, super.usuario));
+      (await _solicitacaoService.searchForSolicitacoes(tipoDaSolicitacao, usuario.permissionario.id.toString(), true, usuario));
 
       if (solicitacoesEmAberto.isNotEmpty) {
         this.solicitacaoExistente = true;
@@ -86,6 +89,24 @@ abstract class _PermissionarioStore extends MainStore with Store {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
     this.loading = false;
+  }
+
+  /////////////////////////
+  ///////Show Alvara//////
+  ////////////////////////
+  @action
+  Future<Permissionario> showAlvara({BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+
+    loading = true;
+    try {
+      final usuario = await _usuarioService.getUser();
+
+      return usuario.permissionario;
+      } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+
+    loading = false;
   }
 
   @action
@@ -101,8 +122,10 @@ abstract class _PermissionarioStore extends MainStore with Store {
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
       //verificar se existe solicitacoes pendentes
+      final usuario = await _usuarioService.getUser();
+
       solicitacaoExistente =
-          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_PERMISSIONARIO_FOTO, usuario.permissionario.id.toString(), true, super.usuario))
+          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_PERMISSIONARIO_FOTO, usuario.permissionario.id.toString(), true, usuario))
               .length >
               0;
     } catch (e) {
@@ -149,6 +172,8 @@ abstract class _PermissionarioStore extends MainStore with Store {
         aux = false;
         SnackMessages.showSnackBarError(context, scaffoldKey, "Nenhuma foto selecionada.");
       }
+      final usuario = await _usuarioService.getUser();
+
 
       if (aux) {
         this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
@@ -156,7 +181,7 @@ abstract class _PermissionarioStore extends MainStore with Store {
         this.solicitacaoDeAlteracao.arquivo1 = foto;
         solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_PERMISSIONARIO_FOTO.toString();
 
-        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, super.usuario);
+        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, usuario);
 
         this.showDialogMessageAfterCreateSolicitacao("Foto salva com suscesso!", context, () {
           Navigator.of(context).pop();

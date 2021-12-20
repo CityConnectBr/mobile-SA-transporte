@@ -73,19 +73,22 @@ class _PermissionarioEditDadosTileState extends State<PermissionarioEditDadosTil
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
 
-      _nomeController.text = mainStore.usuario.permissionario.nome;
-      _documentController.text = mainStore.usuario.permissionario.cpfCnpj;
-      _rgController.text = mainStore.usuario.permissionario.rg;
-      _natController.text = mainStore.usuario.permissionario.naturalidade;
-      _nacController.text = mainStore.usuario.permissionario.nacionalidade;
-      _inscricaoMunicipalController.text = mainStore.usuario.permissionario.inscricaoMunicipal;
-      _dataNascimentoController.text =
-          mainStore.usuario.permissionario.dataNascimento != null ? this._dateFormat.format(mainStore.usuario.permissionario.dataNascimento) : null;
-      _dddController.text = mainStore.usuario.permissionario.ddd;
-      _phoneController.text = mainStore.usuario.permissionario.telefone;
-      _phone2Controller.text = mainStore.usuario.permissionario.telefone2;
-      _celController.text = mainStore.usuario.permissionario.celular;
-      _emailController.text = mainStore.usuario.permissionario.email;
+      mainStore.loadUsuario().then((_) => {
+            _nomeController.text = mainStore.usuarioLogado.permissionario.nome,
+            _documentController.text = mainStore.usuarioLogado.permissionario.cpfCnpj,
+            _rgController.text = mainStore.usuarioLogado.permissionario.rg,
+            _natController.text = mainStore.usuarioLogado.permissionario.naturalidade,
+            _nacController.text = mainStore.usuarioLogado.permissionario.nacionalidade,
+            _inscricaoMunicipalController.text = mainStore.usuarioLogado.permissionario.inscricaoMunicipal,
+            _dataNascimentoController.text = mainStore.usuarioLogado.permissionario.dataNascimento != null
+                ? this._dateFormat.format(mainStore.usuarioLogado.permissionario.dataNascimento)
+                : null,
+            _dddController.text = mainStore.usuarioLogado.permissionario.ddd,
+            _phoneController.text = mainStore.usuarioLogado.permissionario.telefone,
+            _phone2Controller.text = mainStore.usuarioLogado.permissionario.telefone2,
+            _celController.text = mainStore.usuarioLogado.permissionario.celular,
+            _emailController.text = mainStore.usuarioLogado.permissionario.email,
+          });
     }
 
     return Container(

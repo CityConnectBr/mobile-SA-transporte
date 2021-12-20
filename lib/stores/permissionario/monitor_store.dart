@@ -7,6 +7,7 @@ import 'package:sa_transportes_mobile/screen/permissionario/monitor_foto_edit_sc
 import 'package:sa_transportes_mobile/screen/permissionario/new_monitor_screen.dart';
 import 'package:sa_transportes_mobile/services/monitor_service.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
+import 'package:sa_transportes_mobile/services/usuario_service.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/util/error_handler_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -25,6 +26,7 @@ abstract class _MonitorStore extends MainStore with Store {
 
   final _monitorService = MonitorService();
   final _solicitacaoService = SolicitacaoDeAlteracaoService();
+  final _usuarioService = UsuarioService();
 
   String _lastSearch;
   String fotoMonitor;
@@ -46,7 +48,7 @@ abstract class _MonitorStore extends MainStore with Store {
 
       await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false);
 
-      monitores = (await _monitorService.search(search, super.usuario)).map((model) => Monitor.fromJson(model)).toList();
+      monitores = (await _monitorService.search(search, await _usuarioService.getUser())).map((model) => Monitor.fromJson(model)).toList();
 
       print(monitores.length);
       if (monitores == null) {
@@ -70,7 +72,7 @@ abstract class _MonitorStore extends MainStore with Store {
 
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
-      this.monitores = (await this._monitorService.search("", super.usuario)).map((model) => Monitor.fromJson(model)).toList();
+      this.monitores = (await this._monitorService.search("", await _usuarioService.getUser())).map((model) => Monitor.fromJson(model)).toList();
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
@@ -113,7 +115,7 @@ abstract class _MonitorStore extends MainStore with Store {
 
       //verificar se existe solicitacoes pendentes
       solicitacaoExistente =
-          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_MONITOR_FOTO, monitor.id.toString(), true, super.usuario))
+          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_MONITOR_FOTO, monitor.id.toString(), true, await _usuarioService.getUser()))
                   .length >
               0;
     } catch (e) {
@@ -138,7 +140,7 @@ abstract class _MonitorStore extends MainStore with Store {
 
       //verificar se existe solicitacoes pendentes
       List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
-          (await _solicitacaoService.searchForSolicitacoes(tipoDaSolicitacao, monitor.id.toString(), true, super.usuario));
+          (await _solicitacaoService.searchForSolicitacoes(tipoDaSolicitacao, monitor.id.toString(), true, await _usuarioService.getUser()));
 
       if (solicitacoesEmAberto.isNotEmpty) {
         this.solicitacaoExistente = true;
@@ -172,7 +174,7 @@ abstract class _MonitorStore extends MainStore with Store {
         this.solicitacaoDeAlteracao.arquivo1 = foto;
         solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_MONITOR_FOTO.toString();
 
-        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, super.usuario);
+        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, await _usuarioService.getUser());
 
         this.showDialogMessageAfterCreateSolicitacao("Foto salva com suscesso!", context, () {
           Navigator.of(context).pop();
@@ -203,7 +205,7 @@ abstract class _MonitorStore extends MainStore with Store {
       this.solicitacaoDeAlteracao.campo1 = email;
       this.solicitacaoDeAlteracao.campo3 = telefone;
 
-      await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, super.usuario);
+      await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, await _usuarioService.getUser());
 
       this.showDialogMessageAfterCreateSolicitacao("Dados salvos com suscesso!", context, () {
         Navigator.of(context).pop();
@@ -245,7 +247,7 @@ abstract class _MonitorStore extends MainStore with Store {
         this.solicitacaoDeAlteracao.campo4 = Util.dateFormatyyyyMMdd.format(dataNasc);
         this.solicitacaoDeAlteracao.arquivo1 = imgComprovante;
 
-        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, super.usuario);
+        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, await _usuarioService.getUser());
 
         this.showDialogMessageAfterCreateSolicitacao("Dados salvos com suscesso!", context, () {
           Navigator.of(context).pop();
@@ -294,7 +296,7 @@ abstract class _MonitorStore extends MainStore with Store {
         this.solicitacaoDeAlteracao.campo7 = uf;
         this.solicitacaoDeAlteracao.arquivo1 = imgComprovanteEndereco;
 
-        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, super.usuario);
+        await this._solicitacaoService.createSolicitacao(solicitacaoDeAlteracao, await _usuarioService.getUser());
 
         this.showDialogMessageAfterCreateSolicitacao("Dados salvos com suscesso!", context, () {
           Navigator.of(context).pop();
@@ -443,7 +445,7 @@ abstract class _MonitorStore extends MainStore with Store {
         voidCallbackSim: () async {
           try {
             this.solicitacaoDeAlteracao.arquivo3 = fotoMonitor;
-            await this._solicitacaoService.createSolicitacao(this.solicitacaoDeAlteracao, super.usuario).then((_) => Navigator.of(context).pop(true));
+            await this._solicitacaoService.createSolicitacao(this.solicitacaoDeAlteracao, await _usuarioService.getUser()).then((_) => Navigator.of(context).pop(true));
           } catch (e) {
             SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser().toString().replaceAll("endereco.", ""));
           }
@@ -466,7 +468,7 @@ abstract class _MonitorStore extends MainStore with Store {
   @action
   Future<File> loadPhotoFromMonitor(Monitor monitor) async {
     try {
-      return await this._monitorService.downloadPhoto(monitor, super.usuario);
+      return await this._monitorService.downloadPhoto(monitor, await _usuarioService.getUser());
     } catch (e) {}
     return null;
   }

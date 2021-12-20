@@ -1,5 +1,6 @@
 import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
+import 'package:sa_transportes_mobile/services/usuario_service.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/util/error_handler_util.dart';
 import 'package:sa_transportes_mobile/widgets/snack_message.dart';
@@ -13,6 +14,7 @@ class SolicitacaoStore = _SolicitacaoStore with _$SolicitacaoStore;
 
 abstract class _SolicitacaoStore extends MainStore with Store {
   final _solicitacaoService = SolicitacaoDeAlteracaoService();
+  final _usuarioService = UsuarioService();
 
   String _lastSearch;
 
@@ -28,7 +30,7 @@ abstract class _SolicitacaoStore extends MainStore with Store {
 
       await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false);
 
-      solicitacoes = (await _solicitacaoService.search(search, super.usuario)).map((model) => SolicitacaoDeAlteracao.fromJson(model)).toList();
+      solicitacoes = (await _solicitacaoService.search(search, await _usuarioService.getUser())).map((model) => SolicitacaoDeAlteracao.fromJson(model)).toList();
 
       if (solicitacoes == null) {
         solicitacoes = [];
@@ -51,7 +53,7 @@ abstract class _SolicitacaoStore extends MainStore with Store {
 
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
-      this.solicitacoes = (await this._solicitacaoService.search("", super.usuario)).map((model) => SolicitacaoDeAlteracao.fromJson(model)).toList();
+      this.solicitacoes = (await this._solicitacaoService.search("", await _usuarioService.getUser())).map((model) => SolicitacaoDeAlteracao.fromJson(model)).toList();
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }

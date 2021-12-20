@@ -107,23 +107,20 @@ class MainService {
 
   String makeEndPoint({String endPoint, Usuario usuario, int endPointVersion}) {
     String endPointAux = "/api";
-
+    print(usuario.tipoId);
     if (usuario != null) {
-      switch (usuario.tipo.id) {
-        case 1:
-          endPointAux += "/permissionarios";
-          break;
-        case 2:
-          endPointAux += "/condutores";
-          break;
-        case 3:
-          endPointAux += "/fiscais";
-          break;
-      }
+      if(usuario.tipoId.toString().compareTo("1")==0)
+        endPointAux += "/permissionarios";
+      else if(usuario.tipoId.toString().compareTo("2")==0)
+        endPointAux += "/condutores";
+      else if(usuario.tipoId.toString().compareTo("3")==0)
+        endPointAux += "/fiscais";
+    }else{
+      endPointAux += "/else"+usuario.tipoId.toString();
     }
 
     endPointAux += endPointVersion != null ? "/v${endPointVersion}" : "/v${this.endPointVersion}"; //setando versao
-
+    print(endPointAux + (endPoint != null ? endPoint : this.endPoint));
     return endPointAux + (endPoint != null ? endPoint : this.endPoint);
   }
 

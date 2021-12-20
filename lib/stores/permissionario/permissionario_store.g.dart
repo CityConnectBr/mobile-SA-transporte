@@ -25,6 +25,16 @@ mixin _$PermissionarioStore on _PermissionarioStore, Store {
         screenToOpen: screenToOpen));
   }
 
+  final _$showAlvaraAsyncAction =
+      AsyncAction('_PermissionarioStore.showAlvara');
+
+  @override
+  Future<Permissionario> showAlvara(
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$showAlvaraAsyncAction.run(
+        () => super.showAlvara(context: context, scaffoldKey: scaffoldKey));
+  }
+
   final _$editFotoAsyncAction = AsyncAction('_PermissionarioStore.editFoto');
 
   @override

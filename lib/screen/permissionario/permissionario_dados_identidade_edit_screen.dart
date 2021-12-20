@@ -72,7 +72,7 @@ class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeS
   @override
   Widget build(BuildContext context) {
     PermissionarioStore permissionarioStore = Provider.of<PermissionarioStore>(context);
-
+    permissionarioStore.loadUsuario();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -105,14 +105,14 @@ class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeS
                   _dataNascimentoController.text = permissionarioStore.solicitacaoDeAlteracao.campo4 != null
                       ? Util.convertyyyyMMddToddMMyyyy(permissionarioStore.solicitacaoDeAlteracao.campo4)
                       : null;
-                } else {
-                  _nomeController.text = permissionarioStore.usuario.permissionario.nome;
-                  _documentController.text = permissionarioStore.usuario.permissionario.cpfCnpj;
-                  _rgController.text = permissionarioStore.usuario.permissionario.rg;
-                  _natController.text = permissionarioStore.usuario.permissionario.naturalidade;
-                  _nacController.text = permissionarioStore.usuario.permissionario.nacionalidade;
-                  _dataNascimentoController.text = permissionarioStore.usuario.permissionario.dataNascimento != null
-                      ? this._dateFormat.format(permissionarioStore.usuario.permissionario.dataNascimento)
+                } else if(permissionarioStore.usuarioLogado!=null){
+                  _nomeController.text = permissionarioStore.usuarioLogado.permissionario.nome;
+                  _documentController.text = permissionarioStore.usuarioLogado.permissionario.cpfCnpj;
+                  _rgController.text = permissionarioStore.usuarioLogado.permissionario.rg;
+                  _natController.text = permissionarioStore.usuarioLogado.permissionario.naturalidade;
+                  _nacController.text = permissionarioStore.usuarioLogado.permissionario.nacionalidade;
+                  _dataNascimentoController.text = permissionarioStore.usuarioLogado.permissionario.dataNascimento != null
+                      ? this._dateFormat.format(permissionarioStore.usuarioLogado.permissionario.dataNascimento)
                       : null;
                 }
               }

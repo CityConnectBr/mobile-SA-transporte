@@ -7,12 +7,12 @@ import 'package:sa_transportes_mobile/models/tipo_veiculo_model.dart';
 import 'package:sa_transportes_mobile/models/veiculo_model.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/new_veiculo_screen.dart';
 import 'package:sa_transportes_mobile/screen/veiculo_edit_screen.dart';
-import 'package:sa_transportes_mobile/screen/veiculo_show_screen.dart';
 import 'package:sa_transportes_mobile/services/cor_veiculo_service.dart';
 import 'package:sa_transportes_mobile/services/marca_modelo_veiculo_service.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
 import 'package:sa_transportes_mobile/services/tipo_combustivel_service.dart';
 import 'package:sa_transportes_mobile/services/tipo_veiculo_service.dart';
+import 'package:sa_transportes_mobile/services/usuario_service.dart';
 import 'package:sa_transportes_mobile/services/veiculo_service.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/util/error_handler_util.dart';
@@ -21,7 +21,6 @@ import 'package:sa_transportes_mobile/widgets/custom_dialog.dart';
 import 'package:sa_transportes_mobile/widgets/snack_message.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'dart:developer' as dev;
 
 part 'veiculo_store.g.dart';
 
@@ -40,6 +39,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   final _tipoCombustivelService = TipoCombustivelService();
   final _corVeiculoService = CorVeiculoService();
   final _tipoVeiculoService = TipoVeiculoService();
+  final _usuarioService = UsuarioService();
 
   String _lastSearch;
 
@@ -55,7 +55,7 @@ abstract class _VeiculoStore extends MainStore with Store {
 
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
-      veiculos = (await _veiculoService.search(search, super.usuario)).map((model) => Veiculo.fromJson(model)).toList();
+      veiculos = (await _veiculoService.search(search, await _usuarioService.getUser())).map((model) => Veiculo.fromJson(model)).toList();
 
       if (veiculos == null) {
         veiculos = [];
@@ -76,11 +76,9 @@ abstract class _VeiculoStore extends MainStore with Store {
     try {
       this._lastSearch = null;
 
-
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
-      //dev.debugger();
-      this.veiculos = (await this._veiculoService.search("", super.usuario)).map((model) => Veiculo.fromJson(model)).toList();
 
+      this.veiculos = (await this._veiculoService.search("", await _usuarioService.getUser())).map((model) => Veiculo.fromJson(model)).toList();
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
@@ -101,7 +99,15 @@ abstract class _VeiculoStore extends MainStore with Store {
 
       this.veiculo = veiculo;
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoEditScreen(this.veiculo)));
+      final usuario = await _usuarioService.getUser();
+      int mode = 0;
+      if(usuario.permissionario!=null){
+        mode = 1;
+      }else if(usuario.fiscal!=null){
+        mode = 2;
+      }
+
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoEditScreen(this.veiculo, mode)));
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
@@ -123,7 +129,7 @@ abstract class _VeiculoStore extends MainStore with Store {
 
       //verificar se existe solicitacoes pendentes
       List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
-          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_VEICULO, veiculo.id.toString(), true, super.usuario));
+          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_VEICULO, veiculo.id.toString(), true, await _usuarioService.getUser()));
 
       if (solicitacoesEmAberto.isNotEmpty) {
         this.solicitacaoExistente = true;
@@ -243,7 +249,7 @@ abstract class _VeiculoStore extends MainStore with Store {
             text: "Tem certeza que\ndeseja salvar?",
             voidCallbackSim: () async {
               try {
-                await this._solicitacaoService.createSolicitacao(this.solicitacaoDeAlteracao, super.usuario).then((_) => Navigator.of(context).pop(true));
+                await this._solicitacaoService.createSolicitacao(this.solicitacaoDeAlteracao, await _usuarioService.getUser()).then((_) => Navigator.of(context).pop(true));
               } catch (e) {
                 SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser().toString());
               }
@@ -263,9 +269,9 @@ abstract class _VeiculoStore extends MainStore with Store {
   ////////////////////////////////
 
   Future<List<Suggestion>> searchMarcaModelo(String search) async {
-    List<Suggestion> suggestionList = [];
+    List<Suggestion> suggestionList = List();
     try {
-      (await _marcaModeloVeiculoService.search(search, super.usuario)).forEach((element) {
+      (await _marcaModeloVeiculoService.search(search, await _usuarioService.getUser())).forEach((element) {
         suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
       });
 
@@ -281,7 +287,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<MarcaModeloVeiculo> findMarcaModeloById(String id) async {
     loading = true;
     try {
-      return MarcaModeloVeiculo.fromJson(await _marcaModeloVeiculoService.get(int.parse(id), usuario));
+      return MarcaModeloVeiculo.fromJson(await _marcaModeloVeiculoService.get(int.parse(id), await _usuarioService.getUser()));
     } catch (e) {
     }
     loading = false;
@@ -290,7 +296,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<List<Suggestion>> searchTipoCombustivel(String search) async {
     List<Suggestion> suggestionList = List();
     try {
-      (await _tipoCombustivelService.search(search, super.usuario)).forEach((element) {
+      (await _tipoCombustivelService.search(search, await _usuarioService.getUser())).forEach((element) {
         suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
       });
 
@@ -304,7 +310,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<TipoCombustivel> findTipoCombustivelById(String id) async {
     loading = true;
     try {
-      return TipoCombustivel.fromJson(await _tipoCombustivelService.get(int.parse(id), usuario));
+      return TipoCombustivel.fromJson(await _tipoCombustivelService.get(int.parse(id), await _usuarioService.getUser()));
     } catch (e) {
     }
     loading = false;
@@ -313,7 +319,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<List<Suggestion>> searchTipoVeiculo(String search) async {
     List<Suggestion> suggestionList = List();
     try {
-      (await _tipoVeiculoService.search(search, super.usuario)).forEach((element) {
+      (await _tipoVeiculoService.search(search, await _usuarioService.getUser())).forEach((element) {
         suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
       });
 
@@ -327,7 +333,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<TipoVeiculo> findTipoVeiculoById(String id) async {
     loading = true;
     try {
-      return TipoVeiculo.fromJson(await _tipoVeiculoService.get(int.parse(id), usuario));
+      return TipoVeiculo.fromJson(await _tipoVeiculoService.get(int.parse(id), await _usuarioService.getUser()));
     } catch (e) {
     }
     loading = false;
@@ -336,7 +342,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<List<Suggestion>> searchCorVeiculo(String search) async {
     List<Suggestion> suggestionList = List();
     try {
-      (await _corVeiculoService.search(search, super.usuario)).forEach((element) {
+      (await _corVeiculoService.search(search, await _usuarioService.getUser())).forEach((element) {
         suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
       });
 
@@ -350,7 +356,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<CorVeiculo> findCorVeiculoById(String id) async {
     loading = true;
     try {
-      return CorVeiculo.fromJson(await _corVeiculoService.get(int.parse(id), usuario));
+      return CorVeiculo.fromJson(await _corVeiculoService.get(int.parse(id), await _usuarioService.getUser()));
     } catch (e) {
     }
     loading = false;
