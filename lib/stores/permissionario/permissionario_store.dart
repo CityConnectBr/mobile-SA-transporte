@@ -47,7 +47,7 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
       await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false);
 
-      permissionarios = (await _permissionarioService.search(search, super.usuario)).map((model) => Permissionario.fromJson(model)).toList();
+      permissionarios = (await _permissionarioService.search(search, super.usuarioLogado)).map((model) => Permissionario.fromJson(model)).toList();
 
       print(permissionarios.length);
       if (permissionarios == null) {
@@ -94,20 +94,20 @@ abstract class _PermissionarioStore extends MainStore with Store {
   /////////////////////////
   ///////Show Alvara//////
   ////////////////////////
-  @action
-  Future<Permissionario> showAlvara({BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
-
-    loading = true;
-    try {
-      final usuario = await _usuarioService.getUser();
-print(usuario.permissionario);
-      return usuario.permissionario;
-      } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
-    }
-
-    loading = false;
-  }
+//   @action
+//   Future<Permissionario> showAlvara({BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+//
+//     loading = true;
+//     try {
+//       final usuario = await _usuarioService.getUser();
+// print(usuario.permissionario);
+//       return usuario.permissionario;
+//       } catch (e) {
+//       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+//     }
+//
+//     loading = false;
+//   }
 
   @action
   Future<void> editFoto({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
@@ -148,7 +148,7 @@ print(usuario.permissionario);
 
       assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
       // dev.debugger();
-      this.permissionarios = (await this._permissionarioService.search("", super.usuario)).map((model) => Permissionario.fromJson(model)).toList();
+      this.permissionarios = (await this._permissionarioService.search("", super.usuarioLogado)).map((model) => Permissionario.fromJson(model)).toList();
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }

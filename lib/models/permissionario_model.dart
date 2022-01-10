@@ -19,7 +19,7 @@ class Permissionario {
   String nacionalidade;
   String prefixo;
   String cnh;
-  String prefixo;
+  //String prefixo;
   String categoriaCNH; //categoria_cnh
   DateTime vencimentoCNH; //vencimento_cnh
   String cpfCnpj;

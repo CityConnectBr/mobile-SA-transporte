@@ -141,7 +141,7 @@ class MenuDrawerTile extends StatelessWidget {
                                     )),
                               );
                             })),
-    if (mainStore.usuario.tipo.id == 4)
+    if (mainStore.usuarioLogado.tipo.id == 4)
                             Positioned(
                             right: -20.0,
                             top: -15.0,
