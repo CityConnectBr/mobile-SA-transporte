@@ -56,6 +56,8 @@ class CustomInputFieldGrey extends StatelessWidget {
   final Function onChanged;
   final TextEditingController controller;
   final int maxLength;
+  final int maxLines;
+  final bool alignLabelWithHint;
 
   CustomInputFieldGrey({
     this.controller,
@@ -70,7 +72,9 @@ class CustomInputFieldGrey extends StatelessWidget {
     this.onEditingComplete,
     this.onChanged,
     this.enabled=true,
-    this.maxLength=null
+    this.maxLength=null,
+    this.maxLines=1,
+    this.alignLabelWithHint=false,
   });
 
   @override
@@ -86,6 +90,8 @@ class CustomInputFieldGrey extends StatelessWidget {
         hintText: hint,
         labelText: label,
         labelStyle: TextStyle(fontWeight: FontWeight.bold),
+        //textAlign: TextAlign.start,
+        alignLabelWithHint: alignLabelWithHint,
         errorText: null,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -112,6 +118,7 @@ class CustomInputFieldGrey extends StatelessWidget {
       validator: validator,
       enabled: enabled != null ? enabled : true,
       maxLength: maxLength,
+      maxLines: maxLines,
     );
   }
 }

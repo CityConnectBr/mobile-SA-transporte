@@ -113,7 +113,7 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
                     condutorStore.solicitacaoExistente
                         ? CustomAlertMessage(
                             type: CustomAlertMessage.WANNING,
-                            message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                            message: "Já existe uma solicitação em andamento! Uma nova alteração irá cancelar a solicitação anterior.",
                           )
                         : Container(),
                     SizedBox(

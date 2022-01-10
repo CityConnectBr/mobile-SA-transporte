@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:sa_transportes_mobile/screen/condutor/alvara_digital_screen.dart';
 import 'package:sa_transportes_mobile/screen/condutor_search_screen.dart';
 import 'package:sa_transportes_mobile/screen/fiscal/emissao_multa_screen.dart';
+import 'package:sa_transportes_mobile/screen/fiscal/veiculo_perm_search_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/alvara_digital_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/boletos_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/monitor_search_screen.dart';
@@ -101,13 +102,13 @@ class MenuDrawerTile extends StatelessWidget {
       CustomListTile(
           title: "VEÍCULOS",
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoPermScreen()));
           }),
       SizedBox(height: heightSpace),
       CustomListTile(
-          title: "EMISSÃO DE MULTAS",
+          title: "MULTAS EMITIDAS",
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => EmissaoDeMultaScreen()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SolicitacaoScreen()));
           }),
       SizedBox(height: height * .30),
     ];

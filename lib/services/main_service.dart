@@ -107,7 +107,7 @@ class MainService {
 
   String makeEndPoint({String endPoint, Usuario usuario, int endPointVersion}) {
     String endPointAux = "/api";
-    print(usuario.tipoId);
+
     if (usuario != null) {
       if(usuario.tipoId.toString().compareTo("1")==0)
         endPointAux += "/permissionarios";
@@ -120,7 +120,7 @@ class MainService {
     }
 
     endPointAux += endPointVersion != null ? "/v${endPointVersion}" : "/v${this.endPointVersion}"; //setando versao
-    print(endPointAux + (endPoint != null ? endPoint : this.endPoint));
+   // print(endPointAux + (endPoint != null ? endPoint : this.endPoint));
     return endPointAux + (endPoint != null ? endPoint : this.endPoint);
   }
 

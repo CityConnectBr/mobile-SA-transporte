@@ -91,13 +91,13 @@ class _AlvaraDigitalPermissionarioScreenState extends State<AlvaraDigitalPermiss
           child: ListView(
             children: <Widget>[
               Observer(builder: (_) {
-                /*if (_permissionarioStore.loading)
+                if (_permissionarioStore.loading)
                   return Container(
                     margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
-                  );*/
+                  );
 
                 if (!this._flagIsLoad) {
                   //this._flagIsLoad = true;
@@ -161,10 +161,10 @@ class _AlvaraDigitalPermissionarioScreenState extends State<AlvaraDigitalPermiss
                                   ),
                                 ],
                               ),
-                              /*SizedBox(
+                              SizedBox(
                                 height: 10.0,
                               ),
-                              CustomInputFieldGrey(
+                              /*CustomInputFieldGrey(
                                 controller: _veiculoController,
                                 label: "Veículo",
                                 hint: "Veículo",

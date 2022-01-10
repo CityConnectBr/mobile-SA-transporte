@@ -51,7 +51,7 @@ abstract class _MainStore with Store {
       //armazenando token gerado
       await _prefs.save(Preferences.KEY_LAST_JWT, token);
 
-      final usuario = await _usuarioService.getUser();
+      final usuario = await Future.value(_usuarioService.getUser()).timeout(const Duration(seconds:5));
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
     } catch (e) {
       print(e);

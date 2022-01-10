@@ -100,7 +100,7 @@ abstract class _PermissionarioStore extends MainStore with Store {
     loading = true;
     try {
       final usuario = await _usuarioService.getUser();
-
+print(usuario.permissionario);
       return usuario.permissionario;
       } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());

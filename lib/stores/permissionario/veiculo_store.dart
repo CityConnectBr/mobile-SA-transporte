@@ -5,6 +5,7 @@ import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
 import 'package:sa_transportes_mobile/models/tipo_combustivel_model.dart';
 import 'package:sa_transportes_mobile/models/tipo_veiculo_model.dart';
 import 'package:sa_transportes_mobile/models/veiculo_model.dart';
+import 'package:sa_transportes_mobile/screen/fiscal/veiculo_perm_edit_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/new_veiculo_screen.dart';
 import 'package:sa_transportes_mobile/screen/veiculo_edit_screen.dart';
 import 'package:sa_transportes_mobile/services/cor_veiculo_service.dart';
@@ -103,11 +104,14 @@ abstract class _VeiculoStore extends MainStore with Store {
       int mode = 0;
       if(usuario.permissionario!=null){
         mode = 1;
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoEditScreen(this.veiculo, mode)));
       }else if(usuario.fiscal!=null){
         mode = 2;
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoPermEditScreen(this.veiculo)));
       }
-
+      else{
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoEditScreen(this.veiculo, mode)));
+      }
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
@@ -117,7 +121,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   @action
   Future<void> editVeiculo({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey, Widget screenToOpen}) async {
     try {
-      print("---------------");
+      //print("---------------");
       this.solicitacaoDeAlteracao = null; //zerando solicitacao
       this.solicitacaoExistente = false; //zerando solicitacao
 
@@ -142,6 +146,91 @@ abstract class _VeiculoStore extends MainStore with Store {
     this.loading = false;
   }
 
+  @action
+  Future<void> solicitarMulta(
+      {@required BuildContext context,
+        @required GlobalKey<ScaffoldState> scaffoldKey,
+        @required int tipoDaSolicitacao,
+        Widget screenToOpen}) async {
+    try {
+      this.loading = true;
+
+      solicitacaoDeAlteracao = null; //zerando solicitacao
+      solicitacaoExistente = false; //zerando solicitacao
+
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => screenToOpen));
+
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
+
+      //verificar se existe solicitacoes pendentes
+      List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
+      (await _solicitacaoService.searchForSolicitacoes(
+          tipoDaSolicitacao, veiculo.id.toString(), true, await _usuarioService.getUser()));
+
+      if (solicitacoesEmAberto.isNotEmpty) {
+        this.solicitacaoExistente = true;
+        this.solicitacaoDeAlteracao = solicitacoesEmAberto.last;
+      }
+    } catch (e) {
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+    this.loading = false;
+  }
+
+  @action
+  Future<void> saveSolicitacaoMulta({
+    String nome,
+    String renavam,
+    String placa,
+    String descricao,
+    String veiculo_nome,
+    String data,
+    String hora,
+    String veiculo_id,
+    Veiculo veiculo,
+    BuildContext context,
+    GlobalKey<ScaffoldState> scaffoldKey,
+  }) async {
+    loading = true;
+
+    try {
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
+
+      this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
+      this.solicitacaoDeAlteracao.referenciaId = veiculo.id.toString();
+      this.solicitacaoDeAlteracao.tipoSolicitacaoId =
+          SolicitacaoDeAlteracaoService.TIPO_FISCAL_MULTA.toString();
+      this.solicitacaoDeAlteracao.campo1 = data;
+      this.solicitacaoDeAlteracao.campo2 = hora;
+      this.solicitacaoDeAlteracao.campo3 = descricao;
+      this.solicitacaoDeAlteracao.campo4 = veiculo_id;
+
+      print("ref id: ${this.solicitacaoDeAlteracao.referenciaId}");
+      print("tipo solic: ${this.solicitacaoDeAlteracao.tipoSolicitacaoId}");
+      print("campo1 date: ${this.solicitacaoDeAlteracao.campo1}");
+      print("campo2 hora: ${this.solicitacaoDeAlteracao.campo2}");
+      print("campo3 desc: ${this.solicitacaoDeAlteracao.campo3}");
+      print("campo4 veic id: ${this.solicitacaoDeAlteracao.campo4}");
+
+      await Future.value(this
+          ._solicitacaoService
+          .createSolicitacao(solicitacaoDeAlteracao, await _usuarioService.getUser())).timeout(const Duration(seconds:5));
+      print('solicitacao criada');
+      this.showDialogMessageAfterCreateSolicitacao(
+          "Dados salvos com suscesso!", context, () {
+        Navigator.of(context).pop(veiculo);
+      });
+    } catch (e) {
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+
+    loading = false;
+  }
   ////////////////////////////////
   /////////////// NOVO VEICULO
   ////////////////////////////////

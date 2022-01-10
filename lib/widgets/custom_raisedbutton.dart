@@ -66,7 +66,7 @@ class CustomRaisedButtonBlue extends StatelessWidget {
         ),
         textColor: Colors.white,
         color: Util.hexToColor("#2d9cdb"),
-        onPressed: this.func,
+        onPressed: this.func ?? () {},
       ),
     );
   }

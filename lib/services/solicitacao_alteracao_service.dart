@@ -6,6 +6,7 @@ import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
 import 'package:sa_transportes_mobile/models/usuario_model.dart';
 import 'package:sa_transportes_mobile/services/main_service.dart';
 import 'package:dio/dio.dart';
+import 'dart:developer' as dev;
 
 class SolicitacaoDeAlteracaoService extends MainService {
   static final int TIPO_CONDUTOR_CONTATO = 1;
@@ -31,6 +32,7 @@ class SolicitacaoDeAlteracaoService extends MainService {
   static final int TIPO_FISCAL_ENDERECO = 31;
   static final int TIPO_FISCAL_IDENTIDADE = 32;
   static final int TIPO_FISCAL_FOTO = 33;
+  static final int TIPO_FISCAL_MULTA = 60;
 
   static final int TIPO_VEICULO = 40;
 
@@ -61,6 +63,8 @@ class SolicitacaoDeAlteracaoService extends MainService {
 
     //fileMap.addAll(solicitacaoDeAlteracao.toMap());
 
+    //print(FormData.fromMap(fileMap).toString());
+    //dev.debugger();
     await dio.post(makeEndPoint(usuario: usuarioLogged), data: FormData.fromMap(fileMap));
   }
 
