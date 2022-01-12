@@ -45,8 +45,11 @@ class SolicitacaoDeAlteracaoService extends MainService {
     Map<String, dynamic> fileMap = solicitacaoDeAlteracao.toMap();
 
     if (solicitacaoDeAlteracao.arquivo1 != null) {
+      print('arquivo1');
       File arquivo1 = File(solicitacaoDeAlteracao.arquivo1);
       fileMap["arquivo1"] = MultipartFile(arquivo1.openRead(), await arquivo1.length(), filename: "arquivo1.jpg");
+      print(fileMap["arquivo1"]);
+
     }
 
     if (solicitacaoDeAlteracao.arquivo2 != null) {
@@ -64,7 +67,8 @@ class SolicitacaoDeAlteracaoService extends MainService {
     //fileMap.addAll(solicitacaoDeAlteracao.toMap());
 
     //print(FormData.fromMap(fileMap).toString());
-    //dev.debugger();
+    print(fileMap);
+    dev.debugger();
     await dio.post(makeEndPoint(usuario: usuarioLogged), data: FormData.fromMap(fileMap));
   }
 

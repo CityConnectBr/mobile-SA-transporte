@@ -8,6 +8,7 @@ import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/util/validators.dart';
 import 'package:sa_transportes_mobile/widgets/custom_alert_message.dart';
 import 'package:sa_transportes_mobile/widgets/custom_dialog.dart';
+import 'package:sa_transportes_mobile/widgets/custom_image_picker_field.dart';
 import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,7 @@ class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
 
   bool _flagCelular = true;
   bool _flagIsLoad = false;
+  String _image;
 
   // void _controllerMaskCelular(String valor) {
   //   if (valor.length > 9 && _flagCelular) {
@@ -137,7 +139,7 @@ class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
                   // _celController.text = condutorStore.condutor.celular;
                   _nomeController.text = this._veiculo.permissionario?.nome;
                   _placaController.text = this._veiculo?.placa;
-                  _veiculoController.text = this._veiculo.id.toString();//this._veiculo?.marcaModeloCarroceria?.modelo;
+                  _veiculoController.text =   this._veiculo?.marcaModeloCarroceria?.modelo;
                   _descricaoController.text = null;
                   _renavamController.text = this._veiculo?.renavam;
                   _dataController.text = DateFormat('dd/MM/yyyy').format(DateTime.now())??null;
@@ -260,7 +262,16 @@ class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
                             alignLabelWithHint: true,
                             //onChanged: _controllerMaskCelular,
                           ),
-
+                          SizedBox(
+                            height:16.0,
+                          ),
+                          CustomImagePickerField(
+                            imagePath: this._image,
+                            text: "Foto do veículo",
+                            callBack: (String imgPath) {
+                              this._image = imgPath;
+                            },
+                          ),
                           SizedBox(
                             height: 30.0,
                           ),
@@ -282,6 +293,7 @@ class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
                                             hora: this._horaController.text,
                                             veiculo_id: this._veiculo.id.toString(),
                                             veiculo: this._veiculo,
+                                            imagemVeiculo: this._image,
                                             context: context,
                                             scaffoldKey: _scaffoldKey);
                                       },

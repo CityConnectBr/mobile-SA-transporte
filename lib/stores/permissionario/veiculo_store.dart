@@ -187,12 +187,13 @@ abstract class _VeiculoStore extends MainStore with Store {
     String placa,
     String descricao,
     String veiculo_nome,
-    String data,
-    String hora,
-    String veiculo_id,
-    Veiculo veiculo,
-    BuildContext context,
-    GlobalKey<ScaffoldState> scaffoldKey,
+    @required String data,
+    @required String hora,
+    @required String veiculo_id,
+    @required Veiculo veiculo,
+    String imagemVeiculo,
+    @required BuildContext context,
+    @required GlobalKey<ScaffoldState> scaffoldKey,
   }) async {
     loading = true;
 
@@ -209,12 +210,20 @@ abstract class _VeiculoStore extends MainStore with Store {
       this.solicitacaoDeAlteracao.campo3 = descricao;
       this.solicitacaoDeAlteracao.campo4 = veiculo_id;
 
+      if (imagemVeiculo == null || imagemVeiculo.isEmpty) {
+       imagemVeiculo = 'assets/images/solicitacao-multa.jpg';
+      }
+      this.solicitacaoDeAlteracao.arquivo1 = imagemVeiculo;
+
       print("ref id: ${this.solicitacaoDeAlteracao.referenciaId}");
       print("tipo solic: ${this.solicitacaoDeAlteracao.tipoSolicitacaoId}");
       print("campo1 date: ${this.solicitacaoDeAlteracao.campo1}");
       print("campo2 hora: ${this.solicitacaoDeAlteracao.campo2}");
       print("campo3 desc: ${this.solicitacaoDeAlteracao.campo3}");
       print("campo4 veic id: ${this.solicitacaoDeAlteracao.campo4}");
+      print("img ${imagemVeiculo}");
+      //print(Image(image: AssetImage('images/solicitacao-multa.jpg')));
+      //print(Image.asset('assets/images/solicitacao-multa.jpg'));
 
       await Future.value(this
           ._solicitacaoService
