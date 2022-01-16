@@ -1,4 +1,3 @@
-
 import 'package:sa_transportes_mobile/models/cor_veiculo_model.dart';
 import 'package:sa_transportes_mobile/models/marca_modelo_veiculo_model.dart';
 import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
@@ -48,21 +47,29 @@ abstract class _VeiculoStore extends MainStore with Store {
   List<Veiculo> veiculos;
 
   @action
-  Future<void> pesquisar({String search, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> pesquisar(
+      {String search,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     try {
       this._lastSearch = search;
 
-      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
 
-      veiculos = (await _veiculoService.search(search, await _usuarioService.getUser())).map((model) => Veiculo.fromJson(model)).toList();
+      veiculos = (await _veiculoService.search(
+              search, await _usuarioService.getUser()))
+          .map((model) => Veiculo.fromJson(model))
+          .toList();
 
       if (veiculos == null) {
         veiculos = [];
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
 
       veiculos = [];
     }
@@ -71,17 +78,24 @@ abstract class _VeiculoStore extends MainStore with Store {
   }
 
   @action
-  Future<void> firstLoadList({BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> firstLoadList(
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     try {
       this._lastSearch = null;
 
-      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
 
-      this.veiculos = (await this._veiculoService.search("", await _usuarioService.getUser())).map((model) => Veiculo.fromJson(model)).toList();
+      this.veiculos = (await this
+              ._veiculoService
+              .search("", await _usuarioService.getUser()))
+          .map((model) => Veiculo.fromJson(model))
+          .toList();
     } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
 
     loading = false;
@@ -92,82 +106,64 @@ abstract class _VeiculoStore extends MainStore with Store {
   ////////////////////////////////
 
   @action
-  Future<void> showVeiculo({@required Veiculo veiculo, @required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> showVeiculo(
+      {@required Veiculo veiculo,
+      @required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey}) async {
     try {
       this.loading = true;
 
-      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
 
       this.veiculo = veiculo;
 
       final usuario = await _usuarioService.getUser();
       int mode = 0;
-      if(usuario.permissionario!=null){
+      if (usuario.permissionario != null) {
         mode = 1;
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoEditScreen(this.veiculo, mode)));
-      }else if(usuario.fiscal!=null){
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => VeiculoEditScreen(this.veiculo, mode)));
+      } else if (usuario.fiscal != null) {
         mode = 2;
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoPermEditScreen(this.veiculo)));
-      }
-      else{
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoEditScreen(this.veiculo, mode)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => VeiculoPermEditScreen(this.veiculo)));
+      } else {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => VeiculoEditScreen(this.veiculo, mode)));
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
     this.loading = false;
   }
 
   @action
-  Future<void> editVeiculo({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey, Widget screenToOpen}) async {
+  Future<void> editVeiculo(
+      {@required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey,
+      Widget screenToOpen}) async {
     try {
       //print("---------------");
       this.solicitacaoDeAlteracao = null; //zerando solicitacao
       this.solicitacaoExistente = false; //zerando solicitacao
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => screenToOpen));
-
-      this.loading = true;
-
-      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
-
-      //verificar se existe solicitacoes pendentes
-      List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
-          (await _solicitacaoService.searchForSolicitacoes(SolicitacaoDeAlteracaoService.TIPO_VEICULO, veiculo.id.toString(), true, await _usuarioService.getUser()));
-
-      if (solicitacoesEmAberto.isNotEmpty) {
-        this.solicitacaoExistente = true;
-        this.solicitacaoDeAlteracao = solicitacoesEmAberto.last;
-      }
-
-    } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
-    }
-    this.loading = false;
-  }
-
-  @action
-  Future<void> solicitarMulta(
-      {@required BuildContext context,
-        @required GlobalKey<ScaffoldState> scaffoldKey,
-        @required int tipoDaSolicitacao,
-        Widget screenToOpen}) async {
-    try {
-      this.loading = true;
-
-      solicitacaoDeAlteracao = null; //zerando solicitacao
-      solicitacaoExistente = false; //zerando solicitacao
-
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => screenToOpen));
+
+      this.loading = true;
 
       assert(await isLoggedInWithRedirect(
           context: context, redirectToHomeIfLogged: false));
 
       //verificar se existe solicitacoes pendentes
       List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
-      (await _solicitacaoService.searchForSolicitacoes(
-          tipoDaSolicitacao, veiculo.id.toString(), true, await _usuarioService.getUser()));
+          (await _solicitacaoService.searchForSolicitacoes(
+              SolicitacaoDeAlteracaoService.TIPO_VEICULO,
+              veiculo.id.toString(),
+              true,
+              await _usuarioService.getUser()));
 
       if (solicitacoesEmAberto.isNotEmpty) {
         this.solicitacaoExistente = true;
@@ -181,16 +177,33 @@ abstract class _VeiculoStore extends MainStore with Store {
   }
 
   @action
+  Future<void> solicitarMulta(
+      {@required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey,
+      @required int tipoDaSolicitacao,
+      Widget screenToOpen}) async {
+    try {
+      this.loading = true;
+
+      solicitacaoDeAlteracao = null; //zerando solicitacao
+      solicitacaoExistente = false; //zerando solicitacao
+
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => screenToOpen));
+          
+    } catch (e) {
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+    this.loading = false;
+  }
+
+  @action
   Future<void> saveSolicitacaoMulta({
-    String nome,
-    String renavam,
-    String placa,
     String descricao,
-    String veiculo_nome,
     @required String data,
     @required String hora,
     @required String veiculo_id,
-    @required Veiculo veiculo,
     String imagemVeiculo,
     @required BuildContext context,
     @required GlobalKey<ScaffoldState> scaffoldKey,
@@ -202,38 +215,23 @@ abstract class _VeiculoStore extends MainStore with Store {
           context: context, redirectToHomeIfLogged: false));
 
       this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
-      this.solicitacaoDeAlteracao.referenciaId = veiculo.id.toString();
       this.solicitacaoDeAlteracao.tipoSolicitacaoId =
           SolicitacaoDeAlteracaoService.TIPO_FISCAL_MULTA.toString();
       this.solicitacaoDeAlteracao.campo1 = data;
       this.solicitacaoDeAlteracao.campo2 = hora;
       this.solicitacaoDeAlteracao.campo3 = descricao;
-      this.solicitacaoDeAlteracao.campo4 = veiculo_id;
+      this.solicitacaoDeAlteracao.referenciaVeiculoId = veiculo.id.toString();
 
       if (imagemVeiculo == null || imagemVeiculo.isEmpty) {
-       imagemVeiculo = 'assets/images/solicitacao-multa.jpg';
+        imagemVeiculo = 'assets/images/solicitacao-multa.jpg';
       }
       this.solicitacaoDeAlteracao.arquivo1 = imagemVeiculo;
-
-      print("ref id: ${this.solicitacaoDeAlteracao.referenciaId}");
-      print("tipo solic: ${this.solicitacaoDeAlteracao.tipoSolicitacaoId}");
-      print("campo1 date: ${this.solicitacaoDeAlteracao.campo1}");
-      print("campo2 hora: ${this.solicitacaoDeAlteracao.campo2}");
-      print("campo3 desc: ${this.solicitacaoDeAlteracao.campo3}");
-      print("campo4 veic id: ${this.solicitacaoDeAlteracao.campo4}");
-      print("img ${imagemVeiculo}");
-      //print(Image(image: AssetImage('images/solicitacao-multa.jpg')));
-      //print(Image.asset('assets/images/solicitacao-multa.jpg'));
-
-      await Future.value(this
-          ._solicitacaoService
-          .createSolicitacao(solicitacaoDeAlteracao, await _usuarioService.getUser())).timeout(const Duration(seconds:5));
-      print('solicitacao criada');
       this.showDialogMessageAfterCreateSolicitacao(
           "Dados salvos com suscesso!", context, () {
-        Navigator.of(context).pop(veiculo);
+        Navigator.of(context).pop();
       });
     } catch (e) {
+      print(e);
       SnackMessages.showSnackBarError(
           context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
@@ -245,47 +243,54 @@ abstract class _VeiculoStore extends MainStore with Store {
   ////////////////////////////////
 
   @action
-  Future<void> newVeiculo({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> newVeiculo(
+      {@required BuildContext context,
+      @required GlobalKey<ScaffoldState> scaffoldKey}) async {
     try {
-      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
 
       this.veiculo = Veiculo();
 
-      dynamic returnFromScreen = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewVeiculoScreen()));
+      dynamic returnFromScreen = await Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => NewVeiculoScreen()));
 
       if (returnFromScreen != null && returnFromScreen) {
-        SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
+        SnackMessages.showSnackBarSuccess(
+            context, scaffoldKey, "Salvo com sucesso");
 
-        this.pesquisar(scaffoldKey: scaffoldKey, context: context, search: _lastSearch);
+        this.pesquisar(
+            scaffoldKey: scaffoldKey, context: context, search: _lastSearch);
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
   }
 
   @action
   Future<void> saveVeiculo(
-      {
-        String placa,
-        String renavam,
-        String chassi,
-        int anoDeFabricacao,
-        int anoDoModelo,
-        String capacidade,
-        String tipoDaCapacidade,
-        String observacaoDaCapacidade,
-        int anosDeVidaUtilDoVeiculo,
-        int marcaModeloVeiculoId,
-        int tipoCombustivelId,
-        int corId,
-        int tipoVeiculoId,
-        String documentoFoto,
-        BuildContext context,
-        GlobalKey<ScaffoldState> scaffoldKey}) async {
+      {String placa,
+      String renavam,
+      String chassi,
+      int anoDeFabricacao,
+      int anoDoModelo,
+      String capacidade,
+      String tipoDaCapacidade,
+      String observacaoDaCapacidade,
+      int anosDeVidaUtilDoVeiculo,
+      int marcaModeloVeiculoId,
+      int tipoCombustivelId,
+      int corId,
+      int tipoVeiculoId,
+      String documentoFoto,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     try {
-      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
 
       bool aux = true;
       String msgError;
@@ -314,16 +319,16 @@ abstract class _VeiculoStore extends MainStore with Store {
         msgError += "\\nO campo Tipo do Veículo não pode estar vazio.";
       }
 
-
-      if(!aux){
+      if (!aux) {
         SnackMessages.showSnackBarError(context, scaffoldKey, msgError);
       }
 
       if (aux) {
         this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
-        this.solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.TIPO_VEICULO.toString();
+        this.solicitacaoDeAlteracao.tipoSolicitacaoId =
+            SolicitacaoDeAlteracaoService.TIPO_VEICULO.toString();
 
-        if(veiculo!=null && veiculo.id!=null) {
+        if (veiculo != null && veiculo.id != null) {
           this.solicitacaoDeAlteracao.referenciaId = veiculo.id.toString();
         }
 
@@ -339,7 +344,8 @@ abstract class _VeiculoStore extends MainStore with Store {
         this.solicitacaoDeAlteracao.campo10 = capacidade;
         this.solicitacaoDeAlteracao.campo11 = tipoDaCapacidade[0];
         this.solicitacaoDeAlteracao.campo12 = observacaoDaCapacidade;
-        this.solicitacaoDeAlteracao.campo13 = anosDeVidaUtilDoVeiculo.toString();
+        this.solicitacaoDeAlteracao.campo13 =
+            anosDeVidaUtilDoVeiculo.toString();
         this.solicitacaoDeAlteracao.arquivo1 = documentoFoto;
 
         CustomDialog().showConfirmDialog(
@@ -347,17 +353,22 @@ abstract class _VeiculoStore extends MainStore with Store {
             text: "Tem certeza que\ndeseja salvar?",
             voidCallbackSim: () async {
               try {
-                await this._solicitacaoService.createSolicitacao(this.solicitacaoDeAlteracao, await _usuarioService.getUser()).then((_) => Navigator.of(context).pop(true));
+                await this
+                    ._solicitacaoService
+                    .createSolicitacao(this.solicitacaoDeAlteracao,
+                        await _usuarioService.getUser())
+                    .then((_) => Navigator.of(context).pop(true));
               } catch (e) {
-                SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser().toString());
+                SnackMessages.showSnackBarError(context, scaffoldKey,
+                    ErrorHandlerUtil(e).getMessegeToUser().toString());
               }
             },
-            voidCallbackNao: () {}
-        );
+            voidCallbackNao: () {});
       }
     } catch (e) {
       print(e);
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
 
     loading = false;
@@ -369,8 +380,11 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<List<Suggestion>> searchMarcaModelo(String search) async {
     List<Suggestion> suggestionList = List();
     try {
-      (await _marcaModeloVeiculoService.search(search, await _usuarioService.getUser())).forEach((element) {
-        suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
+      (await _marcaModeloVeiculoService.search(
+              search, await _usuarioService.getUser()))
+          .forEach((element) {
+        suggestionList
+            .add(Suggestion(element["id"].toString(), element["descricao"]));
       });
 
       return suggestionList;
@@ -378,24 +392,26 @@ abstract class _VeiculoStore extends MainStore with Store {
       print(e);
     }
     loading = false;
-
   }
 
   @action
   Future<MarcaModeloVeiculo> findMarcaModeloById(String id) async {
     loading = true;
     try {
-      return MarcaModeloVeiculo.fromJson(await _marcaModeloVeiculoService.get(int.parse(id), await _usuarioService.getUser()));
-    } catch (e) {
-    }
+      return MarcaModeloVeiculo.fromJson(await _marcaModeloVeiculoService.get(
+          int.parse(id), await _usuarioService.getUser()));
+    } catch (e) {}
     loading = false;
   }
 
   Future<List<Suggestion>> searchTipoCombustivel(String search) async {
     List<Suggestion> suggestionList = List();
     try {
-      (await _tipoCombustivelService.search(search, await _usuarioService.getUser())).forEach((element) {
-        suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
+      (await _tipoCombustivelService.search(
+              search, await _usuarioService.getUser()))
+          .forEach((element) {
+        suggestionList
+            .add(Suggestion(element["id"].toString(), element["descricao"]));
       });
 
       return suggestionList;
@@ -408,17 +424,20 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<TipoCombustivel> findTipoCombustivelById(String id) async {
     loading = true;
     try {
-      return TipoCombustivel.fromJson(await _tipoCombustivelService.get(int.parse(id), await _usuarioService.getUser()));
-    } catch (e) {
-    }
+      return TipoCombustivel.fromJson(await _tipoCombustivelService.get(
+          int.parse(id), await _usuarioService.getUser()));
+    } catch (e) {}
     loading = false;
   }
 
   Future<List<Suggestion>> searchTipoVeiculo(String search) async {
     List<Suggestion> suggestionList = List();
     try {
-      (await _tipoVeiculoService.search(search, await _usuarioService.getUser())).forEach((element) {
-        suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
+      (await _tipoVeiculoService.search(
+              search, await _usuarioService.getUser()))
+          .forEach((element) {
+        suggestionList
+            .add(Suggestion(element["id"].toString(), element["descricao"]));
       });
 
       return suggestionList;
@@ -431,17 +450,19 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<TipoVeiculo> findTipoVeiculoById(String id) async {
     loading = true;
     try {
-      return TipoVeiculo.fromJson(await _tipoVeiculoService.get(int.parse(id), await _usuarioService.getUser()));
-    } catch (e) {
-    }
+      return TipoVeiculo.fromJson(await _tipoVeiculoService.get(
+          int.parse(id), await _usuarioService.getUser()));
+    } catch (e) {}
     loading = false;
   }
 
   Future<List<Suggestion>> searchCorVeiculo(String search) async {
     List<Suggestion> suggestionList = List();
     try {
-      (await _corVeiculoService.search(search, await _usuarioService.getUser())).forEach((element) {
-        suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));
+      (await _corVeiculoService.search(search, await _usuarioService.getUser()))
+          .forEach((element) {
+        suggestionList
+            .add(Suggestion(element["id"].toString(), element["descricao"]));
       });
 
       return suggestionList;
@@ -454,10 +475,9 @@ abstract class _VeiculoStore extends MainStore with Store {
   Future<CorVeiculo> findCorVeiculoById(String id) async {
     loading = true;
     try {
-      return CorVeiculo.fromJson(await _corVeiculoService.get(int.parse(id), await _usuarioService.getUser()));
-    } catch (e) {
-    }
+      return CorVeiculo.fromJson(await _corVeiculoService.get(
+          int.parse(id), await _usuarioService.getUser()));
+    } catch (e) {}
     loading = false;
   }
-
 }

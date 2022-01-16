@@ -33,6 +33,7 @@ class SolicitacaoDeAlteracao {
   String arquivo2;
   String arquivo3;
   String arquivo4;
+  String referenciaVeiculoId;
   String tipoSolicitacaoId;//tipo_solicitacao_id
   TipoSolicitacao tipoSolicitacao;
   DateTime createdAt;
@@ -67,6 +68,7 @@ class SolicitacaoDeAlteracao {
     this.arquivo2 = parsedJson["arquivo2"];
     this.arquivo3 = parsedJson["arquivo3"];
     this.arquivo4 = parsedJson["arquivo4"];
+    this.referenciaVeiculoId = parsedJson["referencia_veiculo_id"];
     this.tipoSolicitacao = parsedJson["tipo"]!=null?TipoSolicitacao.fromJson(parsedJson["tipo"]):null;
     this.createdAt = parsedJson["created_at"]!=null?Util.dateFormatyyyyMMddTHHmmssZ.parse(parsedJson["created_at"]):null;
   }
@@ -97,6 +99,7 @@ class SolicitacaoDeAlteracao {
       "campo18": campo18,
       "campo19": campo19,
       "campo20": campo20,
+      "referencia_veiculo_id": referenciaVeiculoId,
       "arquivo1": arquivo1,
       "arquivo2": arquivo2,
       "arquivo3": arquivo3,

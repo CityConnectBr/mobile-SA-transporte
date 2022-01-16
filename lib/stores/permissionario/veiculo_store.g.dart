@@ -83,6 +83,45 @@ mixin _$VeiculoStore on _VeiculoStore, Store {
         screenToOpen: screenToOpen));
   }
 
+  final _$solicitarMultaAsyncAction =
+      AsyncAction('_VeiculoStore.solicitarMulta');
+
+  @override
+  Future<void> solicitarMulta(
+      {BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey,
+      int tipoDaSolicitacao,
+      Widget screenToOpen}) {
+    return _$solicitarMultaAsyncAction.run(() => super.solicitarMulta(
+        context: context,
+        scaffoldKey: scaffoldKey,
+        tipoDaSolicitacao: tipoDaSolicitacao,
+        screenToOpen: screenToOpen));
+  }
+
+  final _$saveSolicitacaoMultaAsyncAction =
+      AsyncAction('_VeiculoStore.saveSolicitacaoMulta');
+
+  @override
+  Future<void> saveSolicitacaoMulta(
+      {String descricao,
+      String data,
+      String hora,
+      String veiculo_id,
+      String imagemVeiculo,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$saveSolicitacaoMultaAsyncAction.run(() => super
+        .saveSolicitacaoMulta(
+            descricao: descricao,
+            data: data,
+            hora: hora,
+            veiculo_id: veiculo_id,
+            imagemVeiculo: imagemVeiculo,
+            context: context,
+            scaffoldKey: scaffoldKey));
+  }
+
   final _$newVeiculoAsyncAction = AsyncAction('_VeiculoStore.newVeiculo');
 
   @override

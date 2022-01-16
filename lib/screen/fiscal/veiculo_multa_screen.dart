@@ -1,40 +1,16 @@
 import 'package:intl/intl.dart';
-import 'package:sa_transportes_mobile/models/condutor_model.dart';
 import 'package:sa_transportes_mobile/models/veiculo_model.dart';
-import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/veiculo_store.dart';
-import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
-import 'package:sa_transportes_mobile/util/validators.dart';
-import 'package:sa_transportes_mobile/widgets/custom_alert_message.dart';
 import 'package:sa_transportes_mobile/widgets/custom_dialog.dart';
 import 'package:sa_transportes_mobile/widgets/custom_image_picker_field.dart';
 import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-// class VeiculoMultaScreen extends StatefulWidget {
-//   final GlobalKey<ScaffoldState> _globalKey;
-//   final Veiculo _veiculo;
-//
-//   VeiculoMultaScreen(this._globalKey, this._veiculo);
-//
-//   @override
-//   _VeiculoMultaScreenState createState() => _VeiculoMultaScreenState(_globalKey, this._veiculo);
-// }
-//
-// class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
-//   final _formKey = GlobalKey<FormState>();
-//   final _scaffoldKey = GlobalKey<ScaffoldState>();
-//   final Veiculo _veiculo;
-//
-//   _VeiculoMultaScreenState(this._scaffoldKey, this._veiculo);
-
 class VeiculoMultaScreen extends StatefulWidget {
-
   final Veiculo _veiculo;
 
   VeiculoMultaScreen(this._veiculo);
@@ -59,23 +35,8 @@ class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
   final _horaController = TextEditingController();
   final _renavamController = TextEditingController();
 
-  bool _flagCelular = true;
   bool _flagIsLoad = false;
   String _image;
-
-  // void _controllerMaskCelular(String valor) {
-  //   if (valor.length > 9 && _flagCelular) {
-  //     _flagCelular = false;
-  //     setState(() {
-  //       _celController = MaskUtil.getMaskControllerWithValue(mask: MaskUtil.telefone9Mask, value: valor);
-  //     });
-  //   } else if (valor.length <= 9 && !_flagCelular) {
-  //     _flagCelular = true;
-  //     setState(() {
-  //       _celController = MaskUtil.getMaskControllerWithValue(mask: MaskUtil.telefone8Mask, value: valor);
-  //     });
-  //   }
-  // }
 
   @override
   void initState() {
@@ -97,7 +58,6 @@ class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //CondutorStore condutorStore = Provider.of<CondutorStore>(context);
     VeiculoStore veiculoStore = Provider.of<VeiculoStore>(context);
     return Scaffold(
       key: _scaffoldKey,
@@ -126,24 +86,17 @@ class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
               //Setando dados carregados após loader
               if (!this._flagIsLoad) {
                 this._flagIsLoad = true;
-                // if (condutorStore.solicitacaoExistente) {
-                //   _emailController.text = condutorStore.solicitacaoDeAlteracao.campo1;
-                //   _dddController.text = condutorStore.solicitacaoDeAlteracao.campo2;
-                //   _phoneController.text = condutorStore.solicitacaoDeAlteracao.campo3;
-                //   _celController.text = condutorStore.solicitacaoDeAlteracao.campo4;
-                // } else
-                  {
-                  // _emailController.text = condutorStore.condutor.email;
-                  // _dddController.text = condutorStore.condutor.ddd;
-                  // _phoneController.text = condutorStore.condutor.telefone;
-                  // _celController.text = condutorStore.condutor.celular;
+                {
                   _nomeController.text = this._veiculo.permissionario?.nome;
                   _placaController.text = this._veiculo?.placa;
-                  _veiculoController.text =   this._veiculo?.marcaModeloCarroceria?.modelo;
+                  _veiculoController.text =
+                      this._veiculo?.marcaModeloCarroceria?.modelo;
                   _descricaoController.text = null;
                   _renavamController.text = this._veiculo?.renavam;
-                  _dataController.text = DateFormat('dd/MM/yyyy').format(DateTime.now())??null;
-                  _horaController.text = DateFormat('hh:mm').format(DateTime.now())??null;
+                  _dataController.text =
+                      DateFormat('dd/MM/yyyy').format(DateTime.now()) ?? null;
+                  _horaController.text =
+                      DateFormat('hh:mm').format(DateTime.now()) ?? null;
                 }
               }
 
@@ -153,9 +106,6 @@ class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    // SizedBox(
-                    //   height: 20.0,
-                    // ),
                     Form(
                       key: _formKey,
                       child: Column(
@@ -263,7 +213,7 @@ class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
                             //onChanged: _controllerMaskCelular,
                           ),
                           SizedBox(
-                            height:16.0,
+                            height: 16.0,
                           ),
                           CustomImagePickerField(
                             imagePath: this._image,
@@ -281,18 +231,17 @@ class _VeiculoMultaScreenState extends State<VeiculoMultaScreen> {
                                 if (_formKey.currentState.validate()) {
                                   CustomDialog().showConfirmDialog(
                                       context: context,
-                                      text: "Tem certeza que\ndeseja gerar esta multa?",
+                                      text:
+                                          "Tem certeza que\ndeseja gerar esta multa?",
                                       voidCallbackSim: () {
                                         veiculoStore.saveSolicitacaoMulta(
-                                            nome: this._nomeController.text,
-                                            renavam: this._renavamController.text,
-                                            placa: this._placaController.text,
-                                            descricao: Util.clearString(this._descricaoController.text),
-                                            veiculo_nome: this._veiculoController.text,
-                                            data: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                                            descricao: Util.clearString(
+                                                this._descricaoController.text),
+                                            data: DateFormat('yyyy-MM-dd')
+                                                .format(DateTime.now()),
                                             hora: this._horaController.text,
-                                            veiculo_id: this._veiculo.id.toString(),
-                                            veiculo: this._veiculo,
+                                            veiculo_id:
+                                                this._veiculo.id.toString(),
                                             imagemVeiculo: this._image,
                                             context: context,
                                             scaffoldKey: _scaffoldKey);

@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:sa_transportes_mobile/models/condutor_model.dart';
 import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
 import 'package:sa_transportes_mobile/models/usuario_model.dart';
 import 'package:sa_transportes_mobile/services/main_service.dart';
@@ -41,15 +39,12 @@ class SolicitacaoDeAlteracaoService extends MainService {
     super.endPointVersion = 1;
   }
 
-  Future<dynamic> createSolicitacao(SolicitacaoDeAlteracao solicitacaoDeAlteracao, Usuario usuarioLogged) async {
+  Future<void> createSolicitacao(SolicitacaoDeAlteracao solicitacaoDeAlteracao, Usuario usuarioLogged) async {
     Map<String, dynamic> fileMap = solicitacaoDeAlteracao.toMap();
 
     if (solicitacaoDeAlteracao.arquivo1 != null) {
-      print('arquivo1');
       File arquivo1 = File(solicitacaoDeAlteracao.arquivo1);
       fileMap["arquivo1"] = MultipartFile(arquivo1.openRead(), await arquivo1.length(), filename: "arquivo1.jpg");
-      print(fileMap["arquivo1"]);
-
     }
 
     if (solicitacaoDeAlteracao.arquivo2 != null) {
@@ -64,11 +59,6 @@ class SolicitacaoDeAlteracaoService extends MainService {
 
     fileMap["tipo_solicitacao_id"] = solicitacaoDeAlteracao.tipoSolicitacaoId;
 
-    //fileMap.addAll(solicitacaoDeAlteracao.toMap());
-
-    //print(FormData.fromMap(fileMap).toString());
-    print(fileMap);
-    dev.debugger();
     await dio.post(makeEndPoint(usuario: usuarioLogged), data: FormData.fromMap(fileMap));
   }
 

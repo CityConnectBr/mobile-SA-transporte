@@ -1,14 +1,9 @@
 import 'package:sa_transportes_mobile/models/veiculo_model.dart';
 import 'package:sa_transportes_mobile/screen/fiscal/veiculo_multa_screen.dart';
-import 'package:sa_transportes_mobile/screen/fiscal/veiculo_perm_edit_screen.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/veiculo_store.dart';
-import 'package:sa_transportes_mobile/tiles/card_edit_fields_tile.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
-import 'package:sa_transportes_mobile/util/validators.dart';
-import 'package:sa_transportes_mobile/widgets/custom_dialog.dart';
-import 'package:sa_transportes_mobile/widgets/custom_dropdown.dart';
 import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,7 +24,6 @@ class VeiculoShowPermTile extends StatefulWidget {
 }
 
 class _VeiculoShowPermTileState extends State<VeiculoShowPermTile> {
-  final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
   final Veiculo _veiculo;
 
@@ -49,9 +43,6 @@ class _VeiculoShowPermTileState extends State<VeiculoShowPermTile> {
   final _emailController = TextEditingController();
 
   final _dateFormat = Util.dateFormatddMMyyyy;
-
-  bool _flagCelular = true;
-
 
   @override
   void initState() {
