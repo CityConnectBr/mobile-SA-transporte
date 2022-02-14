@@ -32,7 +32,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -49,9 +49,11 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.sa_transportes_mobile"
-        minSdkVersion 16
-        targetSdkVersion 30
+        applicationId "santoandretransporte.cityconnect.com.br"
+        minSdkVersion 19
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
