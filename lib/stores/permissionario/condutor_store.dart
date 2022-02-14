@@ -15,6 +15,8 @@ import 'package:sa_transportes_mobile/widgets/snack_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'dart:developer' as dev;
+
 
 part 'condutor_store.g.dart';
 
@@ -106,6 +108,25 @@ abstract class _CondutorStore extends MainStore with Store {
   }
 
   @action
+  Future<void> showAlvara({BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+
+    loading = true;
+    try {
+
+      this._lastSearch = null;
+
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+       //dev.debugger();
+      this.condutores = (await this._condutorService.search("", super.usuario)).map((model) => Condutor.fromJson(model)).toList();
+    } catch (e) {
+      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+
+    loading = false;
+  }
+
+
+  @action
   Future<void> editFotoCondutor({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) async {
     try {
       this.loading = true;
@@ -127,6 +148,9 @@ abstract class _CondutorStore extends MainStore with Store {
     }
     this.loading = false;
   }
+
+
+
 
   @action
   Future<void> editCondutor(

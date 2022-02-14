@@ -1,6 +1,7 @@
 import 'package:sa_transportes_mobile/models/endereco_model.dart';
 import 'package:sa_transportes_mobile/models/modalidade_model.dart';
 import 'package:intl/intl.dart';
+import 'package:sa_transportes_mobile/models/veiculo_model.dart';
 
 class Permissionario {
   int id;
@@ -17,6 +18,7 @@ class Permissionario {
   String naturalidade;
   String nacionalidade;
   String cnh;
+  String prefixo;
   String categoriaCNH; //categoria_cnh
   DateTime vencimentoCNH; //vencimento_cnh
   String cpfCnpj;
@@ -24,12 +26,13 @@ class Permissionario {
   String fotoUrl;
   Modalidade modalidade;
   Endereco endereco;
+  Veiculo veiculo;
 
   final dateFormat = new DateFormat("yyyy-MM-dd");
 
   Permissionario.fromJson(Map<String, dynamic> parsedJson) {
     this.id = parsedJson["id"];
-    this.nome = parsedJson["nome"];
+    this.nome = parsedJson["nome_razao_social"];
     this.tipo = parsedJson["tipo"];
     this.rg = parsedJson["rg"];
     this.cpfCnpj = parsedJson["cpf_cnpj"];
@@ -46,9 +49,11 @@ class Permissionario {
     this.categoriaCNH = parsedJson["categoria_cnh"];
     this.vencimentoCNH = parsedJson["vencimento_cnh"]!=null?dateFormat.parse(parsedJson["vencimento_cnh"]):null;
     this.statusFoto = parsedJson["status_foto"];
+    this.prefixo = parsedJson["prefixo"];
     this.fotoUrl = parsedJson["foto_url"];
     this.modalidade = parsedJson["modalidade"]!=null?Modalidade.fromJson(parsedJson["modalidade"]):null;
     this.endereco = parsedJson["endereco"]!=null?Endereco.fromJson(parsedJson["endereco"]):null;
+    this.veiculo = parsedJson["veiculo"]!=null?Veiculo.fromJson(parsedJson["veiculo"]):null;
   }
 
   Map<String, dynamic> toMap() {
@@ -67,11 +72,13 @@ class Permissionario {
       "naturalidade": naturalidade,
       "nacionalidade": nacionalidade,
       "cnh": cnh,
+      "prefixo": prefixo,
       "categoria_cnh": categoriaCNH,
       "vencimento_cnh": vencimentoCNH!=null?dateFormat.format(vencimentoCNH):null,
       "status_foto": statusFoto,
       "foto_url": fotoUrl,
       "endereco": endereco!=null?endereco.toMap():null,
+      "veiculo": veiculo!=null?veiculo.toMap():null,
     };
   }
 }

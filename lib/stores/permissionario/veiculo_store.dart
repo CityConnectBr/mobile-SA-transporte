@@ -7,6 +7,7 @@ import 'package:sa_transportes_mobile/models/tipo_veiculo_model.dart';
 import 'package:sa_transportes_mobile/models/veiculo_model.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/new_veiculo_screen.dart';
 import 'package:sa_transportes_mobile/screen/veiculo_edit_screen.dart';
+import 'package:sa_transportes_mobile/screen/veiculo_show_screen.dart';
 import 'package:sa_transportes_mobile/services/cor_veiculo_service.dart';
 import 'package:sa_transportes_mobile/services/marca_modelo_veiculo_service.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
@@ -20,6 +21,7 @@ import 'package:sa_transportes_mobile/widgets/custom_dialog.dart';
 import 'package:sa_transportes_mobile/widgets/snack_message.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'dart:developer' as dev;
 
 part 'veiculo_store.g.dart';
 
@@ -74,9 +76,11 @@ abstract class _VeiculoStore extends MainStore with Store {
     try {
       this._lastSearch = null;
 
-      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
 
+      assert(await isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false));
+      //dev.debugger();
       this.veiculos = (await this._veiculoService.search("", super.usuario)).map((model) => Veiculo.fromJson(model)).toList();
+
     } catch (e) {
       SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
@@ -259,7 +263,7 @@ abstract class _VeiculoStore extends MainStore with Store {
   ////////////////////////////////
 
   Future<List<Suggestion>> searchMarcaModelo(String search) async {
-    List<Suggestion> suggestionList = List();
+    List<Suggestion> suggestionList = [];
     try {
       (await _marcaModeloVeiculoService.search(search, super.usuario)).forEach((element) {
         suggestionList.add(Suggestion(element["id"].toString(), element["descricao"]));

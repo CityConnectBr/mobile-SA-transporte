@@ -214,8 +214,8 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
                           ],
                         )),
                     onTap: () {
-                      print(launch(
-                          "http://api.santo-andre-transporte.cityconnect.com.br/"));
+                      // print(launch(
+                      //     "http://api.santo-andre-transporte.cityconnect.com.br/"));
                     },
                   ),
                   SizedBox(
