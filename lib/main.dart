@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:satrans_new_app/screens/first_screen.dart';
+import 'package:satrans_new_app/screens/search_plate_screen.dart';
+import 'package:satrans_new_app/utils/customTheme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,14 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'SA TRANSPORTES',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            secondary: const Color(0xFF0d8bc6),
-          ),
-          textTheme:
-              const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
-        ),
+        theme: CustomTheme.themeData,
         debugShowCheckedModeBanner: false,
-        home: const FirstScreen());
+        home: const SearchPlateScreen());
   }
 }
