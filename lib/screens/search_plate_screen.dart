@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:satrans_new_app/providers/search_plate_provider.dart';
 import 'package:satrans_new_app/utils/customTheme.dart';
 import 'package:satrans_new_app/widgets/footer.dart';
 import 'package:satrans_new_app/widgets/input_button_search.dart';
@@ -49,45 +51,66 @@ class _SearchPlateScreenState extends State<SearchPlateScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40.0,
                   ),
-                  InputButtonSearch(),
-                  SizedBox(
+                  InputButtonSearch(
+                    hintText: 'Pesquisar',
+                    onPressed:
+                        Provider.of<SearchPlateProvider>(context, listen: false)
+                            .searchPlaca,
+                    controller: Provider.of<SearchPlateProvider>(context,
+                            listen: false)
+                        .placaController,
+                  ),
+                  const SizedBox(
                     height: 40.0,
                   ),
-                  //joinha verde com texto tudo certo
-                  Container(
-                    margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 50.0,
-                          height: 50.0,
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(50.0),
+                  Consumer<SearchPlateProvider>(
+                    builder: (context, provider, child) {
+                      if (provider.placaValida!=null){
+                        return Container(
+                          margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 50.0,
+                                height: 50.0,
+                                decoration: BoxDecoration(
+                                  color: provider.placaValida!
+                                      ? Colors.green
+                                      : Colors.red,
+                                  borderRadius: BorderRadius.circular(50.0),
+                                ),
+                                child: Icon(
+                                  provider.placaValida!
+                                      ? Icons.thumb_up
+                                      : Icons.thumb_down,
+                                  color: CustomTheme.primaryColor,
+                                  size: 35.0,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20.0,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  provider.placaValida!
+                                      ? 'Placa ${provider.placaController.text} está autorizada a operar!'
+                                      : 'Placa ${provider.placaController.text}, não esta autorizada! Entre em contato para mais informações.',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          child: const Icon(
-                            Icons.thumb_up,
-                            color: CustomTheme.primaryColor,
-                            size: 35.0,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20.0,
-                        ),
-                        Expanded(
-                          child: Text(
-                            'Tudo certo com a placa pesquisada!',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                        );
+                      }        
+
+                      return Container();                
+                    },
                   ),
                   orientation == Orientation.landscape
                       ? Container(
