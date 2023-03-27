@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:satrans_new_app/screens/search_plate_screen.dart';
-import 'package:satrans_new_app/utils/customTheme.dart';
+import 'package:satrans_new_app/utils/custom_theme.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

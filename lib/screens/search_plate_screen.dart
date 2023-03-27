@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:satrans_new_app/providers/search_plate_provider.dart';
-import 'package:satrans_new_app/utils/customTheme.dart';
+import 'package:satrans_new_app/utils/custom_theme.dart';
 import 'package:satrans_new_app/widgets/footer.dart';
 import 'package:satrans_new_app/widgets/input_button_search.dart';
 

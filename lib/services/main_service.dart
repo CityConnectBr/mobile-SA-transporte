@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 import 'package:satrans_new_app/models/usuario_model.dart';
 import 'package:satrans_new_app/utils/preferences.dart';
+import 'package:satrans_new_app/utils/dio_interceptor.dart';
 
 class MainService {
   final dio = Dio(
@@ -24,6 +25,7 @@ class MainService {
   }
 
   MainService() {
+    dio.interceptors.add(CustomInterceptors());
   }
 
   /*String makeEndpoint({

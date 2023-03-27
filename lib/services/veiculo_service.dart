@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:satrans_new_app/services/main_service.dart';
+import 'package:satrans_new_app/utils/dio_interceptor.dart';
 
 class VeiculoService extends MainService {
   VeiculoService() {
@@ -16,6 +17,8 @@ class VeiculoService extends MainService {
         'token': dotenv.env['API_TOKEN_WITHOUT_AUTH']
       }),
     );
+
+    dio.interceptors.add(CustomInterceptors());
 
     var response = dio.get("/apisat/statusveiculo/$placa");
 

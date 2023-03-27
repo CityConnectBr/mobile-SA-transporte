@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:satrans_new_app/utils/customTheme.dart';
+import 'package:satrans_new_app/utils/custom_theme.dart';
 
 class InputButtonSearch extends StatelessWidget {
   final String? hintText;
