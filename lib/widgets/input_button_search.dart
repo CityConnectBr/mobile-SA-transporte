@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:satrans_new_app/utils/customTheme.dart';
 
 class InputButtonSearch extends StatelessWidget {
   final String? hintText;
   final VoidCallback onPressed;
   final TextEditingController? controller;
+  final TextInputFormatter? inputFormatter;
 
   const InputButtonSearch({
     Key? key,
     this.hintText,
     required this.onPressed,
     this.controller,
+    this.inputFormatter,
   }) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +31,9 @@ class InputButtonSearch extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(5.0),
             child: TextField(
+              inputFormatters: inputFormatter != null
+                  ? [inputFormatter!]
+                  : [],
               onSubmitted: (value) => onPressed(),
               controller: controller,
               decoration: InputDecoration(

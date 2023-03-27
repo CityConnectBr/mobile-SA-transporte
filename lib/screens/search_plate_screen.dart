@@ -55,7 +55,7 @@ class _SearchPlateScreenState extends State<SearchPlateScreen> {
                     height: 40.0,
                   ),
                   InputButtonSearch(
-                    hintText: 'Pesquisar',
+                    hintText: 'Pesquisar por placa, ex: ABC-1234',
                     onPressed:
                         Provider.of<SearchPlateProvider>(context, listen: false)
                             .searchPlaca,

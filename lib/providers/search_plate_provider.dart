@@ -9,7 +9,7 @@ class SearchPlateProvider extends ChangeNotifier {
   bool? placaValida;
 
   Future<void> searchPlaca() async {
-    placaValida = await _veiculoService.checkPlaca(placaController.text);
+    placaValida = await _veiculoService.checkPlaca(placaController.text.replaceAll("-", "").trim());
     notifyListeners();
   }
 }
