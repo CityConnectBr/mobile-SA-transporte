@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:satrans_new_app/providers/search_plate_provider.dart';
-import 'package:satrans_new_app/screens/search_plate_screen.dart';
+import 'package:satrans_new_app/screens/splash_screen.dart';
 import 'package:satrans_new_app/utils/customTheme.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       title: 'SA TRANSPORTES',
       theme: CustomTheme.themeData,
       debugShowCheckedModeBanner: false,
-      home: const SearchPlateScreen(),
+      home: const SplashScreen(),
     );
   }
 }
