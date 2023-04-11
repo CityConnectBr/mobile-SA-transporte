@@ -96,8 +96,8 @@ class _SearchPlateScreenState extends State<SearchPlateScreen> {
                               Expanded(
                                 child: Text(
                                   provider.placaValida!
-                                      ? 'Placa ${provider.placaController.text} está autorizada a operar!'
-                                      : 'Placa ${provider.placaController.text}, não esta autorizada! Entre em contato para mais informações.',
+                                      ? 'Placa ${provider.placaController.text.toUpperCase()} está autorizada a operar!'
+                                      : 'Placa ${provider.placaController.text.toUpperCase()} não está autorizada. Para mais informações, ligue 4433-7533',
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 18.0,
