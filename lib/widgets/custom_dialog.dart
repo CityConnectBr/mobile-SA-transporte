@@ -85,7 +85,7 @@ class CustomDialog {
                         },
                       ),
                       decoration: BoxDecoration(
-                        color: Util.hexToColor("#2D9CDB"),
+                        color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(7.0),
                         boxShadow: [
                           BoxShadow(
@@ -189,7 +189,7 @@ class CustomDialog {
                     },
                   ),
                   decoration: BoxDecoration(
-                    color: Util.hexToColor("#2D9CDB"),
+                    color: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(7.0),
                     boxShadow: [
                       BoxShadow(

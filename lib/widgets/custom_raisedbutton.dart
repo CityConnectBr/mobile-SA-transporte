@@ -18,7 +18,7 @@ class CustomRaisedButtonWhite extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(9.0),
             side: BorderSide(
-                color: Util.hexToColor("#2d9cdb"),
+                color: Theme.of(context).primaryColor,
                 style: BorderStyle.solid,
                 width: 2.0)),
         child: Text(
@@ -26,7 +26,7 @@ class CustomRaisedButtonWhite extends StatelessWidget {
           style: TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
-              color: Util.hexToColor("#2d9cdb")),
+              color: Theme.of(context).primaryColor),
         ),
         textColor: Colors.white,
         color: Colors.white,

@@ -83,7 +83,7 @@ class _TutorialScreenState extends State<TutorialScreen>
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: _current == index
-                                ? Util.hexToColor("#2d9cdb")
+                                ? Theme.of(context).primaryColor
                                 : Color.fromRGBO(0, 0, 0, 0.4),
                           ),
                         );

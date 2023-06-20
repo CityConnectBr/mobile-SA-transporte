@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:sa_transportes_mobile/screen/condutor/alvara_digital_screen.dart';
 import 'package:sa_transportes_mobile/screen/condutor_search_screen.dart';
 import 'package:sa_transportes_mobile/screen/fiscal/emissao_multa_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/alvara_digital_screen.dart';
-import 'package:sa_transportes_mobile/screen/permissionario/boletos_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/monitor_search_screen.dart';
 import 'package:sa_transportes_mobile/screen/solicitacao_search_screen.dart';
 import 'package:sa_transportes_mobile/screen/veiculo_search_screen.dart';
@@ -115,7 +112,7 @@ class MenuDrawerTile extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Util.hexToColor("#2D9CDB"),
+              color: Theme.of(context).primaryColor,
             ),
             child: Container(
               child: Column(

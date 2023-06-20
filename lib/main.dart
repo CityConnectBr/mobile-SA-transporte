@@ -52,33 +52,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Define the default brightness and colors.
         brightness: Brightness.light,
-        primaryColor: Util.hexToColor("#12407c"),//2d9cdb
+        primaryColor: Util.hexToColor("#12407c"), //2d9cdb
         accentColor: Util.hexToColor("#2d9cdb"),
         buttonColor: Util.hexToColor("#444444"),
         //,
         errorColor: Colors.red,
         //
         appBarTheme: AppBarTheme(
-            color: Util.hexToColor("#2d9cdb"), //,
-            textTheme: const TextTheme(
-              headline6: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            )),
-
-        // Define the default font family.
-        //fontFamily: 'Montserrat',
-
-        // Define the default TextTheme. Use this to specify the default
-        // text styling for headlines, titles, bodies of text, and more.
-        textTheme: TextTheme(
-          headline1: const TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headline6: const TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-          bodyText2: TextStyle(
-              fontSize: 14.0,
-              fontFamily: 'Hind',
-              color: Util.hexToColor("#797979")),
+          color: Util.hexToColor("#12407c"), //,
+          textTheme: const TextTheme(
+            headline6: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
         ),
       ),
       debugShowCheckedModeBanner: false,

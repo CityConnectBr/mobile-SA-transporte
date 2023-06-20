@@ -31,7 +31,7 @@ class CustomBoxShadowWhite extends StatelessWidget {
               fontSize: 20.0,
               height: heightValue,
               fontWeight: FontWeight.bold,
-              color: Util.hexToColor("#2d9cdb"),
+              color: Theme.of(context).primaryColor,
             ),
           )
         ],
@@ -103,7 +103,7 @@ class CustomBoxShadowBlue extends StatelessWidget {
             topLeft: Radius.circular(10.0),
             bottomRight: Radius.circular(10.0),
             bottomLeft: Radius.circular(10.0)),
-        color: Util.hexToColor("#2d9cdb"),
+        color: Theme.of(context).primaryColor,
       ),
     );
   }
