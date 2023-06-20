@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:get_it/get_it.dart';
 import 'package:sa_transportes_mobile/models/usuario_model.dart';
 import 'package:sa_transportes_mobile/screen/condutor/condutor_user_screen.dart';
 import 'package:sa_transportes_mobile/screen/home_screen.dart';
@@ -36,11 +37,25 @@ abstract class _MainStore with Store {
 
   final _prefs = Preferences();
 
-  @observable
-  Usuario usuario;
+  /*@observable
+  Usuario usuario;*/
+
+  set usuario(Usuario value) {
+    AppState appState = GetIt.instance.get<AppState>();
+    appState.usuarioLogado = value;
+  }
+
+  Usuario get usuario {
+    AppState appState = GetIt.instance.get<AppState>();
+    return appState.usuarioLogado;
+  }
 
   @action
-  Future<void> login({String email, String senha, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> login(
+      {String email,
+      String senha,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     try {
@@ -53,12 +68,15 @@ abstract class _MainStore with Store {
       //armazenando token gerado
       await _prefs.save(Preferences.KEY_LAST_JWT, token);
 
-      usuario = await Future.value(_usuarioService.getUser()).timeout(const Duration(seconds:5));
+      usuario = await Future.value(_usuarioService.getUser())
+          .timeout(const Duration(seconds: 5));
 
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomeScreen()));
     } catch (e) {
       print(e);
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
 
     loading = false;
@@ -80,17 +98,24 @@ abstract class _MainStore with Store {
     bool aux = true;
     if (senha.compareTo(confirmacaoDeSenha) != 0) {
       aux = false;
-      SnackMessages.showSnackBarError(context, scaffoldKey, "A senha não confere com a confirmação.");
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, "A senha não confere com a confirmação.");
     }
 
     if (!contratoAceito) {
       aux = false;
-      SnackMessages.showSnackBarError(context, scaffoldKey, "É necessário aceitar os termos de uso.");
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, "É necessário aceitar os termos de uso.");
     }
 
     if (aux) {
       try {
-        if (await _usuarioService.signin(nome: nome, email: email, cpfCnj: cpfCnpj, cnh: cnh, senha: senha)) {
+        if (await _usuarioService.signin(
+            nome: nome,
+            email: email,
+            cpfCnj: cpfCnpj,
+            cnh: cnh,
+            senha: senha)) {
           // String token = await _usuarioService.login(email, senha);
           //
           // if (token == null) {
@@ -103,10 +128,12 @@ abstract class _MainStore with Store {
           // usuario = await _usuarioService.getUser();
 
           //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => LoginScreen()));
         }
       } catch (e) {
-        SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+        SnackMessages.showSnackBarError(
+            context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
       }
     }
 
@@ -114,7 +141,10 @@ abstract class _MainStore with Store {
   }
 
   @action
-  Future<void> initPasswordRecovery({String email, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> initPasswordRecovery(
+      {String email,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     try {
@@ -122,14 +152,19 @@ abstract class _MainStore with Store {
         this.showRecoverCodeField = true;
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
 
     loading = false;
   }
 
   @action
-  Future<void> validateRecoveryCode({String email, String code, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> validateRecoveryCode(
+      {String email,
+      String code,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     try {
@@ -137,7 +172,8 @@ abstract class _MainStore with Store {
         this.showRecoverPasswordField = true;
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
 
     loading = false;
@@ -145,13 +181,19 @@ abstract class _MainStore with Store {
 
   @action
   Future<void> recoveryPassword(
-      {String email, String code, String senha, String confirmacaoDeSenha, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+      {String email,
+      String code,
+      String senha,
+      String confirmacaoDeSenha,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     bool aux = true;
     if (senha.compareTo(confirmacaoDeSenha) != 0) {
       aux = false;
-      SnackMessages.showSnackBarError(context, scaffoldKey, "A senhas sua confirmação não são iguais.");
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, "A senhas sua confirmação não são iguais.");
     }
 
     if (aux) {
@@ -160,10 +202,12 @@ abstract class _MainStore with Store {
           this.showRecoverCodeField = false;
           this.showRecoverPasswordField = false;
 
-          SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Troca de senha efetuada com sucesso!");
+          SnackMessages.showSnackBarSuccess(
+              context, scaffoldKey, "Troca de senha efetuada com sucesso!");
         }
       } catch (e) {
-        SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+        SnackMessages.showSnackBarError(
+            context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
       }
     }
 
@@ -171,17 +215,17 @@ abstract class _MainStore with Store {
   }
 
   @action
-  Future<void> editUser({BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
-    if (await this.isLoggedInWithRedirect(context: context, redirectToHomeIfLogged: false)) {
+  Future<void> editUser(
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+    if (await this.isLoggedInWithRedirect(
+        context: context, redirectToHomeIfLogged: false)) {
       this._reloadUser();
 
-      if(usuario.permissionario!=null){
+      if (usuario.permissionario != null) {
         //Navigator.of(context).push(MaterialPageRoute(builder: (context) => PermissionarioUserScreen()));
-      }else if(usuario.condutor!=null){
-       // Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorUserScreen()));
-      }else if(usuario.fiscal!=null){
-
-      }
+      } else if (usuario.condutor != null) {
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => CondutorUserScreen()));
+      } else if (usuario.fiscal != null) {}
     }
   }
 
@@ -208,7 +252,8 @@ abstract class _MainStore with Store {
       bool aux = true;
       if (categoriaCNH == null || categoriaCNH.isEmpty) {
         aux = false;
-        SnackMessages.showSnackBarError(context, scaffoldKey, "Categoria da CNH não pode estar vazio.");
+        SnackMessages.showSnackBarError(
+            context, scaffoldKey, "Categoria da CNH não pode estar vazio.");
       }
       if (aux && await this.isLoggedIn(context)) {
         this.usuario.nome = nome;
@@ -227,11 +272,13 @@ abstract class _MainStore with Store {
 
         if (await _usuarioService.updateUser(this.usuario)) {
           this._reloadUser();
-          SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
+          SnackMessages.showSnackBarSuccess(
+              context, scaffoldKey, "Salvo com sucesso");
         }
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
 
     loading = false;
@@ -262,18 +309,25 @@ abstract class _MainStore with Store {
 
         if (await _usuarioService.updateUser(this.usuario)) {
           this._reloadUser();
-          SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
+          SnackMessages.showSnackBarSuccess(
+              context, scaffoldKey, "Salvo com sucesso");
         }
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
 
     loading = false;
   }
 
   @action
-  Future<void> savePassword({String senhaAtual, String senha, String confirmacao, BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) async {
+  Future<void> savePassword(
+      {String senhaAtual,
+      String senha,
+      String confirmacao,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     try {
@@ -281,43 +335,52 @@ abstract class _MainStore with Store {
 
       if (senha.compareTo(confirmacao) != 0) {
         aux = false;
-        SnackMessages.showSnackBarError(context, scaffoldKey, "A senha não confere com a confirmação.");
+        SnackMessages.showSnackBarError(
+            context, scaffoldKey, "A senha não confere com a confirmação.");
       }
 
       if (aux) {
         if (await this.isLoggedIn(context)) {
-          if (await _usuarioService.updatePassword(senhaAtual: senhaAtual, novaSenha: senha)) {
+          if (await _usuarioService.updatePassword(
+              senhaAtual: senhaAtual, novaSenha: senha)) {
             this._reloadUser();
-            SnackMessages.showSnackBarSuccess(context, scaffoldKey, "Salvo com sucesso");
+            SnackMessages.showSnackBarSuccess(
+                context, scaffoldKey, "Salvo com sucesso");
           }
         }
       }
     } catch (e) {
-      SnackMessages.showSnackBarError(context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }
 
     loading = false;
   }
 
   @action
-  Future<bool> isLoggedInWithRedirect({@required BuildContext context, bool redirectToHomeIfLogged = true}) async {
+  Future<bool> isLoggedInWithRedirect(
+      {@required BuildContext context,
+      bool redirectToHomeIfLogged = true}) async {
     print("isLoggedInWithRedirect");
 
     try {
       if (await this.isLoggedIn(context)) {
         if (redirectToHomeIfLogged) {
           print("isLoggedInWithRedirect IF");
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomeScreen()));
         }
         return true;
       } else {
         print("isLoggedInWithRedirect ELSE");
         //this.logout(context: context);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => LoginScreen()));
       }
     } catch (e) {
       print(e);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => LoginScreen()));
     }
 
     return false;
@@ -333,7 +396,8 @@ abstract class _MainStore with Store {
       await _usuarioService.logout();
     } catch (e) {}
 
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   @action
@@ -355,27 +419,29 @@ abstract class _MainStore with Store {
       //   this._prefs.save(Preferences.KEY_LAST_PHOTO, this.photoUser.path);
       // }
       // else{
-        this.photoUser =  null;
-        // print("ELSEEEEEEEE");
-        // print(this.photoUser);
-        // print(this.photoUser.existsSync());
+      this.photoUser = null;
+      // print("ELSEEEEEEEE");
+      // print(this.photoUser);
+      // print(this.photoUser.existsSync());
 
       //}
 
     } catch (e) {
       this.photoUser = null;
-      print('exception');print(e);
+      print('exception');
+      print(e);
     }
   }
 
-  void showDialogMessageAfterCreateSolicitacao(String startOfMessage, BuildContext context, VoidCallback voidCallback) {
+  void showDialogMessageAfterCreateSolicitacao(
+      String startOfMessage, BuildContext context, VoidCallback voidCallback) {
     CustomDialog().showMessegeDialog(
         context: context,
         barrierDismissible: true,
         imageAsset: "images/check-dialog.png",
         height: 340.0,
-        text:
-        startOfMessage + " Os dados foram enviados para aprovação. É possível visualizar suas solitações pendentes clicando no botão do menu Solicitações",
+        text: startOfMessage +
+            " Os dados foram enviados para aprovação. É possível visualizar suas solitações pendentes clicando no botão do menu Solicitações",
         voidCallback: voidCallback);
   }
 
@@ -387,4 +453,10 @@ abstract class _MainStore with Store {
   Future<void> _reloadUser() async {
     this.usuario = await this._usuarioService.getUser();
   }
+}
+
+class AppState {
+  Usuario usuarioLogado;
+
+  File photoUser;
 }

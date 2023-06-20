@@ -31,29 +31,29 @@ class Permissionario {
   final dateFormat = new DateFormat("yyyy-MM-dd");
 
   Permissionario.fromJson(Map<String, dynamic> parsedJson) {
-    this.id = parsedJson["id"];
-    this.nome = parsedJson["nome_razao_social"];
-    this.tipo = parsedJson["tipo"];
-    this.rg = parsedJson["rg"];
-    this.cpfCnpj = parsedJson["cpf_cnpj"];
-    this.inscricaoMunicipal = parsedJson["inscricao_municipal"];
-    this.ddd = parsedJson["ddd"];
-    this.telefone = parsedJson["telefone"];
-    this.telefone2 = parsedJson["telefone2"];
-    this.celular = parsedJson["celular"];
-    this.email = parsedJson["email"];
-    this.dataNascimento = parsedJson["data_nascimento"]!=null?dateFormat.parse(parsedJson["data_nascimento"]):null;
-    this.naturalidade = parsedJson["naturalidade"];
-    this.nacionalidade = parsedJson["nacionalidade"];
-    this.cnh = parsedJson["cnh"];
-    this.categoriaCNH = parsedJson["categoria_cnh"];
-    this.vencimentoCNH = parsedJson["vencimento_cnh"]!=null?dateFormat.parse(parsedJson["vencimento_cnh"]):null;
-    this.statusFoto = parsedJson["status_foto"];
-    this.prefixo = parsedJson["prefixo"];
-    this.fotoUrl = parsedJson["foto_url"];
-    this.modalidade = parsedJson["modalidade"]!=null?Modalidade.fromJson(parsedJson["modalidade"]):null;
-    this.endereco = parsedJson["endereco"]!=null?Endereco.fromJson(parsedJson["endereco"]):null;
-    this.veiculo = parsedJson["veiculo"]!=null?Veiculo.fromJson(parsedJson["veiculo"]):null;
+    id = parsedJson["id"];
+    nome = parsedJson["nome_razao_social"];
+    tipo = parsedJson["tipo"];
+    rg = parsedJson["rg"];
+    cpfCnpj = parsedJson["cpf_cnpj"];
+    inscricaoMunicipal = parsedJson["inscricao_municipal"];
+    ddd = parsedJson["ddd"];
+    telefone = parsedJson["telefone"];
+    telefone2 = parsedJson["telefone2"];
+    celular = parsedJson["celular"];
+    email = parsedJson["email"];
+    dataNascimento = parsedJson["data_nascimento"]!=null?dateFormat.parse(parsedJson["data_nascimento"]):null;
+    naturalidade = parsedJson["naturalidade"];
+    nacionalidade = parsedJson["nacionalidade"];
+    cnh = parsedJson["cnh"];
+    categoriaCNH = parsedJson["categoria_cnh"];
+    vencimentoCNH = parsedJson["vencimento_cnh"]!=null?dateFormat.parse(parsedJson["vencimento_cnh"]):null;
+    statusFoto = parsedJson["status_foto"];
+    prefixo = parsedJson["prefixo"];
+    fotoUrl = parsedJson["foto_url"];
+    modalidade = parsedJson["modalidade"]!=null?Modalidade.fromJson(parsedJson["modalidade"]):null;
+    endereco = parsedJson["endereco"]!=null?Endereco.fromJson(parsedJson["endereco"]):null;
+    veiculo = parsedJson["veiculo"]!=null?Veiculo.fromJson(parsedJson["veiculo"]):null;
   }
 
   Map<String, dynamic> toMap() {

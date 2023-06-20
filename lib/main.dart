@@ -1,3 +1,4 @@
+import 'package:get_it/get_it.dart';
 import 'package:sa_transportes_mobile/screen/splash_screen.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
@@ -19,6 +20,9 @@ void main() async {
   } else {
     await DotEnv().load('.env');
   }
+
+  GetIt getIt = GetIt.instance;
+  getIt.registerSingleton<AppState>(AppState());
 
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(

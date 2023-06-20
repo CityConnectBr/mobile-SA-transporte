@@ -57,6 +57,7 @@ dependencies:
   path_provider: ^2.0.7
   flutter_typeahead: ^3.2.1
   intl: ^0.17.0
+  get_it: ^7.6.0
 
 dev_dependencies:
   flutter_test:

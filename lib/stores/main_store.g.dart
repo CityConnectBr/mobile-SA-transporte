@@ -90,21 +90,6 @@ mixin _$MainStore on _MainStore, Store {
     });
   }
 
-  final _$usuarioAtom = Atom(name: '_MainStore.usuario');
-
-  @override
-  Usuario get usuario {
-    _$usuarioAtom.reportRead();
-    return super.usuario;
-  }
-
-  @override
-  set usuario(Usuario value) {
-    _$usuarioAtom.reportWrite(value, super.usuario, () {
-      super.usuario = value;
-    });
-  }
-
   final _$loginAsyncAction = AsyncAction('_MainStore.login');
 
   @override
@@ -315,8 +300,7 @@ loading: ${loading},
 solicitacaoExistente: ${solicitacaoExistente},
 showRecoverCodeField: ${showRecoverCodeField},
 showRecoverPasswordField: ${showRecoverPasswordField},
-photoUser: ${photoUser},
-usuario: ${usuario}
+photoUser: ${photoUser}
     ''';
   }
 }

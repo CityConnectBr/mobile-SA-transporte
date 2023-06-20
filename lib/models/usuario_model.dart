@@ -16,38 +16,31 @@ class Usuario {
   Condutor condutor;
   Fiscal fiscal;
 
-  Usuario({int id, String nome, String email, String cpf, String cnh, String password}){
-    this.id = id;
-    this.nome = nome;
-    this.email = email;
-    this.cpfCnpj = cpf;
-    this.cnh = cnh;
-    this.password = password;
-  }
+  Usuario({this.id, this.nome, this.email, this.cpfCnpj, this.cnh, this.password});
 
   Usuario.fromJson(Map<String, dynamic> parsedJson){
-    this.id = parsedJson["id"];
-    this.nome = parsedJson["nome"];
-    this.email = parsedJson["email"];
-    this.cpfCnpj = parsedJson["cpf_cnpj"];
-    this.cnh = parsedJson["cnh"];
-    this.tipo = TipoDoUsuario.fromJson(parsedJson["tipo"]);
-    this.permissionario = parsedJson["permissionario"]!=null?Permissionario.fromJson(parsedJson["permissionario"]):null;
-    this.fiscal = parsedJson["fiscal"]!=null?Fiscal.fromJson(parsedJson["fiscal"]):null;
-    this.condutor = parsedJson["condutor"]!=null?Condutor.fromJson(parsedJson["condutor"]):null;
+    id = parsedJson["id"];
+    nome = parsedJson["nome"];
+    email = parsedJson["email"];
+    cpfCnpj = parsedJson["cpf_cnpj"];
+    cnh = parsedJson["cnh"];
+    tipo = TipoDoUsuario.fromJson(parsedJson["tipo"]);
+    permissionario = parsedJson["permissionario"]!=null?Permissionario.fromJson(parsedJson["permissionario"]):null;
+    fiscal = parsedJson["fiscal"]!=null?Fiscal.fromJson(parsedJson["fiscal"]):null;
+    condutor = parsedJson["condutor"]!=null?Condutor.fromJson(parsedJson["condutor"]):null;
   }
 
   Map<String, dynamic> toMap(){
-    print(this.permissionario.toMap());
+    print(permissionario.toMap());
     return {
       "id": id,
       "nome": nome,
       "email": email,
       "cpf_cnpj": cpfCnpj,
       "cnh": cnh,
-      "permissionario": this.permissionario!=null?this.permissionario.toMap():null,
-      "fiscal": this.fiscal!=null?this.fiscal.toMap():null,
-      "condutor": this.condutor!=null?this.condutor.toMap():null,
+      "permissionario": permissionario!=null?permissionario.toMap():null,
+      "fiscal": fiscal!=null?fiscal.toMap():null,
+      "condutor": condutor!=null?condutor.toMap():null,
     };
   }
 
@@ -58,8 +51,8 @@ class TipoDoUsuario{
   String nome;
 
   TipoDoUsuario.fromJson(Map<String, dynamic> parsedJson){
-    this.id = parsedJson["id"];
-    this.nome = parsedJson["nome"];
+    id = parsedJson["id"];
+    nome = parsedJson["nome"];
   }
 
 }
