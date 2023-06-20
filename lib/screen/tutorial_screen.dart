@@ -4,12 +4,12 @@ import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 import 'package:flutter/material.dart';
 
-class LoadingStartScreen extends StatefulWidget {
+class TutorialScreen extends StatefulWidget {
   @override
-  _LoadingScreenState createState() => _LoadingScreenState();
+  _TutorialScreenState createState() => _TutorialScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingStartScreen>
+class _TutorialScreenState extends State<TutorialScreen>
     with SingleTickerProviderStateMixin {
   int _current = 0;
 

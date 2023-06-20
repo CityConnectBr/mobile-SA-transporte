@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         //
         appBarTheme: AppBarTheme(
             color: Util.hexToColor("#2d9cdb"), //,
-            textTheme: TextTheme(
+            textTheme: const TextTheme(
               headline6: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -73,8 +73,8 @@ class MyApp extends StatelessWidget {
         // Define the default TextTheme. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          headline1: const TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline6: const TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
           bodyText2: TextStyle(
               fontSize: 14.0,
               fontFamily: 'Hind',
@@ -82,8 +82,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      //home: LoadingStartScreen(),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
