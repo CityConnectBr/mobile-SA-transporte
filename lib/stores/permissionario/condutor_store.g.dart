@@ -56,6 +56,15 @@ mixin _$CondutorStore on _CondutorStore, Store {
         condutor: condutor, context: context, scaffoldKey: scaffoldKey));
   }
 
+  final _$showAlvaraAsyncAction = AsyncAction('_CondutorStore.showAlvara');
+
+  @override
+  Future<void> showAlvara(
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$showAlvaraAsyncAction.run(
+        () => super.showAlvara(context: context, scaffoldKey: scaffoldKey));
+  }
+
   final _$editFotoCondutorAsyncAction =
       AsyncAction('_CondutorStore.editFotoCondutor');
 

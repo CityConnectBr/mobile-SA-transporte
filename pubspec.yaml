@@ -62,7 +62,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.1.5
-  mobx_codegen: ^2.0.4
+  mobx_codegen: 2.0.0
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -86,7 +86,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
-    - images/logo.png
+    - images/
+    - images/logo.jpg 
+    - images/logo.png 
+    - images/logo_borda.png 
+    - images/logo_mobile.png
     - images/slide_01.png
     - images/slide_02.png
     - images/slide_03.png

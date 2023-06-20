@@ -9,6 +9,33 @@ part of 'permissionario_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$PermissionarioStore on _PermissionarioStore, Store {
+  final _$permissionariosAtom =
+      Atom(name: '_PermissionarioStore.permissionarios');
+
+  @override
+  List<Permissionario> get permissionarios {
+    _$permissionariosAtom.reportRead();
+    return super.permissionarios;
+  }
+
+  @override
+  set permissionarios(List<Permissionario> value) {
+    _$permissionariosAtom.reportWrite(value, super.permissionarios, () {
+      super.permissionarios = value;
+    });
+  }
+
+  final _$pesquisarAsyncAction = AsyncAction('_PermissionarioStore.pesquisar');
+
+  @override
+  Future<void> pesquisar(
+      {String search,
+      BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$pesquisarAsyncAction.run(() => super
+        .pesquisar(search: search, context: context, scaffoldKey: scaffoldKey));
+  }
+
   final _$editPermissionarioAsyncAction =
       AsyncAction('_PermissionarioStore.editPermissionario');
 
@@ -34,6 +61,16 @@ mixin _$PermissionarioStore on _PermissionarioStore, Store {
         .run(() => super.editFoto(context: context, scaffoldKey: scaffoldKey));
   }
 
+  final _$showAlvaraAsyncAction =
+      AsyncAction('_PermissionarioStore.showAlvara');
+
+  @override
+  Future<void> showAlvara(
+      {BuildContext context, GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$showAlvaraAsyncAction.run(
+        () => super.showAlvara(context: context, scaffoldKey: scaffoldKey));
+  }
+
   final _$saveFotoAsyncAction = AsyncAction('_PermissionarioStore.saveFoto');
 
   @override
@@ -48,7 +85,7 @@ mixin _$PermissionarioStore on _PermissionarioStore, Store {
   @override
   String toString() {
     return '''
-
+permissionarios: ${permissionarios}
     ''';
   }
 }
