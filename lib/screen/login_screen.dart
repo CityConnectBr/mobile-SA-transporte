@@ -40,25 +40,23 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     return Scaffold(
       key: _scaffoldKey,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(120.0),
+        preferredSize: const Size.fromHeight(160.0),
         child: AppBar(
           flexibleSpace: Container(
-            margin: EdgeInsets.only(top: 20.0),
+            margin: const EdgeInsets.only(top: 30.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'images/logo.png',
+                  'images/logo_borda.png',
                   fit: BoxFit.contain,
-                  width: 180,
-                  height: 180,
+                  height: 140,
                 )
               ],
             ),
           ),
           elevation: 0.0,
           backgroundColor: Theme.of(context).primaryColor,
-          brightness: Brightness.light,
         ),
       ),
       body: ListView(

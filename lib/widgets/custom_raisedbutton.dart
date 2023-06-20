@@ -22,7 +22,7 @@ class CustomRaisedButtonWhite extends StatelessWidget {
                 style: BorderStyle.solid,
                 width: 2.0)),
         child: Text(
-          this.label,
+          label,
           style: TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
@@ -30,7 +30,7 @@ class CustomRaisedButtonWhite extends StatelessWidget {
         ),
         textColor: Colors.white,
         color: Colors.white,
-        onPressed: this.func ?? () {},
+        onPressed: func ?? () {},
       ),
     );
   }
@@ -56,17 +56,17 @@ class CustomRaisedButtonBlue extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(9.0),
             side: BorderSide(
-                color: Util.hexToColor("#2d9cdb"),
+                color: Theme.of(context).primaryColor,
                 style: BorderStyle.solid,
                 width: 2.0)),
-        child: this.child != null ? this.child : Text(
-          this.label,
+        child: child != null ? child : Text(
+          label,
           style: TextStyle(
               fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         textColor: Colors.white,
-        color: Util.hexToColor("#2d9cdb"),
-        onPressed: this.func,
+        color: Theme.of(context).primaryColor,
+        onPressed: func,
       ),
     );
   }
@@ -93,7 +93,7 @@ class CustomRaisedButtonYellow extends StatelessWidget {
                 style: BorderStyle.solid,
                 width: 2.0)),
         child: Text(
-          this.label,
+          label,
           style: TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class CustomRaisedButtonYellow extends StatelessWidget {
         ),
         textColor: Colors.white,
         color: Util.hexToColor("#f2c94c"),
-        onPressed: this.func,
+        onPressed: func,
       ),
     );
   }
