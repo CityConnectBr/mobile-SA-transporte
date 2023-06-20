@@ -35,17 +35,24 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.infinity,
               // height: double.infinity,
               child: Container(
-                padding: EdgeInsets.only(
-                  top: 20.0,
-                ),
                 color: Theme.of(context).primaryColor,
                 child: Column(
                   children: <Widget>[
-                    Image.asset(
-                      "images/logo.png",
-                      //width: 50,
-                      height: 60,
-                      fit: BoxFit.contain,
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          color: Colors.white,
+                          padding: const EdgeInsets.all(10.0),
+                          child: Image.asset(
+                            "images/logo.png",
+                            //width: 50,
+                            height: 60,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -62,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.only(right: 20.0, left: 20.0),
                   child: Observer(builder: (_) {
                     if (mainStore.usuario.tipo.id == 1) {
                       return HomePermissionarioTile();
@@ -71,7 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     } else if (mainStore.usuario.tipo.id == 3) {
                       return HomeFiscalTile();
                     }
-
                     return Container();
                   }),
                 )
