@@ -2,7 +2,6 @@ import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/util/validators.dart';
-import 'package:sa_transportes_mobile/widgets/custom_dropdown.dart';
 import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:sa_transportes_mobile/widgets/custom_image_picker_field.dart';
 import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
@@ -88,14 +87,14 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
       child: Observer(builder: (_) {
         if (monitorStore.loading)
           return Container(
-            margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
-            child: Center(
-              child: CircularProgressIndicator(),
+            margin: const EdgeInsets.only(top: 100.0, bottom: 100.0),
+            child: const Center(
+              child: const CircularProgressIndicator(),
             ),
           );
 
         return Container(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,55 +102,20 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
               Form(
                 key: _formKey,
                 child: Column(
-                  children: <Widget>[
+                  children: <Widget>[                    
                     Row(
                       children: <Widget>[
-                        Text(
-                          'Dados de Contato',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    CustomInputFieldGrey(
-                      controller: _emailController,
-                      label: "E-MAIL",
-                      type: TextInputType.text,
-                      validator: ValidatorsUtil.validateEmail,
-                      hint: "E-MAIL",
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    CustomInputFieldGrey(
-                      controller: _phoneController,
-                      label: "TELEFONE",
-                      type: TextInputType.number,
-                      hint: "TELEFONE",
-                      onChanged: _controllerMaskCelular,
-                    ),
-                    SizedBox(
-                      height: 32.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
+                        const Text(
                           "Dados de Identidade",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 22.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16.0,
                     ),
                     CustomInputFieldGrey(
@@ -161,7 +125,7 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                       validator: ValidatorsUtil.validateIsEmpty,
                       hint: "NOME",
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16.0,
                     ),
                     Row(
@@ -176,7 +140,7 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                             hint: "CPF",
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
                           child: CustomInputFieldGrey(
@@ -189,7 +153,7 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16.0,
                     ),
                     CustomInputFieldGrey(
@@ -199,7 +163,42 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                       hint: "DATA NASCIMENTO",
                       validator: ValidatorsUtil.validateDate,
                     ),
-                    SizedBox(
+                    const SizedBox(
+                      height: 32.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        const Text(
+                          'Dados de Contato',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    CustomInputFieldGrey(
+                      controller: _emailController,
+                      label: "E-MAIL",
+                      type: TextInputType.text,
+                      validator: ValidatorsUtil.validateEmail,
+                      hint: "E-MAIL",
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    CustomInputFieldGrey(
+                      controller: _phoneController,
+                      label: "TELEFONE",
+                      type: TextInputType.number,
+                      hint: "TELEFONE",
+                      onChanged: _controllerMaskCelular,
+                    ),
+                    const SizedBox(
                       height: 32.0,
                     ),
                     CustomImagePickerField(
@@ -209,7 +208,7 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                         this._image = imgPath;
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30.0,
                     ),
                     CustomRaisedButtonBlue(

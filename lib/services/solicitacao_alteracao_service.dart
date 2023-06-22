@@ -39,39 +39,53 @@ class SolicitacaoDeAlteracaoService extends MainService {
     super.endPointVersion = 1;
   }
 
-  Future<dynamic> createSolicitacao(SolicitacaoDeAlteracao solicitacaoDeAlteracao, Usuario usuarioLogged) async {
+  Future<dynamic> createSolicitacao(
+      SolicitacaoDeAlteracao solicitacaoDeAlteracao,
+      Usuario usuarioLogged) async {
     Map<String, dynamic> fileMap = solicitacaoDeAlteracao.toMap();
 
     if (solicitacaoDeAlteracao.arquivo1 != null) {
       File arquivo1 = File(solicitacaoDeAlteracao.arquivo1);
-      fileMap["arquivo1"] = MultipartFile(arquivo1.openRead(), await arquivo1.length(), filename: "arquivo1.jpg");
+      fileMap["arquivo1"] = MultipartFile(
+          arquivo1.openRead(), await arquivo1.length(),
+          filename: "arquivo1.jpg");
     }
 
     if (solicitacaoDeAlteracao.arquivo2 != null) {
       File arquivo2 = File(solicitacaoDeAlteracao.arquivo2);
-      fileMap["arquivo2"] = MultipartFile(arquivo2.openRead(), await arquivo2.length(), filename: "arquivo2.jpg");
+      fileMap["arquivo2"] = MultipartFile(
+          arquivo2.openRead(), await arquivo2.length(),
+          filename: "arquivo2.jpg");
     }
 
     if (solicitacaoDeAlteracao.arquivo3 != null) {
       File arquivo3 = File(solicitacaoDeAlteracao.arquivo3);
-      fileMap["arquivo3"] = MultipartFile(arquivo3.openRead(), await arquivo3.length(), filename: "arquivo3.jpg");
+      fileMap["arquivo3"] = MultipartFile(
+          arquivo3.openRead(), await arquivo3.length(),
+          filename: "arquivo3.jpg");
     }
 
     fileMap["tipo_solicitacao_id"] = solicitacaoDeAlteracao.tipoSolicitacaoId;
 
     //fileMap.addAll(solicitacaoDeAlteracao.toMap());
-
-    await dio.post(makeEndPoint(usuario: usuarioLogged), data: FormData.fromMap(fileMap));
+    await dio.post(makeEndPoint(usuario: usuarioLogged),
+        data: FormData.fromMap(fileMap));
   }
 
-  Future<List<SolicitacaoDeAlteracao>> searchForSolicitacoes(int tipo, String referencia, bool statusNull, Usuario usuarioLogged) async {
+  Future<List<SolicitacaoDeAlteracao>> searchForSolicitacoes(int tipo,
+      String referencia, bool statusNull, Usuario usuarioLogged) async {
     List<SolicitacaoDeAlteracao> solicitacoesList = List();
-    List<dynamic> list =
-        (await dio.get(makeEndPoint(usuario: usuarioLogged), queryParameters: {"tipo": tipo, "referencia": referencia, "status": statusNull ? "null" : ""}))
-            .data['data'];
+    List<dynamic> list = (await dio.get(makeEndPoint(usuario: usuarioLogged),
+            queryParameters: {
+          "tipo": tipo,
+          "referencia": referencia,
+          "status": statusNull ? "null" : ""
+        }))
+        .data['data'];
 
     if (list != null) {
-      list.forEach((e) => solicitacoesList.add(SolicitacaoDeAlteracao.fromJson(e)));
+      list.forEach(
+          (e) => solicitacoesList.add(SolicitacaoDeAlteracao.fromJson(e)));
     }
 
     return solicitacoesList;
