@@ -98,12 +98,6 @@ class MenuDrawerTile extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
           }),
-      SizedBox(height: heightSpace),
-      CustomListTile(
-          title: "EMISSÃO DE MULTAS",
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => EmissaoDeMultaScreen()));
-          }),
       SizedBox(height: height * .30),
     ];
 
