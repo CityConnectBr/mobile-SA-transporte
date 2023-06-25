@@ -11,6 +11,7 @@ class Util {
   static final DateFormat dateFormatddMMyyyyHHmm = DateFormat("dd/MM/yyyy 'às' HH:mm'h'");
   static final DateFormat dateFormatyyyyMMdd = DateFormat("yyyy-MM-dd");
   static final DateFormat dateFormatyyyyMMddTHHmmssZ = DateFormat('yyyy-MM-ddTHH:mm:ssZ');
+  static final DateFormat timeFormatHHmm = DateFormat("HH:mm");
   static final _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 
   static Color hexToColor(String code) {

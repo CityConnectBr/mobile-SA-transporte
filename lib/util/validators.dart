@@ -97,6 +97,15 @@ class ValidatorsUtil {
       return null;
   }
 
+  static String validateTime(String value) {
+    Pattern pattern = r'^\d{1,2}:\d{1,2}$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Hora inválida';
+    else
+      return null;
+  }
+
   /*static bool validateDateTime(String value) {
     RegExp regex = new RegExp(dateTimePattern);
     if (!regex.hasMatch(value))

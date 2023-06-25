@@ -8,31 +8,33 @@ import 'package:sa_transportes_mobile/services/main_service.dart';
 import 'package:dio/dio.dart';
 
 class SolicitacaoDeAlteracaoService extends MainService {
-  static final int TIPO_CONDUTOR_CONTATO = 1;
-  static final int TIPO_CONDUTOR_ENDERECO = 2;
-  static final int TIPO_CONDUTOR_IDENTIDADE = 3;
-  static final int TIPO_CONDUTOR_CNH = 4;
-  static final int TIPO_CONDUTOR_CADASTRO = 5;
-  static final int TIPO_CONDUTOR_FOTO = 6;
+  static const int TIPO_CONDUTOR_CONTATO = 1;
+  static const int TIPO_CONDUTOR_ENDERECO = 2;
+  static const int TIPO_CONDUTOR_IDENTIDADE = 3;
+  static const int TIPO_CONDUTOR_CNH = 4;
+  static const int TIPO_CONDUTOR_CADASTRO = 5;
+  static const int TIPO_CONDUTOR_FOTO = 6;
 
-  static final int TIPO_PERMISSIONARIO_CONTATO = 10;
-  static final int TIPO_PERMISSIONARIO_ENDERECO = 11;
-  static final int TIPO_PERMISSIONARIO_IDENTIDADE = 12;
-  static final int TIPO_PERMISSIONARIO_CNH = 13;
-  static final int TIPO_PERMISSIONARIO_FOTO = 14;
+  static const int TIPO_PERMISSIONARIO_CONTATO = 10;
+  static const int TIPO_PERMISSIONARIO_ENDERECO = 11;
+  static const int TIPO_PERMISSIONARIO_IDENTIDADE = 12;
+  static const int TIPO_PERMISSIONARIO_CNH = 13;
+  static const int TIPO_PERMISSIONARIO_FOTO = 14;
 
-  static final int TIPO_MONITOR_CONTATO = 20;
-  static final int TIPO_MONITOR_ENDERECO = 21;
-  static final int TIPO_MONITOR_IDENTIDADE = 22;
-  static final int TIPO_MONITOR_CADASTRO = 23;
-  static final int TIPO_MONITOR_FOTO = 24;
+  static const int TIPO_MONITOR_CONTATO = 20;
+  static const int TIPO_MONITOR_ENDERECO = 21;
+  static const int TIPO_MONITOR_IDENTIDADE = 22;
+  static const int TIPO_MONITOR_CADASTRO = 23;
+  static const int TIPO_MONITOR_FOTO = 24;
 
-  static final int TIPO_FISCAL_CONTATO = 30;
-  static final int TIPO_FISCAL_ENDERECO = 31;
-  static final int TIPO_FISCAL_IDENTIDADE = 32;
-  static final int TIPO_FISCAL_FOTO = 33;
+  static const int TIPO_FISCAL_CONTATO = 30;
+  static const int TIPO_FISCAL_ENDERECO = 31;
+  static const int TIPO_FISCAL_IDENTIDADE = 32;
+  static const int TIPO_FISCAL_FOTO = 33;
 
-  static final int TIPO_VEICULO = 40;
+  static const int TIPO_VEICULO = 40;
+
+  static const int SOLICITACAO_INFRACAO = 60;
 
   SolicitacaoDeAlteracaoService() {
     super.endPoint = '/solicitacaodealteracao';

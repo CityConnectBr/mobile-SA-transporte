@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:sa_transportes_mobile/screen/splash_screen.dart';
+import 'package:sa_transportes_mobile/stores/fiscal/emissao_multa_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
@@ -38,7 +39,8 @@ void main() async {
           Provider<VeiculoStore>(create: (_) => VeiculoStore()),
           Provider<SolicitacaoStore>(create: (_) => SolicitacaoStore()),
           Provider<PermissionarioStore>(create: (_) => PermissionarioStore()),
-          Provider<SplashStore>(create: (_) => SplashStore())
+          Provider<SplashStore>(create: (_) => SplashStore()),
+          Provider<EmissaoMultaStore>(create: (_) => EmissaoMultaStore()),
         ],
         child: MyApp(),
       ),
