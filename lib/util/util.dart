@@ -1,24 +1,31 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class Util {
   static final DateFormat dateFormatddMMyyyy = DateFormat("dd/MM/yyyy");
-  static final DateFormat dateFormatddMMyyyyHHmm = DateFormat("dd/MM/yyyy 'às' HH:mm'h'");
+  static final DateFormat dateFormatddMMyyyyHHmm =
+      DateFormat("dd/MM/yyyy 'às' HH:mm'h'");
   static final DateFormat dateFormatyyyyMMdd = DateFormat("yyyy-MM-dd");
-  static final DateFormat dateFormatyyyyMMddTHHmmssZ = DateFormat('yyyy-MM-ddTHH:mm:ssZ');
+  static final DateFormat dateFormatyyyyMMddTHHmmssZ =
+      DateFormat('yyyy-MM-ddTHH:mm:ssZ');
   static final DateFormat timeFormatHHmm = DateFormat("HH:mm");
-  static final _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  static final _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 
   static Color hexToColor(String code) {
     return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
-  static String getRandomString(int length) => String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length))));
+  static String getRandomString(int length) =>
+      String.fromCharCodes(Iterable.generate(
+          length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length))));
 
   static Map<String, dynamic> decodeJson(String string) {
     try {
@@ -88,7 +95,8 @@ class Util {
             title: Text(
               titulo,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20.0, color: Theme.of(context).primaryColor),
+              style: TextStyle(
+                  fontSize: 20.0, color: Theme.of(context).primaryColor),
             ),
             content: Text(texto),
             actions: <Widget>[
@@ -113,20 +121,59 @@ class Util {
   }
 
   static String clearString(String str) {
-    return str != null ? str.replaceAll(RegExp(r'[.,-\/\\\[\]{}]'), "").replaceAll(" ", "") : null;
+    return str != null
+        ? str.replaceAll(RegExp(r'[.,-\/\\\[\]{}]'), "").replaceAll(" ", "")
+        : null;
   }
 
   static Future<bool> needDownloadFile(File file) async {
-    if (file != null && await file.exists() && (await file.lastModified()).isBefore(DateTime.now().add(Duration(minutes: -10)))) {
+    if (file != null &&
+        await file.exists() &&
+        (await file.lastModified())
+            .isBefore(DateTime.now().add(Duration(minutes: -10)))) {
       return false;
     }
 
     return true;
   }
+
+  static String formatStringToMoney(String value, {bool withSymbol = true}) {
+    if (value == null) return null;
+
+    value = value.replaceAll(".", "").replaceAll(",", ".");
+
+    return NumberFormat.currency(
+            locale: "pt_BR", symbol: withSymbol ? "R\$" : "", decimalDigits: 2)
+        .format(double.parse(value));
+  }
+
+  static String formatMoneyToDouble(String value) {
+    if (value == null) return null;
+
+    value = value.replaceAll(",", ".");
+
+    if (value.contains(".")) {
+      //verificar se tem mais de 2 casas decimais
+      if (value.split(".")[1].length > 2) {
+        return value.split(".")[0] + "." + value.split(".")[1].substring(0, 2);
+      } else if (value.split(".")[1].length == 1) {
+        return value + "0";
+      } else {
+        return value;
+      }
+    } else {
+      return value + ".00";
+    }
+  }
+
+  static copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text));
+  }
 }
 
 class Entry {
-  Entry(this.title, this.subtitle, this.value, [this.children = const <Entry>[]]);
+  Entry(this.title, this.subtitle, this.value,
+      [this.children = const <Entry>[]]);
 
   final String title;
   final String subtitle;

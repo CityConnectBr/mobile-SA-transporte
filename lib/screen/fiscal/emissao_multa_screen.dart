@@ -19,7 +19,7 @@ class EmissaoDeMultaScreen extends StatefulWidget {
 
   @override
   _EmissaoDeMultaScreenState createState() =>
-      _EmissaoDeMultaScreenState(veiculo);
+      _EmissaoDeMultaScreenState(veiculo, scaffoldKey);
 }
 
 class _EmissaoDeMultaScreenState extends State<EmissaoDeMultaScreen> {

@@ -69,6 +69,7 @@ class MainService {
       },
     ));
 
+    //TODO: testar
     /*dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       final token = await getToken();
       if (token != null && token.isNotEmpty) {
