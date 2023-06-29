@@ -120,6 +120,7 @@ class _EmissaoDeMultaScreenState extends State<EmissaoDeMultaScreen> {
                 label: "Confirmar",
                 func: () {
                   emissaoMultaStore.criarSolicitacaoDeInfracao(
+                      veiculo: veiculo,
                       data: _dateFormat.parse(_dataController.text),
                       hora: _horaController.text,
                       descricao: _descricaoController.text,

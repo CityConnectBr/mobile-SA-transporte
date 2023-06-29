@@ -14,7 +14,8 @@ mixin _$EmissaoMultaStore on _EmissaoMultaStore, Store {
 
   @override
   Future<void> criarSolicitacaoDeInfracao(
-      {DateTime data,
+      {Veiculo veiculo,
+      DateTime data,
       String hora,
       String descricao,
       String foto,
@@ -22,6 +23,7 @@ mixin _$EmissaoMultaStore on _EmissaoMultaStore, Store {
       GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$criarSolicitacaoDeInfracaoAsyncAction.run(() => super
         .criarSolicitacaoDeInfracao(
+            veiculo: veiculo,
             data: data,
             hora: hora,
             descricao: descricao,

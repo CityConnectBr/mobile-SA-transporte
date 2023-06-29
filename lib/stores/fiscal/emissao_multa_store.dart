@@ -1,4 +1,5 @@
 import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
+import 'package:sa_transportes_mobile/models/veiculo_model.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/util/error_handler_util.dart';
@@ -18,7 +19,8 @@ abstract class _EmissaoMultaStore extends MainStore with Store {
 
   @action
   Future<void> criarSolicitacaoDeInfracao(
-      {DateTime data,
+      {Veiculo veiculo,
+      DateTime data,
       String hora,
       String descricao,
       String foto,
@@ -39,12 +41,13 @@ abstract class _EmissaoMultaStore extends MainStore with Store {
 
       if (aux) {
         solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
-        solicitacaoDeAlteracao.tipoSolicitacaoId = SolicitacaoDeAlteracaoService.SOLICITACAO_INFRACAO.toString();
+        solicitacaoDeAlteracao.tipoSolicitacaoId =
+            SolicitacaoDeAlteracaoService.SOLICITACAO_INFRACAO.toString();
         solicitacaoDeAlteracao.campo1 = Util.dateFormatyyyyMMdd.format(data);
         solicitacaoDeAlteracao.campo2 = hora;
         solicitacaoDeAlteracao.campo3 = descricao;
-        solicitacaoDeAlteracao.arquivo1 = foto;
-
+        solicitacaoDeAlteracao.referenciaId = veiculo.id.toString();
+            solicitacaoDeAlteracao.arquivo1 = foto;
 
         SnackMessages.showSnackBarSuccess(
             context, scaffoldKey, "Solicitação enviada com sucesso.");
