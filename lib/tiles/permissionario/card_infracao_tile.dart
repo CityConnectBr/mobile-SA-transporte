@@ -96,13 +96,19 @@ class _CardInfracaoTileState extends State<CardInfracaoTile> {
                     style: TextStyle(color: Theme.of(context).primaryColor)),
               ]),
             ),
+            const SizedBox(
+              height: 10.0,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (_infracao.status == "pendente" ||
-                    _infracao.status == "confirmacao_rejeitada")
+                    _infracao.status == "confirm_rejeitada")
                   RaisedButton(
-                      child: const Text("Informar Pagamento"),
+                      child: const Text(
+                        "Informar\nPagamento",
+                        textAlign: TextAlign.center,
+                      ),
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -115,10 +121,10 @@ class _CardInfracaoTileState extends State<CardInfracaoTile> {
                             scaffoldKey: scaffoldKey,
                             infracao: _infracao);
                       }),
-                if (_infracao.status != "pendente" &&
-                    _infracao.status != "confirmacao_rejeitada")
+                if (_infracao.status == "pendente" ||
+                    _infracao.status == "confirm_rejeitada")
                   IconButton(
-                    icon: Icon(Icons.qr_code_scanner),
+                    icon: const Icon(Icons.qr_code_scanner),
                     color: Theme.of(context).primaryColor,
                     onPressed: () {
                       Navigator.of(context).push(
@@ -130,6 +136,9 @@ class _CardInfracaoTileState extends State<CardInfracaoTile> {
                       );
                     },
                   ),
+                if (_infracao.status == "confirmacao_pendente" ||
+                    _infracao.status == "pago")
+                  Container(),
                 StatusInfracao(_infracao.status),
               ],
             ),
@@ -145,7 +154,7 @@ class StatusInfracao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //pendente, pago, confirmacao_pendente, confirmacao_rejeitada
+    //pendente, pago, confirmacao_pendente, confirm_rejeitada
     if (status == "pendente") {
       return Text(
         "Pendente",
@@ -164,7 +173,7 @@ class StatusInfracao extends StatelessWidget {
         style: TextStyle(
             color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
       );
-    } else if (status == "confirmacao_rejeitada") {
+    } else if (status == "confirm_rejeitada") {
       return Text(
         "Confirmação Rejeitada",
         style: TextStyle(
