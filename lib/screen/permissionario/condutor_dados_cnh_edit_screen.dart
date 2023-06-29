@@ -54,8 +54,6 @@ class _CondutorDadosCnhScreenState extends State<CondutorDadosCnhScreen> {
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
       if (condutorStore.solicitacaoExistente) {
-        print(".......");
-        print(condutorStore.solicitacaoDeAlteracao.toMap());
         _cnhController.text = condutorStore.solicitacaoDeAlteracao.campo1;
         _categoriaCNH = condutorStore.solicitacaoDeAlteracao.campo2;
         _vencimentoCNHController.text =
