@@ -1,26 +1,24 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import 'package:satrans_new_app/services/main_service.dart';
-import 'package:satrans_new_app/utils/dio_interceptor.dart';
+import 'package:sa_transportes_mobile/services/main_service.dart';
 
 class VeiculoService extends MainService {
   VeiculoService() {
-    super.endpoint = '/veiculos';
-    super.endpointVersion = 1;
+    super.endPoint = '/veiculos';
+    super.endPointVersion = 1;
   }
 
-  Future<bool> checkPlaca(String placa) {
+  Future<bool> checkPlaca(String parametro) {
     final dio = Dio(
-      BaseOptions(baseUrl: MainService.urlApi, headers: {
+      BaseOptions(baseUrl: MainService.URLApi, headers: {
         'Content-Type': 'application/json',
-        'token': dotenv.env['API_TOKEN_WITHOUT_AUTH']
+        'token': DotEnv().env['API_TOKEN_WITHOUT_AUTH']
       }),
     );
 
-    dio.interceptors.add(CustomInterceptors());
-
-    var response = dio.get("/apisat/statusveiculo/$placa");
+    var response = dio.get("/apisat/permissaodeoperacao/$parametro");
 
     return response.then(
       (value) {

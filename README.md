@@ -1,6 +1,6 @@
-# satrans_new_app
+# sa_transportes_mobile
 
-App SA Transportes
+A new Flutter project.
 
 ## Getting Started
 
