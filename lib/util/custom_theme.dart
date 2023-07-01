@@ -7,6 +7,10 @@ class CustomTheme {
       secondary: const Color(0xFF0d8bc6),
     ),
     textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
+    appBarTheme: const AppBarTheme(
+      color: Color(0xFF12407c),
+      elevation: 0.0,
+    ),
   );
 
   static const Color primaryColor = Color(0xFF12407c);
