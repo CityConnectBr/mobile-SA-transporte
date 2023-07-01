@@ -53,7 +53,7 @@ class _SearchPlateScreenState extends State<SearchPlateScreen> {
           backgroundColor: const Color(0xFF12407c),
           body: SingleChildScrollView(
             child: Container(
-              margin: const EdgeInsets.only(top: 40.0),
+              margin: const EdgeInsets.only(top: 20.0),
               child: Column(
                 children: [
                   Row(
