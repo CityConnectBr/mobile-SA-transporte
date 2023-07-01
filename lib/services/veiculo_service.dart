@@ -14,7 +14,7 @@ class VeiculoService extends MainService {
     final dio = Dio(
       BaseOptions(baseUrl: MainService.URLApi, headers: {
         'Content-Type': 'application/json',
-        'token': DotEnv().env['API_TOKEN_WITHOUT_AUTH']
+        'token': dotenv.env['API_TOKEN_WITHOUT_AUTH'],
       }),
     );
 

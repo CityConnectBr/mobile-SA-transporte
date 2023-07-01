@@ -21,7 +21,7 @@ abstract class _SearchPlateStore extends MainStore with Store {
       placaValida = null;
       return;
     }
-
+    
     placaValida = await _veiculoService
         .checkPlaca(placaController.text.replaceAll("-", "").trim());
   }
