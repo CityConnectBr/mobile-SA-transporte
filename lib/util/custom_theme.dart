@@ -6,7 +6,7 @@ class CustomTheme {
     colorScheme: ColorScheme.fromSwatch().copyWith(
       secondary: const Color(0xFF0d8bc6),
     ),
-    textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
+    textTheme: const TextTheme(bodyMedium: TextStyle(color: Color(0xFF12407c))),
     appBarTheme: const AppBarTheme(
       color: Color(0xFF12407c),
       elevation: 0.0,
