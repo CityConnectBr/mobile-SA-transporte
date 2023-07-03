@@ -45,7 +45,7 @@ class _PhotoPersonTileState extends State<PhotoPersonTile> {
   double? height;
   int? typeButton;
 
-  get photo => _imagePath != null
+  get photo => _imagePath != null && _imagePath!.isNotEmpty
       ? Image.file(
           File(_imagePath!),
           fit: BoxFit.cover,

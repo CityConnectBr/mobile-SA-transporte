@@ -45,7 +45,7 @@ class _CustomImagePickerFieldState extends State<CustomImagePickerField> {
         GestureDetector(
           child: Container(
             alignment: Alignment.topLeft,
-            child: _imagePath != null
+            child: _imagePath != null && _imagePath!.isNotEmpty
                 ? Image.file(
                     File(_imagePath!),
                     height: 140,
