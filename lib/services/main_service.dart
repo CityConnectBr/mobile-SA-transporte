@@ -33,6 +33,9 @@ class MainService {
 
     dio.interceptors.add(DioHandlerTokenInterceptors());
     dio.interceptors.add(DioHandlerErrorInterceptors());
+
+    simpleDio.interceptors.add(DioHandlerTokenInterceptors(withContent: false));
+    simpleDio.interceptors.add(DioHandlerErrorInterceptors());
   }
 
   String makeEndPoint({String? endPoint, Usuario? usuario, int? endPointVersion}) {
