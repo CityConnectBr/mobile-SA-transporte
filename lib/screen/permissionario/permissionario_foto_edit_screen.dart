@@ -23,11 +23,6 @@ class _PermissionarioFotoScreenState extends State<PermissionarioFotoScreen> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     PermissionarioStore permissionarioStore = Provider.of<PermissionarioStore>(context);
 

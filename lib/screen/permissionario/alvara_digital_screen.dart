@@ -31,9 +31,7 @@ class _AlvaraDigitalPermissionarioScreenState
   }
 
   @override
-  void dispose() {
-    super.dispose();
-
+  void dispose() {   
     _nomeController.dispose();
     _cpfController.dispose();
     _cnhController.dispose();
@@ -41,6 +39,8 @@ class _AlvaraDigitalPermissionarioScreenState
     _placaController.dispose();
     _prefixoController.dispose();
     _localController.dispose();
+    
+    super.dispose();
   }
 
   @override

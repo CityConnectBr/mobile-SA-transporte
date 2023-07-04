@@ -44,8 +44,6 @@ class _MonitorEditEnderecoTileState extends State<MonitorEditEnderecoTile> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _cepController.dispose();
     _addressController.dispose();
     _numController.dispose();
@@ -54,6 +52,7 @@ class _MonitorEditEnderecoTileState extends State<MonitorEditEnderecoTile> {
     _municipioController.dispose();
     _ufController.dispose();
 
+    super.dispose();
   }
 
   @override

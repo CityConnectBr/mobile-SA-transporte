@@ -47,8 +47,6 @@ class _VeiculoDadosScreenState extends State<VeiculoDadosScreen> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _placaController.dispose();
     _renavanController.dispose();
     _chassiController.dispose();
@@ -61,6 +59,8 @@ class _VeiculoDadosScreenState extends State<VeiculoDadosScreen> {
     _marcaModeloVeiculoController.dispose();
     _tipoCombustivelController.dispose();
     _corController.dispose();
+    
+    super.dispose();
   }
 
   @override

@@ -39,14 +39,14 @@ class _MonitorDadosEnderecoScreenState extends State<MonitorDadosEnderecoScreen>
 
   @override
   void dispose() {
-    super.dispose();
-
     _cepController.dispose();
     _addressController.dispose();
     _numController.dispose();
     _complementController.dispose();
     _bairroController.dispose();
     _municipioController.dispose();
+    
+    super.dispose();
   }
 
   @override

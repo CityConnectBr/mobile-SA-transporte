@@ -33,10 +33,10 @@ class _LoginTileState extends State<LoginTile> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _emailController.dispose();
     _senhaController.dispose();
+    
+    super.dispose();
   }
 
   @override

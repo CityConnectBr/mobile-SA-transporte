@@ -40,8 +40,6 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
 
   @override
   void dispose() {
-    super.dispose();
-
     _placaController.dispose();
     _renavanController.dispose();
     _chassiController.dispose();
@@ -54,6 +52,8 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
     _marcaModeloVeiculoController.dispose();
     _tipoCombustivelController.dispose();
     _corController.dispose();
+
+    super.dispose();
   }
 
   @override

@@ -44,8 +44,6 @@ class _CondutorEditEnderecoTileState extends State<CondutorEditEnderecoTile> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _cepController.dispose();
     _addressController.dispose();
     _numController.dispose();
@@ -53,7 +51,8 @@ class _CondutorEditEnderecoTileState extends State<CondutorEditEnderecoTile> {
     _bairroController.dispose();
     _municipioController.dispose();
     _ufController.dispose();
-
+    
+    super.dispose();
   }
 
   @override

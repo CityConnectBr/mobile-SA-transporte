@@ -42,14 +42,14 @@ class _PermissionarioEditEnderecoTileState extends State<PermissionarioEditEnder
 
   @override
   void dispose() {
-    super.dispose();
-
     _cepController.dispose();
     _addressController.dispose();
     _numController.dispose();
     _complementController.dispose();
     _bairroController.dispose();
     _municipioController.dispose();
+    
+    super.dispose();
   }
 
   @override

@@ -19,10 +19,7 @@ class _InfracoesScreenState extends State<InfracoesScreen> {
   void initState() {
     super.initState();
   }
-
-  @override
-  void dispose() {}
-
+  
   @override
   Widget build(BuildContext context) {
     InfracaoStore store = Provider.of<InfracaoStore>(context);

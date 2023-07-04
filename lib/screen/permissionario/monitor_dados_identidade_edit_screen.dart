@@ -42,12 +42,12 @@ class _MonitorDadoIsdentidadeScreenState extends State<MonitorDadoIsdentidadeScr
 
   @override
   void dispose() {
-    super.dispose();
-
     _nomeController.dispose();
     _cpfController.dispose();
     _rgController.dispose();
     _dataNascController.dispose();
+    
+    super.dispose();
   }
 
   @override

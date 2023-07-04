@@ -29,9 +29,9 @@ class _SearchSolicitacaoTileState extends State<SearchSolicitacaoTile> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _searchController.dispose();
+    
+    super.dispose();
   }
 
   @override

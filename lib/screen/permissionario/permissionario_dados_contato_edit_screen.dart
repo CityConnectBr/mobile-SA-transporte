@@ -43,13 +43,13 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
 
   @override
   void dispose() {
-    super.dispose();
-
     _dddController.dispose();
     _phoneController.dispose();
     _phone2Controller.dispose();
     _celController.dispose();
     _emailController.dispose();
+    
+    super.dispose();
   }
 
   @override

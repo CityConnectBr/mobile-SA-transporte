@@ -22,11 +22,6 @@ class _MonitorFotoScreenState extends State<MonitorFotoScreen> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     MonitorStore monitorStore = Provider.of<MonitorStore>(context);
 

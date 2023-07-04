@@ -50,7 +50,6 @@ class _AlvaraDigitalScreenState extends State<AlvaraDigitalScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    super.dispose();
 
     _nomeController.dispose();
     _cpfController.dispose();
@@ -59,6 +58,8 @@ class _AlvaraDigitalScreenState extends State<AlvaraDigitalScreen> {
     _placaController.dispose();
     _prefixoController.dispose();
     _localController.dispose();
+    
+    super.dispose();
   }
 
   @override

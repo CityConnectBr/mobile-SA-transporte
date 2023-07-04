@@ -47,14 +47,14 @@ class _MonitorEditDadosTileState extends State<MonitorEditDadosTile> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _nomeController.dispose();
     _cpfController.dispose();
     _rgController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
     _dataNascController.dispose();
+    
+    super.dispose();
   }
 
   @override

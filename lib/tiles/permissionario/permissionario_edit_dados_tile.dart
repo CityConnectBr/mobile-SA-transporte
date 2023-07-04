@@ -51,8 +51,6 @@ class _PermissionarioEditDadosTileState
 
   @override
   void dispose() {
-    super.dispose();
-
     _nomeController.dispose();
     _documentController.dispose();
     _rgController.dispose();
@@ -64,6 +62,8 @@ class _PermissionarioEditDadosTileState
     _phone2Controller.dispose();
     _celController.dispose();
     _emailController.dispose();
+    
+    super.dispose();
   }
 
   @override

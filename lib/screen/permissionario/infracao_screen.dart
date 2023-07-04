@@ -17,7 +17,7 @@ class InfracaoDetailScreen extends StatelessWidget {
     InfracaoStore store = Provider.of<InfracaoStore>(context);
 
     final pixcode = store.gerarPIX(infracao);
-    print(pixcode);
+
     final height = MediaQuery.of(context).size.height * 0.9;
     return Scaffold(
         key: _scaffoldKey,

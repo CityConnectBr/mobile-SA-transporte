@@ -42,11 +42,11 @@ class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeS
 
   @override
   void dispose() {
-    super.dispose();
-
     _nomeController.dispose();
     _cpfController.dispose();
     _rgController.dispose();
+    
+    super.dispose();
   }
 
   @override

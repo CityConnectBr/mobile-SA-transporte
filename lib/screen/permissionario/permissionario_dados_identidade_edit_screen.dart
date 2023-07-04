@@ -47,14 +47,14 @@ class _CondutorDadoIsdentidadeScreenState
 
   @override
   void dispose() {
-    super.dispose();
-
     _nomeController.dispose();
     _documentController.dispose();
     _rgController.dispose();
     _natController.dispose();
     _nacController.dispose();
     _dataNascimentoController.dispose();
+    
+    super.dispose();
   }
 
   @override

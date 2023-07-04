@@ -47,8 +47,6 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _nomeController.dispose();
     _cpfController.dispose();
     _rgController.dispose();
@@ -59,6 +57,8 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
     _cnhController.dispose();
     _vencimentoCNHController.dispose();
     _cnhCategoriaController.dispose();
+    
+    super.dispose();
   }
 
   @override

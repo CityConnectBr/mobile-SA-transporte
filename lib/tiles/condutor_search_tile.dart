@@ -28,9 +28,9 @@ class _SearchCondutorTileState extends State<SearchCondutorTile> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _searchController.dispose();
+    
+    super.dispose();
   }
 
   @override

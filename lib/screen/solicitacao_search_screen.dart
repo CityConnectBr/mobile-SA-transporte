@@ -22,9 +22,6 @@ class _SolicitacaoScreenState extends State<SolicitacaoScreen> {
   }
 
   @override
-  void dispose() {}
-
-  @override
   Widget build(BuildContext context) {
     SolicitacaoStore _solicitacaoStore = Provider.of<SolicitacaoStore>(context);
 

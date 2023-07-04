@@ -35,10 +35,10 @@ class _MonitorDadosContatoScreenState extends State<MonitorDadosContatoScreen> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _phoneController.dispose();
     _emailController.dispose();
+        
+    super.dispose();
   }
 
   @override

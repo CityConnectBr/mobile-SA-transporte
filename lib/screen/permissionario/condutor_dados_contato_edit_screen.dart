@@ -39,12 +39,12 @@ class _CondutorDadosContatoScreenState
 
   @override
   void dispose() {
-    super.dispose();
-
     _dddController.dispose();
     _phoneController.dispose();
     _celController.dispose();
     _emailController.dispose();
+    
+    super.dispose();
   }
 
   @override

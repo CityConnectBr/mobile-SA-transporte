@@ -39,10 +39,10 @@ class _CondutorDadosCnhScreenState extends State<CondutorDadosCnhScreen> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _cnhController.dispose();
     _vencimentoCNHController.dispose();
+    
+    super.dispose();
   }
 
   @override

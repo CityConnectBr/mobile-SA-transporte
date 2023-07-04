@@ -43,14 +43,14 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _nomeController.dispose();
     _cpfController.dispose();
     _rgController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
     _dataNascController.dispose();
+    
+    super.dispose();
   }
 
   @override

@@ -22,9 +22,6 @@ class _SearchMonitorScreenState extends State<SearchMonitorScreen> {
   }
 
   @override
-  void dispose() {}
-
-  @override
   Widget build(BuildContext context) {
     MonitorStore _monitorStore = Provider.of<MonitorStore>(context);
 

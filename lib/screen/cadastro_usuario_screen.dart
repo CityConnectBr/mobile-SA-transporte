@@ -47,14 +47,14 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _nomeController.dispose();
     _emailController.dispose();
     _documentController.dispose();
     _cnhController.dispose();
     _senhaController.dispose();
     _senhaConfirmacaoController.dispose();
+    
+    super.dispose();
   }
 
   @override

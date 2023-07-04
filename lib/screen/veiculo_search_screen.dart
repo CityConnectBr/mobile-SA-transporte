@@ -22,9 +22,6 @@ class _SearchVeiculoScreenState extends State<SearchVeiculoScreen> {
   }
 
   @override
-  void dispose() {}
-
-  @override
   Widget build(BuildContext context) {
     VeiculoStore _veiculoStore = Provider.of<VeiculoStore>(context);
 

@@ -28,9 +28,9 @@ class _SearchMonitorTileState extends State<SearchMonitorTile> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _searchController.dispose();
+    
+    super.dispose();
   }
 
   @override

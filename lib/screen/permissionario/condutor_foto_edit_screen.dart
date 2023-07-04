@@ -23,11 +23,6 @@ class _CondutorFotoScreenState extends State<CondutorFotoScreen> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     CondutorStore condutorStore = Provider.of<CondutorStore>(context);
 

@@ -38,11 +38,11 @@ class _PermissionarioEditPasswordTileState extends State<PermissionarioEditPassw
 
   @override
   void dispose() {
-    super.dispose();
-
     _passwordActualController.dispose();
     _passwordController.dispose();
     _passwordConfirmController.dispose();
+    
+    super.dispose();
   }
 
   @override

@@ -28,12 +28,12 @@ class _RecuperacaoDeSenhaScreenState extends State<RecuperacaoDeSenhaScreen> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _emailController.dispose();
     _codeController.dispose();
     _senhaController.dispose();
     _confirmacaoDeSenhaController.dispose();
+
+    super.dispose();
   }
 
   @override

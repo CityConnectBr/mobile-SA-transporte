@@ -22,9 +22,6 @@ class _SearchCondutorScreenState extends State<SearchCondutorScreen> {
   }
 
   @override
-  void dispose() {}
-
-  @override
   Widget build(BuildContext context) {
     CondutorStore _condutorStore = Provider.of<CondutorStore>(context);
 

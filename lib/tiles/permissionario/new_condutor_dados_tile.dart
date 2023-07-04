@@ -48,8 +48,6 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _nomeController.dispose();
     _cpfController.dispose();
     _rgController.dispose();
@@ -59,6 +57,8 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
     _emailController.dispose();
     _cnhController.dispose();
     _vencimentoCNHController.dispose();
+    
+    super.dispose();
   }
 
   @override
