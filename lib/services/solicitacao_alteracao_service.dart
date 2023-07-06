@@ -67,9 +67,8 @@ class SolicitacaoDeAlteracaoService extends MainService {
 
     fileMap["tipo_solicitacao_id"] = solicitacaoDeAlteracao.tipoSolicitacaoId;
 
-    //fileMap.addAll(solicitacaoDeAlteracao.toMap());
     await dio.post(makeEndPoint(usuario: usuarioLogged),
-        data: FormData.fromMap(fileMap));
+        data: FormData.fromMap(_removeNulls(fileMap)));
   }
 
   Future<List<SolicitacaoDeAlteracao>> searchForSolicitacoes(int tipo,
@@ -89,5 +88,10 @@ class SolicitacaoDeAlteracaoService extends MainService {
     }
 
     return solicitacoesList;
+  }
+
+  Map<String, dynamic> _removeNulls(Map<String, dynamic> map) {
+    map.removeWhere((key, value) => value == null);
+    return map;
   }
 }
