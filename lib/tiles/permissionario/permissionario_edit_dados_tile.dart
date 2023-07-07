@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/tiles/card_edit_fields_tile.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
@@ -62,7 +63,7 @@ class _PermissionarioEditDadosTileState
     _phone2Controller.dispose();
     _celController.dispose();
     _emailController.dispose();
-    
+
     super.dispose();
   }
 
@@ -73,23 +74,27 @@ class _PermissionarioEditDadosTileState
     if (!_flagIsLoad) {
       _flagIsLoad = true;
 
-      _nomeController.text = mainStore.usuario?.permissionario?.nome??'';
-      _documentController.text = mainStore.usuario?.permissionario?.cpfCnpj??'';
-      _rgController.text = mainStore.usuario?.permissionario?.rg??'';
-      _natController.text = mainStore.usuario?.permissionario?.naturalidade??'';
-      _nacController.text = mainStore.usuario?.permissionario?.nacionalidade??'';
+      _nomeController.text = mainStore.usuario?.permissionario?.nome ?? '';
+      _documentController.text =
+          mainStore.usuario?.permissionario?.cpfCnpj ?? '';
+      _rgController.text = mainStore.usuario?.permissionario?.rg ?? '';
+      _natController.text =
+          mainStore.usuario?.permissionario?.naturalidade ?? '';
+      _nacController.text =
+          mainStore.usuario?.permissionario?.nacionalidade ?? '';
       _inscricaoMunicipalController.text =
-          mainStore.usuario?.permissionario?.inscricaoMunicipal??'';
+          mainStore.usuario?.permissionario?.inscricaoMunicipal ?? '';
       _dataNascimentoController.text =
           mainStore.usuario?.permissionario?.dataNascimento != null
               ? _dateFormat
                   .format(mainStore.usuario!.permissionario!.dataNascimento!)
               : '';
-      _dddController.text = mainStore.usuario?.permissionario?.ddd??'';
-      _phoneController.text = mainStore.usuario?.permissionario?.telefone??'';
-      _phone2Controller.text = mainStore.usuario?.permissionario?.telefone2??'';
-      _celController.text = mainStore.usuario?.permissionario?.celular??'';
-      _emailController.text = mainStore.usuario?.permissionario?.email??'';
+      _dddController.text = mainStore.usuario?.permissionario?.ddd ?? '';
+      _phoneController.text = mainStore.usuario?.permissionario?.telefone ?? '';
+      _phone2Controller.text =
+          mainStore.usuario?.permissionario?.telefone2 ?? '';
+      _celController.text = mainStore.usuario?.permissionario?.celular ?? '';
+      _emailController.text = mainStore.usuario?.permissionario?.email ?? '';
     }
 
     return Container(
@@ -141,7 +146,11 @@ class _PermissionarioEditDadosTileState
                                   label: "CPF/CNPJ",
                                   enabled: false,
                                   hint: "CPF",
-                                  inputFormatters: [CpfOuCnpjFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CpfOuCnpjFormatter()
+                                  ],
                                 ),
                               ),
                               Spacer(),
@@ -164,7 +173,11 @@ class _PermissionarioEditDadosTileState
                             label: "DATA NASCIMENTO",
                             enabled: false,
                             hint: "DATA NASCIMENTO",
-                            inputFormatters: [DataInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              DataInputFormatter()
+                            ],
                           ),
                           SizedBox(
                             height: 16.0,
@@ -234,7 +247,11 @@ class _PermissionarioEditDadosTileState
                                   controller: _phoneController,
                                   label: "TELEFONE",
                                   enabled: false,
-                                  inputFormatters: [TelefoneInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    TelefoneInputFormatter()
+                                  ],
                                 ),
                               ),
                             ],
@@ -250,7 +267,11 @@ class _PermissionarioEditDadosTileState
                                   controller: _phone2Controller,
                                   label: "TELEFONE 2",
                                   enabled: false,
-                                  inputFormatters: [TelefoneInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    TelefoneInputFormatter()
+                                  ],
                                 ),
                               ),
                               Spacer(),
@@ -260,7 +281,11 @@ class _PermissionarioEditDadosTileState
                                   controller: _celController,
                                   label: "CELULAR",
                                   enabled: false,
-                                  inputFormatters: [TelefoneInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    TelefoneInputFormatter()
+                                  ],
                                 ),
                               ),
                             ],

@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -49,7 +50,7 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
     _phoneController.dispose();
     _emailController.dispose();
     _dataNascController.dispose();
-    
+
     super.dispose();
   }
 
@@ -128,7 +129,11 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                             type: TextInputType.text,
                             validator: ValidatorsUtil.validateCPF,
                             hint: "CPF",
-                            inputFormatters: [CpfInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              CpfInputFormatter()
+                            ],
                           ),
                         ),
                         const Spacer(),
@@ -153,7 +158,11 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                       type: TextInputType.number,
                       hint: "DATA NASCIMENTO",
                       validator: ValidatorsUtil.validateDate,
-                      inputFormatters: [DataInputFormatter()],
+                      inputFormatters: [
+                        // obrigatório
+                        FilteringTextInputFormatter.digitsOnly,
+                        DataInputFormatter()
+                      ],
                     ),
                     const SizedBox(
                       height: 32.0,
@@ -188,7 +197,11 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                       label: "TELEFONE",
                       type: TextInputType.number,
                       hint: "TELEFONE",
-                      inputFormatters: [TelefoneInputFormatter()],
+                      inputFormatters: [
+                        // obrigatório
+                        FilteringTextInputFormatter.digitsOnly,
+                        TelefoneInputFormatter()
+                      ],
                     ),
                     const SizedBox(
                       height: 32.0,
@@ -212,8 +225,8 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                                 email: _emailController.text,
                                 cpf: Util.clearString(_cpfController.text),
                                 rg: _rgController.text,
-                                telefone: Util.clearString(
-                                    _phoneController.text),
+                                telefone:
+                                    Util.clearString(_phoneController.text),
                                 dataNasc: Util.dateFormatddMMyyyy
                                     .parse(_dataNascController.text),
                                 imgComprovante: _image ?? '',

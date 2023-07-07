@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/models/condutor_model.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
@@ -18,10 +19,12 @@ import 'package:provider/provider.dart';
 
 class CondutorDadoIsdentidadeScreen extends StatefulWidget {
   @override
-  _CondutorDadoIsdentidadeScreenState createState() => _CondutorDadoIsdentidadeScreenState();
+  _CondutorDadoIsdentidadeScreenState createState() =>
+      _CondutorDadoIsdentidadeScreenState();
 }
 
-class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeScreen> {
+class _CondutorDadoIsdentidadeScreenState
+    extends State<CondutorDadoIsdentidadeScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _image = "";
@@ -45,7 +48,7 @@ class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeS
     _nomeController.dispose();
     _cpfController.dispose();
     _rgController.dispose();
-    
+
     super.dispose();
   }
 
@@ -77,13 +80,16 @@ class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeS
               if (!this._flagIsLoad) {
                 this._flagIsLoad = true;
                 if (condutorStore.solicitacaoExistente) {
-                  _nomeController.text = condutorStore.solicitacaoDeAlteracao?.campo1?? "";
-                  _cpfController.text = condutorStore.solicitacaoDeAlteracao?.campo2?? "";
-                  _rgController.text = condutorStore.solicitacaoDeAlteracao?.campo3?? "";
+                  _nomeController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo1 ?? "";
+                  _cpfController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo2 ?? "";
+                  _rgController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo3 ?? "";
                 } else {
-                  _nomeController.text = condutorStore.condutor?.nome?? "";
-                  _cpfController.text = condutorStore.condutor?.cpf?? "";
-                  _rgController.text = condutorStore.condutor?.rg?? "";
+                  _nomeController.text = condutorStore.condutor?.nome ?? "";
+                  _cpfController.text = condutorStore.condutor?.cpf ?? "";
+                  _rgController.text = condutorStore.condutor?.rg ?? "";
                 }
               }
 
@@ -95,9 +101,10 @@ class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeS
                   children: <Widget>[
                     condutorStore.solicitacaoExistente
                         ? CustomAlertMessage(
-                      type: CustomAlertMessage.WANNING,
-                      message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
-                    )
+                            type: CustomAlertMessage.WANNING,
+                            message:
+                                "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                          )
                         : Container(),
                     SizedBox(
                       height: 20.0,
@@ -141,7 +148,11 @@ class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeS
                                   type: TextInputType.text,
                                   validator: ValidatorsUtil.validateCPF,
                                   hint: "CPF",
-                                  inputFormatters: [CpfInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CpfInputFormatter()
+                                  ],
                                 ),
                               ),
                               Spacer(),
@@ -183,7 +194,8 @@ class _CondutorDadoIsdentidadeScreenState extends State<CondutorDadoIsdentidadeS
                                       voidCallbackSim: () {
                                         condutorStore.saveIdentidadeCondutor(
                                             nome: this._nomeController.text,
-                                            cpf: Util.clearString(this._cpfController.text),
+                                            cpf: Util.clearString(
+                                                this._cpfController.text),
                                             rg: this._rgController.text,
                                             imgComprovante: this._image,
                                             context: context,

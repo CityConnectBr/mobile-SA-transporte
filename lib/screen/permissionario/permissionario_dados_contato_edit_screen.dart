@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -15,10 +16,12 @@ import 'package:provider/provider.dart';
 
 class CondutorDadosContatoScreen extends StatefulWidget {
   @override
-  _CondutorDadosContatoScreenState createState() => _CondutorDadosContatoScreenState();
+  _CondutorDadosContatoScreenState createState() =>
+      _CondutorDadosContatoScreenState();
 }
 
-class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen> {
+class _CondutorDadosContatoScreenState
+    extends State<CondutorDadosContatoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _image = "";
@@ -48,7 +51,7 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
     _phone2Controller.dispose();
     _celController.dispose();
     _emailController.dispose();
-    
+
     super.dispose();
   }
 
@@ -80,17 +83,27 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
               if (!this._flagIsLoad) {
                 this._flagIsLoad = true;
                 if (condutorStore.solicitacaoExistente) {
-                  _emailController.text = condutorStore.solicitacaoDeAlteracao?.campo1??'';
-                  _dddController.text = condutorStore.solicitacaoDeAlteracao?.campo2??'';
-                  _phoneController.text = condutorStore.solicitacaoDeAlteracao?.campo3??'';
-                  _phone2Controller.text = condutorStore.solicitacaoDeAlteracao?.campo4??'';
-                  _celController.text = condutorStore.solicitacaoDeAlteracao?.campo5??'';
+                  _emailController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo1 ?? '';
+                  _dddController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo2 ?? '';
+                  _phoneController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo3 ?? '';
+                  _phone2Controller.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo4 ?? '';
+                  _celController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo5 ?? '';
                 } else {
-                  _dddController.text = condutorStore.usuario?.permissionario?.ddd??'';
-                  _phoneController.text = condutorStore.usuario?.permissionario?.telefone??'';
-                  _phone2Controller.text = condutorStore.usuario?.permissionario?.telefone2??'';
-                  _celController.text = condutorStore.usuario?.permissionario?.celular??'';
-                  _emailController.text = condutorStore.usuario?.permissionario?.email??'';
+                  _dddController.text =
+                      condutorStore.usuario?.permissionario?.ddd ?? '';
+                  _phoneController.text =
+                      condutorStore.usuario?.permissionario?.telefone ?? '';
+                  _phone2Controller.text =
+                      condutorStore.usuario?.permissionario?.telefone2 ?? '';
+                  _celController.text =
+                      condutorStore.usuario?.permissionario?.celular ?? '';
+                  _emailController.text =
+                      condutorStore.usuario?.permissionario?.email ?? '';
                 }
               }
 
@@ -102,9 +115,10 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
                   children: <Widget>[
                     condutorStore.solicitacaoExistente
                         ? CustomAlertMessage(
-                      type: CustomAlertMessage.WANNING,
-                      message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
-                    )
+                            type: CustomAlertMessage.WANNING,
+                            message:
+                                "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                          )
                         : Container(),
                     SizedBox(
                       height: 20.0,
@@ -168,7 +182,11 @@ class _CondutorDadosContatoScreenState extends State<CondutorDadosContatoScreen>
                                   label: "CELULAR",
                                   type: TextInputType.number,
                                   hint: "CELULAR",
-                                  inputFormatters: [TelefoneInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    TelefoneInputFormatter()
+                                  ],
                                 ),
                               ),
                             ],

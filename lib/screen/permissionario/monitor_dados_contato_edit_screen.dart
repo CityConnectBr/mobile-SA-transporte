@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/util/validators.dart';
@@ -37,7 +38,7 @@ class _MonitorDadosContatoScreenState extends State<MonitorDadosContatoScreen> {
   void dispose() {
     _phoneController.dispose();
     _emailController.dispose();
-        
+
     super.dispose();
   }
 
@@ -134,6 +135,8 @@ class _MonitorDadosContatoScreenState extends State<MonitorDadosContatoScreen> {
                             type: TextInputType.number,
                             hint: "TELEFONE",
                             inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
                               TelefoneInputFormatter(),
                             ],
                           ),

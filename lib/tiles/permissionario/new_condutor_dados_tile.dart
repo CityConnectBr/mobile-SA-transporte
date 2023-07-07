@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -40,7 +41,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
   _NewCondutorTileState(this._scaffoldKey);
-  
+
   @override
   void initState() {
     super.initState();
@@ -57,7 +58,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
     _emailController.dispose();
     _cnhController.dispose();
     _vencimentoCNHController.dispose();
-    
+
     super.dispose();
   }
 
@@ -67,22 +68,25 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
 
     if (!_flagIsLoad) {
       _flagIsLoad = true;
-      _nomeController.text = condutorStore.solicitacaoDeAlteracao?.campo15??'';
+      _nomeController.text =
+          condutorStore.solicitacaoDeAlteracao?.campo15 ?? '';
       _cpfController.text =
           Util.clearString(condutorStore.solicitacaoDeAlteracao!.campo16!);
-      _rgController.text = condutorStore.solicitacaoDeAlteracao?.campo17??'';
-      _dddController.text = condutorStore.solicitacaoDeAlteracao?.campo5??'';
-      _phoneController.text = condutorStore.solicitacaoDeAlteracao?.campo6??'';
-      _celController.text = condutorStore.solicitacaoDeAlteracao?.campo7??'';
-      _emailController.text = condutorStore.solicitacaoDeAlteracao?.campo4??'';
-      _cnhController.text = condutorStore.solicitacaoDeAlteracao?.campo1??'';
-      _categoriaCNH = condutorStore.solicitacaoDeAlteracao?.campo2??'';
+      _rgController.text = condutorStore.solicitacaoDeAlteracao?.campo17 ?? '';
+      _dddController.text = condutorStore.solicitacaoDeAlteracao?.campo5 ?? '';
+      _phoneController.text =
+          condutorStore.solicitacaoDeAlteracao?.campo6 ?? '';
+      _celController.text = condutorStore.solicitacaoDeAlteracao?.campo7 ?? '';
+      _emailController.text =
+          condutorStore.solicitacaoDeAlteracao?.campo4 ?? '';
+      _cnhController.text = condutorStore.solicitacaoDeAlteracao?.campo1 ?? '';
+      _categoriaCNH = condutorStore.solicitacaoDeAlteracao?.campo2 ?? '';
       _vencimentoCNHController.text =
           condutorStore.solicitacaoDeAlteracao?.campo3 != null
               ? Util.convertyyyyMMddToddMMyyyy(
                   condutorStore.solicitacaoDeAlteracao!.campo3!)
               : '';
-      _imageCNH = condutorStore.solicitacaoDeAlteracao?.arquivo1??'';
+      _imageCNH = condutorStore.solicitacaoDeAlteracao?.arquivo1 ?? '';
     }
 
     return Container(
@@ -163,6 +167,8 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                       type: TextInputType.text,
                       hint: "CELULAR",
                       inputFormatters: [
+                        // obrigatório
+                        FilteringTextInputFormatter.digitsOnly,
                         TelefoneInputFormatter(),
                       ],
                     ),
@@ -204,7 +210,11 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                             type: TextInputType.text,
                             validator: ValidatorsUtil.validateCPF,
                             hint: "CPF",
-                            inputFormatters: [CpfInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              CpfInputFormatter()
+                            ],
                           ),
                         ),
                         Spacer(),
@@ -285,7 +295,11 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                             type: TextInputType.number,
                             hint: "VENCIMENTO",
                             validator: ValidatorsUtil.validateDate,
-                            inputFormatters: [DataInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              DataInputFormatter()
+                            ],
                           ),
                         ),
                       ],
@@ -312,11 +326,10 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                                 email: _emailController.text,
                                 cpf: Util.clearString(_cpfController.text),
                                 ddd: _dddController.text,
-                                celular:
-                                    Util.clearString(_celController.text),
+                                celular: Util.clearString(_celController.text),
                                 rg: _rgController.text,
-                                telefone: Util.clearString(
-                                    _phoneController.text),
+                                telefone:
+                                    Util.clearString(_phoneController.text),
                                 vencimentoCNH: Util.dateFormatddMMyyyy
                                     .parse(_vencimentoCNHController.text),
                                 cnh: _cnhController.text,

@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/models/monitor_model.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/monitor_dados_contato_edit_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/monitor_dados_identidade_edit_screen.dart';
@@ -53,7 +54,7 @@ class _MonitorEditDadosTileState extends State<MonitorEditDadosTile> {
     _phoneController.dispose();
     _emailController.dispose();
     _dataNascController.dispose();
-    
+
     super.dispose();
   }
 
@@ -118,7 +119,11 @@ class _MonitorEditDadosTileState extends State<MonitorEditDadosTile> {
                             controller: _phoneController,
                             label: "TELEFONE",
                             hint: "TELEFONE",
-                            inputFormatters: [TelefoneInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              TelefoneInputFormatter()
+                            ],
                             enabled: false,
                           ),
                           SizedBox(
@@ -160,7 +165,11 @@ class _MonitorEditDadosTileState extends State<MonitorEditDadosTile> {
                                   label: "CPF",
                                   hint: "CPF",
                                   enabled: false,
-                                  inputFormatters: [CpfInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CpfInputFormatter()
+                                  ],
                                 ),
                               ),
                               Spacer(),

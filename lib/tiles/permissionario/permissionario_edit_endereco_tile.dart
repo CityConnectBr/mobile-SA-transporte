@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/util/validators.dart';
@@ -16,10 +17,12 @@ class PermissionarioEditEnderecoTile extends StatefulWidget {
   PermissionarioEditEnderecoTile(this._globalKey);
 
   @override
-  _PermissionarioEditEnderecoTileState createState() => _PermissionarioEditEnderecoTileState(_globalKey);
+  _PermissionarioEditEnderecoTileState createState() =>
+      _PermissionarioEditEnderecoTileState(_globalKey);
 }
 
-class _PermissionarioEditEnderecoTileState extends State<PermissionarioEditEnderecoTile> {
+class _PermissionarioEditEnderecoTileState
+    extends State<PermissionarioEditEnderecoTile> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
@@ -48,7 +51,7 @@ class _PermissionarioEditEnderecoTileState extends State<PermissionarioEditEnder
     _complementController.dispose();
     _bairroController.dispose();
     _municipioController.dispose();
-    
+
     super.dispose();
   }
 
@@ -59,17 +62,19 @@ class _PermissionarioEditEnderecoTileState extends State<PermissionarioEditEnder
     if (!this._flagIsLoad) {
       this._flagIsLoad = true;
 
-      _cepController.text = mainStore.usuario?.permissionario?.endereco?.cep??'';
+      _cepController.text =
+          mainStore.usuario?.permissionario?.endereco?.cep ?? '';
       _addressController.text =
-          mainStore.usuario?.permissionario?.endereco?.endereco??'';
-      _numController.text = mainStore.usuario?.permissionario?.endereco?.numero??'';
+          mainStore.usuario?.permissionario?.endereco?.endereco ?? '';
+      _numController.text =
+          mainStore.usuario?.permissionario?.endereco?.numero ?? '';
       _complementController.text =
-          mainStore.usuario?.permissionario?.endereco?.complemento??'';
+          mainStore.usuario?.permissionario?.endereco?.complemento ?? '';
       _bairroController.text =
-          mainStore.usuario?.permissionario?.endereco?.bairro??'';
+          mainStore.usuario?.permissionario?.endereco?.bairro ?? '';
       _municipioController.text =
-          mainStore.usuario?.permissionario?.endereco?.municipio??'';
-      _uf = mainStore.usuario?.permissionario?.endereco?.uf??'';
+          mainStore.usuario?.permissionario?.endereco?.municipio ?? '';
+      _uf = mainStore.usuario?.permissionario?.endereco?.uf ?? '';
     }
 
     return Container(
@@ -102,7 +107,11 @@ class _PermissionarioEditEnderecoTileState extends State<PermissionarioEditEnder
                             type: TextInputType.number,
                             validator: ValidatorsUtil.validateCEP,
                             hint: "CEP",
-                            inputFormatters: [CepInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              CepInputFormatter()
+                            ],
                           ),
                         ),
                         Spacer(),

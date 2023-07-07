@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -51,7 +52,7 @@ class _NewMonitorEnderecoTileState extends State<NewMonitorEnderecoTile> {
     _complementController.dispose();
     _bairroController.dispose();
     _municipioController.dispose();
-    
+
     super.dispose();
   }
 
@@ -63,11 +64,15 @@ class _NewMonitorEnderecoTileState extends State<NewMonitorEnderecoTile> {
       this._flagIsLoad = true;
 
       _cepController.text = monitorStore.solicitacaoDeAlteracao?.campo3 ?? "";
-      _addressController.text = monitorStore.solicitacaoDeAlteracao?.campo4 ?? "";
+      _addressController.text =
+          monitorStore.solicitacaoDeAlteracao?.campo4 ?? "";
       _numController.text = monitorStore.solicitacaoDeAlteracao?.campo5 ?? "";
-      _complementController.text = monitorStore.solicitacaoDeAlteracao?.campo6 ?? "";
-      _bairroController.text = monitorStore.solicitacaoDeAlteracao?.campo7 ?? "";
-      _municipioController.text = monitorStore.solicitacaoDeAlteracao?.campo8 ?? "";
+      _complementController.text =
+          monitorStore.solicitacaoDeAlteracao?.campo6 ?? "";
+      _bairroController.text =
+          monitorStore.solicitacaoDeAlteracao?.campo7 ?? "";
+      _municipioController.text =
+          monitorStore.solicitacaoDeAlteracao?.campo8 ?? "";
       _uf = monitorStore.solicitacaoDeAlteracao?.campo9 ?? "";
       _image = monitorStore.solicitacaoDeAlteracao?.arquivo2 ?? "";
     }
@@ -102,7 +107,11 @@ class _NewMonitorEnderecoTileState extends State<NewMonitorEnderecoTile> {
                             type: TextInputType.number,
                             validator: ValidatorsUtil.validateCEP,
                             hint: "CEP",
-                            inputFormatters: [CepInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              CepInputFormatter()
+                            ],
                           ),
                         ),
                         Spacer(),

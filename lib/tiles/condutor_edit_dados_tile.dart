@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/models/condutor_model.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/condutor_dados_cnh_edit_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/condutor_dados_identidade_edit_screen.dart';
@@ -57,7 +58,7 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
     _cnhController.dispose();
     _vencimentoCNHController.dispose();
     _cnhCategoriaController.dispose();
-    
+
     super.dispose();
   }
 
@@ -67,18 +68,18 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
 
     if (!_flagIsLoad) {
       _flagIsLoad = true;
-      _nomeController.text = _condutor.nome??'';
-      _cpfController.text = Util.clearString(_condutor.cpf??'');
-      _rgController.text = _condutor.rg??'';
-      _dddController.text = _condutor.ddd??'';
-      _phoneController.text = _condutor.telefone??'';
-      _celController.text = _condutor.celular??'';
-      _emailController.text = _condutor.email??'';
-      _cnhController.text = _condutor.cnh??'';
+      _nomeController.text = _condutor.nome ?? '';
+      _cpfController.text = Util.clearString(_condutor.cpf ?? '');
+      _rgController.text = _condutor.rg ?? '';
+      _dddController.text = _condutor.ddd ?? '';
+      _phoneController.text = _condutor.telefone ?? '';
+      _celController.text = _condutor.celular ?? '';
+      _emailController.text = _condutor.email ?? '';
+      _cnhController.text = _condutor.cnh ?? '';
       _vencimentoCNHController.text = _condutor.vencimentoCNH != null
           ? Util.dateFormatddMMyyyy.format(_condutor.vencimentoCNH!)
           : '';
-      _cnhCategoriaController.text = _condutor.categoriaCNH??'';
+      _cnhCategoriaController.text = _condutor.categoriaCNH ?? '';
     }
 
     return Container(
@@ -142,7 +143,11 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                                   label: "TELEFONE",
                                   hint: "TELEFONE",
                                   enabled: false,
-                                  inputFormatters: [TelefoneInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    TelefoneInputFormatter()
+                                  ],
                                 ),
                               ),
                             ],
@@ -155,7 +160,11 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                             label: "CELULAR",
                             hint: "CELULAR",
                             enabled: false,
-                            inputFormatters: [TelefoneInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              TelefoneInputFormatter()
+                            ],
                           ),
                         ],
                       ),
@@ -193,7 +202,11 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                                   label: "CPF",
                                   hint: "CPF",
                                   enabled: false,
-                                  inputFormatters: [CpfInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CpfInputFormatter()
+                                  ],
                                 ),
                               ),
                               Spacer(),
@@ -254,7 +267,11 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                                     label: "VENCIMENTO",
                                     hint: "VENCIMENTO",
                                     enabled: false,
-                                    inputFormatters: [DataInputFormatter()]),
+                                    inputFormatters: [
+                                      // obrigatório
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      DataInputFormatter()
+                                    ]),
                               ),
                             ],
                           ),

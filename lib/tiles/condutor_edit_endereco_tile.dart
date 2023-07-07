@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/models/condutor_model.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/condutor_dados_endereco_edit_screen.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
@@ -51,7 +52,7 @@ class _CondutorEditEnderecoTileState extends State<CondutorEditEnderecoTile> {
     _bairroController.dispose();
     _municipioController.dispose();
     _ufController.dispose();
-    
+
     super.dispose();
   }
 
@@ -62,13 +63,13 @@ class _CondutorEditEnderecoTileState extends State<CondutorEditEnderecoTile> {
     if (!_flagIsLoad && _condutor.endereco != null) {
       _flagIsLoad = true;
 
-      _cepController.text = _condutor.endereco?.cep??'';
-      _addressController.text = _condutor.endereco?.endereco??'';
-      _numController.text = _condutor.endereco?.numero??'';
-      _complementController.text = _condutor.endereco?.complemento??'';
-      _bairroController.text = _condutor.endereco?.bairro??'';
-      _municipioController.text = _condutor.endereco?.municipio??'';
-      _ufController.text = _condutor.endereco?.uf??'';
+      _cepController.text = _condutor.endereco?.cep ?? '';
+      _addressController.text = _condutor.endereco?.endereco ?? '';
+      _numController.text = _condutor.endereco?.numero ?? '';
+      _complementController.text = _condutor.endereco?.complemento ?? '';
+      _bairroController.text = _condutor.endereco?.bairro ?? '';
+      _municipioController.text = _condutor.endereco?.municipio ?? '';
+      _ufController.text = _condutor.endereco?.uf ?? '';
     }
 
     return Container(
@@ -97,7 +98,8 @@ class _CondutorEditEnderecoTileState extends State<CondutorEditEnderecoTile> {
                         condutorStore.editCondutor(
                             context: context,
                             scaffoldKey: _scaffoldKey,
-                            tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_CONDUTOR_ENDERECO,
+                            tipoDaSolicitacao: SolicitacaoDeAlteracaoService
+                                .TIPO_CONDUTOR_ENDERECO,
                             screenToOpen: CondutorDadosEnderecoScreen());
                       },
                       child: Column(
@@ -111,7 +113,11 @@ class _CondutorEditEnderecoTileState extends State<CondutorEditEnderecoTile> {
                                   label: "CEP",
                                   hint: "CEP",
                                   enabled: false,
-                                  inputFormatters: [CepInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CepInputFormatter()
+                                  ],
                                 ),
                               ),
                               Spacer(),

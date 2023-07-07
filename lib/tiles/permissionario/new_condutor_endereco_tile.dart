@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -51,7 +52,7 @@ class _NewCondutorEnderecoTileState extends State<NewCondutorEnderecoTile> {
     _complementController.dispose();
     _bairroController.dispose();
     _municipioController.dispose();
-    
+
     super.dispose();
   }
 
@@ -106,7 +107,11 @@ class _NewCondutorEnderecoTileState extends State<NewCondutorEnderecoTile> {
                             type: TextInputType.number,
                             validator: ValidatorsUtil.validateCEP,
                             hint: "CEP",
-                            inputFormatters: [CepInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              CepInputFormatter()
+                            ],
                           ),
                         ),
                         Spacer(),

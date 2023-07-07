@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -53,7 +54,7 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
     _cnhController.dispose();
     _senhaController.dispose();
     _senhaConfirmacaoController.dispose();
-    
+
     super.dispose();
   }
 
@@ -108,7 +109,11 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
                     type: TextInputType.number,
                     validator: ValidatorsUtil.validateCPFCNPJ,
                     hint: "Seu documento aqui",
-                    inputFormatters: [CpfOuCnpjFormatter()],
+                    inputFormatters: [
+                      // obrigatório
+                      FilteringTextInputFormatter.digitsOnly,
+                      CpfOuCnpjFormatter()
+                    ],
                   ),
                   SizedBox(
                     height: 16.0,
@@ -230,7 +235,7 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
 
   void _checkBoxChange(bool? novoValor) {
     setState(() {
-      this._termoAceito = novoValor!=null?novoValor:false;
+      this._termoAceito = novoValor != null ? novoValor : false;
     });
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -53,7 +54,7 @@ class _CondutorDadoIsdentidadeScreenState
     _natController.dispose();
     _nacController.dispose();
     _dataNascimentoController.dispose();
-    
+
     super.dispose();
   }
 
@@ -106,7 +107,8 @@ class _CondutorDadoIsdentidadeScreenState
                   _nomeController.text =
                       permissionarioStore.usuario?.permissionario?.nome ?? "";
                   _documentController.text =
-                      permissionarioStore.usuario?.permissionario?.cpfCnpj ?? "";
+                      permissionarioStore.usuario?.permissionario?.cpfCnpj ??
+                          "";
                   _rgController.text =
                       permissionarioStore.usuario?.permissionario?.rg ?? "";
                   _natController.text = permissionarioStore
@@ -164,7 +166,11 @@ class _CondutorDadoIsdentidadeScreenState
                                   type: TextInputType.text,
                                   enabled: false,
                                   hint: "CPF",
-                                  inputFormatters: [CpfOuCnpjFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CpfOuCnpjFormatter()
+                                  ],
                                 ),
                               ),
                               Spacer(),
@@ -189,7 +195,11 @@ class _CondutorDadoIsdentidadeScreenState
                             type: TextInputType.number,
                             validator: ValidatorsUtil.validateDate,
                             hint: "DATA NASCIMENTO",
-                            inputFormatters: [DataInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              DataInputFormatter()
+                            ],
                           ),
                           SizedBox(
                             height: 16.0,

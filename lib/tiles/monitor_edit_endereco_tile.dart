@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/models/monitor_model.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/monitor_dados_endereco_edit_screen.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
@@ -62,13 +63,13 @@ class _MonitorEditEnderecoTileState extends State<MonitorEditEnderecoTile> {
     if (!_flagIsLoad && _monitor.endereco != null) {
       _flagIsLoad = true;
 
-      _cepController.text = _monitor.endereco?.cep?? "";
-      _addressController.text = _monitor.endereco?.endereco?? ""; 
-      _numController.text = _monitor.endereco?.numero?? "";
-      _complementController.text = _monitor.endereco?.complemento?? "";
-      _bairroController.text = _monitor.endereco?.bairro?? "";
-      _municipioController.text = _monitor.endereco?.municipio?? "";
-      _ufController.text = _monitor.endereco?.uf?? "";
+      _cepController.text = _monitor.endereco?.cep ?? "";
+      _addressController.text = _monitor.endereco?.endereco ?? "";
+      _numController.text = _monitor.endereco?.numero ?? "";
+      _complementController.text = _monitor.endereco?.complemento ?? "";
+      _bairroController.text = _monitor.endereco?.bairro ?? "";
+      _municipioController.text = _monitor.endereco?.municipio ?? "";
+      _ufController.text = _monitor.endereco?.uf ?? "";
     }
 
     return Container(
@@ -97,7 +98,8 @@ class _MonitorEditEnderecoTileState extends State<MonitorEditEnderecoTile> {
                         monitorStore.editMonitor(
                             context: context,
                             scaffoldKey: _scaffoldKey,
-                            tipoDaSolicitacao: SolicitacaoDeAlteracaoService.TIPO_MONITOR_ENDERECO,
+                            tipoDaSolicitacao: SolicitacaoDeAlteracaoService
+                                .TIPO_MONITOR_ENDERECO,
                             screenToOpen: MonitorDadosEnderecoScreen());
                       },
                       child: Column(
@@ -111,7 +113,11 @@ class _MonitorEditEnderecoTileState extends State<MonitorEditEnderecoTile> {
                                   label: "CEP",
                                   hint: "CEP",
                                   enabled: false,
-                                  inputFormatters: [CepInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CepInputFormatter()
+                                  ],
                                 ),
                               ),
                               Spacer(),

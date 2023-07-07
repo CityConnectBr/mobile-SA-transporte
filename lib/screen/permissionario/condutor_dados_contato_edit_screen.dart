@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -43,7 +44,7 @@ class _CondutorDadosContatoScreenState
     _phoneController.dispose();
     _celController.dispose();
     _emailController.dispose();
-    
+
     super.dispose();
   }
 
@@ -90,7 +91,8 @@ class _CondutorDadosContatoScreenState
                 } else {
                   _emailController.text = condutorStore.condutor?.email ?? '';
                   _dddController.text = condutorStore.condutor?.ddd ?? '';
-                  _phoneController.text = condutorStore.condutor?.telefone ?? '';
+                  _phoneController.text =
+                      condutorStore.condutor?.telefone ?? '';
                   _celController.text = condutorStore.condutor?.celular ?? '';
                 }
               }
@@ -162,6 +164,8 @@ class _CondutorDadosContatoScreenState
                                   type: TextInputType.number,
                                   hint: "TELEFONE",
                                   inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
                                     TelefoneInputFormatter(),
                                   ],
                                 ),
@@ -177,6 +181,8 @@ class _CondutorDadosContatoScreenState
                             type: TextInputType.text,
                             hint: "CELULAR",
                             inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
                               TelefoneInputFormatter(),
                             ],
                           ),

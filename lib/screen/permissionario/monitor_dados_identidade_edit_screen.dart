@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
 import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
@@ -17,10 +18,12 @@ import 'package:provider/provider.dart';
 
 class MonitorDadoIsdentidadeScreen extends StatefulWidget {
   @override
-  _MonitorDadoIsdentidadeScreenState createState() => _MonitorDadoIsdentidadeScreenState();
+  _MonitorDadoIsdentidadeScreenState createState() =>
+      _MonitorDadoIsdentidadeScreenState();
 }
 
-class _MonitorDadoIsdentidadeScreenState extends State<MonitorDadoIsdentidadeScreen> {
+class _MonitorDadoIsdentidadeScreenState
+    extends State<MonitorDadoIsdentidadeScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _image = "";
@@ -46,7 +49,7 @@ class _MonitorDadoIsdentidadeScreenState extends State<MonitorDadoIsdentidadeScr
     _cpfController.dispose();
     _rgController.dispose();
     _dataNascController.dispose();
-    
+
     super.dispose();
   }
 
@@ -78,16 +81,26 @@ class _MonitorDadoIsdentidadeScreenState extends State<MonitorDadoIsdentidadeScr
               if (!this._flagIsLoad) {
                 this._flagIsLoad = true;
                 if (monitorStore.solicitacaoExistente) {
-                  _nomeController.text = monitorStore.solicitacaoDeAlteracao?.campo1?? "";
-                  _cpfController.text = monitorStore.solicitacaoDeAlteracao?.campo2?? "";
-                  _rgController.text = monitorStore.solicitacaoDeAlteracao?.campo3?? "";
+                  _nomeController.text =
+                      monitorStore.solicitacaoDeAlteracao?.campo1 ?? "";
+                  _cpfController.text =
+                      monitorStore.solicitacaoDeAlteracao?.campo2 ?? "";
+                  _rgController.text =
+                      monitorStore.solicitacaoDeAlteracao?.campo3 ?? "";
                   _dataNascController.text =
-                  monitorStore.solicitacaoDeAlteracao?.campo4 != null ? Util.convertyyyyMMddToddMMyyyy(monitorStore.solicitacaoDeAlteracao?.campo4??'') : "";
+                      monitorStore.solicitacaoDeAlteracao?.campo4 != null
+                          ? Util.convertyyyyMMddToddMMyyyy(
+                              monitorStore.solicitacaoDeAlteracao?.campo4 ?? '')
+                          : "";
                 } else {
-                  _nomeController.text = monitorStore.monitor?.nome?? "";
-                  _cpfController.text = monitorStore.monitor?.cpf?? "";
-                  _rgController.text = monitorStore.monitor?.rg?? "";
-                  _dataNascController.text = monitorStore.monitor?.dataNascimento != null ? Util.dateFormatddMMyyyy.format(monitorStore.monitor!.dataNascimento!) : "";
+                  _nomeController.text = monitorStore.monitor?.nome ?? "";
+                  _cpfController.text = monitorStore.monitor?.cpf ?? "";
+                  _rgController.text = monitorStore.monitor?.rg ?? "";
+                  _dataNascController.text =
+                      monitorStore.monitor?.dataNascimento != null
+                          ? Util.dateFormatddMMyyyy
+                              .format(monitorStore.monitor!.dataNascimento!)
+                          : "";
                 }
               }
 
@@ -99,9 +112,10 @@ class _MonitorDadoIsdentidadeScreenState extends State<MonitorDadoIsdentidadeScr
                   children: <Widget>[
                     monitorStore.solicitacaoExistente
                         ? CustomAlertMessage(
-                      type: CustomAlertMessage.WANNING,
-                      message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
-                    )
+                            type: CustomAlertMessage.WANNING,
+                            message:
+                                "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                          )
                         : Container(),
                     SizedBox(
                       height: 20.0,
@@ -145,7 +159,11 @@ class _MonitorDadoIsdentidadeScreenState extends State<MonitorDadoIsdentidadeScr
                                   type: TextInputType.text,
                                   validator: ValidatorsUtil.validateCPF,
                                   hint: "CPF",
-                                  inputFormatters: [CpfInputFormatter()],
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CpfInputFormatter()
+                                  ],
                                 ),
                               ),
                               Spacer(),
@@ -170,7 +188,11 @@ class _MonitorDadoIsdentidadeScreenState extends State<MonitorDadoIsdentidadeScr
                             type: TextInputType.text,
                             hint: "DATA NASCIMENTO",
                             validator: ValidatorsUtil.validateDate,
-                            inputFormatters: [DataInputFormatter()],
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              DataInputFormatter()
+                            ],
                           ),
                           SizedBox(
                             height: 32.0,
@@ -195,9 +217,13 @@ class _MonitorDadoIsdentidadeScreenState extends State<MonitorDadoIsdentidadeScr
                                       voidCallbackSim: () {
                                         monitorStore.saveIdentidadeMonitor(
                                             nome: this._nomeController.text,
-                                            cpf: Util.clearString(this._cpfController.text),
+                                            cpf: Util.clearString(
+                                                this._cpfController.text),
                                             rg: this._rgController.text,
-                                            dataNasc: Util.dateFormatddMMyyyy.parse(this._dataNascController.text),
+                                            dataNasc: Util.dateFormatddMMyyyy
+                                                .parse(this
+                                                    ._dataNascController
+                                                    .text),
                                             imgComprovante: this._image,
                                             context: context,
                                             scaffoldKey: _scaffoldKey);
