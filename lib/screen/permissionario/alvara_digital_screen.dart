@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:sa_transportes_mobile/models/permissionario_model.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
@@ -21,9 +22,6 @@ class _AlvaraDigitalPermissionarioScreenState
   final _placaController = TextEditingController();
   final _prefixoController = TextEditingController();
   final _localController = TextEditingController();
-  // Str _fotoUrl;
-
-  String _image = "";
 
   @override
   void initState() {
@@ -31,7 +29,7 @@ class _AlvaraDigitalPermissionarioScreenState
   }
 
   @override
-  void dispose() {   
+  void dispose() {
     _nomeController.dispose();
     _cpfController.dispose();
     _cnhController.dispose();
@@ -39,7 +37,7 @@ class _AlvaraDigitalPermissionarioScreenState
     _placaController.dispose();
     _prefixoController.dispose();
     _localController.dispose();
-    
+
     super.dispose();
   }
 
@@ -49,16 +47,12 @@ class _AlvaraDigitalPermissionarioScreenState
 
     Permissionario? perm = store.usuario?.permissionario;
     if (perm != null) {
-      _nomeController.text = perm.nome??'';
-      _cpfController.text = perm.cpfCnpj??'';
-      _cnhController.text = perm.cnh??'';
-      //TODO
-      //_veiculoController.text = perm.veiculo!.modelo!;
-      ///_placaController.text = perm.veiculo!.placa!;
-      ///_prefixoController.text = perm.prefixo!;
-      //_localController.text = perm.veiculo!.local!;
-      _image = perm.fotoUrl??'';
+      _nomeController.text = perm.nome ?? '';
+      _cpfController.text = perm.cpfCnpj ?? '';
+      _cnhController.text = perm.cnh ?? '';
     }
+
+    store.loadPhotoUser();
 
     return Scaffold(
       appBar: AppBar(
@@ -71,109 +65,144 @@ class _AlvaraDigitalPermissionarioScreenState
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomInputFieldGrey(
-                        controller: _nomeController,
-                        label: "Permissionário",
-                        enabled: false,
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: CustomInputFieldGrey(
-                              controller: _cpfController,
-                              label: "CPF",
-                              hint: "CPF",
-                              enabled: false,
-                            ),
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomInputFieldGrey(
+                            controller: _nomeController,
+                            label: "Permissionário",
+                            enabled: false,
                           ),
                           const SizedBox(
-                            width: 10.0,
+                            height: 10.0,
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: CustomInputFieldGrey(
-                              controller: _cnhController,
-                              label: "CNH",
-                              hint: "CNH",
-                              enabled: false,
-                            ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: CustomInputFieldGrey(
+                                  controller: _cpfController,
+                                  label: "CPF",
+                                  hint: "CPF",
+                                  enabled: false,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: CustomInputFieldGrey(
+                                  controller: _cnhController,
+                                  label: "CNH",
+                                  hint: "CNH",
+                                  enabled: false,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      CustomInputFieldGrey(
-                        controller: _veiculoController,
-                        label: "Veículo",
-                        hint: "Veículo",
-                        enabled: false,
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: CustomInputFieldGrey(
-                              controller: _placaController,
-                              label: "Placa",
-                              hint: "Placa",
-                              enabled: false,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: CustomInputFieldGrey(
-                              controller: _prefixoController,
-                              label: "Prefixo",
-                              hint: "Prefixo",
-                              enabled: false,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      CustomInputFieldGrey(
-                        controller: _localController,
-                        label: "Local",
-                        hint: "Local",
-                        enabled: false,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  //foto do permissionário
+                  Expanded(
+                    flex: 1,
+                    child: Observer(
+                      builder: (_) {
+                        return store.photoUser == null
+                            ? Image.asset(
+                                "images/photo-user.jpeg",
+                                fit: BoxFit.cover,
+                              )
+                            : Image.file(
+                                store.photoUser!,
+                                fit: BoxFit.cover,
+                              );
+                      },
+                    ),
+                  ),
+                ],
               ),
-              //foto do permissionário
-              Expanded(
-                flex: 1,
-                child: Image.asset('images/photo-user.jpeg', fit: BoxFit.fill),
+              const SizedBox(
+                height: 10.0,
               ),
+              StatusAltevaTile(permissionario: perm),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class StatusAltevaTile extends StatelessWidget {
+  final Permissionario? permissionario;
+
+  const StatusAltevaTile({super.key, this.permissionario});
+
+  @override
+  Widget build(BuildContext context) {
+    if (permissionario?.alvara?.isExpired() ?? false) {
+      return Column(
+        children: [
+          const Icon(
+            Icons.error,
+            color: Colors.red,
+            size: 100.0,
+          ),
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: const Text(
+              "Alvará Vencido",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+              ),
+            ),
+          ),
+        ],
+      );
+    } else if (permissionario?.alvara?.dataVencimento != null) {
+      return Column(
+        children: [
+          const Icon(
+            Icons.check_circle,
+            color: Colors.green,
+            size: 100.0,
+          ),
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Text(
+              "Vencimento: ${permissionario?.alvara?.dataVencimento?.day}/${permissionario?.alvara?.dataVencimento?.month}/${permissionario?.alvara?.dataVencimento?.year}",
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return Container();
   }
 }

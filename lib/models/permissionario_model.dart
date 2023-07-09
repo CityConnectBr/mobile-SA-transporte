@@ -1,3 +1,4 @@
+import 'package:sa_transportes_mobile/models/alvara_model.dart';
 import 'package:sa_transportes_mobile/models/endereco_model.dart';
 import 'package:sa_transportes_mobile/models/modalidade_model.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +28,7 @@ class Permissionario {
   Modalidade? modalidade;
   Endereco? endereco;
   Veiculo? veiculo;
+  Alvara? alvara;
 
   final dateFormat = new DateFormat("yyyy-MM-dd");
 
@@ -54,6 +56,7 @@ class Permissionario {
     modalidade = parsedJson["modalidade"]!=null?Modalidade.fromJson(parsedJson["modalidade"]):null;
     endereco = parsedJson["endereco"]!=null?Endereco.fromJson(parsedJson["endereco"]):null;
     veiculo = parsedJson["veiculo"]!=null?Veiculo.fromJson(parsedJson["veiculo"]):null;
+    alvara = parsedJson["last_alvara"]!=null?Alvara.fromJson(parsedJson["last_alvara"]):null;
   }
 
   Map<String, dynamic> toMap() {
