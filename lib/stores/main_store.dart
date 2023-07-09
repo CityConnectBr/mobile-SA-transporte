@@ -11,7 +11,6 @@ import 'package:sa_transportes_mobile/util/error_handler_util.dart';
 import 'package:sa_transportes_mobile/util/preferences.dart';
 import 'package:sa_transportes_mobile/widgets/custom_dialog.dart';
 import 'package:sa_transportes_mobile/widgets/snack_message.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'dart:async';
@@ -409,32 +408,9 @@ abstract class _MainStore with Store {
   @action
   Future<File?> loadPhotoUser() async {
     try {
-      // if(!this.photoUser.existsSync()) {
-      //
-      //   final lastPhoto = await this._prefs.get(Preferences.KEY_LAST_PHOTO);
-      //
-      //   if(lastPhoto!=null){
-      //     final photo = File(lastPhoto);
-      //     if(await photo.exists()){
-      //       photo.delete();
-      //     }
-      //   }
-      //   this.photoUser = await this._usuarioService.downloadPhotoUser();
-      //
-      //   print(photoUser);
-      //   this._prefs.save(Preferences.KEY_LAST_PHOTO, this.photoUser.path);
-      // }
-      // else{
-      photoUser = null;
-      // print("ELSEEEEEEEE");
-      // print(this.photoUser);
-      // print(this.photoUser.existsSync());
-
-      //}
+      this.photoUser = await this._usuarioService.downloadPhotoUser();
     } catch (e) {
       photoUser = null;
-      print('exception');
-      print(e);
     }
   }
 

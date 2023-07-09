@@ -25,33 +25,37 @@ class MenuDrawerTile extends StatelessWidget {
     MainStore mainStore = Provider.of<MainStore>(context);
 
     mainStore.loadPhotoUser();
-    
+
     final acoesPermissionarioMap = [
       CustomListTile(
         title: "ALVARÁ DIGITAL",
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlvaraDigitalPermissionarioScreen()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => AlvaraDigitalPermissionarioScreen()));
         },
       ),
       SizedBox(height: heightSpace),
       CustomListTile(
         title: "CONDUTORES",
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchCondutorScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => SearchCondutorScreen()));
         },
       ),
       SizedBox(height: heightSpace),
       CustomListTile(
         title: "MONITORES",
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchMonitorScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => SearchMonitorScreen()));
         },
       ),
       SizedBox(height: heightSpace),
       CustomListTile(
         title: "VEÍCULOS",
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
         },
       ),
       //SizedBox(height: heightSpace),
@@ -65,7 +69,8 @@ class MenuDrawerTile extends StatelessWidget {
       CustomListTile(
         title: "SOLICITAÇÕES",
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SolicitacaoScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => SolicitacaoScreen()));
         },
       ),
       SizedBox(height: height * .05),
@@ -75,25 +80,27 @@ class MenuDrawerTile extends StatelessWidget {
       CustomListTile(
         title: "ALVARÁ DIGITAL",
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlvaraDigitalScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => AlvaraDigitalScreen()));
         },
       ),
       SizedBox(height: heightSpace),
       CustomListTile(
         title: "VEÍCULOS",
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => VeiculoShowScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => VeiculoShowScreen()));
         },
       ),
       SizedBox(height: height * .35),
-
     ];
 
     final acoesFiscalMap = [
       CustomListTile(
           title: "VEÍCULOS",
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => SearchVeiculoScreen()));
           }),
       SizedBox(height: height * .30),
     ];
@@ -120,32 +127,35 @@ class MenuDrawerTile extends StatelessWidget {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
-                                      image: AssetImage("images/photo-user.jpeg")
-                                      //TODO
-                                      /*mainStore.photoUser==null
-                                          ? AssetImage("images/photo-user.jpeg")
-                                          : FileImage(mainStore.photoUser, scale: 0.1),*/
+                                      image: mainStore.photoUser == null
+                                          ? Image.asset(
+                                              "images/photo-user.jpeg",
+                                              fit: BoxFit.cover,
+                                            ).image
+                                          : FileImage(mainStore.photoUser!,
+                                              scale: 0.1),
                                     )),
                               );
                             })),
-    if (mainStore.usuario?.tipo?.id == 4)
-                            Positioned(
-                            right: -20.0,
-                            top: -15.0,
-                            child: Image.asset(
-                              "images/ic_edit.png",
-                              fit: BoxFit.contain,
-                            )),
+                        if (mainStore.usuario?.tipo?.id == 4)
+                          Positioned(
+                              right: -20.0,
+                              top: -15.0,
+                              child: Image.asset(
+                                "images/ic_edit.png",
+                                fit: BoxFit.contain,
+                              )),
                       ],
                     ),
                     onTap: () {
-                      mainStore.editUser(context: context, scaffoldKey: scaffoldKey);
+                      mainStore.editUser(
+                          context: context, scaffoldKey: scaffoldKey);
                     },
                   ),
                   Spacer(),
                   Observer(builder: (_) {
                     return Text(
-                      mainStore.usuario?.nome??"",
+                      mainStore.usuario?.nome ?? "",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: "InterBold",
@@ -156,7 +166,7 @@ class MenuDrawerTile extends StatelessWidget {
                   }),
                   Observer(builder: (_) {
                     return Text(
-                      mainStore.usuario?.tipo?.nome??"",
+                      mainStore.usuario?.tipo?.nome ?? "",
                       style: TextStyle(
                         fontFamily: "InterRegular",
                         fontSize: 14.0,

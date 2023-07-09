@@ -17,7 +17,9 @@ class DioHandlerTokenInterceptors extends Interceptor {
 
     if (lastToken != null && lastToken.isNotEmpty) {
       options.headers["Authorization"] = "Bearer $lastToken";
-      if (withContent) options.headers["Content-Type"] = "application/json";
+    }
+    if (withContent || options.headers["Content-Type"] == null) {
+      options.headers["Content-Type"] = "application/json";
     }
 
     handler.next(options);

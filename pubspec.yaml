@@ -54,6 +54,7 @@ dependencies:
   carousel_slider: ^4.2.1
   qr_flutter: ^4.1.0
   pix_flutter: ^2.1.0
+  dio_smart_retry: ^5.0.0
 
 dev_dependencies:
   flutter_test:

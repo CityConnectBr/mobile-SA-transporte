@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:sa_transportes_mobile/core/interceptors/dio_hadler_error_interceptor.dart';
 import 'package:sa_transportes_mobile/core/interceptors/dio_hadler_token_interceptor.dart';
 import 'package:sa_transportes_mobile/models/usuario_model.dart';
@@ -30,15 +31,41 @@ class MainService {
     dio.options.baseUrl = MainService.URLApi;
     simpleDio.options.baseUrl = MainService.URLApi;
 
-
+    dio.interceptors.add(
+      RetryInterceptor(
+        dio: dio,
+        logPrint: print, // specify log function (optional)
+        retries: 3, // retry count (optional)
+        retryDelays: const [
+          // set delays between retries (optional)
+          Duration(seconds: 1), // wait 1 sec before the first retry
+          Duration(seconds: 2), // wait 2 sec before the second retry
+          Duration(seconds: 3), // wait 3 sec before the third retry
+        ],
+      ),
+    );
     dio.interceptors.add(DioHandlerTokenInterceptors());
     dio.interceptors.add(DioHandlerErrorInterceptors());
 
+    simpleDio.interceptors.add(
+      RetryInterceptor(
+        dio: dio,
+        logPrint: print, // specify log function (optional)
+        retries: 3, // retry count (optional)
+        retryDelays: const [
+          // set delays between retries (optional)
+          Duration(seconds: 1), // wait 1 sec before the first retry
+          Duration(seconds: 2), // wait 2 sec before the second retry
+          Duration(seconds: 3), // wait 3 sec before the third retry
+        ],
+      ),
+    );
     simpleDio.interceptors.add(DioHandlerTokenInterceptors(withContent: false));
     simpleDio.interceptors.add(DioHandlerErrorInterceptors());
   }
 
-  String makeEndPoint({String? endPoint, Usuario? usuario, int? endPointVersion}) {
+  String makeEndPoint(
+      {String? endPoint, Usuario? usuario, int? endPointVersion}) {
     String endPointAux = "/api";
 
     if (usuario != null) {
@@ -55,7 +82,9 @@ class MainService {
       }
     }
 
-    endPointAux += endPointVersion != null ? "/v${endPointVersion}" : "/v${this.endPointVersion}"; //setando versao
+    endPointAux += endPointVersion != null
+        ? "/v${endPointVersion}"
+        : "/v${this.endPointVersion}"; //setando versao
 
     return endPointAux + (endPoint != null ? endPoint : this.endPoint);
   }
@@ -77,7 +106,9 @@ class MainService {
   ///////////////////////////////////
 
   Future<List<dynamic>> search(String search, Usuario userLogged) async {
-    return (await dio.get(makeEndPoint(usuario: userLogged), queryParameters: {"search": search})).data['data'];
+    return (await dio.get(makeEndPoint(usuario: userLogged),
+            queryParameters: {"search": search}))
+        .data['data'];
   }
 
   Future<dynamic> create(json, Usuario userLogged) async {
@@ -85,24 +116,18 @@ class MainService {
   }
 
   Future download({String? url, File? file}) async {
-      if (url == null || file == null) {
-        throw Exception("url or file is null");
-      }
-    
-      Response response = await dio.get(
-        url,
-        options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            validateStatus: (status) {
-              return status! < 500;
-            }),
-      );
-      //print(response.headers);
-      var raf = file.openSync(mode: FileMode.write);
-      // response.data is List<int> type
-      raf.writeFromSync(response.data);
-      await raf.close();
+    if (url == null || file == null) {
+      throw Exception("url or file is null");
+    }
+
+    Response response = await dio.get(
+      url,
+      options: Options(responseType: ResponseType.bytes),
+    );
+
+    await file.writeAsBytes(response.data);
+
+    return;
   }
 
   Future<bool> update(String id, json, Usuario userLogged) async {
