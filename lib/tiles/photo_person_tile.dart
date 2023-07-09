@@ -49,11 +49,11 @@ class _PhotoPersonTileState extends State<PhotoPersonTile> {
       ? Image.file(
           File(_imagePath!),
           fit: BoxFit.cover,
-        )
+        ).image
       : Image.asset(
           "images/photo-user.jpeg",
           fit: BoxFit.cover,
-        );
+        ).image;
 
   @override
   Widget build(BuildContext context) {
