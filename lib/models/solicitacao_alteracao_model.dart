@@ -41,6 +41,7 @@ class SolicitacaoDeAlteracao {
     id = parsedJson["id"];
     motivoRecusado = parsedJson["motivo_recusado"];
     sincronizado = parsedJson["sincronizado"]==0;
+    status = parsedJson["status"];
     campo1 = parsedJson["campo1"];
     campo2 = parsedJson["campo2"];
     campo3 = parsedJson["campo3"];
