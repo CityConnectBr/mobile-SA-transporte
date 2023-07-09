@@ -29,15 +29,9 @@ abstract class _MainStore with Store {
   @observable
   bool showRecoverPasswordField = false;
 
-  @observable
-  File? photoUser;
-
   final _usuarioService = UsuarioService();
 
   final _prefs = Preferences();
-
-  /*@observable
-  Usuario usuario;*/
 
   set usuario(Usuario? value) {
     AppState appState = GetIt.instance.get<AppState>();
@@ -47,6 +41,16 @@ abstract class _MainStore with Store {
   Usuario? get usuario {
     AppState appState = GetIt.instance.get<AppState>();
     return appState.usuarioLogado;
+  }
+
+  set photoUser(File? value) {
+    AppState appState = GetIt.instance.get<AppState>();
+    appState.photoUser = value;
+  }
+
+  File? get photoUser {
+    AppState appState = GetIt.instance.get<AppState>();
+    return appState.photoUser;
   }
 
   @action
@@ -408,7 +412,9 @@ abstract class _MainStore with Store {
   @action
   Future<File?> loadPhotoUser() async {
     try {
-      this.photoUser = await this._usuarioService.downloadPhotoUser();
+      if (photoUser == null) {
+        photoUser = await _usuarioService.downloadPhotoUser();
+      }
     } catch (e) {
       photoUser = null;
     }
