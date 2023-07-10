@@ -75,22 +75,6 @@ mixin _$MainStore on _MainStore, Store {
     });
   }
 
-  late final _$photoUserAtom =
-      Atom(name: '_MainStore.photoUser', context: context);
-
-  @override
-  File? get photoUser {
-    _$photoUserAtom.reportRead();
-    return super.photoUser;
-  }
-
-  @override
-  set photoUser(File? value) {
-    _$photoUserAtom.reportWrite(value, super.photoUser, () {
-      super.photoUser = value;
-    });
-  }
-
   late final _$loginAsyncAction =
       AsyncAction('_MainStore.login', context: context);
 
@@ -309,8 +293,7 @@ mixin _$MainStore on _MainStore, Store {
 loading: ${loading},
 solicitacaoExistente: ${solicitacaoExistente},
 showRecoverCodeField: ${showRecoverCodeField},
-showRecoverPasswordField: ${showRecoverPasswordField},
-photoUser: ${photoUser}
+showRecoverPasswordField: ${showRecoverPasswordField}
     ''';
   }
 }
