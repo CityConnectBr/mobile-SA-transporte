@@ -5,13 +5,13 @@ import 'package:sa_transportes_mobile/core/interceptors/dio_hadler_error_interce
 import 'package:sa_transportes_mobile/core/interceptors/dio_hadler_token_interceptor.dart';
 import 'package:sa_transportes_mobile/models/usuario_model.dart';
 import 'package:sa_transportes_mobile/util/preferences.dart';
-import 'package:sa_transportes_mobile/util/validators.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MainService {
   final dio = Dio();
+  final dioMultiPart = Dio();
   final simpleDio = Dio();
 
   String endPoint = "";
@@ -35,32 +35,29 @@ class MainService {
       RetryInterceptor(
         dio: dio,
         logPrint: print, // specify log function (optional)
-        retries: 3, // retry count (optional)
+        retries: 1, // retry count (optional)
         retryDelays: const [
           // set delays between retries (optional)
           Duration(seconds: 1), // wait 1 sec before the first retry
-          Duration(seconds: 2), // wait 2 sec before the second retry
-          Duration(seconds: 3), // wait 3 sec before the third retry
         ],
       ),
     );
-    dio.interceptors.add(DioHandlerTokenInterceptors());
+    dio.interceptors
+        .add(DioHandlerTokenInterceptors(content: "application/json"));
     dio.interceptors.add(DioHandlerErrorInterceptors());
 
     simpleDio.interceptors.add(
       RetryInterceptor(
         dio: dio,
         logPrint: print, // specify log function (optional)
-        retries: 3, // retry count (optional)
+        retries: 1, // retry count (optional)
         retryDelays: const [
           // set delays between retries (optional)
           Duration(seconds: 1), // wait 1 sec before the first retry
-          Duration(seconds: 2), // wait 2 sec before the second retry
-          Duration(seconds: 3), // wait 3 sec before the third retry
         ],
       ),
     );
-    simpleDio.interceptors.add(DioHandlerTokenInterceptors(withContent: false));
+    simpleDio.interceptors.add(DioHandlerTokenInterceptors());
     simpleDio.interceptors.add(DioHandlerErrorInterceptors());
   }
 
@@ -120,12 +117,7 @@ class MainService {
       throw Exception("url or file is null");
     }
 
-    Response response = await dio.get(
-      url,
-      options: Options(responseType: ResponseType.bytes),
-    );
-
-    await file.writeAsBytes(response.data);
+    await dio.download(url, file.path);
 
     return;
   }

@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:sa_transportes_mobile/util/preferences.dart';
 
 class DioHandlerTokenInterceptors extends Interceptor {
-  final withContent;
+  final String? content;
 
-  DioHandlerTokenInterceptors({this.withContent = true});
+  DioHandlerTokenInterceptors({this.content});
 
   final _prefs = Preferences();
 
@@ -18,8 +18,8 @@ class DioHandlerTokenInterceptors extends Interceptor {
     if (lastToken != null && lastToken.isNotEmpty) {
       options.headers["Authorization"] = "Bearer $lastToken";
     }
-    if (withContent || options.headers["Content-Type"] == null) {
-      options.headers["Content-Type"] = "application/json";
+    if (content!=null && content!.isNotEmpty) {
+      options.headers["Content-Type"] = content;
     }
 
     handler.next(options);
