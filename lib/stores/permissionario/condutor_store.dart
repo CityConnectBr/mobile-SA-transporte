@@ -30,6 +30,9 @@ abstract class _CondutorStore extends MainStore with Store {
   String _lastSearch = "";
   String fotoCondutor = "";
 
+  @observable
+  File? fotoCondutorFile;
+
   TabController? tabController;
 
   @observable
@@ -70,7 +73,8 @@ abstract class _CondutorStore extends MainStore with Store {
 
   @action
   Future<void> firstLoadList(
-      {required BuildContext context, required GlobalKey<ScaffoldState> scaffoldKey}) async {
+      {required BuildContext context,
+      required GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
 
     try {
@@ -130,7 +134,8 @@ abstract class _CondutorStore extends MainStore with Store {
 
   @action
   Future<void> showAlvara(
-      {required BuildContext context, required GlobalKey<ScaffoldState> scaffoldKey}) async {
+      {required BuildContext context,
+      required GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
     try {
       this._lastSearch = '';
@@ -200,8 +205,8 @@ abstract class _CondutorStore extends MainStore with Store {
 
       //verificar se existe solicitacoes pendentes
       List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
-          (await _solicitacaoService.searchForSolicitacoes(
-              tipoDaSolicitacao, condutor!.id.toString(), true, super.usuario!));
+          (await _solicitacaoService.searchForSolicitacoes(tipoDaSolicitacao,
+              condutor!.id.toString(), true, super.usuario!));
 
       if (solicitacoesEmAberto.isNotEmpty) {
         this.solicitacaoExistente = true;
@@ -614,7 +619,8 @@ abstract class _CondutorStore extends MainStore with Store {
   }
 
   Future<void> _saveNewCondutor(
-      {required BuildContext context, required GlobalKey<ScaffoldState> scaffoldKey}) async {
+      {required BuildContext context,
+      required GlobalKey<ScaffoldState> scaffoldKey}) async {
     CustomDialog().showConfirmDialog(
         context: context,
         text: "Tem certeza que\ndeseja salvar?",
@@ -639,10 +645,12 @@ abstract class _CondutorStore extends MainStore with Store {
   }
 
   @action
-  Future<File?> loadPhotoFromCondutor(Condutor condutor) async {
+  Future loadPhotoFromCondutor(Condutor condutor) async {
     try {
-      return await this._condutorService.downloadPhoto(condutor, super.usuario!);
-    } catch (e) {}
-    return null;
+      fotoCondutorFile =
+          await this._condutorService.downloadPhoto(condutor, super.usuario!);
+    } catch (e) {
+      fotoCondutorFile = null;
+    }
   }
 }

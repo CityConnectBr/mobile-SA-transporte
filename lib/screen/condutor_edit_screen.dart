@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:sa_transportes_mobile/models/condutor_model.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/tiles/condutor_edit_dados_tile.dart';
@@ -9,7 +12,6 @@ import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:provider/provider.dart';
 
 class CondutorEditScreen extends StatefulWidget {
-
   final Condutor condutor;
 
   CondutorEditScreen(this.condutor);
@@ -18,8 +20,8 @@ class CondutorEditScreen extends StatefulWidget {
   _CondutorEditScreenState createState() => _CondutorEditScreenState(condutor);
 }
 
-class _CondutorEditScreenState extends State<CondutorEditScreen> with SingleTickerProviderStateMixin {
-
+class _CondutorEditScreenState extends State<CondutorEditScreen>
+    with SingleTickerProviderStateMixin {
   final Condutor? condutor;
 
   _CondutorEditScreenState(this.condutor);
@@ -32,6 +34,8 @@ class _CondutorEditScreenState extends State<CondutorEditScreen> with SingleTick
   TabController? _tabController;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  var flagFoto = false;
 
   @override
   void dispose() {
@@ -56,22 +60,32 @@ class _CondutorEditScreenState extends State<CondutorEditScreen> with SingleTick
   Widget build(BuildContext context) {
     CondutorStore _condutorStore = Provider.of<CondutorStore>(context);
 
+    if (!flagFoto && condutor?.id != null) {
+      flagFoto = true;
+      _condutorStore.loadPhotoFromCondutor(condutor!);
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          condutor?.id==null?'Novo Condutor':"Condutor",
+          condutor?.id == null ? 'Novo Condutor' : "Condutor",
         ),
         centerTitle: true,
       ),
       body: ListView(
         children: <Widget>[
-          GestureDetector(
-            child: PhotoPersonTile(imagePath: _condutorStore.fotoCondutor,),
-            onTap: (){
-              _condutorStore.editFotoCondutor(context: context, scaffoldKey: _scaffoldKey);
-            },
-          ),
+          Observer(builder: (_) {
+            return GestureDetector(
+              child: PhotoPersonTile(
+                imagePath: _condutorStore.fotoCondutorFile?.path ?? null,
+              ),
+              onTap: () {
+                _condutorStore.editFotoCondutor(
+                    context: context, scaffoldKey: _scaffoldKey);
+              },
+            );
+          }),
           TabBar(
             controller: _tabController,
             labelColor: Colors.redAccent,
@@ -94,8 +108,8 @@ class _CondutorEditScreenState extends State<CondutorEditScreen> with SingleTick
           ),
           Center(
             child: [
-              CondutorEditDadosTile(_scaffoldKey, condutor??Condutor()),
-              CondutorEditEnderecoTile(_scaffoldKey, condutor??Condutor()),
+              CondutorEditDadosTile(_scaffoldKey, condutor ?? Condutor()),
+              CondutorEditEnderecoTile(_scaffoldKey, condutor ?? Condutor()),
             ][_tabController?.index ?? 0],
           ),
         ],

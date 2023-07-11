@@ -9,6 +9,22 @@ part of 'condutor_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$CondutorStore on _CondutorStore, Store {
+  late final _$fotoCondutorFileAtom =
+      Atom(name: '_CondutorStore.fotoCondutorFile', context: context);
+
+  @override
+  File? get fotoCondutorFile {
+    _$fotoCondutorFileAtom.reportRead();
+    return super.fotoCondutorFile;
+  }
+
+  @override
+  set fotoCondutorFile(File? value) {
+    _$fotoCondutorFileAtom.reportWrite(value, super.fotoCondutorFile, () {
+      super.fotoCondutorFile = value;
+    });
+  }
+
   late final _$condutoresAtom =
       Atom(name: '_CondutorStore.condutores', context: context);
 
@@ -280,7 +296,7 @@ mixin _$CondutorStore on _CondutorStore, Store {
       AsyncAction('_CondutorStore.loadPhotoFromCondutor', context: context);
 
   @override
-  Future<File?> loadPhotoFromCondutor(Condutor condutor) {
+  Future<dynamic> loadPhotoFromCondutor(Condutor condutor) {
     return _$loadPhotoFromCondutorAsyncAction
         .run(() => super.loadPhotoFromCondutor(condutor));
   }
@@ -288,6 +304,7 @@ mixin _$CondutorStore on _CondutorStore, Store {
   @override
   String toString() {
     return '''
+fotoCondutorFile: ${fotoCondutorFile},
 condutores: ${condutores}
     ''';
   }

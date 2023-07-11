@@ -19,8 +19,6 @@ class UsuarioService extends MainService {
         "password": senha,
       });
 
-      print(response.data);
-
       Map<String, dynamic> jsonMap = response.data;
       //TODO: Verificar se o token é válido
       if (true /*new RegExp(ValidatorsUtil.jwtPattern).hasMatch(jsonMap['token'])*/) {
