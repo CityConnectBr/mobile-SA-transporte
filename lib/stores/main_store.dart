@@ -370,19 +370,18 @@ abstract class _MainStore with Store {
   Future<bool> isLoggedInWithRedirect(
       {required BuildContext context,
       bool redirectToHomeIfLogged = true}) async {
-    print("isLoggedInWithRedirect");
+    //print("isLoggedInWithRedirect");
 
     try {
       if (await isLoggedIn(context)) {
         if (redirectToHomeIfLogged) {
-          print("isLoggedInWithRedirect IF");
+          //print("isLoggedInWithRedirect IF");
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => HomeScreen()));
         }
         return true;
       } else {
-        print("isLoggedInWithRedirect ELSE");
-        //this.logout(context: context);
+        //print("isLoggedInWithRedirect ELSE");
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => LoginScreen()));
       }
