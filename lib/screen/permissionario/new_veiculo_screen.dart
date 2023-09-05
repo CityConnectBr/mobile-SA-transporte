@@ -13,7 +13,8 @@ class NewVeiculoScreen extends StatefulWidget {
   _NewVeiculoScreenState createState() => _NewVeiculoScreenState();
 }
 
-class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerProviderStateMixin {
+class _NewVeiculoScreenState extends State<NewVeiculoScreen>
+    with SingleTickerProviderStateMixin {
   final _placaController = TextEditingController();
   final _renavanController = TextEditingController();
   final _chassiController = TextEditingController();
@@ -33,7 +34,7 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
   String idTipoSelectd = "";
 
   String _tipoDaCapacidade = "";
-  String _image = "";
+  String? _image;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
@@ -59,6 +60,10 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     VeiculoStore _veiculoStore = Provider.of<VeiculoStore>(context);
+
+    setState(() {
+      this._tipoDaCapacidade = 'Normal';
+    });
 
     return Scaffold(
         key: _scaffoldKey,
@@ -126,7 +131,8 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                             controller: _anoDeFabricacaoController,
                             label: "ANO DE FABRICACAO",
                             type: TextInputType.number,
-                            validator: ValidatorsUtil.validateNumberAndNotIsEmpty,
+                            validator:
+                                ValidatorsUtil.validateYear,
                           ),
                         ),
                         Spacer(),
@@ -137,7 +143,8 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                             label: "ANO DO MODELO",
                             obscure: false,
                             type: TextInputType.number,
-                            validator: ValidatorsUtil.validateNumberAndNotIsEmpty,
+                            validator:
+                                ValidatorsUtil.validateYear,
                           ),
                         ),
                       ],
@@ -146,7 +153,10 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                       height: 10.0,
                     ),
                     InputAutocomplete(
-                        controller: _corController, label: "COR", searchCallback: _veiculoStore.searchCorVeiculo, setSelected: (s) => idCorSelectd = s.id),
+                        controller: _corController,
+                        label: "COR",
+                        searchCallback: _veiculoStore.searchCorVeiculo,
+                        setSelected: (s) => idCorSelectd = s.id),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -177,8 +187,15 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                         Container(
                           width: MediaQuery.of(context).size.width * 0.43,
                           child: CustomDropdown(
-                            dropdownValues: const <String>['Normal', 'Homologada', 'Modificada'],
-                            hint: Text("TIPO:", style: TextStyle(fontWeight: FontWeight.bold),),
+                            dropdownValues: const <String>[
+                              'Normal',
+                              'Homologada',
+                              'Modificada'
+                            ],
+                            hint: Text(
+                              "TIPO:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             value: this._tipoDaCapacidade,
                             onChanged: (newValue) {
                               setState(() {
@@ -226,15 +243,20 @@ class _NewVeiculoScreenState extends State<NewVeiculoScreen> with SingleTickerPr
                         func: () {
                           if (_formKey.currentState!.validate()) {
                             _veiculoStore.saveVeiculo(
-                              anoDeFabricacao: int.parse(_anoDeFabricacaoController.text),
-                                anoDoModelo: int.parse(_anoDoModeloController.text),
-                                anosDeVidaUtilDoVeiculo: int.parse(_anosDeVidaUtilDoVeiculoController.text),
+                                anoDeFabricacao:
+                                    int.parse(_anoDeFabricacaoController.text),
+                                anoDoModelo:
+                                    int.parse(_anoDoModeloController.text),
+                                anosDeVidaUtilDoVeiculo: int.parse(
+                                    _anosDeVidaUtilDoVeiculoController.text),
                                 capacidade: _capacidadeController.text,
                                 chassi: _chassiController.text,
                                 corId: int.parse(idCorSelectd),
                                 documentoFoto: _image,
-                                marcaModeloVeiculoId: int.parse(idMarcaModeloSelectd),
-                                observacaoDaCapacidade: _observacaoDaCapacidadeController.text,
+                                marcaModeloVeiculoId:
+                                    int.parse(idMarcaModeloSelectd),
+                                observacaoDaCapacidade:
+                                    _observacaoDaCapacidadeController.text,
                                 placa: _placaController.text,
                                 renavam: _renavanController.text,
                                 tipoCombustivelId: int.parse(idCorSelectd),

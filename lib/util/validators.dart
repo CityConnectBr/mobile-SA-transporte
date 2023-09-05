@@ -2,13 +2,12 @@ import 'package:cpf_cnpj_validator/cnpj_validator.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
 class ValidatorsUtil {
-  static const String numericPattern = r"^[0-9]*\$";
+  static const String numericPattern = r"^[0-9]*\$";//Possivel problema, substituir por r'^[0-9]*$'
   static const String min6CharacterPattern = r"(?=.{6,})";
   static const String min1CharacterPattern = r"(?=.{1,})";
   static const String phonePattern = r"^[0-9]{2}([0-9]{9}|[0-9]{8})\$";
-  static const String placaVeiculoPattern = r"^[A-Z]{3}[0-9][0-9A-Z][0-9]{2}\$";
+  static const String placaVeiculoPattern = r"^[A-Z]{3}[0-9]{4}|[A-Z]{3}[0-9][A-Z][0-9]{2}\$";
   static const String cepPattern = r"^\\d{5}-\\d{3}\$";
-  static const String caracteres11Pattern = r"^(\\d{11})\$";
   static const String ufPattern =
       r"^(AC|AL|AP|AM|BA|CE|DF|GO|ES|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SP|SC|SE|TO)\$";
   static const String dateTimePattern =
@@ -67,7 +66,7 @@ class ValidatorsUtil {
   static String? validateNumberAndNotIsEmpty(String? value) {
     if (value == null ||
         value.isEmpty ||
-        !RegExp(numericPattern).hasMatch(value)) {
+        !RegExp(r'^[0-9]*$').hasMatch(value)) {
       return 'Número inválido';
     } else {
       return null;
@@ -84,7 +83,7 @@ class ValidatorsUtil {
   }
 
   static String? caracteres11(String? value) {
-    RegExp regex = RegExp(caracteres11Pattern);
+    RegExp regex = RegExp(r'^[0-9]{11}$');
     if (value != null && !regex.hasMatch(value)) {
       return 'Valor inválido';
     } else {
@@ -115,6 +114,16 @@ class ValidatorsUtil {
     RegExp regex = RegExp(pattern);
     if (value != null && !regex.hasMatch(value)) {
       return 'Hora inválida';
+    } else {
+      return null;
+    }
+  }
+
+  static String? validateYear(String? value) {
+    String pattern = r'^\d{4}$';
+    RegExp regex = RegExp(pattern);
+    if (value != null && !regex.hasMatch(value)) {
+      return 'Ano inválido';
     } else {
       return null;
     }

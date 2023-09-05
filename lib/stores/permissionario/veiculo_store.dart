@@ -200,11 +200,11 @@ abstract class _VeiculoStore extends MainStore with Store {
       required String tipoDaCapacidade,
       required String observacaoDaCapacidade,
       required int anosDeVidaUtilDoVeiculo,
-      required int marcaModeloVeiculoId,
-      required int tipoCombustivelId,
-      required int corId,
-      required int tipoVeiculoId,
-      required String documentoFoto,
+      required int? marcaModeloVeiculoId,
+      required int? tipoCombustivelId,
+      required int? corId,
+      required int? tipoVeiculoId,
+      required String? documentoFoto,
       required BuildContext context,
       required GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
