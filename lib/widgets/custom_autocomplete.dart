@@ -9,11 +9,20 @@ class InputAutocomplete extends StatefulWidget {
   final Function? setSelected;
   final TextEditingController? controller;
 
-  InputAutocomplete({this.label, this.searchCallback, this.setSelected, this.hint, this.controller});
+  InputAutocomplete(
+      {this.label,
+      this.searchCallback,
+      this.setSelected,
+      this.hint,
+      this.controller});
 
   @override
-  _InputAutocompleteState createState() =>
-      _InputAutocompleteState(label: label, searchCallback: searchCallback, setSelected: setSelected, hint: this.hint, controller: controller);
+  _InputAutocompleteState createState() => _InputAutocompleteState(
+      label: label,
+      searchCallback: searchCallback,
+      setSelected: setSelected,
+      hint: this.hint,
+      controller: controller);
 }
 
 class _InputAutocompleteState extends State<InputAutocomplete> {
@@ -23,7 +32,12 @@ class _InputAutocompleteState extends State<InputAutocomplete> {
   final Function? setSelected;
   final TextEditingController? controller;
 
-  _InputAutocompleteState({this.label, this.searchCallback, this.setSelected, this.hint, this.controller});
+  _InputAutocompleteState(
+      {this.label,
+      this.searchCallback,
+      this.setSelected,
+      this.hint,
+      this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +55,13 @@ class _InputAutocompleteState extends State<InputAutocomplete> {
               errorText: null,
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(color: Util.hexToColor("#c3c3c3"), width: 1.0),
+                borderSide:
+                    BorderSide(color: Util.hexToColor("#c3c3c3"), width: 1.0),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(color: Util.hexToColor("#e3e3e3"), width: 1.0),
+                borderSide:
+                    BorderSide(color: Util.hexToColor("#e3e3e3"), width: 1.0),
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -61,7 +77,7 @@ class _InputAutocompleteState extends State<InputAutocomplete> {
         },
         itemBuilder: (context, suggestion) {
           if (suggestion != null) {
-            final s = Suggestion.byDynamic(suggestion);
+            final s = suggestion as Suggestion;
             return ListTile(
               leading: Icon(Icons.arrow_forward),
               title: Text(s.description),
@@ -91,5 +107,4 @@ class Suggestion {
   String description;
 
   Suggestion(this.id, this.description);
-  Suggestion.byDynamic(dynamic suggestion) : this(suggestion["id"], suggestion["description"]);
 }
