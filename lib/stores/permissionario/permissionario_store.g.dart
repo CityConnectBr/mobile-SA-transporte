@@ -87,6 +87,16 @@ mixin _$PermissionarioStore on _PermissionarioStore, Store {
         super.saveFoto(foto: foto, context: context, scaffoldKey: scaffoldKey));
   }
 
+  late final _$solicitarRenovacaoAlvaraAsyncAction = AsyncAction(
+      '_PermissionarioStore.solicitarRenovacaoAlvara',
+      context: context);
+
+  @override
+  Future<void> solicitarRenovacaoAlvara({required BuildContext context}) {
+    return _$solicitarRenovacaoAlvaraAsyncAction
+        .run(() => super.solicitarRenovacaoAlvara(context: context));
+  }
+
   @override
   String toString() {
     return '''

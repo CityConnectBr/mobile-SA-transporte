@@ -83,8 +83,11 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
       //verificar se existe solicitacoes pendentes
       List<SolicitacaoDeAlteracao> solicitacoesEmAberto =
-          (await _solicitacaoService.searchForSolicitacoes(tipoDaSolicitacao,
-              super.usuario!.permissionario!.id.toString(), true, super.usuario!));
+          (await _solicitacaoService.searchForSolicitacoes(
+              tipoDaSolicitacao,
+              super.usuario!.permissionario!.id.toString(),
+              true,
+              super.usuario!));
 
       if (solicitacoesEmAberto.isNotEmpty) {
         this.solicitacaoExistente = true;
@@ -134,7 +137,8 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
   @action
   Future<void> showAlvara(
-      {required BuildContext context, required GlobalKey<ScaffoldState> scaffoldKey}) async {
+      {required BuildContext context,
+      required GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
     try {
       //dev.debugger();
@@ -200,6 +204,35 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
     loading = false;
   }
+
+  @action
+  Future<void> solicitarRenovacaoAlvara({required BuildContext context}) async {
+    loading = true;
+
+    try {
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
+
+      this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
+      this.solicitacaoDeAlteracao!.referenciaId =
+          usuario!.permissionario!.id.toString();
+      this.solicitacaoDeAlteracao!.tipoSolicitacaoId =
+          SolicitacaoDeAlteracaoService.RENOVACAO_ALVARA.toString();
+
+      await this
+          ._solicitacaoService
+          .createSolicitacao(solicitacaoDeAlteracao!, super.usuario!);
+
+      this.showDialogMessageAfterCreateSolicitacao(
+          "Solicitação enviada com suscesso!", context, () {});
+    } catch (e) {
+      SnackMessages.showSnackBarError(
+          context, null, ErrorHandlerUtil(e).getMessegeToUser());
+    }
+
+    loading = false;
+  }
+
 //
 // @action
 // Future<void> saveContatoCondutor({

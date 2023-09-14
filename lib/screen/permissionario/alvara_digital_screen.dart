@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sa_transportes_mobile/models/permissionario_model.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
 import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
+import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
 
 class AlvaraDigitalPermissionarioScreen extends StatefulWidget {
   const AlvaraDigitalPermissionarioScreen();
@@ -153,6 +154,8 @@ class StatusAltevaTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PermissionarioStore store = Provider.of<PermissionarioStore>(context);
+
     if (permissionario?.alvara?.isExpired() ?? false) {
       return Column(
         children: [
@@ -175,6 +178,14 @@ class StatusAltevaTile extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(
+            height: 10.0,
+          ),
+          CustomRaisedButtonBlue(
+              label: "Renovar Alvará",
+              func: () {
+                store.solicitarRenovacaoAlvara(context: context);
+              })
         ],
       );
     } else if (permissionario?.alvara?.dataVencimento != null) {
