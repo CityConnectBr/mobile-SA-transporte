@@ -33,9 +33,13 @@ class CardSolicitacaoTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                _solicitacao.tipoSolicitacao?.nomeToShow ?? '',
-                style: nameItem,
+              SizedBox(
+                width: 100,
+                child: Text(
+                  _solicitacao.tipoSolicitacao?.nomeToShow ?? '',
+                  style: nameItem,
+                  softWrap: true,
+                ),
               ),
             ],
           )),
