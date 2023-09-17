@@ -116,7 +116,7 @@ class _MonitorEditEnderecoTileState extends State<MonitorEditEnderecoTile> {
                                   inputFormatters: [
                                     // obrigatório
                                     FilteringTextInputFormatter.digitsOnly,
-                                    CepInputFormatter()
+                                    CepInputFormatter(ponto: false)
                                   ],
                                 ),
                               ),

@@ -1,7 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
-import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/util/validators.dart';
 import 'package:sa_transportes_mobile/widgets/custom_alert_message.dart';
@@ -150,8 +149,7 @@ class _CondutorDadosContatoScreenState
                                   controller: _dddController,
                                   label: "DDD",
                                   type: TextInputType.number,
-                                  validator: ValidatorsUtil
-                                      .validateNumberAndNotIsEmpty,
+                                  validator: ValidatorsUtil.validateDDD,
                                   hint: "DDD",
                                 ),
                               ),
@@ -163,11 +161,7 @@ class _CondutorDadosContatoScreenState
                                   label: "TELEFONE",
                                   type: TextInputType.number,
                                   hint: "TELEFONE",
-                                  inputFormatters: [
-                                    // obrigatório
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    TelefoneInputFormatter(),
-                                  ],
+                                  validator: ValidatorsUtil.validatePhone,
                                 ),
                               ),
                             ],
@@ -180,11 +174,7 @@ class _CondutorDadosContatoScreenState
                             label: "CELULAR",
                             type: TextInputType.text,
                             hint: "CELULAR",
-                            inputFormatters: [
-                              // obrigatório
-                              FilteringTextInputFormatter.digitsOnly,
-                              TelefoneInputFormatter(),
-                            ],
+                            validator: ValidatorsUtil.validatePhone,
                           ),
                           SizedBox(
                             height: 30.0,

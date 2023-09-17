@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:sa_transportes_mobile/models/permissionario_model.dart';
+import 'package:sa_transportes_mobile/models/ponto_permissionario_model.dart';
+import 'package:sa_transportes_mobile/models/veiculo_model.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
 import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:sa_transportes_mobile/widgets/custom_raisedbutton.dart';
@@ -54,6 +56,8 @@ class _AlvaraDigitalPermissionarioScreenState
     }
 
     store.loadPhotoUser();
+    store.getVeiculosByPermissionario(context: context);
+    store.getPontosByPermissionario(context: context);
 
     return Scaffold(
       appBar: AppBar(
@@ -138,6 +142,48 @@ class _AlvaraDigitalPermissionarioScreenState
               const SizedBox(
                 height: 10.0,
               ),
+              Observer(builder: (_) {
+                if (store.loading)
+                  return Container(
+                    margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: store.veiculos.length,
+                  itemBuilder: (_, index) {
+                    return VeiculoTile(veiculo: store.veiculos[index]);
+                  },
+                );
+              }),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Observer(builder: (_) {
+                if (store.loading)
+                  return Container(
+                    margin: EdgeInsets.only(top: 100.0, bottom: 100.0),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: store.pontos.length,
+                  itemBuilder: (_, index) {
+                    return PontoTile(ponto: store.pontos[index]);
+                  },
+                );
+              }),
+              const SizedBox(
+                height: 10.0,
+              ),
               StatusAltevaTile(permissionario: perm),
             ],
           ),
@@ -215,5 +261,77 @@ class StatusAltevaTile extends StatelessWidget {
     }
 
     return Container();
+  }
+}
+
+class VeiculoTile extends StatelessWidget {
+  final Veiculo veiculo;
+
+  const VeiculoTile({super.key, required this.veiculo});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Veículo: ${veiculo.marcaModeloVeiculo?.descricao}",
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 16.0,
+            ),
+          ),
+          Text(
+            "Placa: ${veiculo.placa}",
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 16.0,
+            ),
+          ),
+          Text(
+            "Cor: ${veiculo.corVeiculo?.descricao}",
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 16.0,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PontoTile extends StatelessWidget {
+  final PontoDoPermissionario ponto;
+
+  const PontoTile({super.key, required this.ponto});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Ponto: ${ponto.ponto?.descricao}",
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 16.0,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

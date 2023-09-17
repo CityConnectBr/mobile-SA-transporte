@@ -118,7 +118,7 @@ class Util {
         });
   }
 
-  static String clearString(String str) {
+  static String clearString(String? str) {
     return str != null
         ? str.replaceAll(RegExp(r'[.,-\/\\\[\]{}]'), "").replaceAll(" ", "")
         : "";

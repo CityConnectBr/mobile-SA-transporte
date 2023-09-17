@@ -319,7 +319,7 @@ abstract class _MonitorStore extends MainStore with Store {
     required String bairro,
     required String municipio,
     required String uf,
-    required String imgComprovanteEndereco,
+    required String? imgComprovanteEndereco,
     required BuildContext context,
     required GlobalKey<ScaffoldState> scaffoldKey,
   }) async {

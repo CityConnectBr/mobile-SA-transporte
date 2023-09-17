@@ -116,7 +116,7 @@ class _CondutorEditEnderecoTileState extends State<CondutorEditEnderecoTile> {
                                   inputFormatters: [
                                     // obrigatório
                                     FilteringTextInputFormatter.digitsOnly,
-                                    CepInputFormatter()
+                                    CepInputFormatter(ponto: false)
                                   ],
                                 ),
                               ),

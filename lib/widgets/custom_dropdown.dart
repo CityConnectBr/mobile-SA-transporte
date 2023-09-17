@@ -36,7 +36,7 @@ class CustomDropdown extends StatelessWidget {
           onChanged:
               onChanged != null ? onChanged as void Function(String?)? : null,
           isExpanded: false,
-          value: value,
+          value: value != null && value!.isNotEmpty ? value : null,
           hint: hint,
         ),
       ),

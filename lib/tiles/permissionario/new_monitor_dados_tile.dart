@@ -197,11 +197,7 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                       label: "TELEFONE",
                       type: TextInputType.number,
                       hint: "TELEFONE",
-                      inputFormatters: [
-                        // obrigatório
-                        FilteringTextInputFormatter.digitsOnly,
-                        TelefoneInputFormatter()
-                      ],
+                      validator: ValidatorsUtil.validatePhone,
                     ),
                     const SizedBox(
                       height: 32.0,

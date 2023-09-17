@@ -2,12 +2,14 @@ import 'package:cpf_cnpj_validator/cnpj_validator.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
 class ValidatorsUtil {
-  static const String numericPattern = r"^[0-9]*\$";//Possivel problema, substituir por r'^[0-9]*$'
+  static const String numericPattern = r'^[0-9]*$';
   static const String min6CharacterPattern = r"(?=.{6,})";
   static const String min1CharacterPattern = r"(?=.{1,})";
-  static const String phonePattern = r"^[0-9]{2}([0-9]{9}|[0-9]{8})\$";
-  static const String placaVeiculoPattern = r"^[A-Z]{3}[0-9]{4}|[A-Z]{3}[0-9][A-Z][0-9]{2}\$";
-  static const String cepPattern = r"^\\d{5}-\\d{3}\$";
+  static const String phonePatternDDD = r"^[0-9]{2}([0-9]{9}|[0-9]{8})$";
+  static const String phonePattern = r"^([0-9]{9}|[0-9]{8})$";
+  static const String placaVeiculoPattern =
+      r"^[A-Z]{3}[0-9]{4}|[A-Z]{3}[0-9][A-Z][0-9]{2}\$";
+  static const String cepPattern = r'^[0-9]{5}-[0-9]{3}$';
   static const String ufPattern =
       r"^(AC|AL|AP|AM|BA|CE|DF|GO|ES|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SP|SC|SE|TO)\$";
   static const String dateTimePattern =
@@ -73,9 +75,24 @@ class ValidatorsUtil {
     }
   }
 
-  static String? validatePhone(String? value) {
-    RegExp regex = RegExp(phonePattern);
+  static String? validateDDD(String? value) {
+    RegExp regex = RegExp(r'^[0-9]{2}$');
     if (value != null && !regex.hasMatch(value)) {
+      return 'DDD inválido';
+    } else {
+      return null;
+    }
+  }
+
+  static String? validatePhone(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Campo vazio';
+    }
+
+    RegExp regex = RegExp(phonePattern);
+    RegExp regexDDD = RegExp(phonePatternDDD);
+
+    if (!regex.hasMatch(value) && !regexDDD.hasMatch(value)) {
       return 'Número inválido';
     } else {
       return null;
@@ -155,7 +172,7 @@ class ValidatorsUtil {
   }
 
   static String? validateCEP(String? value) {
-    RegExp regex = RegExp(cepPattern);
+    RegExp regex = RegExp(r'^[0-9]{5}-[0-9]{3}$');
     if (value != null && !regex.hasMatch(value)) {
       return 'Campo inválido';
     } else {

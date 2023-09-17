@@ -110,7 +110,7 @@ class _PermissionarioEditEnderecoTileState
                             inputFormatters: [
                               // obrigatório
                               FilteringTextInputFormatter.digitsOnly,
-                              CepInputFormatter()
+                              CepInputFormatter(ponto: false)
                             ],
                           ),
                         ),

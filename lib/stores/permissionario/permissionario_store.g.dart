@@ -25,6 +25,38 @@ mixin _$PermissionarioStore on _PermissionarioStore, Store {
     });
   }
 
+  late final _$veiculosAtom =
+      Atom(name: '_PermissionarioStore.veiculos', context: context);
+
+  @override
+  List<Veiculo> get veiculos {
+    _$veiculosAtom.reportRead();
+    return super.veiculos;
+  }
+
+  @override
+  set veiculos(List<Veiculo> value) {
+    _$veiculosAtom.reportWrite(value, super.veiculos, () {
+      super.veiculos = value;
+    });
+  }
+
+  late final _$pontosAtom =
+      Atom(name: '_PermissionarioStore.pontos', context: context);
+
+  @override
+  List<dynamic> get pontos {
+    _$pontosAtom.reportRead();
+    return super.pontos;
+  }
+
+  @override
+  set pontos(List<dynamic> value) {
+    _$pontosAtom.reportWrite(value, super.pontos, () {
+      super.pontos = value;
+    });
+  }
+
   late final _$pesquisarAsyncAction =
       AsyncAction('_PermissionarioStore.pesquisar', context: context);
 
@@ -97,10 +129,32 @@ mixin _$PermissionarioStore on _PermissionarioStore, Store {
         .run(() => super.solicitarRenovacaoAlvara(context: context));
   }
 
+  late final _$getVeiculosByPermissionarioAsyncAction = AsyncAction(
+      '_PermissionarioStore.getVeiculosByPermissionario',
+      context: context);
+
+  @override
+  Future<void> getVeiculosByPermissionario({required BuildContext context}) {
+    return _$getVeiculosByPermissionarioAsyncAction
+        .run(() => super.getVeiculosByPermissionario(context: context));
+  }
+
+  late final _$getPontosByPermissionarioAsyncAction = AsyncAction(
+      '_PermissionarioStore.getPontosByPermissionario',
+      context: context);
+
+  @override
+  Future<void> getPontosByPermissionario({required BuildContext context}) {
+    return _$getPontosByPermissionarioAsyncAction
+        .run(() => super.getPontosByPermissionario(context: context));
+  }
+
   @override
   String toString() {
     return '''
-permissionarios: ${permissionarios}
+permissionarios: ${permissionarios},
+veiculos: ${veiculos},
+pontos: ${pontos}
     ''';
   }
 }

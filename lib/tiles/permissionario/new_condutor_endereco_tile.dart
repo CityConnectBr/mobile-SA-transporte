@@ -110,7 +110,7 @@ class _NewCondutorEnderecoTileState extends State<NewCondutorEnderecoTile> {
                             inputFormatters: [
                               // obrigatório
                               FilteringTextInputFormatter.digitsOnly,
-                              CepInputFormatter()
+                              CepInputFormatter(ponto: false)
                             ],
                           ),
                         ),

@@ -6,7 +6,6 @@ import 'package:sa_transportes_mobile/screen/permissionario/monitor_dados_identi
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
 import 'package:sa_transportes_mobile/tiles/card_edit_fields_tile.dart';
-import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
@@ -119,11 +118,6 @@ class _MonitorEditDadosTileState extends State<MonitorEditDadosTile> {
                             controller: _phoneController,
                             label: "TELEFONE",
                             hint: "TELEFONE",
-                            inputFormatters: [
-                              // obrigatório
-                              FilteringTextInputFormatter.digitsOnly,
-                              TelefoneInputFormatter()
-                            ],
                             enabled: false,
                           ),
                           SizedBox(
