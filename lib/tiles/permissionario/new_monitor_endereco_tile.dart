@@ -110,7 +110,7 @@ class _NewMonitorEnderecoTileState extends State<NewMonitorEnderecoTile> {
                             inputFormatters: [
                               // obrigatório
                               FilteringTextInputFormatter.digitsOnly,
-                              CepInputFormatter()
+                              CepInputFormatter(ponto: false)
                             ],
                           ),
                         ),
