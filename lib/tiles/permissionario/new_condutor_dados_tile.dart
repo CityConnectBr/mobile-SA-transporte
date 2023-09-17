@@ -71,7 +71,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
       _nomeController.text =
           condutorStore.solicitacaoDeAlteracao?.campo15 ?? '';
       _cpfController.text =
-          Util.clearString(condutorStore.solicitacaoDeAlteracao!.campo16!);
+          Util.clearString(condutorStore.solicitacaoDeAlteracao?.campo16);
       _rgController.text = condutorStore.solicitacaoDeAlteracao?.campo17 ?? '';
       _dddController.text = condutorStore.solicitacaoDeAlteracao?.campo5 ?? '';
       _phoneController.text =
