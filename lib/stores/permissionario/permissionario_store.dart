@@ -1,8 +1,12 @@
 import 'package:sa_transportes_mobile/models/permissionario_model.dart';
+import 'package:sa_transportes_mobile/models/ponto_permissionario_model.dart';
 import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
+import 'package:sa_transportes_mobile/models/veiculo_model.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/permissionario_foto_edit_screen.dart';
 import 'package:sa_transportes_mobile/services/permissionario_service.dart';
+import 'package:sa_transportes_mobile/services/ponto_permissionario_service.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
+import 'package:sa_transportes_mobile/services/veiculo_service.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/util/error_handler_util.dart';
 import 'package:sa_transportes_mobile/widgets/snack_message.dart';
@@ -20,6 +24,8 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
   final _permissionarioService = PermissionarioService();
   final _solicitacaoService = SolicitacaoDeAlteracaoService();
+  final _veiculoService = VeiculoService();
+  final _pontoService = PontoDoPermissionarioService();
 
   String _lastSearch = "";
   String fotoCondutor = "";
@@ -28,6 +34,12 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
   @observable
   List<Permissionario>? permissionarios;
+
+  @observable
+  List<Veiculo> veiculos = [];
+
+  @observable
+  List<dynamic> pontos = [];
 
   bool flagAbaDadosOk = false;
   bool flagAbaEnderecoOk = false;
@@ -174,7 +186,7 @@ abstract class _PermissionarioStore extends MainStore with Store {
           context: context, redirectToHomeIfLogged: false));
 
       bool aux = true;
-      if (foto == null || foto.isEmpty) {
+      if (foto.isEmpty) {
         aux = false;
         SnackMessages.showSnackBarError(
             context, scaffoldKey, "Nenhuma foto selecionada.");
@@ -232,6 +244,58 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
     loading = false;
   }
+
+  @action
+  Future<void> getVeiculosByPermissionario({required BuildContext context}) async {
+    loading = true;
+
+    try {
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
+
+      List<Veiculo> veiculos = (await _veiculoService
+              .search("", super.usuario!))
+          .map((model) => Veiculo.fromJson(model))
+          .toList();
+
+      if (veiculos != null) {
+        this.veiculos = veiculos;
+      } else {
+        this.veiculos = [];
+      }
+    } catch (e) {
+      dev.log(e.toString());
+    }
+
+    loading = false;
+  }
+
+  @action
+  Future<void> getPontosByPermissionario({required BuildContext context}) async {
+    loading = true;
+
+    try {
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
+
+      List<dynamic> pontos = (await _pontoService
+              .findAll(super.usuario!))
+          .map((model) => PontoDoPermissionario.fromJson(model))
+          .toList();
+
+      if (pontos != null) {
+        this.pontos = pontos;
+      } else {
+        this.pontos = [];
+      }
+    } catch (e) {
+      dev.log(e.toString());
+    }
+
+    loading = false;
+  }
+
+  
 
 //
 // @action
