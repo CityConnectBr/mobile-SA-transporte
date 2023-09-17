@@ -142,7 +142,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                             controller: _dddController,
                             label: "DDD",
                             type: TextInputType.number,
-                            validator: ValidatorsUtil.validateNumber,
+                            validator: ValidatorsUtil.validateDDD,
                             hint: "DDD",
                           ),
                         ),
@@ -154,6 +154,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                             label: "TELEFONE",
                             type: TextInputType.number,
                             hint: "TELEFONE",
+                            validator: ValidatorsUtil.validatePhone,
                           ),
                         ),
                       ],
@@ -166,11 +167,7 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                       label: "CELULAR",
                       type: TextInputType.text,
                       hint: "CELULAR",
-                      inputFormatters: [
-                        // obrigatório
-                        FilteringTextInputFormatter.digitsOnly,
-                        TelefoneInputFormatter(),
-                      ],
+                      validator: ValidatorsUtil.validatePhone,
                     ),
                     SizedBox(
                       height: 32.0,

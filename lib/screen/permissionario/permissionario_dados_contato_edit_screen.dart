@@ -144,7 +144,7 @@ class _CondutorDadosContatoScreenState
                                   controller: _dddController,
                                   label: "DDD",
                                   type: TextInputType.number,
-                                  validator: ValidatorsUtil.validateNumber,
+                                  validator: ValidatorsUtil.validateDDD,
                                   hint: "DDD",
                                 ),
                               ),
@@ -156,6 +156,7 @@ class _CondutorDadosContatoScreenState
                                   label: "TELEFONE",
                                   type: TextInputType.number,
                                   hint: "TELEFONE",
+                                  validator: ValidatorsUtil.validatePhone,
                                 ),
                               ),
                             ],
@@ -172,6 +173,7 @@ class _CondutorDadosContatoScreenState
                                   label: "TELEFONE 2",
                                   type: TextInputType.number,
                                   hint: "TELEFONE 2",
+                                  validator: ValidatorsUtil.validatePhone,
                                 ),
                               ),
                               Spacer(),
@@ -182,11 +184,7 @@ class _CondutorDadosContatoScreenState
                                   label: "CELULAR",
                                   type: TextInputType.number,
                                   hint: "CELULAR",
-                                  inputFormatters: [
-                                    // obrigatório
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    TelefoneInputFormatter()
-                                  ],
+                                  validator: ValidatorsUtil.validatePhone,
                                 ),
                               ),
                             ],

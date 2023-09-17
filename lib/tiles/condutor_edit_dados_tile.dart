@@ -7,7 +7,6 @@ import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dar
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/condutor_dados_contato_edit_screen.dart';
 import 'package:sa_transportes_mobile/tiles/card_edit_fields_tile.dart';
-import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
@@ -132,7 +131,6 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                                   label: "DDD",
                                   hint: "DDD",
                                   enabled: false,
-                                  inputFormatters: [], //TODO: Adicionar máscara
                                 ),
                               ),
                               Spacer(),
@@ -143,11 +141,6 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                                   label: "TELEFONE",
                                   hint: "TELEFONE",
                                   enabled: false,
-                                  inputFormatters: [
-                                    // obrigatório
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    TelefoneInputFormatter()
-                                  ],
                                 ),
                               ),
                             ],
@@ -160,11 +153,6 @@ class _CondutorEditDadosTileState extends State<CondutorEditDadosTile> {
                             label: "CELULAR",
                             hint: "CELULAR",
                             enabled: false,
-                            inputFormatters: [
-                              // obrigatório
-                              FilteringTextInputFormatter.digitsOnly,
-                              TelefoneInputFormatter()
-                            ],
                           ),
                         ],
                       ),

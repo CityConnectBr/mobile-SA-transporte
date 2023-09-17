@@ -5,7 +5,8 @@ class ValidatorsUtil {
   static const String numericPattern = r'^[0-9]*$';
   static const String min6CharacterPattern = r"(?=.{6,})";
   static const String min1CharacterPattern = r"(?=.{1,})";
-  static const String phonePattern = r"^[0-9]{2}([0-9]{9}|[0-9]{8})\$";
+  static const String phonePatternDDD = r"^[0-9]{2}([0-9]{9}|[0-9]{8})$";
+  static const String phonePattern = r"^([0-9]{9}|[0-9]{8})$";
   static const String placaVeiculoPattern =
       r"^[A-Z]{3}[0-9]{4}|[A-Z]{3}[0-9][A-Z][0-9]{2}\$";
   static const String cepPattern = r'^[0-9]{5}-[0-9]{3}$';
@@ -74,9 +75,24 @@ class ValidatorsUtil {
     }
   }
 
-  static String? validatePhone(String? value) {
-    RegExp regex = RegExp(phonePattern);
+  static String? validateDDD(String? value) {
+    RegExp regex = RegExp(r'^[0-9]{2}$');
     if (value != null && !regex.hasMatch(value)) {
+      return 'DDD inválido';
+    } else {
+      return null;
+    }
+  }
+
+  static String? validatePhone(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Campo vazio';
+    }
+
+    RegExp regex = RegExp(phonePattern);
+    RegExp regexDDD = RegExp(phonePatternDDD);
+
+    if (!regex.hasMatch(value) && !regexDDD.hasMatch(value)) {
       return 'Número inválido';
     } else {
       return null;

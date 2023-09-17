@@ -247,11 +247,6 @@ class _PermissionarioEditDadosTileState
                                   controller: _phoneController,
                                   label: "TELEFONE",
                                   enabled: false,
-                                  inputFormatters: [
-                                    // obrigatório
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    TelefoneInputFormatter()
-                                  ],
                                 ),
                               ),
                             ],
@@ -267,11 +262,6 @@ class _PermissionarioEditDadosTileState
                                   controller: _phone2Controller,
                                   label: "TELEFONE 2",
                                   enabled: false,
-                                  inputFormatters: [
-                                    // obrigatório
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    TelefoneInputFormatter()
-                                  ],
                                 ),
                               ),
                               Spacer(),
@@ -281,11 +271,6 @@ class _PermissionarioEditDadosTileState
                                   controller: _celController,
                                   label: "CELULAR",
                                   enabled: false,
-                                  inputFormatters: [
-                                    // obrigatório
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    TelefoneInputFormatter()
-                                  ],
                                 ),
                               ),
                             ],

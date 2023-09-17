@@ -1,5 +1,3 @@
-import 'package:brasil_fields/brasil_fields.dart';
-import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/util/validators.dart';
@@ -134,11 +132,7 @@ class _MonitorDadosContatoScreenState extends State<MonitorDadosContatoScreen> {
                             label: "TELEFONE",
                             type: TextInputType.number,
                             hint: "TELEFONE",
-                            inputFormatters: [
-                              // obrigatório
-                              FilteringTextInputFormatter.digitsOnly,
-                              TelefoneInputFormatter(),
-                            ],
+                            validator: ValidatorsUtil.validatePhone,
                           ),
                           SizedBox(
                             height: 30.0,
