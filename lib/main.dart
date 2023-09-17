@@ -1,9 +1,20 @@
+import 'package:get_it/get_it.dart';
+import 'package:sa_transportes_mobile/screen/splash_screen.dart';
+import 'package:sa_transportes_mobile/stores/fiscal/emissao_multa_store.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/infracao_store.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/solicitacao_store.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/veiculo_store.dart';
+import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:satrans_new_app/providers/search_plate_provider.dart';
-import 'package:satrans_new_app/screens/splash_screen.dart';
-import 'package:satrans_new_app/utils/custom_theme.dart';
+import 'package:sa_transportes_mobile/stores/splash_store.dart';
+import 'package:sa_transportes_mobile/util/custom_theme.dart';
+import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   const bool kReleaseMode = bool.fromEnvironment('dart.vm.product');
@@ -13,10 +24,21 @@ void main() async {
     await dotenv.load(fileName: ".env.develop");
   }
 
+  GetIt getIt = GetIt.instance;
+  getIt.registerSingleton<AppState>(AppState());
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SearchPlateProvider()),
+          Provider<MainStore>(create: (_) => MainStore()),
+          Provider<CondutorStore>(create: (_) => CondutorStore()),
+          Provider<MonitorStore>(create: (_) => MonitorStore()),
+          Provider<VeiculoStore>(create: (_) => VeiculoStore()),
+          Provider<SolicitacaoStore>(create: (_) => SolicitacaoStore()),
+          Provider<PermissionarioStore>(create: (_) => PermissionarioStore()),
+          Provider<SplashStore>(create: (_) => SplashStore()),
+          Provider<EmissaoMultaStore>(create: (_) => EmissaoMultaStore()),
+          Provider<InfracaoStore>(create: (_) => InfracaoStore()),
       ],
       child: const Main(),
     ),

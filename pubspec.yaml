@@ -1,5 +1,5 @@
-name: satrans_new_app
-description: App SA Transportes
+name: sa_transportes_mobile
+description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.4 <3.0.0'
+  sdk: '>=3.0.5 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -39,24 +39,41 @@ dependencies:
   dio: ^5.0.3
   shared_preferences: ^2.0.20
   provider: ^6.0.5
-  flutter_launcher_icons: ^0.12.0
   mask_text_input_formatter: ^2.4.0
+  mobx: ^2.2.0
+  flutter_mobx: ^2.0.6+5
+  cpf_cnpj_validator: 2.0.0
+  intl: ^0.18.1
+  brasil_fields: ^1.13.1
+  url_launcher: ^6.1.11
+  get_it: ^7.6.0
+  path_provider: ^2.0.15
+  image_picker: ^0.8.9
+  flutter_typeahead: ^4.6.2
+  expandable: ^5.0.1
+  carousel_slider: ^4.2.1
+  qr_flutter: ^4.1.0
+  pix_flutter: ^2.1.0
+  dio_smart_retry: ^5.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^2.4.5
+  mobx_codegen: ^2.3.0
+  flutter_launcher_icons: "^0.13.1"
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "images/logo_180x180.png"
+  
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
-flutter_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "images/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -71,20 +88,45 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - .env.develop
     - .env.prod
+    - .env.develop
+    - images/
+    - images/logo.jpg 
+    - images/logo.png 
+    - images/logo_borda.png 
     - images/logo_mobile.png
-    - images/logo_santo_andre.png
     - images/slide_01.png
     - images/slide_02.png
     - images/slide_03.png
     - images/slide_04.png
+    - images/cadastro.png
+    - images/cadastro_veiculo.png
+    - images/location.png
+    - images/perfil.png
+    - images/search.png
+    - images/logo_rodape.png
+    - images/logo_santo_andre.png
+    - images/icon_edit.png
     - images/avatar.png
-    - images/bottom_white.png
+    - images/icon_dados.png
+    - images/icon_edit_avatar.png
+    - images/icon_modo_noturno.png
     - images/icon_car.png
-    - images/logo.jpg
-    - images/logo.png
-    - images/logo_borda.png
+    - images/foto_motorista.png
+    - images/icon-search.png
+    - images/icon-eye.png
+    - images/icon-face.png
+    - images/icon-car.png
+    - images/mdi-menu.png
+    - images/arrow-down.png
+    - images/arrow-up.png
+    - images/ic_edit.png
+    - images/photo-user.jpeg
+    - images/icon-new-driver.png
+    - images/icon-edit-car.png
+    - images/icon-cam.png
+    - images/check-dialog.png
+    - images/bottom_white.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
