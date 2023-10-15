@@ -128,4 +128,13 @@ class UsuarioService extends MainService {
       print(e);
     }
   }
+
+  Future<void> updateTokenFCM(String token) async {
+    await dio.patch(
+      '/api/tokenfcm',
+      data: {
+        "token_fcm": token,
+      },
+    );
+  }
 }

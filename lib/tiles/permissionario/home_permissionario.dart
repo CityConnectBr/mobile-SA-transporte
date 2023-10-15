@@ -1,4 +1,5 @@
 import 'package:sa_transportes_mobile/screen/condutor_search_screen.dart';
+import 'package:sa_transportes_mobile/screen/mensagem_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/infracoes_screen.dart';
 import 'package:sa_transportes_mobile/widgets/box_item.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,16 @@ class _HomePermissionarioTileState extends State<HomePermissionarioTile> {
             child: BoxItem(
               icon: "images/icon-face.png",
               description: "Visualizar Condutores",
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => MensagemScreen()));
+            },
+            child: BoxItem(
+              icon: "images/icon-eye.png",
+              description: "Visualizar Mensagens",
             ),
           ),
         ],
