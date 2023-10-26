@@ -1,3 +1,4 @@
+import 'package:get_it/get_it.dart';
 import 'package:sa_transportes_mobile/screen/cadastro_usuario_screen.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/tiles/login_tile.dart';
@@ -9,8 +10,10 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
-  final _textStyleTitleBar = TextStyle(color: Util.hexToColor("#505050"), fontSize: 20.0);
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
+  final _textStyleTitleBar =
+      TextStyle(color: Util.hexToColor("#505050"), fontSize: 20.0);
 
   TabController? _tabController;
 
@@ -37,6 +40,11 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    GetIt getIt = GetIt.instance;
+
+    getIt<AppState>().context = context;
+    getIt<AppState>().scaffoldKey = _scaffoldKey;
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: PreferredSize(

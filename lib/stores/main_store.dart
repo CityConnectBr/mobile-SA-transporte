@@ -448,6 +448,8 @@ abstract class _MainStore with Store {
 
 class AppState {
   Usuario? usuarioLogado;
+  BuildContext? context;
+  GlobalKey<ScaffoldState>? scaffoldKey;
 
   File? photoUser;
 }
