@@ -1,3 +1,4 @@
+import 'package:get_it/get_it.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:sa_transportes_mobile/tiles/condutor/home_condutor.dart';
 import 'package:sa_transportes_mobile/tiles/menu_drawer.dart';
@@ -21,6 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     MainStore mainStore = Provider.of<MainStore>(context);
+
+    GetIt getIt = GetIt.instance;
+
+    getIt<AppState>().context = context;
+    getIt<AppState>().scaffoldKey = _scaffoldKey;
 
     return Scaffold(
       key: _scaffoldKey,

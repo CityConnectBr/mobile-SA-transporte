@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1023911855679",
+    "project_id": "pushteste-b690a",
+    "storage_bucket": "pushteste-b690a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023911855679:android:f9356f16f143768e381a8a",
+        "android_client_info": {
+          "package_name": "br.com.cityconnect.santoandretransporte"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE3ygrobBfEcyT5VXfjxTzqVLfEzafCMY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023911855679:android:2832a29147d1b13b381a8a",
+        "android_client_info": {
+          "package_name": "br.com.sa_transportes_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE3ygrobBfEcyT5VXfjxTzqVLfEzafCMY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

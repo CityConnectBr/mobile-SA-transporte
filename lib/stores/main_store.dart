@@ -74,6 +74,11 @@ abstract class _MainStore with Store {
       usuario = await Future.value(_usuarioService.getUser())
           .timeout(const Duration(seconds: 5));
 
+      final tokenFCM = await _prefs.get(Preferences.KEY_TOKEN_FCM);
+      if (tokenFCM.isNotEmpty) {
+        await _usuarioService.updateTokenFCM(tokenFCM);
+      }
+
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomeScreen()));
     } catch (e) {
@@ -443,6 +448,8 @@ abstract class _MainStore with Store {
 
 class AppState {
   Usuario? usuarioLogado;
+  BuildContext? context;
+  GlobalKey<ScaffoldState>? scaffoldKey;
 
   File? photoUser;
 }
