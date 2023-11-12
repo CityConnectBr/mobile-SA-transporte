@@ -1,3 +1,4 @@
+import 'package:sa_transportes_mobile/screen/fiscal/search_ponto_screen.dart';
 import 'package:sa_transportes_mobile/screen/veiculo_search_screen.dart';
 import 'package:sa_transportes_mobile/widgets/box_item.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,16 @@ class _HomeFiscalTileState extends State<HomeFiscalTile> {
             child: BoxItem(
               icon: "images/icon-car.png",
               description: "Visualizar Veículos",
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SearchPontoScreen()));
+            },
+            child: BoxItem(
+              icon: "images/icon-eye.png",
+              description: "Pesquisar Ponto Escolar",
             ),
           ),
         ],

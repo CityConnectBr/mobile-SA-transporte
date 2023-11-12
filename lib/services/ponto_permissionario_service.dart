@@ -12,4 +12,12 @@ class PontoDoPermissionarioService extends MainService {
   Future<List<dynamic>> findAll(Usuario userLogged) async {
     return (await dio.get(makeEndPoint(usuario: userLogged),)).data;
   }
+
+  Future<List<dynamic>> searchPontoEscolar(String search, Usuario userLogged) async {    
+    return (await dio.get(makeEndPoint(usuario: userLogged), queryParameters: {
+      'search': search,
+      'modalidade': 'escolar',
+    },)).data['data'];
+  }
+
 }
