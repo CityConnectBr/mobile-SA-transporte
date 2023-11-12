@@ -4,6 +4,7 @@ import 'package:sa_transportes_mobile/core/api/firebase_api.dart';
 import 'package:sa_transportes_mobile/firebase_options.dart';
 import 'package:sa_transportes_mobile/screen/splash_screen.dart';
 import 'package:sa_transportes_mobile/stores/fiscal/emissao_multa_store.dart';
+import 'package:sa_transportes_mobile/stores/fiscal/search_ponto_store.dart';
 import 'package:sa_transportes_mobile/stores/mensagem_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/infracao_store.dart';
@@ -49,6 +50,7 @@ void main() async {
         Provider<EmissaoMultaStore>(create: (_) => EmissaoMultaStore()),
         Provider<InfracaoStore>(create: (_) => InfracaoStore()),
         Provider<MensagemStore>(create: (_) => MensagemStore()),
+        Provider<SearchPontoStore>(create: (_) => SearchPontoStore()),
       ],
       child: const Main(),
     ),
