@@ -36,6 +36,10 @@ class SolicitacaoDeAlteracaoService extends MainService {
 
   static const int RENOVACAO_ALVARA = 70;
 
+  static const int SUBSTITUICAO_VEICULO_ESCOLAR = 80;
+
+  static const int SUBSTITUICAO_VEICULO_TAXI = 90;
+
   SolicitacaoDeAlteracaoService() {
     super.endPoint = '/solicitacaodealteracao';
     super.endPointVersion = 1;

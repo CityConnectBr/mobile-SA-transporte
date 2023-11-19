@@ -54,7 +54,7 @@ class _VeiculoEditScreenState extends State<VeiculoEditScreen>
     _marcaModeloVeiculoController.dispose();
     _tipoCombustivelController.dispose();
     _corController.dispose();
-    
+
     super.dispose();
   }
 
@@ -97,6 +97,15 @@ class _VeiculoEditScreenState extends State<VeiculoEditScreen>
             'Veículo',
           ),
           centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.find_replace),
+              onPressed: () {
+                _veiculoStore.solicitarSubstituicao(
+                    context: context, scaffoldKey: _scaffoldKey);
+              },
+            )
+          ],
         ),
         body: SingleChildScrollView(
           child: Container(

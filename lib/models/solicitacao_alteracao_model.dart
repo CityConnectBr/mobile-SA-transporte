@@ -31,6 +31,12 @@ class SolicitacaoDeAlteracao {
   String? arquivo2;
   String? arquivo3;
   String? arquivo4;
+  String? arquivo5;
+  String? arquivo6;
+  String? arquivo7;
+  String? arquivo8;
+  String? arquivo9;
+  String? arquivo10;
   String? tipoSolicitacaoId;//tipo_solicitacao_id
   TipoSolicitacao? tipoSolicitacao;
   DateTime? createdAt;
@@ -66,6 +72,12 @@ class SolicitacaoDeAlteracao {
     arquivo2 = parsedJson["arquivo2"];
     arquivo3 = parsedJson["arquivo3"];
     arquivo4 = parsedJson["arquivo4"];
+    arquivo5 = parsedJson["arquivo5"];
+    arquivo6 = parsedJson["arquivo6"];
+    arquivo7 = parsedJson["arquivo7"];
+    arquivo8 = parsedJson["arquivo8"];
+    arquivo9 = parsedJson["arquivo9"];
+    arquivo10 = parsedJson["arquivo10"];
     tipoSolicitacao = parsedJson["tipo"]!=null?TipoSolicitacao.fromJson(parsedJson["tipo"]):null;
     createdAt = parsedJson["created_at"]!=null?Util.dateFormatyyyyMMddTHHmmssZ.parse(parsedJson["created_at"]):null;
   }
@@ -100,6 +112,12 @@ class SolicitacaoDeAlteracao {
       "arquivo2": arquivo2,
       "arquivo3": arquivo3,
       "arquivo4": arquivo4,
+      "arquivo5": arquivo5,
+      "arquivo6": arquivo6,
+      "arquivo7": arquivo7,
+      "arquivo8": arquivo8,
+      "arquivo9": arquivo9,
+      "arquivo10": arquivo10,
     };
   }
 

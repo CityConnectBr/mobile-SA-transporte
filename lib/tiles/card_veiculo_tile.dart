@@ -87,7 +87,7 @@ class CardVeiculoTile extends StatelessWidget {
                     header: Container(
                       margin: const EdgeInsets.only(top: 5.0),
                       child: const Text(
-                        "Permissionários",
+                        "Permissionário",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18.0),
                       ),

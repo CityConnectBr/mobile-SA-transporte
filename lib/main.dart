@@ -11,6 +11,7 @@ import 'package:sa_transportes_mobile/stores/permissionario/infracao_store.dart'
 import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/solicitacao_store.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/subistituicao_veiculo_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/veiculo_store.dart';
 import 'package:sa_transportes_mobile/stores/main_store.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,8 @@ void main() async {
         Provider<InfracaoStore>(create: (_) => InfracaoStore()),
         Provider<MensagemStore>(create: (_) => MensagemStore()),
         Provider<SearchPontoStore>(create: (_) => SearchPontoStore()),
+        Provider<SubstituicaoVeiculoStore>(
+            create: (_) => SubstituicaoVeiculoStore()),
       ],
       child: const Main(),
     ),
