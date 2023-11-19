@@ -141,6 +141,17 @@ mixin _$VeiculoStore on _VeiculoStore, Store {
         scaffoldKey: scaffoldKey));
   }
 
+  late final _$solicitarSubstituicaoAsyncAction =
+      AsyncAction('_VeiculoStore.solicitarSubstituicao', context: context);
+
+  @override
+  Future<void> solicitarSubstituicao(
+      {required BuildContext context,
+      required GlobalKey<ScaffoldState> scaffoldKey}) {
+    return _$solicitarSubstituicaoAsyncAction.run(() => super
+        .solicitarSubstituicao(context: context, scaffoldKey: scaffoldKey));
+  }
+
   late final _$findMarcaModeloByIdAsyncAction =
       AsyncAction('_VeiculoStore.findMarcaModeloById', context: context);
 

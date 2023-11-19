@@ -5,6 +5,8 @@ import 'package:sa_transportes_mobile/models/tipo_combustivel_model.dart';
 import 'package:sa_transportes_mobile/models/tipo_veiculo_model.dart';
 import 'package:sa_transportes_mobile/models/veiculo_model.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/new_veiculo_screen.dart';
+import 'package:sa_transportes_mobile/screen/permissionario/substituicao_veiculo_escolar_screen.dart';
+import 'package:sa_transportes_mobile/screen/permissionario/substituicao_veiculo_taxi_screen.dart';
 import 'package:sa_transportes_mobile/screen/veiculo_edit_screen.dart';
 import 'package:sa_transportes_mobile/services/cor_veiculo_service.dart';
 import 'package:sa_transportes_mobile/services/marca_modelo_veiculo_service.dart';
@@ -293,6 +295,36 @@ abstract class _VeiculoStore extends MainStore with Store {
     }
 
     loading = false;
+  }
+
+  ////////////////////////////////
+  ////////////////////////////////
+
+  @action
+  Future<void> solicitarSubstituicao(
+      {required BuildContext context,
+      required GlobalKey<ScaffoldState> scaffoldKey}) async {
+    try {
+      assert(await isLoggedInWithRedirect(
+          context: context, redirectToHomeIfLogged: false));
+
+      //check permissionario
+      if (super.usuario?.permissionario == null) {
+        throw Exception("Usuário não é permissionário");
+      }
+
+      if(super.usuario?.permissionario?.modalidade == 1 || super.usuario?.permissionario?.modalidade == 2){
+        await Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => SubstituicaoVeiculoEscolarScreen(veiculoId: this.veiculo!.id!)));
+      }else{
+        await Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => SubstituicaoVeiculoTaxiScreen(veiculoId: this.veiculo!.id!)));
+      }
+
+    } catch (e) {
+      SnackMessages.showSnackBarError(
+          context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
+    }
   }
 
   ////////////////////////////////
