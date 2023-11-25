@@ -46,7 +46,7 @@ class CustomRaisedButtonBlue extends StatelessWidget {
         ),
       ),
       onPressed: func,
-      child: child ?? Text(label!),
+      child: child ?? Text(label!, style: TextStyle(fontSize: 18)),
     );
   }
 }
@@ -69,7 +69,7 @@ class CustomRaisedButtonYellow extends StatelessWidget {
         ),
       ),
       onPressed: func,
-      child: Text(label),
+      child: Text(label, style: TextStyle(fontSize: 18)),
     );
   }
 }

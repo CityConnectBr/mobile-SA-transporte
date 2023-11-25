@@ -14,10 +14,12 @@ import 'package:provider/provider.dart';
 
 class MonitorDadosEnderecoScreen extends StatefulWidget {
   @override
-  _MonitorDadosEnderecoScreenState createState() => _MonitorDadosEnderecoScreenState();
+  _MonitorDadosEnderecoScreenState createState() =>
+      _MonitorDadosEnderecoScreenState();
 }
 
-class _MonitorDadosEnderecoScreenState extends State<MonitorDadosEnderecoScreen> {
+class _MonitorDadosEnderecoScreenState
+    extends State<MonitorDadosEnderecoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _image = "";
@@ -45,7 +47,7 @@ class _MonitorDadosEnderecoScreenState extends State<MonitorDadosEnderecoScreen>
     _complementController.dispose();
     _bairroController.dispose();
     _municipioController.dispose();
-    
+
     super.dispose();
   }
 
@@ -77,21 +79,33 @@ class _MonitorDadosEnderecoScreenState extends State<MonitorDadosEnderecoScreen>
               if (!this._flagIsLoad) {
                 this._flagIsLoad = true;
                 if (monitorStore.solicitacaoExistente) {
-                  _cepController.text = monitorStore.solicitacaoDeAlteracao?.campo1??'';
-                  _addressController.text = monitorStore.solicitacaoDeAlteracao?.campo2??'';
-                  _numController.text = monitorStore.solicitacaoDeAlteracao?.campo3??'';
-                  _complementController.text = monitorStore.solicitacaoDeAlteracao?.campo4??'';
-                  _bairroController.text = monitorStore.solicitacaoDeAlteracao?.campo5??'';
-                  _municipioController.text = monitorStore.solicitacaoDeAlteracao?.campo6??'';
-                  _uf = monitorStore.solicitacaoDeAlteracao?.campo7??'';
+                  _cepController.text =
+                      monitorStore.solicitacaoDeAlteracao?.campo1 ?? '';
+                  _addressController.text =
+                      monitorStore.solicitacaoDeAlteracao?.campo2 ?? '';
+                  _numController.text =
+                      monitorStore.solicitacaoDeAlteracao?.campo3 ?? '';
+                  _complementController.text =
+                      monitorStore.solicitacaoDeAlteracao?.campo4 ?? '';
+                  _bairroController.text =
+                      monitorStore.solicitacaoDeAlteracao?.campo5 ?? '';
+                  _municipioController.text =
+                      monitorStore.solicitacaoDeAlteracao?.campo6 ?? '';
+                  _uf = monitorStore.solicitacaoDeAlteracao?.campo7 ?? '';
                 } else {
-                  _cepController.text = monitorStore.monitor?.endereco?.cep??'';
-                  _addressController.text = monitorStore.monitor?.endereco?.endereco??'';
-                  _numController.text = monitorStore.monitor?.endereco?.numero??'';
-                  _complementController.text = monitorStore.monitor?.endereco?.complemento??'';
-                  _bairroController.text = monitorStore.monitor?.endereco?.bairro??'';
-                  _municipioController.text = monitorStore.monitor?.endereco?.municipio??'';
-                  _uf = monitorStore.monitor?.endereco?.uf??'';
+                  _cepController.text =
+                      monitorStore.monitor?.endereco?.cep ?? '';
+                  _addressController.text =
+                      monitorStore.monitor?.endereco?.endereco ?? '';
+                  _numController.text =
+                      monitorStore.monitor?.endereco?.numero ?? '';
+                  _complementController.text =
+                      monitorStore.monitor?.endereco?.complemento ?? '';
+                  _bairroController.text =
+                      monitorStore.monitor?.endereco?.bairro ?? '';
+                  _municipioController.text =
+                      monitorStore.monitor?.endereco?.municipio ?? '';
+                  _uf = monitorStore.monitor?.endereco?.uf ?? '';
                 }
               }
 
@@ -104,7 +118,8 @@ class _MonitorDadosEnderecoScreenState extends State<MonitorDadosEnderecoScreen>
                     monitorStore.solicitacaoExistente
                         ? CustomAlertMessage(
                             type: CustomAlertMessage.WANNING,
-                            message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                            message:
+                                "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
                           )
                         : Container(),
                     SizedBox(
@@ -166,6 +181,7 @@ class _MonitorDadosEnderecoScreenState extends State<MonitorDadosEnderecoScreen>
                                   label: "NÚMERO",
                                   type: TextInputType.number,
                                   validator: ValidatorsUtil.validateNumber,
+                                  maxLength: 5,
                                   hint: "NÚMERO",
                                 ),
                               ),
@@ -208,7 +224,8 @@ class _MonitorDadosEnderecoScreenState extends State<MonitorDadosEnderecoScreen>
                               ),
                               Spacer(),
                               Container(
-                                  width: MediaQuery.of(context).size.width * 0.43,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.43,
                                   child: CustomDropdown(
                                     dropdownValues: Util.UFs,
                                     hint: Text("UF"),
@@ -243,12 +260,16 @@ class _MonitorDadosEnderecoScreenState extends State<MonitorDadosEnderecoScreen>
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
                                         monitorStore.saveEnderecoMonitor(
-                                            cep: Util.clearString(this._cepController.text),
-                                            endereco: this._addressController.text,
-                                            complemento: this._complementController.text,
+                                            cep: Util.clearString(
+                                                this._cepController.text),
+                                            endereco:
+                                                this._addressController.text,
+                                            complemento:
+                                                this._complementController.text,
                                             bairro: this._bairroController.text,
                                             numero: this._numController.text,
-                                            municipio: this._municipioController.text,
+                                            municipio:
+                                                this._municipioController.text,
                                             uf: this._uf,
                                             imgComprovanteEndereco: this._image,
                                             context: context,

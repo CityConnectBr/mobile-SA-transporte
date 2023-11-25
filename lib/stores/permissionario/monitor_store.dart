@@ -402,14 +402,15 @@ abstract class _MonitorStore extends MainStore with Store {
     }
   }
 
-  @action
+@action
   Future<void> saveAbaDadosNewMonitor(
       {required String nome,
       required String email,
       required String cpf,
       required String rg,
       required String telefone,
-      required String imgComprovante,
+      required String imgIdentidade,
+      required String imgCPF,
       required DateTime dataNasc,
       required BuildContext context,
       required GlobalKey<ScaffoldState> scaffoldKey}) async {
@@ -420,10 +421,16 @@ abstract class _MonitorStore extends MainStore with Store {
           context: context, redirectToHomeIfLogged: false));
 
       bool aux = true;
-      if (imgComprovante == null || imgComprovante.isEmpty) {
+      if (imgIdentidade == null || imgIdentidade.isEmpty) {
         aux = false;
         SnackMessages.showSnackBarError(
             context, scaffoldKey, "Comprovante da CNH não pode estar vazio.");
+      }
+
+      if (imgCPF == null || imgCPF.isEmpty) {
+        aux = false;
+        SnackMessages.showSnackBarError(
+            context, scaffoldKey, "Comprovante do CPF não pode estar vazio.");
       }
 
       if (fotoMonitor == null || fotoMonitor.isEmpty) {
@@ -440,7 +447,8 @@ abstract class _MonitorStore extends MainStore with Store {
         solicitacaoDeAlteracao!.campo12 = rg;
         solicitacaoDeAlteracao!.campo13 =
             Util.dateFormatyyyyMMdd.format(dataNasc);
-        solicitacaoDeAlteracao!.arquivo1 = imgComprovante;
+        solicitacaoDeAlteracao!.arquivo1 = imgIdentidade;
+        solicitacaoDeAlteracao!.arquivo4 = imgCPF;
 
         flagAbaDadosOk = true;
 
@@ -457,7 +465,6 @@ abstract class _MonitorStore extends MainStore with Store {
       loading = false;
     }
   }
-
   @action
   Future<void> saveAbaEnderecoNewMonitor(
       {required String cep,

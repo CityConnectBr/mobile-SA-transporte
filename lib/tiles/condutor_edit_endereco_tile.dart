@@ -143,6 +143,7 @@ class _CondutorEditEnderecoTileState extends State<CondutorEditEnderecoTile> {
                                   controller: _numController,
                                   label: "NÚMERO",
                                   hint: "NÚMERO",
+                                  maxLength: 5,
                                   enabled: false,
                                 ),
                               ),
