@@ -187,7 +187,8 @@ mixin _$MonitorStore on _MonitorStore, Store {
       required String cpf,
       required String rg,
       required String telefone,
-      required String imgComprovante,
+      required String imgIdentidade,
+      required String imgCPF,
       required DateTime dataNasc,
       required BuildContext context,
       required GlobalKey<ScaffoldState> scaffoldKey}) {
@@ -198,7 +199,8 @@ mixin _$MonitorStore on _MonitorStore, Store {
             cpf: cpf,
             rg: rg,
             telefone: telefone,
-            imgComprovante: imgComprovante,
+            imgIdentidade: imgIdentidade,
+            imgCPF: imgCPF,
             dataNasc: dataNasc,
             context: context,
             scaffoldKey: scaffoldKey));

@@ -241,8 +241,14 @@ mixin _$CondutorStore on _CondutorStore, Store {
       required String celular,
       required String cnh,
       required String categoriaCNH,
+      required String nomeCursoTaxista,
+      required DateTime validadeCursoTaxista,
       required String imgComprovanteCNH,
       required DateTime vencimentoCNH,
+      required String imgCPF,
+      required String imgCertidaoDistribuicaoCriminal,
+      required String imgAtestadoDeSaude,
+      required String imgCursoTaxista,
       required BuildContext context,
       required GlobalKey<ScaffoldState> scaffoldKey}) {
     return _$saveAbaDadosNewCondutorAsyncAction.run(() => super
@@ -256,8 +262,14 @@ mixin _$CondutorStore on _CondutorStore, Store {
             celular: celular,
             cnh: cnh,
             categoriaCNH: categoriaCNH,
+            nomeCursoTaxista: nomeCursoTaxista,
+            validadeCursoTaxista: validadeCursoTaxista,
             imgComprovanteCNH: imgComprovanteCNH,
             vencimentoCNH: vencimentoCNH,
+            imgCPF: imgCPF,
+            imgCertidaoDistribuicaoCriminal: imgCertidaoDistribuicaoCriminal,
+            imgAtestadoDeSaude: imgAtestadoDeSaude,
+            imgCursoTaxista: imgCursoTaxista,
             context: context,
             scaffoldKey: scaffoldKey));
   }

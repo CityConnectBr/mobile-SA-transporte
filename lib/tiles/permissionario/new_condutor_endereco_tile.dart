@@ -1,7 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
-import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/util/validators.dart';
 import 'package:sa_transportes_mobile/widgets/custom_dropdown.dart';
@@ -139,6 +138,7 @@ class _NewCondutorEnderecoTileState extends State<NewCondutorEnderecoTile> {
                             label: "NÚMERO",
                             type: TextInputType.number,
                             validator: ValidatorsUtil.validateNumber,
+                            maxLength: 5,
                             hint: "NÚMERO",
                           ),
                         ),

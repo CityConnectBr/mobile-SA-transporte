@@ -27,7 +27,9 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _dataNascController = TextEditingController();
-  String? _image;
+
+  String? _imageIdentidade = "";
+  String? _imageCPF = "";
 
   bool _flagIsLoad = false;
   bool _flagCelular = true;
@@ -71,7 +73,8 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
               ? Util.convertyyyyMMddToddMMyyyy(
                   monitorStore.solicitacaoDeAlteracao!.campo13!)
               : '';
-      _image = monitorStore.solicitacaoDeAlteracao?.arquivo1;
+      _imageIdentidade = monitorStore.solicitacaoDeAlteracao?.arquivo1;
+      _imageCPF = monitorStore.solicitacaoDeAlteracao?.arquivo4;
     }
 
     return Container(
@@ -203,10 +206,20 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                       height: 32.0,
                     ),
                     CustomImagePickerField(
-                      imagePath: _image,
-                      text: "Comprovante de Identidade",
+                      imagePath: this._imageIdentidade,
+                      text: "Foto da Identidade",
                       callBack: (String imgPath) {
-                        _image = imgPath;
+                        this._imageIdentidade = imgPath;
+                      },
+                    ),
+                    SizedBox(
+                      height: 32.0,
+                    ),
+                    CustomImagePickerField(
+                      imagePath: this._imageCPF,
+                      text: "Foto da CPF",
+                      callBack: (String imgPath) {
+                        this._imageCPF = imgPath;
                       },
                     ),
                     const SizedBox(
@@ -225,7 +238,8 @@ class _NewMonitorTileState extends State<NewMonitorTile> {
                                     Util.clearString(_phoneController.text),
                                 dataNasc: Util.dateFormatddMMyyyy
                                     .parse(_dataNascController.text),
-                                imgComprovante: _image ?? '',
+                                imgIdentidade: _imageIdentidade ?? "",
+                                imgCPF: _imageCPF ?? "",
                                 context: context,
                                 scaffoldKey: _scaffoldKey);
                           }

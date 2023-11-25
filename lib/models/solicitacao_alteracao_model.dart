@@ -3,8 +3,8 @@ import 'package:sa_transportes_mobile/util/util.dart';
 
 class SolicitacaoDeAlteracao {
   int? id;
-  String? referenciaId;//referencia_id
-  String? motivoRecusado;//motivo_recusado
+  String? referenciaId; //referencia_id
+  String? motivoRecusado; //motivo_recusado
   bool? sincronizado;
   String? status;
   String? campo1;
@@ -37,7 +37,7 @@ class SolicitacaoDeAlteracao {
   String? arquivo8;
   String? arquivo9;
   String? arquivo10;
-  String? tipoSolicitacaoId;//tipo_solicitacao_id
+  String? tipoSolicitacaoId; //tipo_solicitacao_id
   TipoSolicitacao? tipoSolicitacao;
   DateTime? createdAt;
 
@@ -46,7 +46,7 @@ class SolicitacaoDeAlteracao {
   SolicitacaoDeAlteracao.fromJson(Map<String, dynamic> parsedJson) {
     id = parsedJson["id"];
     motivoRecusado = parsedJson["motivo_recusado"];
-    sincronizado = parsedJson["sincronizado"]==0;
+    sincronizado = parsedJson["sincronizado"] == 0;
     status = parsedJson["status"];
     campo1 = parsedJson["campo1"];
     campo2 = parsedJson["campo2"];
@@ -78,8 +78,12 @@ class SolicitacaoDeAlteracao {
     arquivo8 = parsedJson["arquivo8"];
     arquivo9 = parsedJson["arquivo9"];
     arquivo10 = parsedJson["arquivo10"];
-    tipoSolicitacao = parsedJson["tipo"]!=null?TipoSolicitacao.fromJson(parsedJson["tipo"]):null;
-    createdAt = parsedJson["created_at"]!=null?Util.dateFormatyyyyMMddTHHmmssZ.parse(parsedJson["created_at"]):null;
+    tipoSolicitacao = parsedJson["tipo"] != null
+        ? TipoSolicitacao.fromJson(parsedJson["tipo"])
+        : null;
+    createdAt = parsedJson["created_at"] != null
+        ? Util.dateFormatyyyyMMddTHHmmssZ.parse(parsedJson["created_at"])
+        : null;
   }
 
   Map<String, dynamic> toMap() {
@@ -121,19 +125,45 @@ class SolicitacaoDeAlteracao {
     };
   }
 
-  String get statusToShow{
-    try{
-      if(status==null){
+  String get statusToShow {
+    try {
+      if (status == null) {
         return "Aguardando";
-      }else if(status!.contains("A")){
+      } else if (status!.contains("A")) {
         return "Aceito";
-      }else if(status!.contains("R")){
+      } else if (status!.contains("R")) {
         return "Recusado";
-      }else if(status!.contains("C")){
+      } else if (status!.contains("C")) {
         return "Cancelado";
       }
-    }catch(e){}
+    } catch (e) {}
 
     return "Não Definido";
+  }
+
+  String? getArquivo(int index) {
+    switch (index) {
+      case 1:
+        return arquivo1;
+      case 2:
+        return arquivo2;
+      case 3:
+        return arquivo3;
+      case 4:
+        return arquivo4;
+      case 5:
+        return arquivo5;
+      case 6:
+        return arquivo6;
+      case 7:
+        return arquivo7;
+      case 8:
+        return arquivo8;
+      case 9:
+        return arquivo9;
+      case 10:
+        return arquivo10;
+    }
+    return "";
   }
 }

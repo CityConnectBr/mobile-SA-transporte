@@ -143,6 +143,7 @@ class _MonitorEditEnderecoTileState extends State<MonitorEditEnderecoTile> {
                                   controller: _numController,
                                   label: "NÚMERO",
                                   hint: "NÚMERO",
+                                  maxLength: 5,
                                   enabled: false,
                                 ),
                               ),

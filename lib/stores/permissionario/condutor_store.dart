@@ -506,8 +506,14 @@ abstract class _CondutorStore extends MainStore with Store {
       required String celular,
       required String cnh,
       required String categoriaCNH,
+      required String nomeCursoTaxista,
+      required DateTime validadeCursoTaxista,
       required String imgComprovanteCNH,
       required DateTime vencimentoCNH,
+      required String imgCPF,
+      required String imgCertidaoDistribuicaoCriminal,
+      required String imgAtestadoDeSaude,
+      required String imgCursoTaxista,
       required BuildContext context,
       required GlobalKey<ScaffoldState> scaffoldKey}) async {
     loading = true;
@@ -547,7 +553,14 @@ abstract class _CondutorStore extends MainStore with Store {
         this.solicitacaoDeAlteracao!.campo15 = nome;
         this.solicitacaoDeAlteracao!.campo16 = cpf;
         this.solicitacaoDeAlteracao!.campo17 = rg;
+        this.solicitacaoDeAlteracao!.campo19 = nomeCursoTaxista;
+        this.solicitacaoDeAlteracao!.campo20 =
+            Util.dateFormatyyyyMMdd.format(validadeCursoTaxista);
         this.solicitacaoDeAlteracao!.arquivo1 = imgComprovanteCNH;
+        this.solicitacaoDeAlteracao!.arquivo4 = imgCPF;
+        this.solicitacaoDeAlteracao!.arquivo5 = imgCertidaoDistribuicaoCriminal;
+        this.solicitacaoDeAlteracao!.arquivo6 = imgAtestadoDeSaude;
+        this.solicitacaoDeAlteracao!.arquivo7 = imgCursoTaxista;
 
         this.flagAbaDadosOk = true;
 
@@ -558,6 +571,7 @@ abstract class _CondutorStore extends MainStore with Store {
         }
       }
     } catch (e) {
+      print(e);
       SnackMessages.showSnackBarError(
           context, scaffoldKey, ErrorHandlerUtil(e).getMessegeToUser());
     }

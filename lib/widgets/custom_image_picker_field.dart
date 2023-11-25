@@ -35,7 +35,7 @@ class _CustomImagePickerFieldState extends State<CustomImagePickerField> {
           _text??'',
           textAlign: TextAlign.left,
           style: TextStyle(
-            fontSize: 22.0,
+            fontSize: 18.0,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -54,7 +54,7 @@ class _CustomImagePickerFieldState extends State<CustomImagePickerField> {
                 : Text(
                     "Nenhuma imagem selecionada \nClique para selecionar",
                     style: TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black),
                   ),

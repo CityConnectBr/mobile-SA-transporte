@@ -139,6 +139,7 @@ class _PermissionarioEditEnderecoTileState
                             label: "NÚMERO",
                             type: TextInputType.number,
                             validator: ValidatorsUtil.validateNumber,
+                            maxLength: 5,
                             hint: "NÚMERO",
                           ),
                         ),

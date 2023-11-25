@@ -1,7 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/services.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
-import 'package:sa_transportes_mobile/util/mask_util.dart';
 import 'package:sa_transportes_mobile/util/util.dart';
 import 'package:sa_transportes_mobile/util/validators.dart';
 import 'package:sa_transportes_mobile/widgets/custom_dropdown.dart';
@@ -31,8 +30,14 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
   final _emailController = TextEditingController();
   final _cnhController = TextEditingController();
   final _vencimentoCNHController = TextEditingController();
+  final _nomeCursoTaxistaController = TextEditingController();
+  final _validadeCursoTaxistaController = TextEditingController();
   String _categoriaCNH = '';
   String _imageCNH = '';
+  String _imageCPF = '';
+  String _imageCertidaoDistCriminal = '';
+  String _imageAtestadoDeSaude = '';
+  String _imageCursoTaxista = '';
 
   bool _flagIsLoad = false;
   bool _flagCelular = true;
@@ -58,6 +63,8 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
     _emailController.dispose();
     _cnhController.dispose();
     _vencimentoCNHController.dispose();
+    _nomeCursoTaxistaController.dispose();
+    _validadeCursoTaxistaController.dispose();
 
     super.dispose();
   }
@@ -86,7 +93,19 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
               ? Util.convertyyyyMMddToddMMyyyy(
                   condutorStore.solicitacaoDeAlteracao!.campo3!)
               : '';
+      _nomeCursoTaxistaController.text =
+          condutorStore.solicitacaoDeAlteracao?.campo19 ?? '';
+      _validadeCursoTaxistaController.text =
+          condutorStore.solicitacaoDeAlteracao?.campo20 != null
+              ? Util.convertyyyyMMddToddMMyyyy(
+                  condutorStore.solicitacaoDeAlteracao!.campo20!)
+              : '';
       _imageCNH = condutorStore.solicitacaoDeAlteracao?.arquivo1 ?? '';
+      _imageCertidaoDistCriminal =
+          condutorStore.solicitacaoDeAlteracao?.arquivo2 ?? '';
+      _imageAtestadoDeSaude =
+          condutorStore.solicitacaoDeAlteracao?.arquivo3 ?? '';
+      _imageCPF = condutorStore.solicitacaoDeAlteracao?.arquivo4 ?? '';
     }
 
     return Container(
@@ -312,6 +331,101 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                       },
                     ),
                     SizedBox(
+                      height: 16.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Dados do Curso de Taxista",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    CustomInputFieldGrey(
+                      controller: _nomeCursoTaxistaController,
+                      label: "Nome do Curso",
+                      type: TextInputType.number,
+                      validator: ValidatorsUtil.validateIsEmpty,
+                      hint: "Nome do Curso",
+                    ),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    CustomInputFieldGrey(
+                      controller: _validadeCursoTaxistaController,
+                      label: "VALIDADE",
+                      type: TextInputType.number,
+                      hint: "VALIDADE",
+                      validator: ValidatorsUtil.validateDate,
+                      inputFormatters: [
+                        // obrigatório
+                        FilteringTextInputFormatter.digitsOnly,
+                        DataInputFormatter()
+                      ],
+                    ),
+                    SizedBox(
+                      height: 32.0,
+                    ),
+                    CustomImagePickerField(
+                      imagePath: _imageCursoTaxista,
+                      text: "Comprovante do Curso",
+                      callBack: (String imgPath) {
+                        _imageCursoTaxista = imgPath;
+                      },
+                    ),
+                    SizedBox(
+                      height: 32.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Outros Comprovantes",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 32.0,
+                    ),
+                    CustomImagePickerField(
+                      imagePath: _imageCPF,
+                      text: "Comprovante do Curso",
+                      callBack: (String imgPath) {
+                        _imageCPF = imgPath;
+                      },
+                    ),
+                    SizedBox(
+                      height: 32.0,
+                    ),
+                    CustomImagePickerField(
+                      imagePath: _imageCertidaoDistCriminal,
+                      text: "Certidão de Distribuição Criminal",
+                      callBack: (String imgPath) {
+                        _imageCertidaoDistCriminal = imgPath;
+                      },
+                    ),
+                    SizedBox(
+                      height: 32.0,
+                    ),
+                    CustomImagePickerField(
+                      imagePath: _imageAtestadoDeSaude,
+                      text: "Atestado de Saúde",
+                      callBack: (String imgPath) {
+                        _imageAtestadoDeSaude = imgPath;
+                      },
+                    ),
+                    SizedBox(
                       height: 30.0,
                     ),
                     CustomRaisedButtonBlue(
@@ -331,7 +445,17 @@ class _NewCondutorTileState extends State<NewCondutorTile> {
                                     .parse(_vencimentoCNHController.text),
                                 cnh: _cnhController.text,
                                 categoriaCNH: _categoriaCNH,
+                                nomeCursoTaxista:
+                                    _nomeCursoTaxistaController.text,
+                                validadeCursoTaxista: Util.dateFormatddMMyyyy
+                                    .parse(
+                                        _validadeCursoTaxistaController.text),
                                 imgComprovanteCNH: _imageCNH,
+                                imgCPF: _imageCPF,
+                                imgCertidaoDistribuicaoCriminal:
+                                    _imageCertidaoDistCriminal,
+                                imgAtestadoDeSaude: _imageAtestadoDeSaude,
+                                imgCursoTaxista: _imageCursoTaxista,
                                 context: context,
                                 scaffoldKey: _scaffoldKey);
                           }

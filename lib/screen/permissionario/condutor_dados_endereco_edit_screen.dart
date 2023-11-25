@@ -14,10 +14,12 @@ import 'package:provider/provider.dart';
 
 class CondutorDadosEnderecoScreen extends StatefulWidget {
   @override
-  _CondutorDadosEnderecoScreenState createState() => _CondutorDadosEnderecoScreenState();
+  _CondutorDadosEnderecoScreenState createState() =>
+      _CondutorDadosEnderecoScreenState();
 }
 
-class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScreen> {
+class _CondutorDadosEnderecoScreenState
+    extends State<CondutorDadosEnderecoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _image = "";
@@ -45,7 +47,7 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
     _complementController.dispose();
     _bairroController.dispose();
     _municipioController.dispose();
-    
+
     super.dispose();
   }
 
@@ -77,21 +79,33 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
               if (!this._flagIsLoad) {
                 this._flagIsLoad = true;
                 if (condutorStore.solicitacaoExistente) {
-                  _cepController.text = condutorStore.solicitacaoDeAlteracao?.campo1?? "";
-                  _addressController.text = condutorStore.solicitacaoDeAlteracao?.campo2?? "";
-                  _numController.text = condutorStore.solicitacaoDeAlteracao?.campo3?? "";
-                  _complementController.text = condutorStore.solicitacaoDeAlteracao?.campo4?? "";
-                  _bairroController.text = condutorStore.solicitacaoDeAlteracao?.campo5?? "";
-                  _municipioController.text = condutorStore.solicitacaoDeAlteracao?.campo6?? "";
-                  _uf = condutorStore.solicitacaoDeAlteracao?.campo7?? "";
+                  _cepController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo1 ?? "";
+                  _addressController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo2 ?? "";
+                  _numController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo3 ?? "";
+                  _complementController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo4 ?? "";
+                  _bairroController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo5 ?? "";
+                  _municipioController.text =
+                      condutorStore.solicitacaoDeAlteracao?.campo6 ?? "";
+                  _uf = condutorStore.solicitacaoDeAlteracao?.campo7 ?? "";
                 } else {
-                  _cepController.text = condutorStore.condutor?.endereco?.cep?? "";
-                  _addressController.text = condutorStore.condutor?.endereco?.endereco?? "";
-                  _numController.text = condutorStore.condutor?.endereco?.numero?? "";
-                  _complementController.text = condutorStore.condutor?.endereco?.complemento?? "";
-                  _bairroController.text = condutorStore.condutor?.endereco?.bairro?? "";
-                  _municipioController.text = condutorStore.condutor?.endereco?.municipio?? "";
-                  _uf = condutorStore.condutor?.endereco?.uf?? "";
+                  _cepController.text =
+                      condutorStore.condutor?.endereco?.cep ?? "";
+                  _addressController.text =
+                      condutorStore.condutor?.endereco?.endereco ?? "";
+                  _numController.text =
+                      condutorStore.condutor?.endereco?.numero ?? "";
+                  _complementController.text =
+                      condutorStore.condutor?.endereco?.complemento ?? "";
+                  _bairroController.text =
+                      condutorStore.condutor?.endereco?.bairro ?? "";
+                  _municipioController.text =
+                      condutorStore.condutor?.endereco?.municipio ?? "";
+                  _uf = condutorStore.condutor?.endereco?.uf ?? "";
                 }
               }
 
@@ -103,9 +117,10 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
                   children: <Widget>[
                     condutorStore.solicitacaoExistente
                         ? CustomAlertMessage(
-                      type: CustomAlertMessage.WANNING,
-                      message: "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
-                    )
+                            type: CustomAlertMessage.WANNING,
+                            message:
+                                "Já existe uma solicitação em andanmento! Uma nova alteração irá cancelar a solicitação anterior.",
+                          )
                         : Container(),
                     SizedBox(
                       height: 20.0,
@@ -166,6 +181,7 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
                                   label: "NÚMERO",
                                   type: TextInputType.number,
                                   validator: ValidatorsUtil.validateNumber,
+                                  maxLength: 5,
                                   hint: "NÚMERO",
                                 ),
                               ),
@@ -208,7 +224,8 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
                               ),
                               Spacer(),
                               Container(
-                                  width: MediaQuery.of(context).size.width * 0.43,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.43,
                                   child: CustomDropdown(
                                     dropdownValues: Util.UFs,
                                     hint: Text("UF"),
@@ -243,12 +260,16 @@ class _CondutorDadosEnderecoScreenState extends State<CondutorDadosEnderecoScree
                                       text: "Tem certeza que\ndeseja salvar?",
                                       voidCallbackSim: () {
                                         condutorStore.saveEnderecoCondutor(
-                                            cep: Util.clearString(this._cepController.text),
-                                            endereco: this._addressController.text,
-                                            complemento: this._complementController.text,
+                                            cep: Util.clearString(
+                                                this._cepController.text),
+                                            endereco:
+                                                this._addressController.text,
+                                            complemento:
+                                                this._complementController.text,
                                             bairro: this._bairroController.text,
                                             numero: this._numController.text,
-                                            municipio: this._municipioController.text,
+                                            municipio:
+                                                this._municipioController.text,
                                             uf: this._uf,
                                             imgComprovanteEndereco: this._image,
                                             context: context,
