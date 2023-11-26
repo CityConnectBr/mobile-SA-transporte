@@ -228,7 +228,7 @@ class StatusAltevaTile extends StatelessWidget {
             height: 10.0,
           ),
           CustomRaisedButtonBlue(
-              label: "Renovar Alvará",
+              label: "Solicitar Renovação",
               func: () {
                 store.solicitarRenovacaoAlvara(context: context);
               })
