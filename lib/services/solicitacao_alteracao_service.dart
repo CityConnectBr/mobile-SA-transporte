@@ -48,14 +48,14 @@ class SolicitacaoDeAlteracaoService extends MainService {
   Future<dynamic> createSolicitacao(
       SolicitacaoDeAlteracao solicitacaoDeAlteracao,
       Usuario usuarioLogged) async {
-    Map<String, dynamic> fileMap = solicitacaoDeAlteracao.toMap();
+    Map<String, dynamic> formMap = solicitacaoDeAlteracao.toMap();
 
     for (int i = 1; i <= 10; i++) {
       String? arquivo = solicitacaoDeAlteracao.getArquivo(i);
 
       if (arquivo != null) {
         File file = File(arquivo);
-        fileMap["arquivo$i"] = MultipartFile(
+        formMap["arquivo$i"] = MultipartFile(
           file.openRead(),
           await file.length(),
           filename: "arquivo$i.jpg",
@@ -63,11 +63,11 @@ class SolicitacaoDeAlteracaoService extends MainService {
       }
     }
 
-    fileMap["tipo_solicitacao_id"] = solicitacaoDeAlteracao.tipoSolicitacaoId;
+    formMap["tipo_solicitacao_id"] = solicitacaoDeAlteracao.tipoSolicitacaoId;
 
     await dio.post(
       makeEndPoint(usuario: usuarioLogged),
-      data: FormData.fromMap(_removeNulls(fileMap)),
+      data: FormData.fromMap(_removeNulls(formMap)),
     );
   }
 

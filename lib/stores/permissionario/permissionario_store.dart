@@ -3,6 +3,7 @@ import 'package:sa_transportes_mobile/models/ponto_permissionario_model.dart';
 import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
 import 'package:sa_transportes_mobile/models/veiculo_model.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/permissionario_foto_edit_screen.dart';
+import 'package:sa_transportes_mobile/screen/permissionario/renew_alvara_screen.dart';
 import 'package:sa_transportes_mobile/services/permissionario_service.dart';
 import 'package:sa_transportes_mobile/services/ponto_permissionario_service.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
@@ -219,30 +220,8 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
   @action
   Future<void> solicitarRenovacaoAlvara({required BuildContext context}) async {
-    loading = true;
-
-    try {
-      assert(await isLoggedInWithRedirect(
-          context: context, redirectToHomeIfLogged: false));
-
-      this.solicitacaoDeAlteracao = SolicitacaoDeAlteracao();
-      this.solicitacaoDeAlteracao!.referenciaId =
-          usuario!.permissionario!.id.toString();
-      this.solicitacaoDeAlteracao!.tipoSolicitacaoId =
-          SolicitacaoDeAlteracaoService.RENOVACAO_ALVARA.toString();
-
-      await this
-          ._solicitacaoService
-          .createSolicitacao(solicitacaoDeAlteracao!, super.usuario!);
-
-      this.showDialogMessageAfterCreateSolicitacao(
-          "Solicitação enviada com suscesso!", context, () {});
-    } catch (e) {
-      SnackMessages.showSnackBarError(
-          context, null, ErrorHandlerUtil(e).getMessegeToUser());
-    }
-
-    loading = false;
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => RenewAlvaraScreen()));
   }
 
   @action
