@@ -129,6 +129,16 @@ mixin _$PermissionarioStore on _PermissionarioStore, Store {
         .run(() => super.solicitarRenovacaoAlvara(context: context));
   }
 
+  late final _$pagarAlvaraAsyncAction =
+      AsyncAction('_PermissionarioStore.pagarAlvara', context: context);
+
+  @override
+  Future<void> pagarAlvara(
+      {required Alvara? alvara, required BuildContext context}) {
+    return _$pagarAlvaraAsyncAction
+        .run(() => super.pagarAlvara(alvara: alvara, context: context));
+  }
+
   late final _$getVeiculosByPermissionarioAsyncAction = AsyncAction(
       '_PermissionarioStore.getVeiculosByPermissionario',
       context: context);

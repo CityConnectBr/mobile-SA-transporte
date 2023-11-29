@@ -9,6 +9,7 @@ import 'package:sa_transportes_mobile/stores/mensagem_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/condutor_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/infracao_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/monitor_store.dart';
+import 'package:sa_transportes_mobile/stores/permissionario/pagamento_alvara_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/permissionario_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/solicitacao_alvara_store.dart';
 import 'package:sa_transportes_mobile/stores/permissionario/solicitacao_store.dart';
@@ -55,7 +56,9 @@ void main() async {
         Provider<SearchPontoStore>(create: (_) => SearchPontoStore()),
         Provider<SubstituicaoVeiculoStore>(
             create: (_) => SubstituicaoVeiculoStore()),
-        Provider<SolicitacaoAlvaraStore>(create: (_) => SolicitacaoAlvaraStore()),
+        Provider<SolicitacaoAlvaraStore>(
+            create: (_) => SolicitacaoAlvaraStore()),
+        Provider<ParamengoAlvaraStore>(create: (_) => ParamengoAlvaraStore()),
       ],
       child: const Main(),
     ),

@@ -237,25 +237,63 @@ class StatusAltevaTile extends StatelessWidget {
     } else if (permissionario?.alvara?.dataVencimento != null) {
       return Column(
         children: [
-          const Icon(
-            Icons.check_circle,
-            color: Colors.green,
-            size: 100.0,
-          ),
-          Container(
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Text(
-              "Vencimento: ${permissionario?.alvara?.dataVencimento?.day}/${permissionario?.alvara?.dataVencimento?.month}/${permissionario?.alvara?.dataVencimento?.year}",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
+          if (!permissionario?.alvara?.isPayPending() &&
+              !permissionario?.alvara?.isWaitingApproval())
+            Column(children: [
+              const Icon(
+                Icons.check_circle,
+                color: Colors.green,
+                size: 100.0,
               ),
-            ),
-          ),
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: Text(
+                  "Vencimento: ${permissionario?.alvara?.dataVencimento?.day}/${permissionario?.alvara?.dataVencimento?.month}/${permissionario?.alvara?.dataVencimento?.year}",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+            ]),
+          if (permissionario?.alvara?.isPayPending() ||
+              permissionario?.alvara?.isWaitingApproval())
+            Column(
+              children: [
+                const Icon(
+                  Icons.error,
+                  color: Colors.orange,
+                  size: 100.0,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: const Text(
+                    "Pagamento Pendente",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                if (permissionario?.alvara?.isPayPending())
+                  CustomRaisedButtonBlue(
+                      label: "Pagar Alvará",
+                      func: () {
+                        store.pagarAlvara(alvara: permissionario?.alvara, context: context);
+                      })
+              ],
+            )
         ],
       );
     }
