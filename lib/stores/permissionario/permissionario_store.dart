@@ -1,9 +1,12 @@
+import 'package:sa_transportes_mobile/models/alvara_model.dart';
 import 'package:sa_transportes_mobile/models/permissionario_model.dart';
 import 'package:sa_transportes_mobile/models/ponto_permissionario_model.dart';
 import 'package:sa_transportes_mobile/models/solicitacao_alteracao_model.dart';
 import 'package:sa_transportes_mobile/models/veiculo_model.dart';
+import 'package:sa_transportes_mobile/screen/permissionario/pagamento_alvara_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/permissionario_foto_edit_screen.dart';
 import 'package:sa_transportes_mobile/screen/permissionario/renew_alvara_screen.dart';
+import 'package:sa_transportes_mobile/services/alvara_service.dart';
 import 'package:sa_transportes_mobile/services/permissionario_service.dart';
 import 'package:sa_transportes_mobile/services/ponto_permissionario_service.dart';
 import 'package:sa_transportes_mobile/services/solicitacao_alteracao_service.dart';
@@ -27,6 +30,7 @@ abstract class _PermissionarioStore extends MainStore with Store {
   final _solicitacaoService = SolicitacaoDeAlteracaoService();
   final _veiculoService = VeiculoService();
   final _pontoService = PontoDoPermissionarioService();
+  final _alvaraService = AlvaraService();
 
   String _lastSearch = "";
   String fotoCondutor = "";
@@ -225,17 +229,28 @@ abstract class _PermissionarioStore extends MainStore with Store {
   }
 
   @action
-  Future<void> getVeiculosByPermissionario({required BuildContext context}) async {
+  Future<void> pagarAlvara(
+      {required Alvara? alvara, required BuildContext context}) async {
+    Alvara alvaraCompleto =
+        Alvara.fromJson(await _alvaraService.get(alvara!.id!, super.usuario!));
+
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => PagamentoAlvaraScreen(alvaraCompleto)));
+  }
+
+  @action
+  Future<void> getVeiculosByPermissionario(
+      {required BuildContext context}) async {
     loading = true;
 
     try {
       assert(await isLoggedInWithRedirect(
           context: context, redirectToHomeIfLogged: false));
 
-      List<Veiculo> veiculos = (await _veiculoService
-              .search("", super.usuario!))
-          .map((model) => Veiculo.fromJson(model))
-          .toList();
+      List<Veiculo> veiculos =
+          (await _veiculoService.search("", super.usuario!))
+              .map((model) => Veiculo.fromJson(model))
+              .toList();
 
       if (veiculos != null) {
         this.veiculos = veiculos;
@@ -250,15 +265,15 @@ abstract class _PermissionarioStore extends MainStore with Store {
   }
 
   @action
-  Future<void> getPontosByPermissionario({required BuildContext context}) async {
+  Future<void> getPontosByPermissionario(
+      {required BuildContext context}) async {
     loading = true;
 
     try {
       assert(await isLoggedInWithRedirect(
           context: context, redirectToHomeIfLogged: false));
 
-      List<dynamic> pontos = (await _pontoService
-              .findAll(super.usuario!))
+      List<dynamic> pontos = (await _pontoService.findAll(super.usuario!))
           .map((model) => PontoDoPermissionario.fromJson(model))
           .toList();
 
@@ -273,8 +288,6 @@ abstract class _PermissionarioStore extends MainStore with Store {
 
     loading = false;
   }
-
-  
 
 //
 // @action
