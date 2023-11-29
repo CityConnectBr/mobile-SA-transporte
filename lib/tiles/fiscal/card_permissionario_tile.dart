@@ -100,14 +100,37 @@ class CardPermissionarioSimplesTile extends StatelessWidget {
                     fontFamily: 'InterRegular',
                   ),
                 ),
+                Text(
+                  "Prefixo: ${this._permissionario.prefixo}",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: 'InterRegular',
+                  ),
+                ),
+                Text(
+                  "Ativo: ${this._permissionario.ativo == '1' ? "Sim" : "Não"}",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: 'InterRegular',
+                  ),
+                ),
+                Text(
+                  "Data Vencimento: ${this._permissionario.alvara?.dataVencimento != null ? Util.dateFormatddMMyyyy.format(this._permissionario.alvara!.dataVencimento!) : ""}",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: 'InterRegular',
+                  ),
+                ),
+                Text(
+                  "Alvará Vencido: ${this._permissionario.alvara?.isExpired() ?? false ? "Sim" : "Não"}",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: 'InterRegular',
+                  ),
+                )
               ],
             ),
           ),
-//          Container(
-//            child: CustomHrBig(
-//              customColor: "#D5DDE0",
-//            ),
-//          ),
         ],
       ),
     );

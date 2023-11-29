@@ -20,10 +20,7 @@ class Veiculo {
   String? observacaoDaCapacidade;
   int? anosDeVidaUtilDoVeiculo;
   String? descricao;
-  //String prefixo;
   int? categoriaId;
-  //int marcaModeloCarroceriaId;
-  //int marcaModeloChassiId;
   int? marcaModeloVeiculoId;
   int? tipoCombustivelId;
   int? corId;
