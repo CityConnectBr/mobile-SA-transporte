@@ -96,8 +96,9 @@ abstract class _SolicitacaoAlvaraStore extends MainStore with Store {
             SolicitacaoDeAlteracaoService.RENOVACAO_ALVARA.toString();
 
         solicitacaoDeAlteracao?.campo1 = possuiGNV! ? "S" : "N";
-        solicitacaoDeAlteracao?.campo2 =
-            Util.dateFormatyyyyMMdd.format(dataVencimentoGNV!);
+        solicitacaoDeAlteracao?.campo2 = dataVencimentoGNV == null
+            ? ""
+            : Util.dateFormatyyyyMMdd.format(dataVencimentoGNV);
         solicitacaoDeAlteracao?.campo3 = ocorreuMudancaEndereco! ? "S" : "N";
         solicitacaoDeAlteracao?.campo4 =
             Util.dateFormatyyyyMMdd.format(dataVencimentoCNH!);

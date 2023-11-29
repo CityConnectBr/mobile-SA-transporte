@@ -29,6 +29,7 @@ class Permissionario {
   Endereco? endereco;
   Veiculo? veiculo;
   Alvara? alvara;
+  String? ativo;
 
   final dateFormat = new DateFormat("yyyy-MM-dd");
 
@@ -53,6 +54,7 @@ class Permissionario {
     statusFoto = parsedJson["status_foto"];
     prefixo = parsedJson["prefixo"];
     fotoUrl = parsedJson["foto_url"];
+    ativo = parsedJson["ativo"].toString();
     modalidade = parsedJson["modalidade"]!=null?Modalidade.fromJson(parsedJson["modalidade"]):null;
     endereco = parsedJson["endereco"]!=null?Endereco.fromJson(parsedJson["endereco"]):null;
     veiculo = parsedJson["veiculo"]!=null?Veiculo.fromJson(parsedJson["veiculo"]):null;

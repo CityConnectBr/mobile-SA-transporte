@@ -126,6 +126,16 @@ class ValidatorsUtil {
     }
   }
 
+  static String? validateDateOrEmpty(String? value) {
+    String pattern = r'^\d{1,2}\/\d{1,2}\/\d{4}$';
+    RegExp regex = RegExp(pattern);
+    if (value != null && !regex.hasMatch(value) && value.isNotEmpty) {
+      return 'Data inválida';
+    } else {
+      return null;
+    }
+  }
+
   static String? validateTime(String? value) {
     String pattern = r'^\d{1,2}:\d{1,2}$';
     RegExp regex = RegExp(pattern);

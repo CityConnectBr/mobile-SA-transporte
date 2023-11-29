@@ -105,8 +105,10 @@ class _RenewAlvaraScreenState extends State<RenewAlvaraScreen>
                         });
                       },
                     ),
-                    this._possuiGNV == "Sim"
-                        ? Column(
+                    if (this._possuiGNV == "Sim")
+                      Column(
+                        children: [
+                          Column(
                             children: <Widget>[
                               SizedBox(
                                 height: 32.0,
@@ -119,23 +121,24 @@ class _RenewAlvaraScreenState extends State<RenewAlvaraScreen>
                                 },
                               ),
                             ],
-                          )
-                        : Container(),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    CustomInputFieldGrey(
-                      controller: _vencimentoGNVController,
-                      label: "VALIDADE GNV",
-                      type: TextInputType.text,
-                      hint: "VALIDADE GNV",
-                      validator: ValidatorsUtil.validateDate,
-                      inputFormatters: [
-                        // obrigatório
-                        FilteringTextInputFormatter.digitsOnly,
-                        DataInputFormatter()
-                      ],
-                    ),
+                          ),
+                          SizedBox(
+                            height: 16.0,
+                          ),
+                          CustomInputFieldGrey(
+                            controller: _vencimentoGNVController,
+                            label: "VALIDADE GNV",
+                            type: TextInputType.text,
+                            hint: "VALIDADE GNV",
+                            validator: ValidatorsUtil.validateDateOrEmpty,
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              DataInputFormatter()
+                            ],
+                          ),
+                        ],
+                      ),
                     SizedBox(
                       height: 32.0,
                     ),
@@ -281,8 +284,10 @@ class _RenewAlvaraScreenState extends State<RenewAlvaraScreen>
                             _store.solicitarNovoAlvara(
                                 possuiGNV:
                                     this._possuiGNV == "Sim" ? true : false,
-                                dataVencimentoGNV: Util.dateFormatddMMyyyy
-                                    .parse(_vencimentoGNVController.text),
+                                dataVencimentoGNV: _vencimentoGNVController.text.isEmpty
+                                    ? null
+                                    : Util.dateFormatddMMyyyy
+                                        .parse(_vencimentoGNVController.text),
                                 ocorreuMudancaEndereco:
                                     this._mudancaEndereco == "Sim"
                                         ? true

@@ -32,7 +32,7 @@ class CardVeiculoTile extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Text(
-                    _veiculo.placa??'',
+                    _veiculo.placa ?? '',
                     style: const TextStyle(
                       fontSize: 22.0,
                       fontFamily: 'InterBold',
@@ -54,14 +54,14 @@ class CardVeiculoTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Modelo: ${_veiculo.marcaModeloVeiculo?.descricao??""}",
+                      "Modelo: ${_veiculo.marcaModeloVeiculo?.descricao ?? ""}",
                       style: const TextStyle(
                         fontSize: 20.0,
                         fontFamily: 'InterBold',
                       ),
                     ),
                     Text(
-                      "Cor: ${_veiculo.corVeiculo?.descricao??''} / Ano: ${_veiculo.anoDoModelo}",
+                      "Cor: ${_veiculo.corVeiculo?.descricao ?? ''} / Ano: ${_veiculo.anoDoModelo}",
                       style: const TextStyle(
                         fontSize: 20.0,
                         fontFamily: 'InterRegular',
@@ -69,6 +69,87 @@ class CardVeiculoTile extends StatelessWidget {
                     ),
                     Text(
                       "Renavan: ${_veiculo.renavam}",
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'InterRegular',
+                      ),
+                    ),
+                    Text(
+                      "Chassi: ${_veiculo.chassi}",
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'InterRegular',
+                      ),
+                    ),
+                    /*  String? placa;
+  String? renavam;
+  String? chassi;
+  int? anoDeFabricacao;
+  int? anoDoModelo;
+  String? capacidade;
+  String? tipoDaCapacidade;
+  String? observacaoDaCapacidade;
+  int? anosDeVidaUtilDoVeiculo;
+  String? descricao;
+  int? categoriaId;
+  int? marcaModeloVeiculoId;
+  int? tipoCombustivelId;
+  int? corId;
+  int? tipoVeiculoId;
+  int? permissionarioId;*/
+                    Text(
+                      "Ano de Fabricação: ${_veiculo.anoDeFabricacao}",
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'InterRegular',
+                      ),
+                    ),
+                    Text(
+                      "Ano de Modelo: ${_veiculo.anoDoModelo}",
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'InterRegular',
+                      ),
+                    ),
+                    Text(
+                      "Capacidade: ${_veiculo.capacidade}",
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'InterRegular',
+                      ),
+                    ),
+                    Text(
+                      "Tipo da Capacidade: ${_getTipoCapacidade()}",
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'InterRegular',
+                      ),
+                    ),
+                    if (_veiculo.observacaoDaCapacidade != null &&
+                        _veiculo.observacaoDaCapacidade!.isNotEmpty)
+                      Text(
+                        "Observação da Capacidade: ${_veiculo.observacaoDaCapacidade}",
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'InterRegular',
+                        ),
+                      ),
+                    Text(
+                      "Anos de Vida Útil do Veículo: ${_veiculo.anosDeVidaUtilDoVeiculo}",
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'InterRegular',
+                      ),
+                    ),
+                    Text(
+                      "Tipo de Combustível: ${_veiculo.tipoCombustivel?.descricao ?? ''}",
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'InterRegular',
+                      ),
+                    ),
+                    Text(
+                      "Tipo de Veículo: ${_veiculo.tipoVeiculo?.descricao ?? ''}",
                       style: const TextStyle(
                         fontSize: 20.0,
                         fontFamily: 'InterRegular',
@@ -101,7 +182,8 @@ class CardVeiculoTile extends StatelessWidget {
                               _veiculo.permissionario!),
                         ],
                       ),
-                    ), collapsed: Container(),
+                    ),
+                    collapsed: Container(),
                   ),
                 )
 //          Container(
@@ -112,5 +194,18 @@ class CardVeiculoTile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _getTipoCapacidade() {
+    if (_veiculo.tipoDaCapacidade == null) return "";
+
+    switch (_veiculo.tipoDaCapacidade!.toUpperCase()) {
+      case "N":
+        return "Normal";
+      case "M":
+        return "Modificada";
+      case "H":
+        return "Homologada";
+    }
   }
 }
